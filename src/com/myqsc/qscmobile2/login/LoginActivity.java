@@ -1,12 +1,19 @@
-package com.myqsc.qscmobile2;
+package com.myqsc.qscmobile2.login;
 
+import com.myqsc.qscmobile2.R;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 	EditText uid = null;
@@ -24,6 +31,33 @@ public class LoginActivity extends Activity {
 		
 		uid.addTextChangedListener(myTextWatcher);
 		pwd.addTextChangedListener(myTextWatcher);
+		
+		btn.setOnClickListener(new View.OnClickListener() {
+			
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v) {
+				CheckUserAsyncTask task = new CheckUserAsyncTask(uid.getText().toString(), pwd.getText().toString(), getBaseContext()) {
+					
+					@Override
+					public void onHandleMessage(Message message) {
+						if (message.what == 0){
+							Toast.makeText(mContext, (CharSequence) message.obj, Toast.LENGTH_SHORT).show();
+						}
+						if (message.what == 1){
+							Toast.makeText(mContext, "登陆成功", Toast.LENGTH_SHORT).show();
+						}
+					}
+				};
+				if (android.os.Build.VERSION.SDK_INT >= 15){
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+				} else {
+					task.execute();
+				}
+			}
+		});
+		
+		
 	}
 
 	final TextWatcher myTextWatcher = new TextWatcher() {
