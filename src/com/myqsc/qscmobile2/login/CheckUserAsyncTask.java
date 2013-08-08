@@ -96,12 +96,10 @@ public abstract class CheckUserAsyncTask extends AsyncTask<Void, Message, Messag
 		super.onPostExecute(result);
 		if (result.what == 1){
 			PersonalDataHelper helper = new PersonalDataHelper(mContext);
-			helper.setUid(uid);
-			helper.setPwd(pwd);
+			helper.addUser(uid, pwd, true);
 		}
 		onHandleMessage(result);
 	}
-	
 	
 
 }

@@ -1,5 +1,6 @@
 package com.myqsc.qscmobile2.common.view;
 
+
 import com.myqsc.qscmobile2.R;
 
 import android.os.Bundle;
