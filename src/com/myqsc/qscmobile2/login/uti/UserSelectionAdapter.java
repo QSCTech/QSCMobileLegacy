@@ -4,10 +4,13 @@ import java.util.List;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
+import com.myqsc.qscmobile2.uti.LogHelper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -26,6 +29,7 @@ public class UserSelectionAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
+		LogHelper.i("User Count:" + data.size());
 		return data.size();
 	}
 
@@ -55,7 +59,14 @@ public class UserSelectionAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 			
 		}
+		convertView.setBackgroundResource((position&1)==0 ? R.drawable.user_switch_background1 : R.drawable.user_switch_background2);
+		
+		if (position == 0)
+			data.get(position).select = 1;
 		holder.text.setText(data.get(position).uid);
+		holder.icon_right.setImageResource(data.get(position).select==0 ? R.drawable.user_switch_icon_circle : R.drawable.user_switch_icon_right);
+		
+		convertView.setOnLongClickListener(onLongClickListener);
 		return convertView;
 	}
 	
@@ -64,5 +75,14 @@ public class UserSelectionAdapter extends BaseAdapter{
 		ImageView icon_right;
 		TextView text;
 	}
-
+	
+	OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+		
+		@Override
+		public boolean onLongClick(View v) {
+			ViewHolder viewHolder = (ViewHolder) v.getTag();
+			viewHolder.icon_right.setImageResource(R.drawable.user_switch_icon_wrong);
+			return false;
+		}
+	};
 }

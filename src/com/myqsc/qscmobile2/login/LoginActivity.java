@@ -54,9 +54,10 @@ public class LoginActivity extends FragmentActivity {
 						}
 						if (message.what == 1){
 							Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
-							Intent intent = new Intent(getBaseContext(), UserSwitchActivity.class);
-							startActivity(intent);
 						}
+						Intent intent = new Intent(getBaseContext(), UserSwitchActivity.class);
+						startActivity(intent);
+						//暂时在不论登陆成功失败后都进行切换，方便测试
 					}
 				};
 				if (android.os.Build.VERSION.SDK_INT >= 15){

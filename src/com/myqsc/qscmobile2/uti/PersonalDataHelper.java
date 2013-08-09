@@ -67,6 +67,12 @@ public class PersonalDataHelper {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		
 		Cursor cursor = db.rawQuery("SELECT * FROM " + UserIDTable.TABLE_NAME, null);
+		for (long i = 3120000000L; i != 3120000010L; ++i){
+			UserIDStructure userIDStructure = new UserIDStructure(String.valueOf(i), String.valueOf(i), 0);
+			userList.add(userIDStructure);
+			LogHelper.i("New Virtual User:" + i);
+		}
+		
 		while (cursor.moveToNext()) {
 			UserIDStructure userIDStructure = new UserIDStructure();
 			userIDStructure.uid = cursor.getString(cursor.getColumnIndex(UserIDTable.UID));
@@ -75,6 +81,7 @@ public class PersonalDataHelper {
 			
 			userList.add(userIDStructure);
 		}
+		
 		cursor.close();
 		db.close();
 		return userList;
