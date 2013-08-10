@@ -86,4 +86,10 @@ public class PersonalDataHelper {
 		db.close();
 		return userList;
 	}
+	
+	public void deleteUser(String uid){
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.delete(UserIDTable.TABLE_NAME, UserIDTable.UID + "=?", new String[] {uid});
+		db.close();
+	}
 }
