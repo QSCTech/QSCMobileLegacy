@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2.login;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.login.uti.UserSelectionAdapter;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.uti.Utility;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class UserSwitchActivity extends Activity{
 		UserSelectionAdapter userAdapter = new UserSelectionAdapter(getBaseContext(), personalDataHelper.allUser());
 		
 		userListView.setAdapter(userAdapter);
+		Utility.setListViewHeightBasedOnChildren(userListView);
 	}
 
 }

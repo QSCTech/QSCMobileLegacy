@@ -64,6 +64,9 @@ public class PersonalDataHelper {
 	
 	public List<UserIDStructure> allUser(){
 		List<UserIDStructure> userList = new ArrayList<UserIDStructure>();
+		
+//		for (long i = 3120000000L; i != 3120000010L; ++i)
+//			addUser(String.valueOf(i), String.valueOf(i));
 		SQLiteDatabase db = helper.getReadableDatabase();
 		
 		Cursor cursor = db.rawQuery("SELECT * FROM " + UserIDTable.TABLE_NAME, null);
@@ -74,9 +77,31 @@ public class PersonalDataHelper {
 			userIDStructure.select = cursor.getInt(cursor.getColumnIndex(UserIDTable.SELECTION));
 			
 			userList.add(userIDStructure);
+			LogHelper.i(userIDStructure.uid + " " + userIDStructure.select);
 		}
+		
 		cursor.close();
 		db.close();
 		return userList;
+	}
+	
+	public void deleteUser(String uid){
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.delete(UserIDTable.TABLE_NAME, UserIDTable.UID + "=?", new String[] {uid});
+		db.close();
+	}
+	
+	public void selectUser(String uid){
+		SQLiteDatabase db = helper.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(UserIDTable.SELECTION, 0);
+		db.update(UserIDTable.TABLE_NAME, values, null, null);
+		values.clear();
+		
+		values.put(UserIDTable.SELECTION, 1);
+		int len = db.update(UserIDTable.TABLE_NAME, values, UserIDTable.UID + "=?", new String[] {uid});
+		LogHelper.d(String.valueOf(len));
+		db.close();
 	}
 }
