@@ -3,11 +3,13 @@ package com.myqsc.qscmobile2.login.uti;
 import java.util.List;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,7 @@ public class UserSelectionAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		return data.size();
+		return data.size() + 1;
 	}
 
 	@Override
@@ -60,6 +62,23 @@ public class UserSelectionAdapter extends BaseAdapter{
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
+		}
+		
+		if (position >= data.size()){
+			//添加用户
+			holder.icon_left.setBackgroundResource(R.drawable.user_switch_icon_plus);
+			holder.text.setText("添加新用户");
+			holder.icon_right.setBackgroundResource(R.drawable.user_switch_icon_arrow);
+			
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mContext.getApplicationContext(), LoginActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					mContext.startActivity(intent);
+				}
+			});
+			return convertView;
 		}
 		
 		holder.select = data.get(position).select;
