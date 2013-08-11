@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/curriculum_everyday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/curriculum_everyday" />
+
+            <ImageButton
+                android:id="@+id/curriculum_allweek"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/curriculum_allweek" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/leftButton"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:background="#007ef6"
+                android:src="@drawable/curriculum_left" />
+
+            <TextView
+                android:id="@+id/dayofweek"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#007ef6"
+                android:gravity="center"
+                android:text="MONDAY"
+                android:textColor="#ffffff"
+                android:textSize="36sp"
+                android:fontFamily="Helvetica Neue" >
+
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/rightButton"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/curriculum_right" 
+                android:background="#007ef6" >
+            </ImageButton>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
