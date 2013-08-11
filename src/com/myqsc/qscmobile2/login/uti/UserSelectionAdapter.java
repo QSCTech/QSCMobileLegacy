@@ -32,7 +32,6 @@ public class UserSelectionAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		LogHelper.i("User Count:" + data.size());
 		return data.size();
 	}
 
@@ -56,27 +55,28 @@ public class UserSelectionAdapter extends BaseAdapter{
 			holder.icon_left = (ImageView) convertView.findViewById(R.id.simple_listview_banner_icon_left);
 			holder.icon_right = (ImageView) convertView.findViewById(R.id.simple_listview_banner_icon_right);
 			holder.text = (TextView) convertView.findViewById(R.id.simple_listview_banner_text);
-			
-			holder.select = data.get(position).select;
 			holder.position = position;
 			
 			convertView.setTag(holder);
-			
-			
 		} else {
 			holder = (ViewHolder) convertView.getTag();
-			
 		}
-		LogHelper.i("Init item:" + position + " in position:" + holder.position);
 		
+		holder.select = data.get(position).select;
+		holder.cancle = data.get(position).cancle;
 		convertView.setBackgroundResource((position&1)==0 ? R.drawable.user_switch_background1 : R.drawable.user_switch_background2);
 		
-		if (position == 0)
-			data.get(position).select = 1;
 		holder.text.setText(data.get(position).uid);
 		
-		
-		holder.icon_right.setImageResource(holder.select==0 ? R.drawable.user_switch_icon_circle : R.drawable.user_switch_icon_right);
+		if (holder.select == 1){
+			holder.icon_right.setImageResource(R.drawable.user_switch_icon_right);
+		} else {
+			if (holder.cancle == 1){
+				holder.icon_right.setImageResource(R.drawable.user_switch_icon_wrong);
+			} else {
+				holder.icon_right.setImageResource(R.drawable.user_switch_icon_circle);
+			}
+		}
 		
 		convertView.setOnLongClickListener(onLongClickListener);
 		holder.icon_right.setOnClickListener(onClickListener);
@@ -108,6 +108,17 @@ public class UserSelectionAdapter extends BaseAdapter{
 
 				data.remove(viewHolder.position);
 				notifyDataSetChanged();
+				return ;
+			}
+			if (viewHolder.select == 0){
+				final String uid = viewHolder.text.getText().toString();
+				PersonalDataHelper helper = new PersonalDataHelper(mContext);
+				helper.selectUser(uid);
+				data = helper.allUser();
+				notifyDataSetChanged();
+				
+				LogHelper.d("User Selected:" + uid);
+				return ;
 			}
 		}
 	};
@@ -126,14 +137,17 @@ public class UserSelectionAdapter extends BaseAdapter{
 			if (viewHolder.cancle == 0){
 				if (viewHolder.select == 0){
 					viewHolder.cancle = 1;
+					data.get(viewHolder.position).cancle = 1;
 					viewHolder.icon_right.setImageResource(R.drawable.user_switch_icon_wrong);
 				} else {
 					Toast.makeText(mContext, "不能试图删除一个默认账户哦~", Toast.LENGTH_SHORT).show();
 				}
 			} else {
 				viewHolder.cancle = 0;
+				data.get(viewHolder.position).cancle = 0;
 				viewHolder.icon_right.setImageResource(R.drawable.user_switch_icon_circle);
 			}
+			v.setTag(viewHolder);
 			
 			return false;
 		}
