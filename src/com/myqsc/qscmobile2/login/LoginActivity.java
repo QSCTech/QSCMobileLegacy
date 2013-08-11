@@ -2,6 +2,8 @@ package com.myqsc.qscmobile2.login;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.common.view.LoadingFragment;
+import com.myqsc.qscmobile2.uti.LogHelper;
+import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,7 +70,6 @@ public class LoginActivity extends FragmentActivity {
 				
 			}
 		});
-		
 		
 	}
 

@@ -104,4 +104,23 @@ public class PersonalDataHelper {
 		LogHelper.d(String.valueOf(len));
 		db.close();
 	}
+	
+	public UserIDStructure getCurrentUser(){
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.query(UserIDTable.TABLE_NAME, 
+				new String[] {UserIDTable.UID, UserIDTable.PWD}, 
+				UserIDTable.SELECTION + "=1", 
+				null, null, null, null);
+		if (cursor.moveToFirst()){
+			UserIDStructure userIDStructure = new UserIDStructure();
+			userIDStructure.uid = cursor.getString(cursor.getColumnIndex(UserIDTable.UID));
+			userIDStructure.pwd = cursor.getString(cursor.getColumnIndex(UserIDTable.PWD));
+			return userIDStructure;
+		} else {
+			return null;
+		}
+		
+		
+		
+	}
 }
