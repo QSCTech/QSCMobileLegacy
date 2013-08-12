@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
+    <color name="blue">#007EF6</color>
+    <color name="blue_tap">#2691F7</color>
     
 </resources>
