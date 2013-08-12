@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:clipToPadding="true"
     android:scrollbars="vertical" >
 
     <LinearLayout
@@ -54,21 +55,33 @@
                 android:layout_weight="1"
                 android:background="#007ef6"
                 android:gravity="center"
-                android:text="MONDAY"
+                android:text="WEDNESDAY"
                 android:textColor="#ffffff"
                 android:textSize="36sp"
-                android:fontFamily="Helvetica Neue" >
-
+                android:typeface="monospace" >
             </TextView>
 
             <ImageButton
                 android:id="@+id/rightButton"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/curriculum_right" 
-                android:background="#007ef6" >
+                android:background="#007ef6"
+                android:src="@drawable/curriculum_right" >
             </ImageButton>
         </LinearLayout>
+        
+        <LinearLayout 
+            android:id="@+id/curriculum_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            
+            
+            
+            
+        </LinearLayout>
+        
     </LinearLayout>
 
 </ScrollView>

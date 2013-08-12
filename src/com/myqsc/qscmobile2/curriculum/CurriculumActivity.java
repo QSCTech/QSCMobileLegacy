@@ -16,8 +16,14 @@ public class CurriculumActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_curriculum);
 		
+		/*
+		ImageButton imageButtonEveryday = (ImageButton) findViewById(R.id.curriculum_everyday);
+		ImageButton imageButtonAllweek = (ImageButton) findViewById(R.id.curriculum_allweek);
 		
-		//ImageButton imageButton
+		ImageButton imageButtonleft = (ImageButton)
+		*/
+		
+		
 		
 		
 		
