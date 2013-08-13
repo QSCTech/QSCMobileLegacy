@@ -1,10 +1,11 @@
 package com.myqsc.qscmobile2.curriculum;
 
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Vector;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 
 public class CurriculumActivity extends Activity {
 
@@ -30,19 +32,33 @@ public class CurriculumActivity extends Activity {
 		
 		cardList = (LinearLayout) findViewById(R.id.curriculum_cards);
 		
-		// 以下代码为测试用
-		// TODO 完成正式代码
-		List<CurriculumItem> list = new Vector<CurriculumItem>();
-		list.add(new CurriculumItem("小计基", "撸汉权", "周日 0", "DiaoSiDao"));
-		setCardList(cardList, list);
+		new FetchCurriculum(new UserIDStructure("1", "1", 0)) {
+			@Override
+			protected void onPostExecute(Message msg) {
+				if (msg.what!=0) {
+					// TODO 通知错误信息
+				} else {
+					List<CourseData> courses = (List<CourseData>)msg.obj;
+					
+					int dayOfWeek = (new GregorianCalendar().get(GregorianCalendar.DAY_OF_WEEK)+5)%7+1;
+					
+					new ClassFilter(dayOfWeek) {
+						@Override
+						protected void onPostExecute(List<ClassData> classes) {
+							setCardList(cardList, classes);
+						}
+					}.execute(courses);
+				}
+			}
+		}.execute(-1);
 		
-		list.add(0,new CurriculumItem("中计基", "撸撸", "周日 1/2", "DiaoSiDao"));
-		setCardList(cardList, list);
+		// 以上代码为测试用
+		// TODO 完成正式代码
 	}
 	
-	private void setCardList(LinearLayout ll,List<CurriculumItem> items) {
+	private void setCardList(LinearLayout ll,List<ClassData> items) {
 		ll.removeAllViews();
-		for (CurriculumItem item:items){
+		for (ClassData item:items){
 			View view = LayoutInflater.from(this).inflate(R.layout.curriculum_item, null);
 			TextView name = (TextView)view.findViewById(R.id.curriculum_name);
 			TextView teacher = (TextView)view.findViewById(R.id.curriculum_teacher);
