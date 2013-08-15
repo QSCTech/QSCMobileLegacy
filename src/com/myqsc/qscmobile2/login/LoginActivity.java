@@ -2,6 +2,7 @@ package com.myqsc.qscmobile2.login;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.common.view.LoadingFragment;
+import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
@@ -22,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends FragmentActivity {
@@ -33,6 +35,8 @@ public class LoginActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.login_icon_user), this);
+		AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.login_icon_pwd), this);
 		
 		uid = (EditText) findViewById(R.id.login_activity_uid);
 		pwd = (EditText) findViewById(R.id.login_activity_pwd);
