@@ -10,5 +10,11 @@
     <string name="login_btn">登录</string>
     <string name="copyright_text1">Copyright 2000-2013 浙江大学求是潮工作团队</string>
     <string name="copyright_text2">All Rights Reversed</string>
-
+	<string name="icon_user">&#xf007;</string>
+	<string name="icon_circle_blank">&#xf10c;</string>
+	<string name="icon_ok_circle">&#xF05d;</string>
+	<string name="icon_ok_sign">&#xf058;</string>
+	<string name="icon_minus_sign">&#xF056;</string>
+	<string name="icon_plus">&#xF067;</string>
+	<string name="icon_chevron_right">&#xF054;</string>
 </resources>

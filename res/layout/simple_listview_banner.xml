@@ -6,12 +6,14 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal" >
 
-    <ImageView
+    <TextView
         android:id="@+id/simple_listview_banner_icon_left"
+        android:layout_marginLeft="5dp"
+        android:text="@string/icon_user"
+        android:textSize="20sp"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_uid" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/simple_listview_banner_text"
@@ -20,12 +22,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageView
+    <TextView
         android:id="@+id/simple_listview_banner_icon_right"
+        android:text="@string/icon_circle_blank"
         android:layout_weight="1"
+        android:textSize="30sp"
         android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/user_switch_icon_circle" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
