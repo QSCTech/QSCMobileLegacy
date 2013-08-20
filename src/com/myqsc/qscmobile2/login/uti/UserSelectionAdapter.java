@@ -5,6 +5,7 @@ import java.util.List;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
+import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
@@ -26,7 +27,7 @@ public class UserSelectionAdapter extends BaseAdapter{
 	Context mContext = null;
 	List<UserIDStructure> data = null;
 	LayoutInflater inflater = null;
-	public UserSelectionAdapter(Context context, List<UserIDStructure> data){
+	public UserSelectionAdapter(Context context, List<UserIDStructure> data) {
 		this.mContext = context;
 		this.data = data;
 		this.inflater = LayoutInflater.from(mContext);
@@ -54,10 +55,14 @@ public class UserSelectionAdapter extends BaseAdapter{
 			holder = new ViewHolder();
 			
 			convertView = inflater.inflate(R.layout.simple_listview_banner, null);
-			holder.icon_left = (ImageView) convertView.findViewById(R.id.simple_listview_banner_icon_left);
-			holder.icon_right = (ImageView) convertView.findViewById(R.id.simple_listview_banner_icon_right);
+			holder.icon_left = (TextView) convertView.findViewById(R.id.simple_listview_banner_icon_left);
+			holder.icon_right = (TextView) convertView.findViewById(R.id.simple_listview_banner_icon_right);
 			holder.text = (TextView) convertView.findViewById(R.id.simple_listview_banner_text);
 			holder.position = position;
+			
+			AwesomeFontHelper.setFontFace(holder.icon_right, mContext);
+			AwesomeFontHelper.setFontFace(holder.icon_left, mContext);
+			
 			
 			convertView.setTag(holder);
 		} else {
@@ -66,9 +71,9 @@ public class UserSelectionAdapter extends BaseAdapter{
 		
 		if (position >= data.size()){
 			//添加用户
-			holder.icon_left.setBackgroundResource(R.drawable.user_switch_icon_plus);
 			holder.text.setText("添加新用户");
-			holder.icon_right.setBackgroundResource(R.drawable.user_switch_icon_arrow);
+			holder.icon_right.setText(R.string.icon_chevron_right);
+			holder.icon_left.setText(R.string.icon_plus);
 			
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
@@ -88,12 +93,15 @@ public class UserSelectionAdapter extends BaseAdapter{
 		holder.text.setText(data.get(position).uid);
 		
 		if (holder.select == 1){
-			holder.icon_right.setImageResource(R.drawable.user_switch_icon_right);
+			holder.icon_right.setTextColor(mContext.getResources().getColor(R.color.blue));
+			holder.icon_right.setText(R.string.icon_ok_sign);
 		} else {
 			if (holder.cancle == 1){
-				holder.icon_right.setImageResource(R.drawable.user_switch_icon_wrong);
+				holder.icon_right.setTextColor(mContext.getResources().getColor(R.color.red));
+				holder.icon_right.setText(R.string.icon_minus_sign);
 			} else {
-				holder.icon_right.setImageResource(R.drawable.user_switch_icon_circle);
+				holder.icon_right.setTextColor(mContext.getResources().getColor(R.color.black));
+				holder.icon_right.setText(R.string.icon_circle_blank);
 			}
 		}
 		
@@ -103,8 +111,8 @@ public class UserSelectionAdapter extends BaseAdapter{
 	}
 	
 	private class ViewHolder{
-		ImageView icon_left;
-		ImageView icon_right;
+		TextView icon_left;
+		TextView icon_right;
 		TextView text;
 		int cancle = 0;
 		int select = 0;
@@ -157,14 +165,16 @@ public class UserSelectionAdapter extends BaseAdapter{
 				if (viewHolder.select == 0){
 					viewHolder.cancle = 1;
 					data.get(viewHolder.position).cancle = 1;
-					viewHolder.icon_right.setImageResource(R.drawable.user_switch_icon_wrong);
+					viewHolder.icon_right.setTextColor(mContext.getResources().getColor(R.color.red));
+					viewHolder.icon_right.setText(R.string.icon_minus_sign);
 				} else {
 					Toast.makeText(mContext, "不能试图删除一个默认账户哦~", Toast.LENGTH_SHORT).show();
 				}
 			} else {
 				viewHolder.cancle = 0;
 				data.get(viewHolder.position).cancle = 0;
-				viewHolder.icon_right.setImageResource(R.drawable.user_switch_icon_circle);
+				viewHolder.icon_right.setTextColor(mContext.getResources().getColor(R.color.black));
+				viewHolder.icon_right.setText(R.string.icon_circle_blank);
 			}
 			v.setTag(viewHolder);
 			
