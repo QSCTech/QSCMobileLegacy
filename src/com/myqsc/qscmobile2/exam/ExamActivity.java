@@ -1,8 +1,10 @@
 package com.myqsc.qscmobile2.exam;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.R.color;
 import com.myqsc.qscmobile2.exam.uti.ExamAdapter;
 import com.myqsc.qscmobile2.exam.uti.UpdateExamAsyncTask;
 import com.myqsc.qscmobile2.login.UserSwitchActivity;
@@ -17,49 +19,73 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
-public class ExamActivity extends Activity {
-
+public class ExamActivity extends FragmentActivity {
+	int check = 1;
+	
+	TextView icon_right, text_right, icon_left, text_left;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exam);
 		AwesomeFontHelper.setFontFace((TextView) findViewById(R.id.exam_icon_left), this);
 		AwesomeFontHelper.setFontFace((TextView) findViewById(R.id.exam_icon_right), this);
-		final ListView allExamListView = (ListView) findViewById(R.id.activity_exam_term_list);
 		
-		PersonalDataHelper helper = new PersonalDataHelper(this);
-		UserIDStructure structure = helper.getCurrentUser();
-		if (structure == null){
-			Intent intent = new Intent();
-			intent.setClass(getBaseContext(), UserSwitchActivity.class);
-			startActivity(intent);
-			finish();
+		icon_right 	= (TextView) findViewById(R.id.exam_icon_right);
+		icon_left 	= (TextView) findViewById(R.id.exam_icon_left);
+		text_right	= (TextView) findViewById(R.id.exam_text_right);
+		text_left	= (TextView) findViewById(R.id.exam_text_left);
+		
+		FragmentManager manager = getSupportFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+		
+		AllExamFragment fragment = new AllExamFragment(this);
+		transaction.add(R.id.exam_linear_all, fragment);
+		transaction.commit();
+		
+		setTextColor(check);
+		
+		((LinearLayout)findViewById(R.id.exam_linear_left)).setOnClickListener(onClickListener);
+		((LinearLayout)findViewById(R.id.exam_linear_right)).setOnClickListener(onClickListener);
+	}
+	
+	View.OnClickListener onClickListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if (v.getId() == R.id.exam_linear_left)
+				check = 0;
+			if (v.getId() == R.id.exam_linear_right)
+				check = 1;
+			setTextColor(check);
 		}
-		
-		
-		
-		final UpdateExamAsyncTask task = new UpdateExamAsyncTask(this, structure.uid, structure.pwd) {
+	};
+	
+	private void setTextColor(int check){
+		if (check == 0){
+			icon_right.setTextColor(getResources().getColor(R.color.black_text));
+			text_right.setTextColor(getResources().getColor(R.color.black_text));
 			
-			@Override
-			public void onHandleMessage(Message message) {
-				if (message.what == 0){
-					Toast.makeText(getBaseContext(), (CharSequence) message.obj, Toast.LENGTH_LONG).show();
-				} else {
-					ExamAdapter adapter = new ExamAdapter((List<ExamStructure>) message.obj, getBaseContext());
-					allExamListView.setAdapter(adapter);
-				}
-			}
-		};
-		
-		if (android.os.Build.VERSION.SDK_INT >= 15)
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		else
-			task.execute();
+			icon_left.setTextColor(getResources().getColor(R.color.blue_text));
+			text_left.setTextColor(getResources().getColor(R.color.blue_text));
+		} 
+		if (check == 1){
+			icon_left.setTextColor(getResources().getColor(R.color.black_text));
+			text_left.setTextColor(getResources().getColor(R.color.black_text));
+			
+			icon_right.setTextColor(getResources().getColor(R.color.blue_text));
+			text_right.setTextColor(getResources().getColor(R.color.blue_text));
+		}
 	}
 
 }
