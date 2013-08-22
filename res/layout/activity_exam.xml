@@ -9,6 +9,7 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="80dp" >
 
@@ -18,15 +19,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <ImageView
-                android:layout_marginTop="15dp"
+            <TextView
                 android:layout_gravity="center"
-                android:id="@+id/imageView1"
+                android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/exam_icon_left" />
+                android:id="@+id/exam_icon_left"
+                android:text="@string/icon_file_alt" 
+                />
 
             <TextView
+                android:textSize="15sp"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:id="@+id/textView1"
@@ -41,14 +44,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical" >
-            <ImageView
-                android:layout_marginTop="15dp"
+            <TextView
                 android:layout_gravity="center"
+                android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/exam_icon_right" />
+                android:id="@+id/exam_icon_right"
+                android:text="@string/icon_copy" 
+                />
 
             <TextView
+                android:textSize="15sp"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
@@ -105,7 +111,7 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/listView1"
+                android:id="@+id/activity_exam_term_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
             </ListView>

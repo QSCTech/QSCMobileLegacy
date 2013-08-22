@@ -119,8 +119,5 @@ public class PersonalDataHelper {
 		} else {
 			return null;
 		}
-		
-		
-		
 	}
 }

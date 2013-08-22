@@ -1,5 +1,7 @@
 package com.myqsc.qscmobile2.uti;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -24,4 +26,5 @@ public class Utility {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+    
 }

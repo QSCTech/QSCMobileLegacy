@@ -14,6 +14,12 @@ public class ExamDataHelper {
 		helper = new DatabaseHelper(context);
 	}
 	
+	public void clear(){
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.delete(ExamTable.TABLE_NAME, null, null);
+		db.close();
+	}
+	
 	public void add_exam(ExamStructure exam){
 		SQLiteDatabase db = helper.getWritableDatabase();
 		

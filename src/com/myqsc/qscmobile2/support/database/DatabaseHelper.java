@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 	static final String DB_NAME = "UserID.db";
-	static final int DB_VERSION = 5;
+	static final int DB_VERSION = 6;
 	final String CREATE_USERID_TABLE = "CREATE TABLE " + UserIDTable.TABLE_NAME
 			+ "("
 			+ UserIDTable.UID + " text,"
@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			+ ExamTable.COURSE_NUM + " text,"
 			+ ExamTable.COURSE_NAME + " text,"
 			+ ExamTable.CREDIT + " text,"
-			+ ExamTable.IS_REBUILD + " integer,"
+			+ ExamTable.IS_REBUILD + " text,"
 			+ ExamTable.STU_NAME + " text,"
 			+ ExamTable.TERM + " text,"
 			+ ExamTable.TIME + " text,"

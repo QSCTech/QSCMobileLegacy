@@ -2,9 +2,11 @@ package com.myqsc.qscmobile2.login;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.common.view.LoadingFragment;
+import com.myqsc.qscmobile2.exam.ExamActivity;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.uti.Utility;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -61,16 +63,15 @@ public class LoginActivity extends FragmentActivity {
 						if (message.what == 1){
 							Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
 						}
-						Intent intent = new Intent(getBaseContext(), UserSwitchActivity.class);
+						Intent intent = new Intent(getBaseContext(), ExamActivity.class);
 						startActivity(intent);
 						//暂时在不论登陆成功失败后都进行切换，方便测试
 					}
 				};
-				if (android.os.Build.VERSION.SDK_INT >= 15){
+				if (android.os.Build.VERSION.SDK_INT >= 15)
 					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-				} else {
+				else
 					task.execute();
-				};
 				
 			}
 		});
