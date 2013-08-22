@@ -10,7 +10,6 @@ import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
-import com.myqsc.qscmobile2.uti.Utility;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

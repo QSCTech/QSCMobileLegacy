@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -50,7 +49,14 @@ public abstract class UpdateExamAsyncTask extends AsyncTask<Void, Message, Messa
 			
 			LogHelper.i(result);
 			JSONTokener tokener = new JSONTokener(result);
-			JSONArray jsonArray = (JSONArray) tokener.nextValue();
+			Object next = tokener.nextValue();
+			JSONArray jsonArray = null;
+			if (next instanceof JSONArray)
+				jsonArray = (JSONArray) next;
+			else {
+				throw new Exception();
+			}
+			
 			List<ExamStructure> list = new ArrayList<ExamStructure>();
 			
 			for (int i = 0; i != jsonArray.length(); ++i){
@@ -74,6 +80,12 @@ public abstract class UpdateExamAsyncTask extends AsyncTask<Void, Message, Messa
 			Message msg = new Message();
 			msg.what = 0;
 			msg.obj = "数据解析失败，可能是用户名或密码错误";
+			return msg;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Message msg = new Message();
+			msg.what = 0;
+			msg.obj = "发生意外错误，请稍后重试";
 			return msg;
 		}
 	}

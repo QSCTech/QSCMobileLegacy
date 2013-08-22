@@ -11,14 +11,14 @@ public class ExamStructure {
 	};
 	
 	public ExamStructure(JSONObject jsonObject) throws JSONException {
-		course_num = jsonObject.getString("选课课号");
-		course_name = jsonObject.getString("课程名称");
-		credit = jsonObject.getString("学分");
-		is_rebuild = jsonObject.getString("重修标记");
-		stu_name = jsonObject.getString("姓名");
-		term = jsonObject.getString("学期");
-		time = jsonObject.getString("考试时间");
-		position = jsonObject.getString("考试地点");
-		seat = jsonObject.getString("考试座位号");
+		course_num = jsonObject.getString("选课课号").trim();
+		course_name = jsonObject.getString("课程名称").trim();
+		credit = jsonObject.getString("学分").trim();
+		is_rebuild = jsonObject.getString("重修标记").trim();
+		stu_name = jsonObject.getString("姓名").trim();
+		term = jsonObject.getString("学期").trim();
+		time = jsonObject.getString("考试时间").trim();
+		position = jsonObject.getString("考试地点").trim();
+		seat = jsonObject.getString("考试座位号").trim();
 	}
 }

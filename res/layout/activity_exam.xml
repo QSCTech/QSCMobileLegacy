@@ -111,6 +111,8 @@
             </LinearLayout>
 
             <ListView
+                android:divider="@color/white"
+	        	android:dividerHeight="2px"
                 android:id="@+id/activity_exam_term_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
