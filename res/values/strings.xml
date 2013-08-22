@@ -18,4 +18,6 @@
 	<string name="icon_plus">&#xF067;</string>
 	<string name="icon_chevron_right">&#xF054;</string>
 	<string name="icon_lock">&#xf023;</string>
+    <string name="title_activity_curriculum">课表么么哒</string>
+
 </resources>
