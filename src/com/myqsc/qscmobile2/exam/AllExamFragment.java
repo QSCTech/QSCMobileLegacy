@@ -1,5 +1,7 @@
 package com.myqsc.qscmobile2.exam;
 
+import java.lang.reflect.Array;
+import java.util.Calendar;
 import java.util.List;
 
 import com.myqsc.qscmobile2.R;
@@ -22,6 +24,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -33,9 +36,11 @@ public class AllExamFragment extends Fragment {
 	Context mContext = null;
 	ListView allExamListView = null;
 	String term_arr[] = {"春", "夏", "秋", "冬"};
+	String year_str ;
 	int term_int = 0;
 	ExamDataHelper examHelper = null;
 	UserIDStructure structure = null;
+	View view = null;
 	
 	public AllExamFragment(){
 	}
@@ -43,12 +48,22 @@ public class AllExamFragment extends Fragment {
 	public AllExamFragment(Context context){
 		mContext = context;
 	}
+	
+	
 
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		year_str = String.valueOf(year) + "-" + String.valueOf(year + 1);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_all_exam, null);
+		view = inflater.inflate(R.layout.fragment_all_exam, null);
 		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_left), mContext);
 		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_right), mContext);
 		
@@ -75,6 +90,7 @@ public class AllExamFragment extends Fragment {
 	
 	void updateExamData(){
 		examHelper.getExamList(term_arr[term_int], structure.uid, structure.pwd);
+		((TextView)view.findViewById(R.id.fragment_exam_all_term_textview)).setText(year_str + term_arr[term_int]); 
 	}
 	
 	View.OnClickListener onClickListener = new View.OnClickListener() {
