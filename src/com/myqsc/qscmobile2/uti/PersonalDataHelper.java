@@ -3,7 +3,7 @@ package com.myqsc.qscmobile2.uti;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.myqsc.qscmobile2.support.database.UserIDDatabaseHelper;
+import com.myqsc.qscmobile2.support.database.DatabaseHelper;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.support.database.table.UserIDTable;
 
@@ -14,9 +14,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class PersonalDataHelper {
-	UserIDDatabaseHelper helper = null;
+	DatabaseHelper helper = null;
 	public PersonalDataHelper(Context context){
-		helper = new UserIDDatabaseHelper(context); 
+		helper = new DatabaseHelper(context); 
 	}
 	
 	public void addUser(String uid, String pwd){
@@ -119,8 +119,5 @@ public class PersonalDataHelper {
 		} else {
 			return null;
 		}
-		
-		
-		
 	}
 }

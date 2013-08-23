@@ -1,11 +1,15 @@
 package com.myqsc.qscmobile2.uti;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class Utility {
+	public final static String PREFERENCE = "QSCMobile";
+	
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter(); 
         if (listAdapter == null) {
@@ -24,4 +28,5 @@ public class Utility {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+    
 }

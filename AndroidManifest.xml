@@ -27,6 +27,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.UserSwitchActivity"></activity>
+        <activity android:name=".exam.ExamActivity"></activity>
+        <activity
+            android:name="com.myqsc.qscmobile2.curriculum.CurriculumActivity"
+            android:label="@string/title_activity_curriculum" >
+        </activity>
     </application>
 
 </manifest>

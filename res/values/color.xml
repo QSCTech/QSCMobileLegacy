@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
+    <color name="blue_tap">#2691F7</color>
     <color name="blue">#007AEE</color>
     <color name="black">#000000</color>
+    <color name="blue_text">#007EF6</color>
     <color name="red">#F73536</color>
-    
+    <color name="black_text">#010000</color>
+    <color name="list_odd">#F7F7F7</color>
+    <color name="list_even">#F2F2F2</color>
 </resources>
