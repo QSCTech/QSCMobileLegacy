@@ -10,12 +10,14 @@
         android:background="@color/blue"
         android:gravity="center_vertical" >
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <TextView
+            android:id="@+id/fragment_all_exam_icon_left"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@string/icon_chevron_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/icon_arrow_left" />
+            android:layout_weight="1"  />
 
         <TextView
             android:id="@+id/activity_exam_all_term_textview"
@@ -24,12 +26,14 @@
             android:layout_weight="7"
             android:textColor="@color/white" />
 
-        <ImageView
-            android:id="@+id/imageView3"
+        <TextView
+            android:id="@+id/fragment_all_exam_icon_right"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@string/icon_chevron_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/icon_arrow_right" />
+            android:layout_weight="1"  />
     </LinearLayout>
 
     <ListView

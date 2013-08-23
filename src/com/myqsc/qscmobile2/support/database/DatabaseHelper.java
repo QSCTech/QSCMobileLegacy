@@ -1,6 +1,5 @@
 package com.myqsc.qscmobile2.support.database;
 
-import com.myqsc.qscmobile2.support.database.table.ExamTable;
 import com.myqsc.qscmobile2.support.database.table.UserIDTable;
 import com.myqsc.qscmobile2.uti.LogHelper;
 
@@ -17,21 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			+ UserIDTable.PWD + " text,"
 			+ UserIDTable.SELECTION + " integer "
 			+ ");";
-	final String CREATE_EXAM_TABLE = "CREATE TABLE " + ExamTable.TABLE_NAME
-			+ "("
-			+ ExamTable.COURSE_NUM + " text,"
-			+ ExamTable.COURSE_NAME + " text,"
-			+ ExamTable.CREDIT + " text,"
-			+ ExamTable.IS_REBUILD + " text,"
-			+ ExamTable.STU_NAME + " text,"
-			+ ExamTable.TERM + " text,"
-			+ ExamTable.TIME + " text,"
-			+ ExamTable.POSITION + " text,"
-			+ ExamTable.SEAT + " text"
-			+ ");";
-	
 	final String DROP_USERID_TABLE = "DROP TABLE IF EXISTS " + UserIDTable.TABLE_NAME;
-	final String DROP_EXAM_TABLE = "DROP TABLE IF EXISTS " + ExamTable.TABLE_NAME;
 	
 	public DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -40,14 +25,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_USERID_TABLE);
-		db.execSQL(CREATE_EXAM_TABLE);
 		LogHelper.d("DB CREATED: onCreate()" );
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL(DROP_USERID_TABLE);
-		db.execSQL(DROP_EXAM_TABLE);
 		this.onCreate(db);
 	}
 	

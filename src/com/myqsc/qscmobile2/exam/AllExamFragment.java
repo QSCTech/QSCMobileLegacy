@@ -8,6 +8,10 @@ import com.myqsc.qscmobile2.exam.uti.UpdateExamAsyncTask;
 import com.myqsc.qscmobile2.login.UserSwitchActivity;
 import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
+import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.myqsc.qscmobile2.uti.ExamDataHelper;
+import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
+import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
 import android.annotation.SuppressLint;
@@ -21,11 +25,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint({ "NewApi", "ValidFragment" })
 public class AllExamFragment extends Fragment {
 	Context mContext = null;
+	ListView allExamListView = null;
+	String term_arr[] = {"春", "夏", "秋", "冬"};
+	int term_int = 0;
+	ExamDataHelper examHelper = null;
+	UserIDStructure structure = null;
 	
 	public AllExamFragment(){
 	}
@@ -39,36 +49,57 @@ public class AllExamFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_all_exam, null);
+		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_left), mContext);
+		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_right), mContext);
 		
+		view.findViewById(R.id.fragment_all_exam_icon_left).setOnClickListener(onClickListener);
+		view.findViewById(R.id.fragment_all_exam_icon_right).setOnClickListener(onClickListener);
 		
-		final ListView allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
+		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
 		
+		examHelper = new ExamDataHelper(mContext);
+		examHelper.setHandleAsyncTaskMessage(handleAsyncTaskMessage);
+
 		PersonalDataHelper helper = new PersonalDataHelper(mContext);
-		UserIDStructure structure = helper.getCurrentUser();
+		
+		structure = helper.getCurrentUser();
 		if (structure == null){
 			Intent intent = new Intent();
 			intent.setClass(mContext, UserSwitchActivity.class);
 			startActivity(intent);
 		}
 		
-		final UpdateExamAsyncTask task = new UpdateExamAsyncTask(mContext, structure.uid, structure.pwd) {
-			
-			@Override
-			public void onHandleMessage(Message message) {
-				if (message.what == 0){
-					Toast.makeText(mContext, (CharSequence) message.obj, Toast.LENGTH_LONG).show();
-				} else {
-					ExamAdapter adapter = new ExamAdapter((List<ExamStructure>) message.obj, mContext);
-					allExamListView.setAdapter(adapter);
-				}
-			}
-		};
-		
-		if (android.os.Build.VERSION.SDK_INT >= 15)
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		else
-			task.execute();
+		updateExamData();
 		return view;
 	}
 	
+	void updateExamData(){
+		examHelper.getExamList(term_arr[term_int], structure.uid, structure.pwd);
+	}
+	
+	View.OnClickListener onClickListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if (v.getId() == R.id.fragment_all_exam_icon_left)
+				--term_int;
+			if (v.getId() == R.id.fragment_all_exam_icon_right)
+				++term_int;
+			term_int = (term_int + 4) % 4;
+			LogHelper.d(term_arr[term_int]);
+			updateExamData();
+		}
+	};
+	
+	HandleAsyncTaskMessage handleAsyncTaskMessage = new HandleAsyncTaskMessage() {
+		@Override
+		public void onHandleMessage(Message message) {
+			if (message.what == 0){
+				Toast.makeText(mContext, (CharSequence) message.obj, Toast.LENGTH_LONG).show();
+			} else {
+				ExamAdapter adapter = new ExamAdapter((List<ExamStructure>) message.obj, mContext);
+				allExamListView.setAdapter(adapter);
+			}
+		}
+	};
 }

@@ -1,33 +1,17 @@
 package com.myqsc.qscmobile2.exam;
 
-import java.io.Serializable;
-import java.util.List;
 
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.R.color;
-import com.myqsc.qscmobile2.exam.uti.ExamAdapter;
-import com.myqsc.qscmobile2.exam.uti.UpdateExamAsyncTask;
-import com.myqsc.qscmobile2.login.UserSwitchActivity;
-import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
-import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
-import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 @SuppressLint("NewApi")
 public class ExamActivity extends FragmentActivity {

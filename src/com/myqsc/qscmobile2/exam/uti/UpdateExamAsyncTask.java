@@ -96,8 +96,10 @@ public abstract class UpdateExamAsyncTask extends AsyncTask<Void, Message, Messa
 		if (result.what == 1){
 			ExamDataHelper helper = new ExamDataHelper(mContext);
 			helper.clear();
-			for (ExamStructure structure : (List<ExamStructure>) result.obj) {
-				helper.add_exam(structure);
+			try {
+				helper.update_exam((List<ExamStructure>) result.obj);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 		onHandleMessage(result);

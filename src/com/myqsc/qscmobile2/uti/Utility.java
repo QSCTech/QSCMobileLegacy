@@ -8,6 +8,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class Utility {
+	public final static String PREFERENCE = "QSCMobile";
+	
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter(); 
         if (listAdapter == null) {
