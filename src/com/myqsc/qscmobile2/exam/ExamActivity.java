@@ -33,7 +33,7 @@ public class ExamActivity extends FragmentActivity {
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		
-		AllExamFragment fragment = new AllExamFragment(this);
+		AllExamFragment fragment = new AllExamFragment(this, findViewById(R.id.activity_exam_upper_linear));
 		transaction.add(R.id.exam_linear_all, fragment);
 		transaction.commit();
 		

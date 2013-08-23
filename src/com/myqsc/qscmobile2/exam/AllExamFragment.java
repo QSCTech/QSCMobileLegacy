@@ -1,12 +1,10 @@
 package com.myqsc.qscmobile2.exam;
 
-import java.lang.reflect.Array;
 import java.util.Calendar;
 import java.util.List;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.exam.uti.ExamAdapter;
-import com.myqsc.qscmobile2.exam.uti.UpdateExamAsyncTask;
 import com.myqsc.qscmobile2.login.UserSwitchActivity;
 import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
@@ -16,17 +14,20 @@ import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
+import android.R.raw;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 @SuppressLint({ "NewApi", "ValidFragment" })
 public class AllExamFragment extends Fragment {
 	Context mContext = null;
+	View upperLinearLayout = null;
 	ListView allExamListView = null;
 	String term_arr[] = {"春", "夏", "秋", "冬"};
 	String year_str ;
@@ -45,8 +47,9 @@ public class AllExamFragment extends Fragment {
 	public AllExamFragment(){
 	}
 	
-	public AllExamFragment(Context context){
+	public AllExamFragment(Context context, View v){
 		mContext = context;
+		this.upperLinearLayout = v;
 	}
 	
 	
@@ -118,4 +121,5 @@ public class AllExamFragment extends Fragment {
 			}
 		}
 	};
+	
 }
