@@ -14,6 +14,7 @@ import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
+import android.R.raw;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
@@ -115,25 +118,8 @@ public class AllExamFragment extends Fragment {
 			} else {
 				ExamAdapter adapter = new ExamAdapter((List<ExamStructure>) message.obj, mContext);
 				allExamListView.setAdapter(adapter);
-				allExamListView.setOnScrollListener(onScrollListener);
 			}
 		}
 	};
 	
-	OnScrollListener onScrollListener = new AbsListView.OnScrollListener() {
-		
-		@Override
-		public void onScrollStateChanged(AbsListView view, int scrollState) {
-		}
-		
-		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem,
-				int visibleItemCount, int totalItemCount) {
-			LogHelper.d("Scroll to:" + firstVisibleItem);
-			if (firstVisibleItem == 0)
-				upperLinearLayout.setVisibility(View.VISIBLE);
-			else
-				upperLinearLayout.setVisibility(View.GONE);
-		}
-	};
 }
