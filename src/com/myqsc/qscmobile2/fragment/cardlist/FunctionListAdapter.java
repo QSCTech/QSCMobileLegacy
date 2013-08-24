@@ -13,13 +13,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class CardlistAdapter extends BaseAdapter {
-	List<CardStructure> list = new ArrayList<CardStructure>();
+public class FunctionListAdapter extends BaseAdapter {
+	List<FunctionStructure> list = new ArrayList<FunctionStructure>();
 	Context mContext = null;
 	LayoutInflater inflater = null;
-	public CardlistAdapter(Context context){
+	public FunctionListAdapter(Context context){
 		for(int i = 0; i != 30; ++i){
-			CardStructure structure = new CardStructure();
+			FunctionStructure structure = new FunctionStructure();
 			structure.cardIcon = R.string.icon_lock;
 			structure.cardName = "卡片 " + i;
 			structure.iconRight = R.string.icon_circle_blank;
@@ -60,7 +60,7 @@ public class CardlistAdapter extends BaseAdapter {
 		}else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		CardStructure structure = list.get(position);
+		FunctionStructure structure = list.get(position);
 		viewHolder.icon_left.setText(structure.cardIcon);
 		viewHolder.name.setText(structure.cardName);
 		viewHolder.icon_right.setText(structure.iconRight);

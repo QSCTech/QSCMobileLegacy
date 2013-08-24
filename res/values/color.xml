@@ -9,4 +9,5 @@
     <color name="black_text">#010000</color>
     <color name="list_odd">#F7F7F7</color>
     <color name="list_even">#F2F2F2</color>
+    <color name="gray_text">#cccccc</color>
 </resources>

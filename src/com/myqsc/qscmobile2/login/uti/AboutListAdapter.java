@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.fragment.cardlist.CardStructure;
+import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 
@@ -16,7 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class AboutListAdapter extends BaseAdapter {
-	List<CardStructure> list = new ArrayList<CardStructure>();
+	List<FunctionStructure> list = new ArrayList<FunctionStructure>();
 	Context mContext = null;
 	LayoutInflater inflater = null;
 	
@@ -24,7 +24,7 @@ public class AboutListAdapter extends BaseAdapter {
 		this.mContext = context;
 		this.inflater = LayoutInflater.from(context);
 		for(int i = 0; i != 3; ++i){
-			CardStructure structure = new CardStructure();
+			FunctionStructure structure = new FunctionStructure();
 			structure.cardIcon = R.string.icon_info;
 			structure.cardName = "提建议";
 			structure.iconRight = R.string.icon_chevron_right;
@@ -66,7 +66,7 @@ public class AboutListAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		CardStructure structure = list.get(position);
+		FunctionStructure structure = list.get(position);
 		viewHolder.icon_left.setText(structure.cardIcon);
 		viewHolder.icon_right.setText(structure.iconRight);
 		viewHolder.name.setText(structure.cardName);

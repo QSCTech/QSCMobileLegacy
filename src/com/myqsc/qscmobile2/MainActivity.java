@@ -3,8 +3,9 @@ package com.myqsc.qscmobile2;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
-import com.myqsc.qscmobile2.fragment.cardlist.CardlistFragment;
+import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 
 import android.os.Bundle;
@@ -28,7 +29,8 @@ public class MainActivity extends FragmentActivity {
 		ViewPager vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 		
 		fragmentList.add(new UserSwitchFragment(this));
-		fragmentList.add(new CardlistFragment(this));
+		fragmentList.add(new FunctionListFragment(this));
+		fragmentList.add(new CardFragment());
 		
 		vPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
 	}
