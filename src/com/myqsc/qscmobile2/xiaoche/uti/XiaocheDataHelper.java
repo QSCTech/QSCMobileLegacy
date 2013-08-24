@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
+import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 
 import android.annotation.SuppressLint;
@@ -19,7 +20,7 @@ public class XiaocheDataHelper {
 	Context mContext = null;
 	HandleAsyncTaskMessage handleAsyncTaskMessage = null;
 	public void setHandleAsyncTaskMessage(HandleAsyncTaskMessage message){
-		this.handleAsyncTaskMessage = handleAsyncTaskMessage;
+		this.handleAsyncTaskMessage = message;
 	}
 	
 	public XiaocheDataHelper(Context context){
@@ -37,7 +38,9 @@ public class XiaocheDataHelper {
 	
 	@SuppressLint("NewApi")
 	public void getBus(final String start, final String stop) {
+		LogHelper.d(start + stop);
 		String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0).getString(XiaocheStructure.PREFERENCE, null);
+		LogHelper.i(result);
 		if (result != null){
 			try {
 				JSONArray jsonArray;
@@ -46,14 +49,17 @@ public class XiaocheDataHelper {
 				for(int i = 0; i != jsonArray.length(); ++i){
 					JSONObject jsonObject = jsonArray.optJSONObject(i);
 					XiaocheStructure structure = new XiaocheStructure(jsonObject);
-					if (structure.startPos.equals(start) && structure.stopPos.equals(stop))
+					if (structure.startPos.indexOf(start) != -1 && structure.stopPos.indexOf(stop) != -1){
 						list.add(structure);
+					}
 				}
 				Message message = new Message();
 				message.what = 1;
 				message.obj = list;
-				if (handleAsyncTaskMessage != null)
+				if (handleAsyncTaskMessage != null){
 					handleAsyncTaskMessage.onHandleMessage(message);
+				}
+					
 				return ;
 			} catch (JSONException e) {
 				e.printStackTrace();

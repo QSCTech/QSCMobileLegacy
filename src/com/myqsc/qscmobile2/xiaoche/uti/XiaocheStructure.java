@@ -14,6 +14,8 @@ public class XiaocheStructure {
 	
 	public XiaocheStructure(JSONObject jsonObject) throws JSONException{
 		bus_num = jsonObject.getString("车号");
+		if (bus_num.indexOf("车") == -1)
+			bus_num += "号车";
 		startPos = jsonObject.getString("起点");
 		stopPos = jsonObject.getString("终点");
 		startTime = jsonObject.getString("发车时间");
