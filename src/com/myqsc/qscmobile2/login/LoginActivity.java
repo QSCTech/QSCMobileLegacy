@@ -7,6 +7,7 @@ import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 import com.myqsc.qscmobile2.uti.Utility;
+import com.myqsc.qscmobile2.xiaoche.XiaocheActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class LoginActivity extends FragmentActivity {
 						if (message.what == 1){
 							Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
 						}
-						Intent intent = new Intent(getBaseContext(), ExamActivity.class);
+						Intent intent = new Intent(getBaseContext(), XiaocheActivity.class);
 						startActivity(intent);
 						//暂时在不论登陆成功失败后都进行切换，方便测试
 					}
