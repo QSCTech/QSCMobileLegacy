@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -33,11 +34,13 @@ public class LoginActivity extends FragmentActivity {
 	EditText uid = null;
 	EditText pwd = null;
 	Button btn = null;
+	Activity activity = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		activity = this;
 		AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.login_icon_user), this);
 		AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.login_icon_pwd), this);
 		
@@ -63,10 +66,9 @@ public class LoginActivity extends FragmentActivity {
 						}
 						if (message.what == 1){
 							Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
+							activity.finish();
+							activity.overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
 						}
-						Intent intent = new Intent(getBaseContext(), XiaocheActivity.class);
-						startActivity(intent);
-						//暂时在不论登陆成功失败后都进行切换，方便测试
 					}
 				};
 				if (android.os.Build.VERSION.SDK_INT >= 15)
@@ -98,8 +100,19 @@ public class LoginActivity extends FragmentActivity {
 				btn.setBackgroundResource(R.drawable.login_btn1);
 			}
 		}
-	}; 
+	};
 	
+	
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		activity.finish();
+		activity.overridePendingTransition(R.anim.fade_in, R.anim.push_down_out);
+	}
+
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

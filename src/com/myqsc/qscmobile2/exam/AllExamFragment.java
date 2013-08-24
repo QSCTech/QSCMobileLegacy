@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.exam.uti.ExamAdapter;
-import com.myqsc.qscmobile2.login.UserSwitchActivity;
 import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
@@ -82,9 +81,9 @@ public class AllExamFragment extends Fragment {
 		
 		structure = helper.getCurrentUser();
 		if (structure == null){
-			Intent intent = new Intent();
-			intent.setClass(mContext, UserSwitchActivity.class);
-			startActivity(intent);
+//			Intent intent = new Intent();
+//			intent.setClass(mContext, UserSwitchActivity.class);
+//			startActivity(intent);
 		}
 		
 		updateExamData();

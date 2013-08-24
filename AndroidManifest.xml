@@ -15,20 +15,24 @@
         android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.myqsc.qscmobile2.login.LoginActivity"
             android:label="@string/app_name" >
+            
+        </activity>
+        <activity android:name=".login.UserSwitchActivity"></activity>
+        <activity android:name=".exam.ExamActivity"></activity>
+        <activity android:name=".xiaoche.XiaocheActivity"></activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.UserSwitchActivity"></activity>
-        <activity android:name=".exam.ExamActivity"></activity>
-        <activity android:name=".xiaoche.XiaocheActivity"></activity>
         <activity
             android:name="com.myqsc.qscmobile2.curriculum.CurriculumActivity"
             android:label="@string/title_activity_curriculum" >

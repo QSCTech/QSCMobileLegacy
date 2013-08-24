@@ -9,6 +9,7 @@ import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
@@ -79,8 +80,9 @@ public class UserSelectionAdapter extends BaseAdapter{
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mContext.getApplicationContext(), LoginActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					mContext.startActivity(intent);
+					LogHelper.d("new login started");
+					((Activity)mContext).startActivity(intent);
+					((Activity)mContext).overridePendingTransition(R.anim.push_up_in, R.anim.fade_out);
 				}
 			});
 			return convertView;
