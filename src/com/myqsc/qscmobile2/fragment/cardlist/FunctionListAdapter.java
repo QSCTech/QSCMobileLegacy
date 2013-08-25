@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.fragment.FragmentUtility;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 
 import android.content.Context;
@@ -22,10 +23,10 @@ public class FunctionListAdapter extends BaseAdapter {
 	Handler handler = null;
 	
 	public FunctionListAdapter(Context context){
-		for(int i = 0; i != 30; ++i){
+		for (int i = 0; i != FragmentUtility.cardString.length; ++i){
 			FunctionStructure structure = new FunctionStructure();
-			structure.cardIcon = R.string.icon_lock;
-			structure.cardName = "卡片 " + i;
+			structure.cardIcon = FragmentUtility.cardIcon[i];
+			structure.cardName = FragmentUtility.cardString[i];
 			structure.iconRight = R.string.icon_circle_blank;
 			list.add(structure);
 		}
