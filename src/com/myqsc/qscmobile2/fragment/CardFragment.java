@@ -2,6 +2,7 @@ package com.myqsc.qscmobile2.fragment;
 
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.chengji.fragment.ChengjiCardFragment;
 import com.myqsc.qscmobile2.exam.fragment.ExamCardFragment;
 import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
 import com.myqsc.qscmobile2.kebiao.fragment.KebiaoCardFragment;
@@ -42,6 +43,10 @@ public class CardFragment extends Fragment {
 		layout.findViewById(R.id.fragment_card).setId(4);
 		baseLayout.addView(layout);
 		
+		layout = (LinearLayout) inflater.inflate(R.layout.fragment_card_background, null);
+		layout.findViewById(R.id.fragment_card).setId(5);
+		baseLayout.addView(layout);
+		
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 		
@@ -49,6 +54,7 @@ public class CardFragment extends Fragment {
 		transaction.add(2, new HuodongCardFragment());
 		transaction.add(3, new KebiaoCardFragment());
 		transaction.add(4, new ExamCardFragment());
+		transaction.add(5, new ChengjiCardFragment());
 		transaction.commit();
 		
 		return view;

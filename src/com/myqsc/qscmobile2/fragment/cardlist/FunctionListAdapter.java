@@ -7,6 +7,8 @@ import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ public class FunctionListAdapter extends BaseAdapter {
 	List<FunctionStructure> list = new ArrayList<FunctionStructure>();
 	Context mContext = null;
 	LayoutInflater inflater = null;
+	Handler handler = null;
+	
 	public FunctionListAdapter(Context context){
 		for(int i = 0; i != 30; ++i){
 			FunctionStructure structure = new FunctionStructure();
@@ -27,7 +31,33 @@ public class FunctionListAdapter extends BaseAdapter {
 		}
 		this.mContext = context;
 		inflater = LayoutInflater.from(context);
+		handler = new Handler(callbackFunction);
 	}
+	
+	public Handler getHandler(){
+		return handler;
+	}
+	
+	final Handler.Callback callbackFunction = new Handler.Callback() {
+		
+		@Override
+		public boolean handleMessage(Message msg) {
+			int position = msg.arg1;
+			TextView textView = (TextView) ((View) msg.obj).findViewById(R.id.simple_listview_banner_icon_right);
+			FunctionStructure structure = list.get(position);
+			if (structure.iconRight == R.string.icon_circle_blank){
+				structure.iconRight = R.string.icon_ok_sign;
+				textView.setText(structure.iconRight);
+				textView.setTextColor(mContext.getResources().getColor(R.color.blue_text));
+			} else {
+				structure.iconRight = R.string.icon_circle_blank;
+				textView.setText(structure.iconRight);
+				textView.setTextColor(mContext.getResources().getColor(R.color.gray_text));
+			}
+			return true;
+		}
+	};
+	
 	@Override
 	public int getCount() {
 		return list.size();
@@ -54,6 +84,7 @@ public class FunctionListAdapter extends BaseAdapter {
 			viewHolder.icon_right = (TextView) convertView.findViewById(R.id.simple_listview_banner_icon_right);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.simple_listview_banner_text);
 			
+			
 			AwesomeFontHelper.setFontFace(viewHolder.icon_left, mContext);
 			AwesomeFontHelper.setFontFace(viewHolder.icon_right, mContext);
 			convertView.setTag(viewHolder);
@@ -64,6 +95,11 @@ public class FunctionListAdapter extends BaseAdapter {
 		viewHolder.icon_left.setText(structure.cardIcon);
 		viewHolder.name.setText(structure.cardName);
 		viewHolder.icon_right.setText(structure.iconRight);
+		
+		if (structure.iconRight == R.string.icon_ok_sign)
+			viewHolder.icon_right.setTextColor(mContext.getResources().getColor(R.color.blue_text));
+		else
+			viewHolder.icon_right.setTextColor(mContext.getResources().getColor(R.color.gray_text));
 		
 		if ((position & 1) == 0)
 			convertView.setBackgroundColor(mContext.getResources().getColor(R.color.list_odd));

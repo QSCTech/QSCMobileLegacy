@@ -49,7 +49,6 @@ public class AboutListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LogHelper.d("Getting Function View");
 		ViewHolder viewHolder = null;
 		if (convertView == null){
 			viewHolder = new ViewHolder();
