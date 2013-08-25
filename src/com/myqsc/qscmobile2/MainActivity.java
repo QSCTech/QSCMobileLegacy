@@ -16,17 +16,18 @@ import android.support.v4.view.ViewPager;
 public class MainActivity extends FragmentActivity {
 
 	List<Fragment> fragmentList = new ArrayList<Fragment>();
+	ViewPager vPager = null;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_main);
+		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onStart() {
 		super.onResume();
-		ViewPager vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 		
 		fragmentList.add(new UserSwitchFragment(this));
 		fragmentList.add(new FunctionListFragment(this));

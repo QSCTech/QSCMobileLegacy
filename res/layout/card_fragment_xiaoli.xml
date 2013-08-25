@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/card_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingLeft="10dp"
-    android:paddingTop="15dp"
-    android:paddingBottom="15dp"
+    android:layout_gravity="center_vertical"
     android:orientation="horizontal" >
 
     <TextView
@@ -34,7 +31,7 @@
         android:textColor="@color/blue_text"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:text="第五周\n星期二" />
 
 </LinearLayout>

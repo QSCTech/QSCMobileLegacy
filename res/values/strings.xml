@@ -23,6 +23,7 @@
     <string name="icon_file_alt">&#xF016;</string>
     <string name="icon_exchange">&#xF0EC;</string>
     <string name="icon_info">&#xF129;</string>
+    <string name="icon_heart">&#xF004;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
     
 </resources>
