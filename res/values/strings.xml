@@ -22,6 +22,12 @@
     <string name="icon_copy">&#xF0C5;</string>
     <string name="icon_file_alt">&#xF016;</string>
     <string name="icon_exchange">&#xF0EC;</string>
+    <string name="icon_info">&#xF129;</string>
+    <string name="icon_heart">&#xF004;</string>
+    <string name="icon_group">&#xF0C0;</string>
+    <string name="icon_calendar">&#xF073;</string>
+    <string name="icon_list_alt">&#xF022;</string>
+    <string name="icon_trophy">&#xF091;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
     
 </resources>
