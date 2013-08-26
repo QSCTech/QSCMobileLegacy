@@ -23,7 +23,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 
 public class MainActivity extends FragmentActivity {
 
@@ -36,6 +41,13 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_main);
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
+		getWindow().getDecorView().findViewById(android.R.id.content).setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return  detector.onTouchEvent(event);
+			}
+		});
 		
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
 		registerReceiver(new aboutusReceiver(), intentFilter);
@@ -45,7 +57,10 @@ public class MainActivity extends FragmentActivity {
 		
 		transaction.add(R.id.activity_main_frame, new EmptyFragment());
 		transaction.commit();
+		
+		detector = new GestureDetector(this, new MyGestureDector());
 	}
+	
 
 	@Override
 	protected void onStart() {
@@ -100,4 +115,22 @@ public class MainActivity extends FragmentActivity {
 			transaction.commit();
 		}
 	}
+	
+	GestureDetector detector = null;
+	
+	private class MyGestureDector extends SimpleOnGestureListener{
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
+			if (e1 != null)
+				LogHelper.d(e1.toString());
+			if (e2 != null)
+				LogHelper.d(e2.toString());
+			return false;
+		}
+		
+	}
+	
+	
 }
