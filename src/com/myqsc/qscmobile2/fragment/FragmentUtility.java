@@ -1,6 +1,12 @@
 package com.myqsc.qscmobile2.fragment;
 
+import android.support.v4.app.Fragment;
+
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.chengji.fragment.ChengjiCardFragment;
+import com.myqsc.qscmobile2.exam.fragment.ExamCardFragment;
+import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
+import com.myqsc.qscmobile2.kebiao.fragment.KebiaoCardFragment;
 
 
 public class FragmentUtility {
@@ -14,4 +20,16 @@ public class FragmentUtility {
 		R.string.icon_copy,
 		R.string.icon_trophy
 	};
+	
+	public static Fragment getCardFragmentByName(String name){
+		if (name.compareTo(cardString[0]) == 0)
+			return new HuodongCardFragment();
+		if (name.compareTo(cardString[1]) == 0)
+			return new KebiaoCardFragment();
+		if (name.compareTo(cardString[2]) == 0)
+			return new ExamCardFragment();
+		if (name.compareTo(cardString[3]) == 0)
+			return new ChengjiCardFragment();
+		return null;
+	}
 }

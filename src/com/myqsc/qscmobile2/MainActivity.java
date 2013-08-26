@@ -21,8 +21,10 @@ import android.support.v4.view.ViewPager;
 
 public class MainActivity extends FragmentActivity {
 
-	List<Fragment> fragmentList = new ArrayList<Fragment>();
+	final List<Fragment> fragmentList = new ArrayList<Fragment>();
+	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
+	Handler fragmentPagerAdapterHandler = null;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -38,11 +40,16 @@ public class MainActivity extends FragmentActivity {
 		final FunctionListFragment functionListFragment = new FunctionListFragment();
 		functionListFragment.setOnFragmentMessage(functionListFragmentMessage);
 		
+		final CardFragment cardFragment = new CardFragment();
+		
 		fragmentList.add(new UserSwitchFragment(this));
 		fragmentList.add(functionListFragment);
-		fragmentList.add(new CardFragment());
+		fragmentList.add(cardFragment);
 		
-		vPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
+		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+		fragmentPagerAdapterHandler = adapter.getHandler();
+		
+		vPager.setAdapter(adapter);
 		
 		final Handler handler = new Handler();
 		handler.post(new Runnable() {
@@ -73,6 +80,12 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public void onFragmentMessage(Message message) {
 			LogHelper.i(message.toString());
+			if (message.what == 1){
+				CardFragment fragment = new CardFragment((List<String>) message.obj);
+				fragmentList.set(2, fragment);
+				message.setTarget(fragmentPagerAdapterHandler);
+				message.sendToTarget();
+			}
 		}
 	};
 	

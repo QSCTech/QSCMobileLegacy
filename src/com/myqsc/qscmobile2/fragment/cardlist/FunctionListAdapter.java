@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.FragmentUtility;
+import com.myqsc.qscmobile2.fragment.uti.OnFragmentMessage;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 
 import android.content.Context;
@@ -21,6 +22,11 @@ public class FunctionListAdapter extends BaseAdapter {
 	Context mContext = null;
 	LayoutInflater inflater = null;
 	Handler handler = null;
+	OnFragmentMessage onFragmentMessage = null;
+	
+	public void setOnFragmentMessage(OnFragmentMessage message){
+		this.onFragmentMessage = message;
+	}
 	
 	public FunctionListAdapter(Context context){
 		for (int i = 0; i != FragmentUtility.cardString.length; ++i){
@@ -54,6 +60,18 @@ public class FunctionListAdapter extends BaseAdapter {
 				structure.iconRight = R.string.icon_circle_blank;
 				textView.setText(structure.iconRight);
 				textView.setTextColor(mContext.getResources().getColor(R.color.gray_text));
+			}
+			
+			List<String> cardName = new ArrayList<String>();
+			for (FunctionStructure functionStructure : list) {
+				if (functionStructure.iconRight == R.string.icon_ok_sign)
+					cardName.add(functionStructure.cardName);
+			}
+			if (onFragmentMessage != null){
+				Message message = new Message();
+				message.what = 1;
+				message.obj = cardName;
+				onFragmentMessage.onFragmentMessage(message);
 			}
 			return true;
 		}

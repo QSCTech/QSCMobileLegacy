@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2.fragment.cardlist;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.uti.OnFragmentMessage;
+import com.myqsc.qscmobile2.uti.LogHelper;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,10 +21,12 @@ public class FunctionListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		LogHelper.d("FunctionListFragment OnCreateView called");
 		View view = inflater.inflate(R.layout.fragment_cardlist, null);
 		
-		FunctionListAdapter adapter = new FunctionListAdapter(getActivity());
+		final FunctionListAdapter adapter = new FunctionListAdapter(getActivity());
 		final Handler adapterHandler = adapter.getHandler();
+		adapter.setOnFragmentMessage(onFragmentMessage);
 		((ListView)view.findViewById(R.id.fragment_cardlist)).setAdapter(adapter);
 		((ListView)view.findViewById(R.id.fragment_cardlist)).setOnItemClickListener(new OnItemClickListener() {
 
@@ -36,10 +39,6 @@ public class FunctionListFragment extends Fragment {
 				message.arg1 = arg2;
 				message.setTarget(adapterHandler);
 				message.sendToTarget();
-				
-				if (onFragmentMessage != null){
-					onFragmentMessage.onFragmentMessage(message);
-				}
 			}
 		});
 		return view;
