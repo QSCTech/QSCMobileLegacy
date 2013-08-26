@@ -24,7 +24,6 @@ public class MainActivity extends FragmentActivity {
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
 	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
-	Handler fragmentPagerAdapterHandler = null;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -38,7 +37,6 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		
 		final FunctionListFragment functionListFragment = new FunctionListFragment();
-		functionListFragment.setOnFragmentMessage(functionListFragmentMessage);
 		
 		final CardFragment cardFragment = new CardFragment();
 		
@@ -47,7 +45,6 @@ public class MainActivity extends FragmentActivity {
 		fragmentList.add(cardFragment);
 		
 		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-		fragmentPagerAdapterHandler = adapter.getHandler();
 		
 		vPager.setAdapter(adapter);
 		
@@ -74,21 +71,4 @@ public class MainActivity extends FragmentActivity {
 		super.onStop();
 		fragmentList.clear();
 	}
-	
-	private final OnFragmentMessage functionListFragmentMessage = new OnFragmentMessage() {
-		
-		@Override
-		public void onFragmentMessage(Message message) {
-			LogHelper.i(message.toString());
-			if (message.what == 1){
-				CardFragment fragment = new CardFragment((List<String>) message.obj);
-				fragmentList.set(2, fragment);
-				message.setTarget(fragmentPagerAdapterHandler);
-				message.sendToTarget();
-			}
-		}
-	};
-	
-	
-
 }

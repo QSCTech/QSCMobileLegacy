@@ -7,6 +7,7 @@ import com.myqsc.qscmobile2.chengji.fragment.ChengjiCardFragment;
 import com.myqsc.qscmobile2.exam.fragment.ExamCardFragment;
 import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
 import com.myqsc.qscmobile2.kebiao.fragment.KebiaoCardFragment;
+import com.myqsc.qscmobile2.uti.LogHelper;
 
 
 public class FragmentUtility {
@@ -30,6 +31,7 @@ public class FragmentUtility {
 			return new ExamCardFragment();
 		if (name.compareTo(cardString[3]) == 0)
 			return new ChengjiCardFragment();
+		LogHelper.d("none fragment");
 		return null;
 	}
 }
