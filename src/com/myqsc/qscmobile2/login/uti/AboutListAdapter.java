@@ -6,9 +6,11 @@ import java.util.List;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +77,24 @@ public class AboutListAdapter extends BaseAdapter {
 		else
 			convertView.setBackgroundColor(mContext.getResources().getColor(R.color.list_even));
 		
+		switch (position) {
+		case 0:
+			convertView.setOnClickListener(onAboutusClickListener);
+			break;
+		default:
+			break;
+		}
 		return convertView;
 	}
+	
+	final View.OnClickListener onAboutusClickListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
+			mContext.sendBroadcast(intent);
+		}
+	};
 	
 	private class ViewHolder{
 		TextView icon_left, icon_right, name;

@@ -6,16 +6,21 @@ import java.util.List;
 import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
-import com.myqsc.qscmobile2.fragment.uti.OnFragmentMessage;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 public class MainActivity extends FragmentActivity {
@@ -29,6 +34,9 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_main);
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
+		
+		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
+		registerReceiver(new aboutusReceiver(), intentFilter);
 	}
 
 	@Override
@@ -68,5 +76,19 @@ public class MainActivity extends FragmentActivity {
 	protected void onStop() {
 		super.onStop();
 		fragmentList.clear();
+	}
+	
+	private class aboutusReceiver extends BroadcastReceiver{
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			
+			AboutUsFragment fragment = new AboutUsFragment();
+			fragmentTransaction.replace(R.id.activity_main_layout, fragment);
+			fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.push_up_in);
+			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();
+		}
 	}
 }
