@@ -1,8 +1,5 @@
 package com.myqsc.qscmobile2.fragment;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +8,6 @@ import org.json.JSONArray;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
-import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoli.fragment.XiaoliCardFragment;
 

@@ -14,7 +14,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -47,7 +46,6 @@ public class MainActivity extends FragmentActivity {
 		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
 		
 		vPager.setAdapter(adapter);
-		
 		final Handler handler = new Handler();
 		handler.post(new Runnable() {
 			
