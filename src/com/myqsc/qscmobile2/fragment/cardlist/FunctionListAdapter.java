@@ -1,22 +1,20 @@
 package com.myqsc.qscmobile2.fragment.cardlist;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.FragmentUtility;
-import com.myqsc.qscmobile2.fragment.uti.OnFragmentMessage;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
-import com.myqsc.qscmobile2.uti.LogHelper;
+import com.myqsc.qscmobile2.uti.Utility;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +27,13 @@ public class FunctionListAdapter extends BaseAdapter {
 	LayoutInflater inflater = null;
 
 	public FunctionListAdapter(Context context) {
+		this.mContext = context;
+		inflater = LayoutInflater.from(context);
+
+		IntentFilter intentFilter = new IntentFilter(
+				BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
+		mContext.registerReceiver(new receiver(), intentFilter);
+		
 		for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
 			FunctionStructure structure = new FunctionStructure();
 			structure.cardIcon = FragmentUtility.cardIcon[i];
@@ -36,14 +41,32 @@ public class FunctionListAdapter extends BaseAdapter {
 			structure.iconRight = R.string.icon_circle_blank;
 			list.add(structure);
 		}
-		this.mContext = context;
-		inflater = LayoutInflater.from(context);
-
-		IntentFilter intentFilter = new IntentFilter(
-				BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
-		mContext.registerReceiver(new receiver(), intentFilter);
+		
+		for (String string : getSelectedCard()) {
+			for (FunctionStructure structure : list) {
+				if (string.compareTo(structure.cardName) == 0)
+					structure.iconRight = R.string.icon_ok_sign;
+			}
+		}
 	}
-
+	
+	private List<String> getSelectedCard() {
+		String encode = mContext.getSharedPreferences(Utility.PREFERENCE, 0).getString(FunctionStructure.PREFERENCE, null);
+		if (encode == null)
+			return null;
+		
+		try {
+			JSONArray jsonArray = new JSONArray(encode);
+			List<String> list = new ArrayList<String>();
+			for(int i = 0; i != jsonArray.length(); ++i)
+				list.add(jsonArray.optString(i));
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@Override
 	public int getCount() {
 		return list.size();
@@ -119,16 +142,21 @@ public class FunctionListAdapter extends BaseAdapter {
 				structure.iconRight = R.string.icon_circle_blank;
 			}
 			notifyDataSetChanged();
-			
-			
-			
+
+			JSONArray jsonArray = new JSONArray();
+			for (String string : getCheckedCard()) {
+				jsonArray.put(string);
+			}
+			String encode = jsonArray.toString();
+			mContext.getSharedPreferences(Utility.PREFERENCE, 0).edit()
+					.putString(FunctionStructure.PREFERENCE, encode).commit();
+
 			intent = new Intent(BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
-			intent.putExtra("cards", (Serializable)getCheckedCard());
 			mContext.sendBroadcast(intent);
 		}
 
 	}
-	
+
 	private List<String> getCheckedCard() {
 		List<String> list = new ArrayList<String>();
 		for (FunctionStructure structure : this.list) {
