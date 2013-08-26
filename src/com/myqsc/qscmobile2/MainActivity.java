@@ -19,8 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 public class MainActivity extends FragmentActivity {
@@ -41,7 +39,7 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onStart() {
-		super.onResume();
+		super.onStart();
 		
 		final FunctionListFragment functionListFragment = new FunctionListFragment();
 		
@@ -81,14 +79,8 @@ public class MainActivity extends FragmentActivity {
 	private class aboutusReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			
-			AboutUsFragment fragment = new AboutUsFragment();
-			fragmentTransaction.replace(R.id.activity_main_layout, fragment);
-			fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.push_up_in);
-			fragmentTransaction.addToBackStack(null);
-			fragmentTransaction.commit();
+			intent.setClass(context, AboutUsActivity.class);
+			startActivity(intent);
 		}
 	}
 }

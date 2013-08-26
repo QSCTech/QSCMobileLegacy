@@ -29,9 +29,4 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 		return list.size();
 	}
 
-	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
-		LogHelper.d("item" + position + "destroy");
-	}
-
 }
