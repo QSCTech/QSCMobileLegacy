@@ -26,7 +26,6 @@
         <activity android:name=".login.UserSwitchActivity"></activity>
         <activity android:name=".exam.ExamActivity"></activity>
         <activity android:name=".xiaoche.XiaocheActivity"></activity>
-        <activity android:name=".AboutUsActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

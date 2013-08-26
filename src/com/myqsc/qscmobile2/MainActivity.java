@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.myqsc.qscmobile2.fragment.CardFragment;
+import com.myqsc.qscmobile2.fragment.EmptyFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
@@ -19,7 +20,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 public class MainActivity extends FragmentActivity {
 
@@ -35,6 +39,12 @@ public class MainActivity extends FragmentActivity {
 		
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
 		registerReceiver(new aboutusReceiver(), intentFilter);
+		
+		FragmentManager manager = getSupportFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+		
+		transaction.add(R.id.activity_main_frame, new EmptyFragment());
+		transaction.commit();
 	}
 
 	@Override
@@ -79,8 +89,15 @@ public class MainActivity extends FragmentActivity {
 	private class aboutusReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			intent.setClass(context, AboutUsActivity.class);
-			startActivity(intent);
+			FragmentManager manager = getSupportFragmentManager();
+			FragmentTransaction transaction = manager.beginTransaction();
+			
+			AboutUsFragment fragment = new AboutUsFragment();
+			transaction.replace(R.id.activity_main_frame, fragment);
+			transaction.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out);
+			findViewById(R.id.activity_main_frame).setVisibility(View.VISIBLE);
+			transaction.addToBackStack(null);
+			transaction.commit();
 		}
 	}
 }
