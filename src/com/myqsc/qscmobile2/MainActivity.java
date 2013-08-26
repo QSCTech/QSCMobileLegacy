@@ -54,7 +54,7 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void run() {
 				getThisProcessMemeryInfo();
-				handler.postDelayed(this, 10000);
+				handler.postDelayed(this, 1000);
 			}
 		});
 	}

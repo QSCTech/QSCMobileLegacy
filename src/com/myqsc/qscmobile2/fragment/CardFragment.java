@@ -63,7 +63,6 @@ public class CardFragment extends Fragment {
 			
 			fragmentInflate(baseLayout, inflater, cardList);
 		}
-		
 	}
 	
 	private void fragmentInflate(LinearLayout linearLayout, LayoutInflater inflater, List<String> cardList){
@@ -79,7 +78,14 @@ public class CardFragment extends Fragment {
 			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_card_background, null);
 			layout.findViewById(R.id.fragment_card).setId(i + 3);
 			baseLayout.addView(layout);
-			transaction.add(i + 3, FragmentUtility.getCardFragmentByName(cardList.get(i)));
+			
+			Fragment fragment = fragmentManager.findFragmentByTag(cardList.get(i));
+			if (fragment != null)
+				transaction.remove(fragment);
+			
+			fragment = FragmentUtility.getCardFragmentByName(cardList.get(i));
+			transaction.add(i + 3, fragment, cardList.get(i));
+			
 		}
 		transaction.commit();
 	}
