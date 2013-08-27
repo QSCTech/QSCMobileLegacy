@@ -32,9 +32,11 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
@@ -74,9 +76,46 @@ public class MainActivity extends FragmentActivity {
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 	}
-	
 
-	@Override
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+            if (manager.getBackStackEntryCount() != 0){
+                ObjectAnimator animator = ObjectAnimator.ofFloat(fragmentView, "translationX", 0, dm.widthPixels)
+                        .setDuration(300);
+                animator.setInterpolator(new AccelerateInterpolator());
+                animator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        manager.popBackStack();
+                        ObjectAnimator.ofFloat(fragmentView, "translationX", 0)
+                                .setDuration(1)
+                                .start();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+                animator.start();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
 	protected void onStart() {
 		super.onStart();
 		
@@ -129,6 +168,11 @@ public class MainActivity extends FragmentActivity {
 			findViewById(R.id.activity_main_frame).setVisibility(View.VISIBLE);
 			transaction.addToBackStack(null);
 			transaction.commit();
+
+            ObjectAnimator animator = ObjectAnimator.ofFloat(fragmentView, "translationX", dm.widthPixels, 0f)
+                    .setDuration(300);
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
 		}
 	}
 	
