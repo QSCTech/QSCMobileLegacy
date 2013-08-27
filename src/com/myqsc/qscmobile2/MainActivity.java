@@ -10,6 +10,8 @@ import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 import ViewPager.ZoomOutPageTransformer;
@@ -36,6 +38,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
@@ -142,7 +145,7 @@ public class MainActivity extends FragmentActivity {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				LogHelper.d(event.toString());
-				if (manager.getBackStackEntryCount() != 0 && event.getX() < 20){
+				if (manager.getBackStackEntryCount() != 0 && event.getX() < 20) {
 					beingScroll = STATE_DRAGING;
 					return true;
 				}
@@ -151,7 +154,7 @@ public class MainActivity extends FragmentActivity {
 			case MotionEvent.ACTION_MOVE:
 				LogHelper.d(event.toString());
 				if (beingScroll == STATE_DRAGING){
-					fragmentView.scrollTo(-(int) event.getX(), 0);
+					ObjectAnimator.ofFloat(fragmentView, "translationX", event.getX()).setDuration(0).start();
 					gestureView.getBackground().setAlpha((int) (event.getX() / dm.widthPixels * 255));
 					return true;
 				}
@@ -159,55 +162,68 @@ public class MainActivity extends FragmentActivity {
 			case MotionEvent.ACTION_UP:
 				LogHelper.d(event.toString());
 				if (beingScroll == STATE_DRAGING){
-					if ((int) event.getX() < dm.widthPixels / 2){
-						TranslateAnimation animation = new TranslateAnimation(0, -event.getX(), 0, 0);
-						animation.setDuration(100);
-						beingScroll = STATE_SETTING;
-						animation.setAnimationListener(new AnimationListener() {
-							@Override
-							public void onAnimationStart(Animation animation) {
-							}
-							
-							@Override
-							public void onAnimationRepeat(Animation animation) {
-							}
-							
-							@Override
-							public void onAnimationEnd(Animation animation) {
-								fragmentView.clearAnimation();
-								fragmentView.scrollTo(0, 0);
-								beingScroll = STATE_IDLE;
-							}
-						});
-						fragmentView.startAnimation(animation);
-						
-						
-						
+					if ((int) event.getX() < dm.widthPixels / 3){
+                        beingScroll = STATE_SETTING;
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(fragmentView, "translationX",
+                                0f);
+                        animator.setDuration(100);
+                        animator.setInterpolator(new DecelerateInterpolator());
+                        animator.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animator) {
+                                beingScroll = STATE_IDLE;
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animator) {
+
+                            }
+                        });
+						animator.start();
+
 					} else {
-						TranslateAnimation animation = new TranslateAnimation(0, dm.widthPixels - event.getX(), 0, 0);
-						animation.setDuration(100);
-						beingScroll = STATE_SETTING;
-						animation.setAnimationListener(new AnimationListener() {
-							@Override
-							public void onAnimationStart(Animation animation) {
-							}
-							
-							@Override
-							public void onAnimationRepeat(Animation animation) {
-							}
-							
-							@Override
-							public void onAnimationEnd(Animation animation) {
-								animation = new TranslateAnimation(0, 0, 0, 0);
-								animation.setDuration(1);
-								fragmentView.startAnimation(animation);
-								manager.popBackStack();
-								fragmentView.scrollTo(0, 0);
-								beingScroll = STATE_IDLE;
-							}
-						});
-						fragmentView.startAnimation(animation);
+                        beingScroll = STATE_SETTING;
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(fragmentView, "translationX",
+                                (float) event.getX(), dm.widthPixels)
+                                .setDuration(100);
+                        animator.setInterpolator(new DecelerateInterpolator());
+                        animator.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animator) {
+                                manager.popBackStack();
+                                ObjectAnimator.ofFloat(fragmentView, "translationX",
+                                        0).setDuration(1).start();
+                                beingScroll = STATE_IDLE;
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animator) {
+
+                            }
+                        });
+                        animator.start();
 					}
+                    return true;
 				}
 			default:
 				break;
