@@ -24,7 +24,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,30 +37,29 @@ public class MainActivity extends FragmentActivity {
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
 	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
+	View fragmentView = null, gestureView = null;
+	FragmentManager manager = null;
+	DisplayMetrics dm = null;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_main);
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
-		getWindow().getDecorView().findViewById(android.R.id.content).setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return  detector.onTouchEvent(event);
-			}
-		});
+		fragmentView = findViewById(R.id.activity_main_frame);
+		gestureView = findViewById(R.id.activity_main_gesture);
+		manager = getSupportFragmentManager();
 		
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
 		registerReceiver(new aboutusReceiver(), intentFilter);
 		
-		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		
 		transaction.add(R.id.activity_main_frame, new EmptyFragment());
 		transaction.commit();
 		
-		detector = new GestureDetector(this, new MyGestureDector());
+		dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
 	}
 	
 
@@ -86,6 +87,9 @@ public class MainActivity extends FragmentActivity {
 				handler.postDelayed(this, 1000);
 			}
 		});
+		
+		vPager.setOnTouchListener(onTouchListener);
+		gestureView.setOnTouchListener(onTouchListener);
 	}
 	
 	public void getThisProcessMemeryInfo() {
@@ -104,7 +108,6 @@ public class MainActivity extends FragmentActivity {
 	private class aboutusReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			FragmentManager manager = getSupportFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
 			
 			AboutUsFragment fragment = new AboutUsFragment();
@@ -116,21 +119,51 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 	
-	GestureDetector detector = null;
-	
-	private class MyGestureDector extends SimpleOnGestureListener{
-
+	final OnTouchListener onTouchListener = new OnTouchListener() {
+		int beingScroll = 0;
+		
+		final int STATE_IDLE = 0;
+		final int STATE_DRAGING = 1;
+		final int STATE_SETTING = 2;
+		
 		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			if (e1 != null)
-				LogHelper.d(e1.toString());
-			if (e2 != null)
-				LogHelper.d(e2.toString());
+		public boolean onTouch(View v, MotionEvent event) {
+			
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				LogHelper.d(event.toString());
+				if (manager.getBackStackEntryCount() != 0 && event.getX() < 20){
+					beingScroll = STATE_DRAGING;
+					return true;
+				}
+				break;
+				
+			case MotionEvent.ACTION_MOVE:
+				LogHelper.d(event.toString());
+				if (beingScroll == STATE_DRAGING){
+					fragmentView.scrollTo(-(int) event.getX(), 0);
+					return true;
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+				LogHelper.d(event.toString());
+				if (beingScroll == STATE_DRAGING){
+					if ((int) event.getX() < dm.widthPixels / 2){
+						fragmentView.scrollTo(0, 0);
+						beingScroll = STATE_IDLE;
+					} else {
+						fragmentView.scrollTo(dm.widthPixels, 0);
+						beingScroll = STATE_IDLE;
+						manager.popBackStack();
+						fragmentView.scrollTo(0, 0);
+					}
+				}
+			default:
+				break;
+			}
 			return false;
 		}
-		
-	}
+	}; 
 	
 	
 }
