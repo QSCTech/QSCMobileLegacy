@@ -33,7 +33,7 @@ public class PersonalDataHelper {
 		ContentValues values = new ContentValues();
 		values.put(UserIDTable.UID, uid);
 		values.put(UserIDTable.PWD, pwd);
-		values.put(UserIDTable.SELECTION, 0);
+		values.put(UserIDTable.SELECTION, 1);
 		
 		LogHelper.i("Insert INTO db:" + uid);
 		db.insert(UserIDTable.TABLE_NAME, null, values);
@@ -44,18 +44,11 @@ public class PersonalDataHelper {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.rawQuery("UPDATE " + UserIDTable.TABLE_NAME 
 				+ " SET "
-				+ UserIDTable.SELECTION + "=1", null);
+				+ UserIDTable.SELECTION + "=0", null);
 		cursor.close();
 		db.close();
 		addUser(uid, pwd);
 		
-		db = helper.getWritableDatabase();
-		db.rawQuery("UPDATE " + UserIDTable.TABLE_NAME
-				+ " SET "
-				+ UserIDTable.SELECTION + "=1"
-				+ " WHERE "
-				+ UserIDTable.UID + "=?;", new String[] {uid});
-		db.close();
 	}
 	
 	public List<UserIDStructure> allUser(){

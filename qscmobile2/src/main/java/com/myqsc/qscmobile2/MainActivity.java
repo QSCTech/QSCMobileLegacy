@@ -27,6 +27,7 @@ public class MainActivity extends FragmentActivity {
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
 	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
+    int page = 0;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -54,6 +55,7 @@ public class MainActivity extends FragmentActivity {
 		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
 		
 		vPager.setAdapter(adapter);
+        vPager.setCurrentItem(page);
 		final Handler handler = new Handler();
 		handler.post(new Runnable() {
 			
@@ -75,7 +77,9 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+        page = vPager.getCurrentItem();
 		fragmentList.clear();
+        adapter.notifyDataSetChanged();
 	}
 	
 	private class aboutusReceiver extends BroadcastReceiver{
