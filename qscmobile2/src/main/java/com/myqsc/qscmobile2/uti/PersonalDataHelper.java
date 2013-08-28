@@ -19,7 +19,7 @@ public class PersonalDataHelper {
 		helper = new DatabaseHelper(context); 
 	}
 	
-	public void addUser(String uid, String pwd){
+	private void addUser(String uid, String pwd){
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.rawQuery("SELECT * FROM " + UserIDTable.TABLE_NAME 
 				+ " WHERE " 
@@ -41,10 +41,6 @@ public class PersonalDataHelper {
 	}
 	
 	public void addUser(String uid, String pwd, boolean selection){
-		if (!selection){
-			addUser(uid, pwd);
-			return;
-		}
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.rawQuery("UPDATE " + UserIDTable.TABLE_NAME 
 				+ " SET "

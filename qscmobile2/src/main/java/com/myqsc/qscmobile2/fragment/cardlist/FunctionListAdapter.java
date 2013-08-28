@@ -41,8 +41,11 @@ public class FunctionListAdapter extends BaseAdapter {
 			structure.iconRight = R.string.icon_circle_blank;
 			list.add(structure);
 		}
-		
-		for (String string : getSelectedCard()) {
+
+        List<String> selectedCard = getSelectedCard();
+        if (selectedCard == null)
+            return;
+		for (String string : selectedCard) {
 			for (FunctionStructure structure : list) {
 				if (string.compareTo(structure.cardName) == 0)
 					structure.iconRight = R.string.icon_ok_sign;

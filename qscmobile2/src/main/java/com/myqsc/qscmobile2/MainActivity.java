@@ -40,8 +40,8 @@ public class MainActivity extends FragmentActivity {
 	}
 
     @Override
-	protected void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 		
 		final FunctionListFragment functionListFragment = new FunctionListFragment();
 		
@@ -73,8 +73,8 @@ public class MainActivity extends FragmentActivity {
     }
 
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onPause() {
+		super.onPause();
 		fragmentList.clear();
 	}
 	
