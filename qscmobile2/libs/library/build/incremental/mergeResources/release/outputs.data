@@ -1,11 +1,11 @@
 # incremental data. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1377681663792 24780 6c2954bdacb8129ac00edfd084b98daf226518e3 C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xxhdpi\ic_launcher.png
-1377681663793 3760 9d45e7de00dac30e9738dc369dece2835bf9677e C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-mdpi\ic_launcher.png
-1377681663796 965 bd97498888b26f59675f3cbae1f714722c7c0ca7 C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\values\values.xml
-1377681663793 2868 244e671d915107937cef7272b83b25b2bfa37a2b C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\shadow_bottom.png
-1377681663792 2865 f9c9311294f4994ae4f3e85b5d6eb42ced9481e4 C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\shadow_left.png
-1377681663792 7783 03172612ec7d8d2cc6295a185410c3e6501771aa C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-hdpi\ic_launcher.png
-1377681663793 2867 6836927b3fa54a022ce614e4cec78ff8b5fc7d2f C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\shadow_right.png
-1377681663792 12356 75154d4f6e93c8832a74d3c27c8cf0d44672ea3e C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\ic_launcher.png
+1377686476207 24780 6c2954bdacb8129ac00edfd084b98daf226518e3 C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xxhdpi\ic_launcher.png
+1377686476203 3760 9d45e7de00dac30e9738dc369dece2835bf9677e C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-mdpi\ic_launcher.png
+1377686476210 965 bd97498888b26f59675f3cbae1f714722c7c0ca7 C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\values\values.xml
+1377686476205 2868 244e671d915107937cef7272b83b25b2bfa37a2b C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\shadow_bottom.png
+1377686476201 2865 f9c9311294f4994ae4f3e85b5d6eb42ced9481e4 C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\shadow_left.png
+1377686476202 7783 03172612ec7d8d2cc6295a185410c3e6501771aa C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-hdpi\ic_launcher.png
+1377686476208 2867 6836927b3fa54a022ce614e4cec78ff8b5fc7d2f C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\shadow_right.png
+1377686476205 12356 75154d4f6e93c8832a74d3c27c8cf0d44672ea3e C:\qscmobile2Project\qscmobile2\libs\library\build\res\all\release\drawable-xhdpi\ic_launcher.png
