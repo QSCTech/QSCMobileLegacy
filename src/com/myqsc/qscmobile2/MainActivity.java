@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 
 public class MainActivity extends FragmentActivity {
 
@@ -42,16 +43,30 @@ public class MainActivity extends FragmentActivity {
 	View fragmentView = null, gestureView = null;
 	FragmentManager manager = null;
 	DisplayMetrics dm = null;
+
+    final int activity_main_frame = 0x215451, activity_main_gesture = 0x215452;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_main);
+        FrameLayout mainFrame = (FrameLayout) findViewById(R.id.activity_main_layout);
+
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 //		vPager.setPageTransformer(true, new ZoomOutPageTransformer());
-		
-		fragmentView = findViewById(R.id.activity_main_frame);
-		gestureView = findViewById(R.id.activity_main_gesture);
+
+        fragmentView = new FrameLayout(this);
+        fragmentView.setId(activity_main_frame);
+        mainFrame.addView(fragmentView,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT);
+        gestureView = new FrameLayout(this);
+        gestureView.setId(activity_main_gesture);
+        mainFrame.addView(gestureView,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT);
+
+
 		manager = getSupportFragmentManager();
 		
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
@@ -59,7 +74,7 @@ public class MainActivity extends FragmentActivity {
 		
 		FragmentTransaction transaction = manager.beginTransaction();
 		
-		transaction.add(R.id.activity_main_frame, new EmptyFragment());
+		transaction.add(activity_main_frame, new EmptyFragment());
 		transaction.commit();
 		
 		dm = new DisplayMetrics();
@@ -76,7 +91,6 @@ public class MainActivity extends FragmentActivity {
                 animator.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
-
                     }
 
                     @Override
@@ -152,9 +166,9 @@ public class MainActivity extends FragmentActivity {
 			FragmentTransaction transaction = manager.beginTransaction();
 			
 			AboutUsFragment fragment = new AboutUsFragment();
-			transaction.replace(R.id.activity_main_frame, fragment);
+			transaction.replace(activity_main_frame, fragment);
 			transaction.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out);
-			findViewById(R.id.activity_main_frame).setVisibility(View.VISIBLE);
+			findViewById(activity_main_frame).setVisibility(View.VISIBLE);
 			transaction.addToBackStack(null);
 			transaction.commit();
 
@@ -188,7 +202,6 @@ public class MainActivity extends FragmentActivity {
 				LogHelper.d(event.toString());
 				if (beingScroll == STATE_DRAGING){
 					ObjectAnimator.ofFloat(fragmentView, "translationX", event.getX()).setDuration(0).start();
-					gestureView.getBackground().setAlpha((int) (event.getX() / dm.widthPixels * 255));
 					return true;
 				}
 				break;
