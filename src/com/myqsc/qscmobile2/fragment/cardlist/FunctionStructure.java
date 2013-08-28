@@ -18,6 +18,12 @@ public class FunctionStructure {
 		cardName = object.getString("cardName");
 		iconRight = object.getInt("iconRight");
 	}
+
+    public FunctionStructure(int cardIcon, String cardName, int iconRight){
+        this.cardIcon = cardIcon;
+        this.cardName = cardName;
+        this.iconRight = iconRight;
+    }
 	
 	public JSONObject toJsonObject() throws JSONException{
 		JSONObject object = new JSONObject();

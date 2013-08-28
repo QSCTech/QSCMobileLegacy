@@ -1,14 +1,5 @@
 package com.myqsc.qscmobile2.login.uti;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
-import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
-import com.myqsc.qscmobile2.uti.BroadcastHelper;
-import com.myqsc.qscmobile2.uti.LogHelper;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,6 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
+import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
+import com.myqsc.qscmobile2.uti.LogHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AboutListAdapter extends BaseAdapter {
 	List<FunctionStructure> list = new ArrayList<FunctionStructure>();
@@ -25,13 +25,9 @@ public class AboutListAdapter extends BaseAdapter {
 	public AboutListAdapter(Context context){
 		this.mContext = context;
 		this.inflater = LayoutInflater.from(context);
-		for(int i = 0; i != 3; ++i){
-			FunctionStructure structure = new FunctionStructure();
-			structure.cardIcon = R.string.icon_info;
-			structure.cardName = "提建议";
-			structure.iconRight = R.string.icon_chevron_right;
-			list.add(structure);
-		}
+        list.add(new FunctionStructure(R.string.icon_info, "关于我们", R.string.icon_chevron_right));
+        list.add(new FunctionStructure(R.string.icon_edit, "提建议", R.string.icon_chevron_right));
+        list.add(new FunctionStructure(R.string.icon_star, "去评分", R.string.icon_chevron_right));
 		LogHelper.d(String.valueOf(list.size()));
 	}
 	@Override

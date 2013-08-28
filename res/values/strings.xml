@@ -28,6 +28,8 @@
     <string name="icon_calendar">&#xF073;</string>
     <string name="icon_list_alt">&#xF022;</string>
     <string name="icon_trophy">&#xF091;</string>
+    <string name="icon_edit">&#xF044;</string>
+    <string name="icon_star">&#xF00;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
     
 </resources>
