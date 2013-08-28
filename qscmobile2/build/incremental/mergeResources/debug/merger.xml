@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merger>
 
+    <dataSet config="Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar" >
+        <source path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res" >
+            <file
+                name="ic_launcher"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-xhdpi\ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="shadow_bottom"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-xhdpi\shadow_bottom.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="shadow_left"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-xhdpi\shadow_left.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="shadow_right"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-xhdpi\shadow_right.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\drawable-xxhdpi\ic_launcher.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                path="C:\qscmobile2Project\qscmobile2\build\exploded-bundles\Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar\res\values\values.xml"
+                qualifiers="" >
+                <declare-styleable name="SwipeBackLayout" >
+                    <attr
+                        name="EdgeSize"
+                        format="dimension" />
+                    <attr
+                        name="EdgeFlag"
+                        format="enum" />
+                    <attr
+                        name="ShadowLeft"
+                        format="reference" />
+                    <attr
+                        name="ShadowRight"
+                        format="reference" />
+                    <attr
+                        name="ShadowBottom"
+                        format="reference" />
+                </declare-styleable>
+
+                <style name="SwipeBackLayout" >
+                    <item name="EdgeSize">
+20dip
+                    </item>
+                    <item name="ShadowLeft">
+@drawable/shadow_left
+                    </item>
+                    <item name="ShadowRight">
+@drawable/shadow_right
+                    </item>
+                    <item name="ShadowBottom">
+@drawable/shadow_bottom
+                    </item>
+                </style>
+
+                <attr
+                    name="SwipeBackLayoutStyle"
+                    format="reference" />
+            </file>
+        </source>
+    </dataSet>
     <dataSet config="main" >
         <source path="C:\qscmobile2Project\qscmobile2\src\main\res" >
             <file

@@ -1,1 +1,2 @@
 include ':qscmobile2'
+include ':qscmobile2:libs:library'

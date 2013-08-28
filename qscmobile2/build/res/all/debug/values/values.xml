@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/build/exploded-bundles/Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar/res/values/values.xml -->
+    <attr name="SwipeBackLayoutStyle" format="reference" />
     <!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/color.xml -->
     <color name="black">#000000</color>
     <color name="black_text">#010000</color>
@@ -12,6 +14,14 @@
     <color name="list_odd">#F7F7F7</color>
     <color name="red">#F73536</color>
     <color name="white">#FFFFFF</color>
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/build/exploded-bundles/Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar/res/values/values.xml -->
+    <declare-styleable name="SwipeBackLayout">
+        <attr name="EdgeSize" format="dimension" />
+        <attr name="EdgeFlag" format="enum" />
+        <attr name="ShadowLeft" format="reference" />
+        <attr name="ShadowRight" format="reference" />
+        <attr name="ShadowBottom" format="reference" />
+    </declare-styleable>
     <!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/dimens.xml -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -58,6 +68,13 @@
 
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/build/exploded-bundles/Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar/res/values/values.xml -->
+    <style name="SwipeBackLayout">
+        <item name="EdgeSize">20dip</item>
+        <item name="ShadowLeft">@drawable/shadow_left</item>
+        <item name="ShadowRight">@drawable/shadow_right</item>
+        <item name="ShadowBottom">@drawable/shadow_bottom</item>
     </style>
 
 </resources>

@@ -17,6 +17,34 @@ public final class R {
         public static final int push_up_out=0x7f040005;
     }
     public static final class attr {
+        public static final int EdgeFlag=0x7f010002;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int EdgeSize=0x7f010001;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int ShadowBottom=0x7f010005;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int ShadowLeft=0x7f010003;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int ShadowRight=0x7f010004;
+        /**  From: file:/C:/qscmobile2Project/qscmobile2/build/exploded-bundles/Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar/res/values/values.xml 
+         <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int SwipeBackLayoutStyle=0x7f010000;
     }
     public static final class color {
         /**  From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/color.xml 
@@ -57,14 +85,17 @@ public final class R {
         public static final int login_btn2=0x7f02000d;
         public static final int login_frame=0x7f02000e;
         public static final int shadow_bg=0x7f02000f;
-        public static final int user_switch_background1=0x7f020010;
-        public static final int user_switch_background2=0x7f020011;
-        public static final int user_switch_icon_arrow=0x7f020012;
-        public static final int user_switch_icon_circle=0x7f020013;
-        public static final int user_switch_icon_plus=0x7f020014;
-        public static final int user_switch_icon_right=0x7f020015;
-        public static final int user_switch_icon_user=0x7f020016;
-        public static final int user_switch_icon_wrong=0x7f020017;
+        public static final int shadow_bottom=0x7f020010;
+        public static final int shadow_left=0x7f020011;
+        public static final int shadow_right=0x7f020012;
+        public static final int user_switch_background1=0x7f020013;
+        public static final int user_switch_background2=0x7f020014;
+        public static final int user_switch_icon_arrow=0x7f020015;
+        public static final int user_switch_icon_circle=0x7f020016;
+        public static final int user_switch_icon_plus=0x7f020017;
+        public static final int user_switch_icon_right=0x7f020018;
+        public static final int user_switch_icon_user=0x7f020019;
+        public static final int user_switch_icon_wrong=0x7f02001a;
     }
     public static final class id {
         public static final int action_settings=0x7f0a004d;
@@ -226,5 +257,84 @@ public final class R {
         /**  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
+        /**  From: file:/C:/qscmobile2Project/qscmobile2/build/exploded-bundles/Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar/res/values/values.xml 
+         */
+        public static final int SwipeBackLayout=0x7f080002;
     }
+    public static final class styleable {
+        /**  From: file:/C:/qscmobile2Project/qscmobile2/build/exploded-bundles/Qscmobile2ProjectQscmobile2LibsLibraryUnspecified.aar/res/values/values.xml 
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #SwipeBackLayout_EdgeFlag com.myqsc.qscmobile2:EdgeFlag}</code></td><td></td></tr>
+           <tr><td><code>{@link #SwipeBackLayout_EdgeSize com.myqsc.qscmobile2:EdgeSize}</code></td><td></td></tr>
+           <tr><td><code>{@link #SwipeBackLayout_ShadowBottom com.myqsc.qscmobile2:ShadowBottom}</code></td><td></td></tr>
+           <tr><td><code>{@link #SwipeBackLayout_ShadowLeft com.myqsc.qscmobile2:ShadowLeft}</code></td><td></td></tr>
+           <tr><td><code>{@link #SwipeBackLayout_ShadowRight com.myqsc.qscmobile2:ShadowRight}</code></td><td></td></tr>
+           </table>
+           @see #SwipeBackLayout_EdgeFlag
+           @see #SwipeBackLayout_EdgeSize
+           @see #SwipeBackLayout_ShadowBottom
+           @see #SwipeBackLayout_ShadowLeft
+           @see #SwipeBackLayout_ShadowRight
+         */
+        public static final int[] SwipeBackLayout = {
+            0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004,
+            0x7f010005
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.myqsc.qscmobile2.R.attr#EdgeFlag}
+          attribute's value can be found in the {@link #SwipeBackLayout} array.
+          @attr name android:EdgeFlag
+        */
+        public static final int SwipeBackLayout_EdgeFlag = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.myqsc.qscmobile2.R.attr#EdgeSize}
+          attribute's value can be found in the {@link #SwipeBackLayout} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:EdgeSize
+        */
+        public static final int SwipeBackLayout_EdgeSize = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.myqsc.qscmobile2.R.attr#ShadowBottom}
+          attribute's value can be found in the {@link #SwipeBackLayout} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:ShadowBottom
+        */
+        public static final int SwipeBackLayout_ShadowBottom = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.myqsc.qscmobile2.R.attr#ShadowLeft}
+          attribute's value can be found in the {@link #SwipeBackLayout} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:ShadowLeft
+        */
+        public static final int SwipeBackLayout_ShadowLeft = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.myqsc.qscmobile2.R.attr#ShadowRight}
+          attribute's value can be found in the {@link #SwipeBackLayout} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:ShadowRight
+        */
+        public static final int SwipeBackLayout_ShadowRight = 3;
+    };
 }

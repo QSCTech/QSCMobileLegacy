@@ -1,0 +1,17 @@
+int attr EdgeFlag 0x7f010002
+int attr EdgeSize 0x7f010001
+int attr ShadowBottom 0x7f010005
+int attr ShadowLeft 0x7f010003
+int attr ShadowRight 0x7f010004
+int attr SwipeBackLayoutStyle 0x7f010000
+int drawable ic_launcher 0x7f020000
+int drawable shadow_bottom 0x7f020001
+int drawable shadow_left 0x7f020002
+int drawable shadow_right 0x7f020003
+int style SwipeBackLayout 0x7f030000
+int[] styleable SwipeBackLayout { 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 }
+int styleable SwipeBackLayout_EdgeFlag 1
+int styleable SwipeBackLayout_EdgeSize 0
+int styleable SwipeBackLayout_ShadowBottom 4
+int styleable SwipeBackLayout_ShadowLeft 2
+int styleable SwipeBackLayout_ShadowRight 3
