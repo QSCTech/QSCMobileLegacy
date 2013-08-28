@@ -6,6 +6,7 @@ import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 
@@ -79,10 +80,7 @@ public class UserSelectionAdapter extends BaseAdapter{
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(mContext.getApplicationContext(), LoginActivity.class);
-					LogHelper.d("new login started");
-					((Activity)mContext).startActivity(intent);
-					((Activity)mContext).overridePendingTransition(R.anim.push_up_in, R.anim.fade_out);
+					mContext.sendBroadcast(new Intent(BroadcastHelper.BROADCAST_NEW_USER));
 				}
 			});
 			return convertView;

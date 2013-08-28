@@ -7,10 +7,12 @@ import com.myqsc.qscmobile2.fragment.AboutUsActivity;
 import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
+import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -38,6 +40,9 @@ public class MainActivity extends FragmentActivity {
 
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
 		registerReceiver(new aboutusReceiver(), intentFilter);
+
+        IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
+        registerReceiver(new newUserReceiver(), intentFilter2);
 	}
 
     @Override
@@ -90,5 +95,14 @@ public class MainActivity extends FragmentActivity {
             overridePendingTransition(R.anim.right_push_in, 0);
 		}
 	}
+
+    private class newUserReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_up_in, R.anim.fade_out);
+        }
+    }
 
 }

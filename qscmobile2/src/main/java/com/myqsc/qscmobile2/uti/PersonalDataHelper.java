@@ -9,6 +9,7 @@ import com.myqsc.qscmobile2.support.database.table.UserIDTable;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -54,8 +55,6 @@ public class PersonalDataHelper {
 	public List<UserIDStructure> allUser(){
 		List<UserIDStructure> userList = new ArrayList<UserIDStructure>();
 		
-//		for (long i = 3120000000L; i != 3120000010L; ++i)
-//			addUser(String.valueOf(i), String.valueOf(i));
 		SQLiteDatabase db = helper.getReadableDatabase();
 		
 		Cursor cursor = db.rawQuery("SELECT * FROM " + UserIDTable.TABLE_NAME, null);
@@ -71,6 +70,7 @@ public class PersonalDataHelper {
 		
 		cursor.close();
 		db.close();
+
 		return userList;
 	}
 	
