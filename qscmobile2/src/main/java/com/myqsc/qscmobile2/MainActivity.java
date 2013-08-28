@@ -3,16 +3,13 @@ package com.myqsc.qscmobile2;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.myqsc.qscmobile2.fragment.AboutUsFragment;
+import com.myqsc.qscmobile2.fragment.AboutUsActivity;
 import com.myqsc.qscmobile2.fragment.CardFragment;
-import com.myqsc.qscmobile2.fragment.EmptyFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -23,17 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 
 public class MainActivity extends FragmentActivity {
 
@@ -94,8 +81,9 @@ public class MainActivity extends FragmentActivity {
 	private class aboutusReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-            Intent intent1 = new Intent(getApplicationContext(), AboutUsFragment.class);
+            Intent intent1 = new Intent(getApplicationContext(), AboutUsActivity.class);
             startActivity(intent1);
+            overridePendingTransition(R.anim.right_push_in, 0);
 		}
 	}
 

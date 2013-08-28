@@ -9,15 +9,28 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 @SuppressLint("NewApi")
-public class ExamActivity extends FragmentActivity {
+public class ExamActivity extends SwipeBackActivity {
 	int check = 1;
-	
-	TextView icon_right, text_right, icon_left, text_left;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            finish();
+            overridePendingTransition(0, R.anim.right_push_out);
+            return true;
+        }
+        return false;
+    }
+
+    TextView icon_right, text_right, icon_left, text_left;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -27,7 +27,7 @@
         <activity android:name=".xiaoche.XiaocheActivity"></activity>
         <activity android:name=".login.LoginActivity"></activity>
         <activity android:name=".curriculum.CurriculumActivity"></activity>
-        <activity android:name=".fragment.AboutUsFragment"></activity>
+        <activity android:name=".fragment.AboutUsActivity"></activity>
     </application>
 
 </manifest>

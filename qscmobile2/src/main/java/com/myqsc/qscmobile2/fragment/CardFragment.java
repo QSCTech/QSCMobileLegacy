@@ -88,7 +88,6 @@ public class CardFragment extends Fragment {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 
 	private void fragmentInflate(LinearLayout linearLayout,
