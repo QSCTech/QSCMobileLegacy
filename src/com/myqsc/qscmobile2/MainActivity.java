@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myqsc.qscmobile2.fragment.AboutUsFragment;
 import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.EmptyFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
@@ -12,9 +13,7 @@ import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
-import ViewPager.ZoomOutPageTransformer;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,23 +26,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 
 public class MainActivity extends FragmentActivity {
 
