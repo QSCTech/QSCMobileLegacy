@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:textColor="@color/blue_text"
+        android:textStyle="bold"
+        android:text="12:17" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:textColor="@color/gray_text"
+        android:text="冬" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:textSize="18sp"
+        android:textColor="@color/blue_text"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="45dp"
+        android:text="第五周\n星期二" />
+
+</LinearLayout>
+<!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/layout/card_fragment_xiaoli.xml -->

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/color.xml -->
+    <color name="black">#000000</color>
+    <color name="black_text">#010000</color>
+    <color name="blue">#007AEE</color>
+    <color name="blue_tap">#2691F7</color>
+    <color name="blue_text">#007EF6</color>
+    <color name="gray_text">#cccccc</color>
+    <color name="list_even">#F2F2F2</color>
+    <color name="list_odd">#F7F7F7</color>
+    <color name="red">#F73536</color>
+    <color name="white">#FFFFFF</color>
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/dimens.xml -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="login_activity_vertical_margin">30dp</dimen>
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/strings.xml -->
+    <string name="action_settings">Settings</string>
+    <string name="app_name">QSCMobile2</string>
+    <string name="copyright_text1">Copyright 2000-2013 浙江大学求是潮工作团队</string>
+    <string name="copyright_text2">All Rights Reversed</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="icon_calendar"></string>
+    <string name="icon_chevron_left"></string>
+    <string name="icon_chevron_right"></string>
+    <string name="icon_circle_blank"></string>
+    <string name="icon_copy"></string>
+    <string name="icon_edit"></string>
+    <string name="icon_exchange"></string>
+    <string name="icon_file_alt"></string>
+    <string name="icon_group"></string>
+    <string name="icon_heart"></string>
+    <string name="icon_info"></string>
+    <string name="icon_list_alt"></string>
+    <string name="icon_lock"></string>
+    <string name="icon_minus_sign"></string>
+    <string name="icon_ok_circle"></string>
+    <string name="icon_ok_sign"></string>
+    <string name="icon_plus"></string>
+    <string name="icon_star">ༀ</string>
+    <string name="icon_trophy"></string>
+    <string name="icon_user"></string>
+    <string name="login_btn">登录</string>
+    <string name="login_pwd">输入教务网密码</string>
+    <string name="login_text">你好:) 我是 MOBILE</string>
+    <string name="login_uid">输入学号</string>
+    <string name="title_activity_curriculum">课表么么哒</string>
+    <!-- From: file:/C:/qscmobile2Project/qscmobile2/src/main/res/values/styles.xml -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+</resources>
