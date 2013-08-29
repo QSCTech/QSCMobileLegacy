@@ -17,6 +17,7 @@ public class KebiaoClassData {
 
     String name, teacher, place;
     int week = 0, year = 0, time = 0;
+    int classes[] = null;
 
     public KebiaoClassData(){
 
@@ -55,6 +56,11 @@ public class KebiaoClassData {
                 data.place = object.getString("place");
                 data.time = object.getInt("weekday");
                 data.year = year;
+
+                JSONArray classArray = object.getJSONArray("class");
+                data.classes = new int[classArray.length()];
+                for(int k = 0; k != classArray.length(); ++k)
+                    data.classes[k] = classArray.getInt(k);
 
                 String week = object.getString("week");
                 if (week.compareTo("both") == 0)
