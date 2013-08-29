@@ -33,6 +33,11 @@ public abstract class UpdateKebiaoAsyncTask extends AsyncTask<Void, Message, Mes
     }
 
     @Override
+    protected void onPostExecute(Message message) {
+        onHandleMessage(message);
+    }
+
+    @Override
     protected Message doInBackground(Void... voids) {
         Message message = new Message();
 

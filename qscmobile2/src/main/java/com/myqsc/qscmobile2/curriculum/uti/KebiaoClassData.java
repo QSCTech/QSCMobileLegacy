@@ -13,14 +13,10 @@ import java.util.List;
 public class KebiaoClassData {
     final static String PREFERENCE = "KEBIAO_DATA";
 
-    final static String WEEK_NAME[] = {
-        "周一", "周二", "周三", "周四", "周五", "周六", "周日"
-    };
-
     final static int WEEK_BOTH = 0, WEEK_ODD = 1, WEEK_EVEN = 2;
 
-    String name, teacher, time, place;
-    int week = 0, year = 0;
+    String name, teacher, place;
+    int week = 0, year = 0, time = 0;
 
     public KebiaoClassData(){
 
@@ -33,8 +29,11 @@ public class KebiaoClassData {
             String rawYear = jsonObject.getString("year");
             int year = Integer.valueOf(rawYear.substring(0, 4));
 
+            List<KebiaoClassData> temp = parseYear(jsonObject.getJSONArray("data"), year);
+            for (int j = 0; j != temp.size(); ++j)
+                list.add(temp.get(j));
         }
-        return null;
+        return list;
     }
 
     public static List<KebiaoClassData> parseYear(JSONArray jsonArray, int year) throws JSONException{
@@ -54,7 +53,8 @@ public class KebiaoClassData {
                 data.name = name;
                 data.teacher = teacher;
                 data.place = object.getString("place");
-                data.time = WEEK_NAME[object.getInt("weekday")];
+                data.time = object.getInt("weekday");
+                data.year = year;
 
                 String week = object.getString("week");
                 if (week.compareTo("both") == 0)

@@ -1,6 +1,7 @@
 package com.myqsc.qscmobile2.curriculum.fragment;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
