@@ -42,4 +42,11 @@
                 android:gravity="center"
                 android:id="@+id/fragment_kebiao_everyday_icon_right"/>
     </LinearLayout>
+
+    <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@color/white"
+            android:dividerHeight="2dp"
+            android:id="@+id/fragment_kebiao_everyday_listview"/>
 </LinearLayout>

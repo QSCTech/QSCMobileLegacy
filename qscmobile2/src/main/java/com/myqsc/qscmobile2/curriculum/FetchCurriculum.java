@@ -13,25 +13,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
+import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 
 /**
- * 获取课程信息. 子类需要覆写{@code onPostExecute}作为回调函数。
+ * 获取课程信息. 抽象类，需要重写 handleAsyncTaskMessage 接口
  * 
  * @see CourseData
  * @author LL
  */
-public class FetchCurriculum extends AsyncTask<Integer, Integer, Message> {
+public abstract class FetchCurriculum extends AsyncTask<Integer, Integer, Message>
+        implements HandleAsyncTaskMessage{
 
 	final static public int FROM_WEB = 1;
 	
 	UserIDStructure user;
+    Context mContext = null;
 	
-	public FetchCurriculum(UserIDStructure user) {
+	public FetchCurriculum(UserIDStructure user, Context context) {
 		this.user = user;
+        this.mContext = context;
 	}
 	
 	@Override
@@ -42,21 +48,16 @@ public class FetchCurriculum extends AsyncTask<Integer, Integer, Message> {
 			msg.obj = "未指定获取方式";
 			return msg;
 		}
-		// TODO 本地获取
-		switch (methods[0]) {
-		case -1:
-			return fake();
-		case FROM_WEB:
-			return fetchFromWeb();
-		default:
-			Message msg = new Message();
-			msg.what = 1;
-			msg.obj = "获取方式错误";
-			return msg;
-		}
+        return fetchFromWeb();
 	}
-	
-	private Message fake() {
+
+    @Override
+    protected void onPostExecute(Message message) {
+        super.onPostExecute(message);
+        onHandleMessage(message);
+    }
+
+    private Message fake() {
 		Message msg = new Message();
 		String result = "[{    \"id\": \"211G0060\",    \"name\": \"大学计算机基础\",    \"teacher\": \"陈建海\",    \"semester\": \"秋冬\",    \"hash\": \"15c56f3c10af0ab6f3c20a519886805e\",    \"class\": [	{	    \"week\": \"both\",	    \"weekday\": \"3\",	    \"place\": \"紫金港东1A-301(多)\",	    \"class\": [		\"1\",		\"2\"	    ]	},	{	    \"week\": \"odd\",	    \"weekday\": \"4\",	    \"place\": \"紫金港机房\",	    \"class\": [		\"3\",		\"4\"	    ]	}    ]},{    \"id\": \"371E0010\",    \"name\": \"形势与政策Ⅰ\",    \"teacher\": \"赵朝霞\",    \"semester\": \"秋冬\",    \"hash\": \"fb5e04f179cfabe555ad90ba4128d034\",    \"class\": [	{	    \"week\": \"odd\",	    \"weekday\": \"7\",	   \"place\": \"紫金港东1B-306(多)\",	    \"class\": [		\"11\",		\"12\"	    ]	}]}]";
 		msg.what = 0;
@@ -86,9 +87,11 @@ public class FetchCurriculum extends AsyncTask<Integer, Integer, Message> {
 			}
 			String result = EntityUtils.toString(httpResponse.getEntity());
 			
-			// TODO 保存课表到本地
-			
 			msg.obj = convert(result);
+
+            KebiaoDataHelper helper = new KebiaoDataHelper(mContext);
+            helper.set(result);
+
 		} catch (ClientProtocolException e) {
 			msg.what = 1;
 			msg.obj = "网络初始化失败，请确定网络已经连接";

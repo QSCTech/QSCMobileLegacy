@@ -10,6 +10,8 @@ public class ClassData implements Comparable<ClassData> {
 	public String teacher;
 	public String time;
 	public String place;
+
+    public final static String PREFERENCE = "CLASSDATA";
 	
 	ClassData(String name,String teacher,String time,String place) {
 		this.name = name;
@@ -17,6 +19,8 @@ public class ClassData implements Comparable<ClassData> {
 		this.time = time;
 		this.place =place;
 	}
+
+
 
 	@Override
 	public int compareTo(ClassData another) {
