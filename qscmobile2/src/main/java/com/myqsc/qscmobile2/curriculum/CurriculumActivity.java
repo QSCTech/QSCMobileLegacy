@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 
-public class CurriculumActivity extends Activity {
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+public class CurriculumActivity extends SwipeBackActivity {
 
 	LinearLayout cardList;
 	@Override

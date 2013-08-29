@@ -62,14 +62,14 @@ public class MainActivity extends FragmentActivity {
 		vPager.setAdapter(adapter);
         vPager.setCurrentItem(page);
 		final Handler handler = new Handler();
-		handler.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				getThisProcessMemeryInfo();
-				handler.postDelayed(this, 1000);
-			}
-		});
+//		handler.post(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				getThisProcessMemeryInfo();
+//				handler.postDelayed(this, 1000);
+//			}
+//		});
 	}
 	
 	public void getThisProcessMemeryInfo() {
@@ -104,5 +104,4 @@ public class MainActivity extends FragmentActivity {
             overridePendingTransition(R.anim.push_up_in, R.anim.fade_out);
         }
     }
-
 }

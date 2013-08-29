@@ -47,7 +47,6 @@ android {
             signingConfig signingConfigs.myConfig
         }
         debug {
-            signingConfig signingConfigs.myConfig
         }
     }
 }
