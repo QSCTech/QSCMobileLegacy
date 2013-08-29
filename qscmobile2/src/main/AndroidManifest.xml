@@ -26,7 +26,6 @@
         <activity android:name=".exam.ExamActivity"></activity>
         <activity android:name=".xiaoche.XiaocheActivity"></activity>
         <activity android:name=".login.LoginActivity"></activity>
-        <activity android:name=".curriculum.CurriculumActivity"></activity>
         <activity android:name=".fragment.AboutUsActivity"></activity>
     </application>
 

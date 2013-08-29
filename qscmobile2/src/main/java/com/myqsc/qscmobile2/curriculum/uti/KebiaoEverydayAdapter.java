@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.curriculum.ClassData;
 
 import java.util.List;
 
@@ -16,11 +15,11 @@ import java.util.List;
  * Created by richard on 13-8-29.
  */
 public class KebiaoEverydayAdapter extends BaseAdapter {
-    List<ClassData> list = null;
+    List<KebiaoClassData> list = null;
     Context mContext = null;
     LayoutInflater mInflater = null;
 
-    public KebiaoEverydayAdapter(List<ClassData> list, Context context) {
+    public KebiaoEverydayAdapter(List<KebiaoClassData> list, Context context) {
         this.list = list;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
@@ -57,7 +56,7 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ClassData structure = list.get(i);
+        KebiaoClassData structure = list.get(i);
 
         holder.name.setText(structure.name);
         holder.teacher.setText(structure.teacher);

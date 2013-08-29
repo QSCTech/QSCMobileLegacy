@@ -1,7 +1,6 @@
 package com.myqsc.qscmobile2.curriculum.fragment;
 
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.SubscriptSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

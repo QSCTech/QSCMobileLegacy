@@ -9,7 +9,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoEverydayAdapter;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+
+import java.util.List;
 
 /**
  * Created by richard on 13-8-29.
@@ -26,6 +30,11 @@ public class KebiaoEverydayFragment extends Fragment {
 
         kebiaoListView = (ListView) view.findViewById(R.id.fragment_kebiao_everyday_listview);
         return view;
+    }
+
+    private void setListData(List<KebiaoClassData> data){
+        KebiaoEverydayAdapter adapter = new KebiaoEverydayAdapter(data, getActivity());
+        kebiaoListView.setAdapter(adapter);
     }
 
 
