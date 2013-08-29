@@ -28,8 +28,34 @@ android {
         minSdkVersion 7
         targetSdkVersion 16
     }
+
+
+
+    signingConfigs {
+        myConfig{
+            storeFile file("cert/keystore")
+            storePassword "password"
+            keyAlias "qscdebug"
+            keyPassword "password"
+        }
+    }
+
+    buildTypes{
+        release {
+            runProguard true
+            proguardFile 'cert/proguard-project.txt'
+            signingConfig signingConfigs.myConfig
+        }
+        debug {
+            signingConfig signingConfigs.myConfig
+        }
+    }
 }
 
 tasks.withType(Compile) {
     options.encoding = "UTF-8"
 }
+
+
+
+
