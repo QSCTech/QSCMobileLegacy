@@ -7,9 +7,11 @@ import com.myqsc.qscmobile2.fragment.AboutUsActivity;
 import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
+import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -27,22 +29,28 @@ public class MainActivity extends FragmentActivity {
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
 	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
+    int page = 0;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+        MobclickAgent.setDebugMode( true );
 		setContentView(R.layout.activity_main);
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
 		registerReceiver(new aboutusReceiver(), intentFilter);
+
+        IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
+        registerReceiver(new newUserReceiver(), intentFilter2);
 	}
 
     @Override
 	protected void onResume() {
 		super.onResume();
-		
+        MobclickAgent.onResume(this);
+
 		final FunctionListFragment functionListFragment = new FunctionListFragment();
 		
 		final CardFragment cardFragment = new CardFragment();
@@ -54,15 +62,16 @@ public class MainActivity extends FragmentActivity {
 		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
 		
 		vPager.setAdapter(adapter);
+        vPager.setCurrentItem(page);
 		final Handler handler = new Handler();
-		handler.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				getThisProcessMemeryInfo();
-				handler.postDelayed(this, 1000);
-			}
-		});
+//		handler.post(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				getThisProcessMemeryInfo();
+//				handler.postDelayed(this, 1000);
+//			}
+//		});
 	}
 	
 	public void getThisProcessMemeryInfo() {
@@ -75,7 +84,10 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+        MobclickAgent.onPause(this);
+        page = vPager.getCurrentItem();
 		fragmentList.clear();
+        adapter.notifyDataSetChanged();
 	}
 	
 	private class aboutusReceiver extends BroadcastReceiver{
@@ -87,4 +99,12 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+    private class newUserReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_up_in, R.anim.fade_out);
+        }
+    }
 }

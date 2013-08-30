@@ -22,7 +22,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Message;
 
-public abstract class UpdateXiaocheAsyncTask extends AsyncTask<Void, Message, Message> implements HandleAsyncTaskMessage {
+public abstract class UpdateXiaocheAsyncTask extends AsyncTask<Void, Message, Message>
+        implements HandleAsyncTaskMessage {
 	final String url = "http://m.myqsc.com/dev/share/xiaoche";
 	Context mContext = null;
 	public UpdateXiaocheAsyncTask(Context context){

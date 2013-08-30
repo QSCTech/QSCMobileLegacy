@@ -9,6 +9,7 @@ import com.myqsc.qscmobile2.support.database.table.UserIDTable;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,7 +34,7 @@ public class PersonalDataHelper {
 		ContentValues values = new ContentValues();
 		values.put(UserIDTable.UID, uid);
 		values.put(UserIDTable.PWD, pwd);
-		values.put(UserIDTable.SELECTION, 0);
+		values.put(UserIDTable.SELECTION, 1);
 		
 		LogHelper.i("Insert INTO db:" + uid);
 		db.insert(UserIDTable.TABLE_NAME, null, values);
@@ -44,25 +45,16 @@ public class PersonalDataHelper {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.rawQuery("UPDATE " + UserIDTable.TABLE_NAME 
 				+ " SET "
-				+ UserIDTable.SELECTION + "=1", null);
+				+ UserIDTable.SELECTION + "=0", null);
 		cursor.close();
 		db.close();
 		addUser(uid, pwd);
 		
-		db = helper.getWritableDatabase();
-		db.rawQuery("UPDATE " + UserIDTable.TABLE_NAME
-				+ " SET "
-				+ UserIDTable.SELECTION + "=1"
-				+ " WHERE "
-				+ UserIDTable.UID + "=?;", new String[] {uid});
-		db.close();
 	}
 	
 	public List<UserIDStructure> allUser(){
 		List<UserIDStructure> userList = new ArrayList<UserIDStructure>();
 		
-//		for (long i = 3120000000L; i != 3120000010L; ++i)
-//			addUser(String.valueOf(i), String.valueOf(i));
 		SQLiteDatabase db = helper.getReadableDatabase();
 		
 		Cursor cursor = db.rawQuery("SELECT * FROM " + UserIDTable.TABLE_NAME, null);
@@ -78,6 +70,7 @@ public class PersonalDataHelper {
 		
 		cursor.close();
 		db.close();
+
 		return userList;
 	}
 	

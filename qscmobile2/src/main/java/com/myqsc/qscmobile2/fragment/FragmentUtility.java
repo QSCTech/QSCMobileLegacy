@@ -6,7 +6,7 @@ import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.chengji.fragment.ChengjiCardFragment;
 import com.myqsc.qscmobile2.exam.fragment.ExamCardFragment;
 import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
-import com.myqsc.qscmobile2.kebiao.fragment.KebiaoCardFragment;
+import com.myqsc.qscmobile2.curriculum.fragment.KebiaoCardFragment;
 import com.myqsc.qscmobile2.uti.LogHelper;
 
 

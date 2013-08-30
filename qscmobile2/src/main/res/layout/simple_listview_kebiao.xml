@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:orientation="vertical" >
+    <TextView
+            android:id="@+id/kebiao_list_course_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/blue_text"
+            android:layout_marginTop="10dp"
+            />
+    <TextView
+            android:id="@+id/kebiao_list_teacher"
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue_text"
+            />
+    <TextView
+            android:layout_marginTop="7dp"
+            android:id="@+id/kebiao_list_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black_text"
+            />
+    <TextView
+            android:layout_marginTop="7dp"
+            android:id="@+id/kebiao_list_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black_text"
+            android:layout_marginBottom="10dp"
+            />
+
+</LinearLayout>
