@@ -32,7 +32,7 @@ public class FunctionListAdapter extends BaseAdapter {
 
 		IntentFilter intentFilter = new IntentFilter(
 				BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
-		mContext.registerReceiver(new receiver(), intentFilter);
+		mContext.registerReceiver(new FunctionItemClickReceiver(), intentFilter);
 		
 		for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
 			FunctionStructure structure = new FunctionStructure();
@@ -131,7 +131,7 @@ public class FunctionListAdapter extends BaseAdapter {
 		TextView icon_left, icon_right, name;
 	}
 
-	private class receiver extends BroadcastReceiver {
+	private class FunctionItemClickReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
