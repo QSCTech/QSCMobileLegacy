@@ -1,10 +1,7 @@
-package com.myqsc.qscmobile2.fragment;
+package com.myqsc.qscmobile2;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
@@ -17,8 +14,7 @@ public class AboutUsActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_about_us);
-        AwesomeFontHelper.setFontFace((TextView) findViewById(R.id.fragment_aboutus_icon), this);
+        setContentView(R.layout.activity_about_us);
     }
 
     @Override

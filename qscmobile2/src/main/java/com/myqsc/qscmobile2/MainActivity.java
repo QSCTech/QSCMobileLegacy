@@ -3,7 +3,6 @@ package com.myqsc.qscmobile2;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.myqsc.qscmobile2.fragment.AboutUsActivity;
 import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;

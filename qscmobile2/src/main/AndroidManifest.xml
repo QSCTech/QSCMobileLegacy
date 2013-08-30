@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myqsc.qscmobile2"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -40,7 +40,7 @@
         <activity android:name=".exam.ExamActivity"></activity>
         <activity android:name=".xiaoche.XiaocheActivity"></activity>
         <activity android:name=".login.LoginActivity"></activity>
-        <activity android:name=".fragment.AboutUsActivity"></activity>
+        <activity android:name=".AboutUsActivity"></activity>
         <activity android:name=".curriculum.CurriculumActivity"></activity>
     </application>
 
