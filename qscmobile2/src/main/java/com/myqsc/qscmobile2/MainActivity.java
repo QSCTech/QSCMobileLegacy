@@ -13,7 +13,6 @@ import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +34,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+        MobclickAgent.setDebugMode( true );
 		setContentView(R.layout.activity_main);
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
