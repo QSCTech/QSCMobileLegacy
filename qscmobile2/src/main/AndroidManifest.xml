@@ -8,6 +8,11 @@
         android:minSdkVersion="7"
         android:targetSdkVersion="16" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+
+    <meta-data android:value="YOUR_APP_KEY" android:name="52207a9e56240b330d01a7c3"></meta-data>
+    <meta-data android:value="Channel ID" android:name="QSC_TEST"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -26,8 +31,8 @@
         <activity android:name=".exam.ExamActivity"></activity>
         <activity android:name=".xiaoche.XiaocheActivity"></activity>
         <activity android:name=".login.LoginActivity"></activity>
-        <activity android:name=".curriculum.CurriculumActivity"></activity>
         <activity android:name=".fragment.AboutUsActivity"></activity>
+        <activity android:name=".curriculum.CurriculumActivity"></activity>
     </application>
 
 </manifest>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
@@ -28,5 +29,17 @@ public class AboutUsActivity extends SwipeBackActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 }

@@ -9,6 +9,7 @@ import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.xiaoche.uti.XiaocheAdapter;
 import com.myqsc.qscmobile2.xiaoche.uti.XiaocheDataHelper;
 import com.myqsc.qscmobile2.xiaoche.uti.XiaocheStructure;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,8 +22,20 @@ import android.widget.Toast;
 public class XiaocheActivity extends Activity{
 	ListView listView = null;
 	Context mContext = null;
-	
-	@Override
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_xiaoche);
