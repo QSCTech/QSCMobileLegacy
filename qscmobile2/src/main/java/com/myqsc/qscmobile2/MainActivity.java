@@ -31,6 +31,9 @@ public class MainActivity extends FragmentActivity {
 	ViewPager vPager = null;
     int page = 0;
 
+    AboutUsReceiver aboutUsReceiver = null;
+    NewUserReceiver newUserReceiver = null;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -39,12 +42,22 @@ public class MainActivity extends FragmentActivity {
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 
+        aboutUsReceiver = new AboutUsReceiver();
+        newUserReceiver = new NewUserReceiver();
+
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
-		registerReceiver(new aboutusReceiver(), intentFilter);
+		registerReceiver(aboutUsReceiver, intentFilter);
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
-        registerReceiver(new newUserReceiver(), intentFilter2);
+        registerReceiver(newUserReceiver, intentFilter2);
 	}
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(aboutUsReceiver);
+        unregisterReceiver(newUserReceiver);
+    }
 
     @Override
 	protected void onResume() {
@@ -90,7 +103,7 @@ public class MainActivity extends FragmentActivity {
         adapter.notifyDataSetChanged();
 	}
 	
-	private class aboutusReceiver extends BroadcastReceiver{
+	private class AboutUsReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
             Intent intent1 = new Intent(getApplicationContext(), AboutUsActivity.class);
@@ -99,7 +112,7 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-    private class newUserReceiver extends BroadcastReceiver{
+    private class NewUserReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
             intent = new Intent(getApplicationContext(), LoginActivity.class);
