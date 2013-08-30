@@ -8,6 +8,7 @@ import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.PersonalDataHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoche.XiaocheActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,8 +36,20 @@ public class LoginActivity extends FragmentActivity {
 	EditText pwd = null;
 	Button btn = null;
 	Activity activity = null;
-	
-	@Override
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);

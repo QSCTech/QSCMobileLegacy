@@ -11,11 +11,24 @@ import android.widget.TextView;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.curriculum.fragment.KebiaoEverydayFragment;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class CurriculumActivity extends SwipeBackActivity {
     FragmentManager manager = null;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

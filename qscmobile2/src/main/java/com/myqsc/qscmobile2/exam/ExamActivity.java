@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2.exam;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -19,6 +20,18 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 @SuppressLint("NewApi")
 public class ExamActivity extends SwipeBackActivity {
 	int check = 1;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
