@@ -9,7 +9,10 @@ import android.widget.ListView;
 
 public class Utility {
 	public final static String PREFERENCE = "QSCMobile";
-	
+    public final static int WEEK_BOTH = 0;
+    public final static int WEEK_ODD = 1;
+    public final static int WEEK_EVEN = 2;
+
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter(); 
         if (listAdapter == null) {
