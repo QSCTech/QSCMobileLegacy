@@ -2,6 +2,7 @@ package com.myqsc.qscmobile2.xiaoche;
 
 import java.util.List;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
@@ -48,8 +49,20 @@ public class XiaocheActivity extends Activity{
 		helper.setHandleAsyncTaskMessage(handleAsyncTaskMessage);
 		helper.getBus("紫金港", "玉泉");
 	}
-	
-	final HandleAsyncTaskMessage handleAsyncTaskMessage = new HandleAsyncTaskMessage() {
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    final HandleAsyncTaskMessage handleAsyncTaskMessage = new HandleAsyncTaskMessage() {
 		
 		@Override
 		public void onHandleMessage(Message message) {

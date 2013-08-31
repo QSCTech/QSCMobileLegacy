@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.fragment.CardFragment;
 import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
@@ -58,6 +59,18 @@ public class MainActivity extends FragmentActivity {
         super.onDestroy();
         unregisterReceiver(aboutUsReceiver);
         unregisterReceiver(newUserReceiver);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override

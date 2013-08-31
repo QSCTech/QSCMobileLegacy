@@ -1,6 +1,7 @@
 package com.myqsc.qscmobile2.exam;
 
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -31,6 +32,18 @@ public class ExamActivity extends SwipeBackActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

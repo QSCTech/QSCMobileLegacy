@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.curriculum.fragment.KebiaoEverydayFragment;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
@@ -28,6 +29,18 @@ public class CurriculumActivity extends SwipeBackActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
