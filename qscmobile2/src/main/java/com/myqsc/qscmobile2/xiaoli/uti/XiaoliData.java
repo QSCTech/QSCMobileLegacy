@@ -89,7 +89,12 @@ public class XiaoliData {
 
     public String getDayString(Calendar calendar, boolean reMap) {
         XiaoliWeek xiaoliWeek = getWeekData(calendar, reMap);
-        String string = "第" + CHARS[xiaoliWeek.nth] + "周\n";
+        String string = new String();
+        if (xiaoliWeek == null) {
+            string = "假期中\n";
+        } else {
+            string = "第" + CHARS[xiaoliWeek.nth] + "周\n";
+        }
         string += WEEKS[calendar.get(Calendar.DAY_OF_WEEK)];
         return string;
     }
