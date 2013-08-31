@@ -30,9 +30,12 @@ public class XiaoliEachYearData {
         String termName[] = {
             "chun", "xia", "qiu", "dong", "hanjia", "shujia"
         };
+        char name[] = {
+            '春', '夏', '秋', '冬', '寒', '暑'
+        };
         for(int i = 0; i != termName.length; ++i)
             term[i] = new XiaoliTerm(jsonObject.getJSONObject(termName[i]),
-                    termName[i]);
+                    termName[i], name[i]);
 
         //解析周次信息
         JSONArray weekJSONArray = jsonObject.getJSONArray("weeks");
@@ -74,5 +77,14 @@ public class XiaoliEachYearData {
             }
         }
         return false;
+    }
+
+    public char getTerm(Calendar calendar) {
+        for (XiaoliTerm xiaoliTerm : term) {
+            if (xiaoliTerm.inRange(calendar)) {
+                return xiaoliTerm.name;
+            }
+        }
+        return '无';
     }
 }

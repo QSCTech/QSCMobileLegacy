@@ -11,10 +11,12 @@ import java.util.Calendar;
  */
 public class XiaoliTerm {
     String termName = null;
+    char name = 0x0;
     XiaoliRange range = null;
-    public XiaoliTerm(JSONObject jsonObject, String name) throws JSONException, ParseException {
+    public XiaoliTerm(JSONObject jsonObject, String termName, char name) throws JSONException, ParseException {
         range = new XiaoliRange(jsonObject);
-        this.termName = name;
+        this.termName = termName;
+        this.name = name;
     }
 
     public boolean inRange(Calendar calendar) {

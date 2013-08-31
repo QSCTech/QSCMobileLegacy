@@ -30,6 +30,15 @@ public class XiaoliHelper {
 
     public XiaoliHelper(Context context) {
         this.mContext = context;
+        try {
+            parse();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clear(String result) {
@@ -100,5 +109,19 @@ public class XiaoliHelper {
      */
     public int checkParity(Calendar calendar, boolean withRemap){
         return data.checkParity(calendar, withRemap);
+    }
+
+    /**
+     * 判断今天是哪个学期
+     * @param calendar
+     * @param withReMap
+     * @return
+     */
+    public char getTerm(Calendar calendar, boolean withReMap) {
+        return data.getTerm(calendar, withReMap);
+    }
+
+    public String getDayString(Calendar calendar, boolean withReMap) {
+        return data.getDayString(calendar, withReMap);
     }
 }
