@@ -1,5 +1,6 @@
 package com.myqsc.qscmobile2.login;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.common.view.LoadingFragment;
 import com.myqsc.qscmobile2.exam.ExamActivity;
@@ -47,6 +48,18 @@ public class LoginActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
