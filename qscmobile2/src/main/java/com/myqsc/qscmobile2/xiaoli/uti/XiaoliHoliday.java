@@ -1,0 +1,18 @@
+package com.myqsc.qscmobile2.xiaoli.uti;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+
+/**
+ * Created by richard on 13-8-31.
+ */
+public class XiaoliHoliday {
+    String name = null;
+    XiaoliRange range = null;
+    public XiaoliHoliday(JSONObject jsonObject) throws JSONException, ParseException {
+        name = jsonObject.getString("name");
+        range = new XiaoliRange(jsonObject);
+    }
+}

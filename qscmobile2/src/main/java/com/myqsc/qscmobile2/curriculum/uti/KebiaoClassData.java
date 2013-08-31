@@ -1,5 +1,7 @@
 package com.myqsc.qscmobile2.curriculum.uti;
 
+import com.myqsc.qscmobile2.uti.Utility;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,8 +14,6 @@ import java.util.List;
  */
 public class KebiaoClassData {
     final static String PREFERENCE = "KEBIAO_DATA";
-
-    final static int WEEK_BOTH = 0, WEEK_ODD = 1, WEEK_EVEN = 2;
 
     String name, teacher, place;
     int week = 0, year = 0, time = 0;
@@ -64,11 +64,11 @@ public class KebiaoClassData {
 
                 String week = object.getString("week");
                 if (week.compareTo("both") == 0)
-                    data.week = WEEK_BOTH;
+                    data.week = Utility.WEEK_BOTH;
                     if (week.compareTo("odd") == 0)
-                        data.week = WEEK_ODD;
+                        data.week = Utility.WEEK_ODD;
                     else
-                        data.week = WEEK_BOTH;
+                        data.week = Utility.WEEK_EVEN;
 
                 list.add(data);
             }
