@@ -27,10 +27,4 @@ public class XiaoliHelper {
                 .putString(PREFERENCE, result)
                 .commit();
     }
-
-
-
-
-
-
 }
