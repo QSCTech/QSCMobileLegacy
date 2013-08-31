@@ -13,6 +13,7 @@ import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
+import com.umeng.fb.FeedbackAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +75,13 @@ public class AboutListAdapter extends BaseAdapter {
 			convertView.setBackgroundColor(mContext.getResources().getColor(R.color.list_even));
 		
 		switch (position) {
-		case 0:
-			convertView.setOnClickListener(onAboutusClickListener);
-			break;
+            case 0:
+                convertView.setOnClickListener(onAboutusClickListener);
+                break;
+            case 1:
+                convertView.setOnClickListener(onAdviceClickListener);
+                break;
+
 		default:
 			break;
 		}
@@ -91,6 +96,14 @@ public class AboutListAdapter extends BaseAdapter {
 			mContext.sendBroadcast(intent);
 		}
 	};
+
+    final View.OnClickListener onAdviceClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            FeedbackAgent agent = new FeedbackAgent(mContext);
+            agent.startFeedbackActivity();
+        }
+    };
 	
 	private class ViewHolder{
 		TextView icon_left, icon_right, name;
