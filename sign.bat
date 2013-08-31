@@ -1,0 +1,1 @@
+jarsigner -keystore "qscmobile2\cert\keystore" -keypass "iloveqsctech" -signedjar "qscmobile2\build\apk\qscmobile2-debug-signed.apk" "qscmobile2\build\apk\qscmobile2-debug-unaligned.apk" "qscdebug"

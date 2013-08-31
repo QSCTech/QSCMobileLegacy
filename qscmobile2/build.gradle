@@ -34,7 +34,7 @@ android {
 
 
     signingConfigs {
-        myConfig{
+        debug{
             storeFile file("cert/keystore")
             storePassword "password"
             keyAlias "qscdebug"
@@ -44,9 +44,6 @@ android {
 
     buildTypes{
         release {
-            runProguard true
-            proguardFile 'cert/proguard-project.txt'
-            signingConfig signingConfigs.myConfig
         }
         debug {
         }

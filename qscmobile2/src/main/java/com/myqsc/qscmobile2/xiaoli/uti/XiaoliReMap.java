@@ -16,4 +16,10 @@ public class XiaoliReMap extends XiaoliRange {
         this.from = startTime;
         this.to = endTime;
     }
+
+    public Calendar doRemap(Calendar calendar){
+        if (from.compareTo(calendar) == 0)
+            return to;
+        return calendar;
+    }
 }

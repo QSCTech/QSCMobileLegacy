@@ -1,6 +1,7 @@
 package com.myqsc.qscmobile2;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -11,6 +12,7 @@ import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
+import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -52,6 +54,10 @@ public class MainActivity extends FragmentActivity {
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
+
+        XiaoliHelper helper = new XiaoliHelper(this);
+        helper.update(null);
+        LogHelper.i("本周是：" + helper.checkParity(Calendar.getInstance(), false));
 	}
 
     @Override

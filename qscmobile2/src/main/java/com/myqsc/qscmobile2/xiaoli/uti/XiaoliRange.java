@@ -26,4 +26,17 @@ public class XiaoliRange {
         endTime.clear();
         endTime.setTime(simpleDateFormat.parse(end));
     }
+
+    public boolean inRange(Calendar calendar) {
+        if (startTime.compareTo(calendar) <= 0 && endTime.compareTo(calendar) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return "本周从：" + format.format(startTime.getTime()) + "至：" + format.format(endTime.getTime());
+    }
 }
