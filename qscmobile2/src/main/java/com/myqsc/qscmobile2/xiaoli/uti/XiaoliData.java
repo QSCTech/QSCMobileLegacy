@@ -1,5 +1,7 @@
 package com.myqsc.qscmobile2.xiaoli.uti;
 
+import com.myqsc.qscmobile2.uti.LogHelper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -28,18 +30,30 @@ public class XiaoliData {
         for(XiaoliYearData xiaoliYearData : data) {
             if (xiaoliYearData.range.inRange(calendar)){
                 XiaoliEachYearData xiaoliEachYearData = xiaoliYearData.data;
-                if (withReMap) {
-                    for(XiaoliReMap xiaoliReMap : xiaoliEachYearData.reMap)
-                        calendar = xiaoliReMap.doRemap(calendar);
-                }
-
-                for(XiaoliWeek xiaoliWeek : xiaoliEachYearData.week){
-                    if (xiaoliWeek.inRange(calendar)) {
-                        return xiaoliWeek.type;
+                if (withReMap)
+                    calendar = this.doRemap(calendar);
+                if (xiaoliEachYearData.inSession(calendar)) {
+                    //判断在学期中（非寒暑假）
+                    for(XiaoliWeek xiaoliWeek : xiaoliEachYearData.week){
+                        LogHelper.i(xiaoliWeek.range.toString());
+                        if (xiaoliWeek.inRange(calendar)) {
+                            return xiaoliWeek.type;
+                        }
                     }
                 }
             }
         }
         return -1;
+    }
+
+    public Calendar doRemap(Calendar calendar) {
+        for(XiaoliYearData xiaoliYearData : data) {
+            if (xiaoliYearData.range.inRange(calendar)){
+                XiaoliEachYearData xiaoliEachYearData = xiaoliYearData.data;
+                for(XiaoliReMap xiaoliReMap : xiaoliEachYearData.reMap)
+                    calendar = xiaoliReMap.doRemap(calendar);
+            }
+        }
+        return calendar;
     }
 }

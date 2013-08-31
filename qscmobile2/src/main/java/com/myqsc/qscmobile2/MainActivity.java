@@ -1,6 +1,7 @@
 package com.myqsc.qscmobile2;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -56,6 +57,7 @@ public class MainActivity extends FragmentActivity {
 
         XiaoliHelper helper = new XiaoliHelper(this);
         helper.update(null);
+        LogHelper.i("本周是：" + helper.checkParity(Calendar.getInstance(), false));
 	}
 
     @Override

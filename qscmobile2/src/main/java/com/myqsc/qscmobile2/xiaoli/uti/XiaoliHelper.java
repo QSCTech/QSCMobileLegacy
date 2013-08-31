@@ -99,6 +99,6 @@ public class XiaoliHelper {
      * @param withRemap flase 表示不使用remap的值，true表示使用remap的值
      */
     public int checkParity(Calendar calendar, boolean withRemap){
-
+        return data.checkParity(calendar, withRemap);
     }
 }

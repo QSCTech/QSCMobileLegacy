@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 
 /**
@@ -60,5 +61,18 @@ public class XiaoliEachYearData {
         for (int i = 0; i != remapJSONArray.length(); ++i) {
             reMap[i] = new XiaoliReMap(remapJSONArray.optJSONObject(i));
         }
+    }
+
+    public boolean inSession(Calendar calendar) {
+        for (XiaoliTerm xiaoliTerm : term) {
+            if (xiaoliTerm.inRange(calendar)) {
+                if (xiaoliTerm.termName.compareTo("hanjia") != 0
+                        && xiaoliTerm.termName.compareTo("shujia") != 0) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
     }
 }
