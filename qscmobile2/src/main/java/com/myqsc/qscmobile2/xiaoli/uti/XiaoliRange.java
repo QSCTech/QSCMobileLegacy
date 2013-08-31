@@ -26,4 +26,11 @@ public class XiaoliRange {
         endTime.clear();
         endTime.setTime(simpleDateFormat.parse(end));
     }
+
+    public boolean inRange(Calendar calendar) {
+        if (startTime.compareTo(calendar) < 0 && endTime.compareTo(calendar) > 0) {
+            return true;
+        }
+        return false;
+    }
 }

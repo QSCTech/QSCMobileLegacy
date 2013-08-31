@@ -11,6 +11,7 @@ import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
+import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -52,6 +53,9 @@ public class MainActivity extends FragmentActivity {
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
+
+        XiaoliHelper helper = new XiaoliHelper(this);
+        helper.update(null);
 	}
 
     @Override

@@ -18,6 +18,6 @@ public class XiaoliYearData {
     public XiaoliYearData(JSONObject jsonObject) throws JSONException, ParseException {
         year = Integer.valueOf(jsonObject.getString("year").substring(0, 4));
         range = new XiaoliRange(jsonObject);
-        data = new XiaoliEachYearData(jsonObject.getJSONObject("dtaa"));
+        data = new XiaoliEachYearData(jsonObject.getJSONObject("data"));
     }
 }

@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  * Created by richard on 13-8-31.
@@ -20,5 +21,11 @@ public class XiaoliWeek {
         type = jsonObject.getString("type").compareTo("odd") == 0 ?
                 Utility.WEEK_ODD : Utility.WEEK_EVEN;
         range = new XiaoliRange(jsonObject);
+    }
+
+    public boolean inRange(Calendar calendar) {
+        if (range.inRange(calendar))
+            return true;
+        return false;
     }
 }
