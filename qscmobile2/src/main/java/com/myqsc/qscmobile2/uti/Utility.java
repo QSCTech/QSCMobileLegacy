@@ -2,6 +2,7 @@ package com.myqsc.qscmobile2.uti;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -30,6 +31,14 @@ public class Utility {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    public static String processDiffSecond(int diff){
+        String result = "";
+        if (diff >= 60)
+            result += diff / 60 + "<font size='10sp'>min</font>";
+        result += diff % 60 + "<font size='10sp'>s</font>";
+        return result;
     }
     
 }

@@ -76,6 +76,11 @@ public class XiaoliData {
         return '无';
     }
 
+    /**
+     * 进行日期映射
+     * @param calendar
+     * @return
+     */
     public Calendar doRemap(Calendar calendar) {
         for(XiaoliYearData xiaoliYearData : data) {
             if (xiaoliYearData.range.inRange(calendar)){

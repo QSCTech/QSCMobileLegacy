@@ -140,4 +140,8 @@ public class XiaoliHelper {
     public int getYear(Calendar calendar, boolean withReMap) {
         return data.getYear(calendar, withReMap);
     }
+
+    public Calendar doRemap(Calendar calendar) {
+        return data.doRemap(calendar);
+    }
 }

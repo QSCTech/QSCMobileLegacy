@@ -1,5 +1,6 @@
 package com.myqsc.qscmobile2.curriculum.uti;
 
+import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 
 import org.json.JSONArray;
@@ -64,16 +65,22 @@ public class KebiaoClassData {
                     data.classes[k] = classArray.getInt(k);
 
                 String week = object.getString("week");
-                if (week.compareTo("both") == 0)
+                if (week.compareTo("both") == 0) {
                     data.week = Utility.WEEK_BOTH;
+                } else {
                     if (week.compareTo("odd") == 0)
                         data.week = Utility.WEEK_ODD;
                     else
                         data.week = Utility.WEEK_EVEN;
-
+                }
                 list.add(data);
             }
         }
         return list;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
