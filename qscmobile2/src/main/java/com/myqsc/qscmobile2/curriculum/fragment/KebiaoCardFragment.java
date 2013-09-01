@@ -22,11 +22,13 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class KebiaoCardFragment extends Fragment {
     TextView diffTextView = null;
     TextView noticeTextView = null;
     KebiaoDataHelper helper = null;
+    final Utility utility = new Utility();
 
     TextView nameTextView = null, teacherTextView = null, timeTextView = null, placeTextView = null;
 
@@ -65,15 +67,10 @@ public class KebiaoCardFragment extends Fragment {
             public void onHandleMessage(Message message) {
                 if (message.what == 0)
                     Toast.makeText(getActivity(), (CharSequence) message.obj, Toast.LENGTH_SHORT).show();
-                int diff = Utility.getDiffTime(Calendar.getInstance(),
-                        (List<KebiaoClassData>) message.obj,
-                        new KebiaoUpdateCallback() {
-                            @Override
-                            public void onNextKebiaoNeed(KebiaoClassData kebiaoClassData) {
-                                setClass(kebiaoClassData);
-                            }
-                        });
-                setTime(diff);
+                Map<Integer, Object> map = utility.getDiffTime(Calendar.getInstance(),
+                        (List<KebiaoClassData>) message.obj);
+
+                setTime((Integer) map.get(1), (KebiaoClassData) map.get(3));
             }
         });
 
@@ -87,7 +84,11 @@ public class KebiaoCardFragment extends Fragment {
         handler.removeCallbacks(runnable);
     }
 
-    private void setTime(int diff){
+    private void setTime(int diff, KebiaoClassData kebiaoClassData){
+        nameTextView.setText(kebiaoClassData.name);
+        teacherTextView.setText(kebiaoClassData.teacher);
+        timeTextView.setText(kebiaoClassData.classString());
+        placeTextView.setText(kebiaoClassData.place);
         if (diff > 0) {
             noticeTextView.setText("距离下课还有");
             diffTextView.setText(Html.fromHtml(com.myqsc.qscmobile2.uti.Utility.processDiffSecond(diff)));
@@ -100,14 +101,5 @@ public class KebiaoCardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        helper.getDay(Calendar.getInstance());
     }
-
-    private void setClass(KebiaoClassData data) {
-        nameTextView.setText(data.name);
-        teacherTextView.setText(data.teacher);
-        timeTextView.setText(data.classString());
-        placeTextView.setText(data.place);
-    }
-
 }

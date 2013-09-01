@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by richard on 13-8-31.
@@ -26,10 +28,13 @@ public class Utility {
      * @param list
      * @return
      */
-    public static int getDiffTime(Calendar calendar,
-                                  List<KebiaoClassData> list,
-                                  KebiaoUpdateCallback callback
-    ) {
+    public static Map<Integer, Object> getDiffTime(Calendar calendar,
+                                  List<KebiaoClassData> list) {
+        /**
+         * map 1：时间差， 2：课程节数，3：一节课对象
+         */
+        final Map<Integer, Object> map = new HashMap<Integer, Object>();
+
         List<Integer> course = new ArrayList<Integer>();
         for(KebiaoClassData data : list) {
             for (int i : data.classes)
@@ -44,27 +49,13 @@ public class Utility {
                     && date.compareTo(classTo[course.get(i)]) < 0) {
                 LogHelper.d("in class");
                 Calendar toCalendar = Calendar.getInstance();
-                if (toCalendar.get(Calendar.SECOND) == 0) {
-                    //计时到0了，该重新获取课表了
-                    if (callback != null) {
-                        boolean used = false;
-                        for (KebiaoClassData data : list)
-                            for (int num : data.classes)
-                                if (num == course.get(i)) {
-                                    used = true;
-                                    callback.onNextKebiaoNeed(data);
-                                }
-                        if (!used)
-                            callback.onNextKebiaoNeed(null);
-
-                    }
-                }
                 toCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classTo[course.get(i)].substring(0, 2)));
                 toCalendar.set(Calendar.MINUTE,
                         Integer.parseInt(classTo[course.get(i)].substring(3, 5)));
                 toCalendar.set(Calendar.SECOND, 0);
-                return (int) ((toCalendar.getTimeInMillis() - calendar.getTimeInMillis()) / 1000);
+                map.put(1, (int) ((toCalendar.getTimeInMillis() - calendar.getTimeInMillis()) / 1000));
+                map.put(2, course.get(i));
             }
         }
 
@@ -72,28 +63,23 @@ public class Utility {
             if (date.compareTo(classFrom[course.get(i)]) < 0) {
                 LogHelper.d("after class");
                 Calendar fromCalendar = Calendar.getInstance();
-                if (fromCalendar.get(Calendar.SECOND) == 0) {
-                    //计时到0了，该重新获取课表了
-                    if (callback != null) {
-                        boolean used = false;
-                        for (KebiaoClassData data : list)
-                            for (int num : data.classes)
-                                if (num == course.get(i)) {
-                                    used = true;
-                                    callback.onNextKebiaoNeed(data);
-                                }
-                        if (!used)
-                            callback.onNextKebiaoNeed(null);
-                    }
-                }
                 fromCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classFrom[course.get(i)].substring(0, 2)));
                 fromCalendar.set(Calendar.MINUTE,
                         Integer.parseInt(classFrom[course.get(i)].substring(3, 5)));
                 fromCalendar.set(Calendar.SECOND, 0);
-                return (int) ((calendar.getTimeInMillis() - fromCalendar.getTimeInMillis()) / 1000);
+                map.put(1, (int) ((calendar.getTimeInMillis() - fromCalendar.getTimeInMillis()) / 1000));
+                map.put(2, course.get(i));
             }
         }
-        return 0;
+
+        if (!map.containsKey(2))
+            return null;
+
+        int course_num = (Integer) map.get(2);
+        for(KebiaoClassData data : list)
+            if (data.inRange(course_num))
+                map.put(3, data);
+        return map;
     }
 }
