@@ -15,12 +15,11 @@ import java.util.List;
 public class KebiaoClassData {
     final static String PREFERENCE = "KEBIAO_DATA";
 
-    String name, teacher, place;
+    String name, teacher, place, term;
     int week = 0, year = 0, time = 0;
     int classes[] = null;
 
     public KebiaoClassData(){
-
     }
 
     public static List<KebiaoClassData> parse (JSONArray jsonArray) throws JSONException{
@@ -44,6 +43,7 @@ public class KebiaoClassData {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String name = jsonObject.getString("name");
             String teacher = jsonObject.getString("teacher");
+            String term = jsonObject.getString("semester");
 
             JSONArray classes = jsonObject.getJSONArray("class");
 
@@ -56,6 +56,7 @@ public class KebiaoClassData {
                 data.place = object.getString("place");
                 data.time = object.getInt("weekday");
                 data.year = year;
+                data.term = term;
 
                 JSONArray classArray = object.getJSONArray("class");
                 data.classes = new int[classArray.length()];
