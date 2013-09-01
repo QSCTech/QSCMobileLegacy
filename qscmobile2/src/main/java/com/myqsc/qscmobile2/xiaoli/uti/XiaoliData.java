@@ -114,4 +114,9 @@ public class XiaoliData {
         }
         return calendar.get(Calendar.YEAR);
     }
+
+    public static String getWeekName(){
+        Calendar calendar = Calendar.getInstance();
+        return WEEKS[calendar.get(Calendar.DAY_OF_WEEK)];
+    }
 }

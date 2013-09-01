@@ -26,13 +26,16 @@ public class Utility {
      * @param list
      * @return
      */
-    public static int getWhichClass(Calendar calendar, List<KebiaoClassData> list) {
+    public static int getDiffTime(Calendar calendar,
+                                  List<KebiaoClassData> list,
+                                  KebiaoUpdateCallback callback
+    ) {
         List<Integer> course = new ArrayList<Integer>();
         for(KebiaoClassData data : list) {
             for (int i : data.classes)
                 course.add(i);
         }
-        LogHelper.i(calendar.toString());
+//        LogHelper.i(calendar.toString());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String date = simpleDateFormat.format(calendar.getTime());
 
@@ -41,6 +44,21 @@ public class Utility {
                     && date.compareTo(classTo[course.get(i)]) < 0) {
                 LogHelper.d("in class");
                 Calendar toCalendar = Calendar.getInstance();
+                if (toCalendar.get(Calendar.SECOND) == 0) {
+                    //计时到0了，该重新获取课表了
+                    if (callback != null) {
+                        boolean used = false;
+                        for (KebiaoClassData data : list)
+                            for (int num : data.classes)
+                                if (num == course.get(i)) {
+                                    used = true;
+                                    callback.onNextKebiaoNeed(data);
+                                }
+                        if (!used)
+                            callback.onNextKebiaoNeed(null);
+
+                    }
+                }
                 toCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classTo[course.get(i)].substring(0, 2)));
                 toCalendar.set(Calendar.MINUTE,
@@ -54,6 +72,20 @@ public class Utility {
             if (date.compareTo(classFrom[course.get(i)]) < 0) {
                 LogHelper.d("after class");
                 Calendar fromCalendar = Calendar.getInstance();
+                if (fromCalendar.get(Calendar.SECOND) == 0) {
+                    //计时到0了，该重新获取课表了
+                    if (callback != null) {
+                        boolean used = false;
+                        for (KebiaoClassData data : list)
+                            for (int num : data.classes)
+                                if (num == course.get(i)) {
+                                    used = true;
+                                    callback.onNextKebiaoNeed(data);
+                                }
+                        if (!used)
+                            callback.onNextKebiaoNeed(null);
+                    }
+                }
                 fromCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classFrom[course.get(i)].substring(0, 2)));
                 fromCalendar.set(Calendar.MINUTE,

@@ -2,6 +2,7 @@ package com.myqsc.qscmobile2.curriculum.uti;
 
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
+import com.myqsc.qscmobile2.xiaoli.uti.XiaoliData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,8 +17,8 @@ import java.util.List;
 public class KebiaoClassData {
     final static String PREFERENCE = "KEBIAO_DATA";
 
-    String name, teacher, place, term;
-    int week = 0, year = 0, time = 0;
+    public String name, teacher, place, term;
+    public int week = 0, year = 0, time = 0;
     int classes[] = null;
 
     public KebiaoClassData(){
@@ -82,5 +83,19 @@ public class KebiaoClassData {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean inRange(int course){
+        for (int i : classes)
+            if (i == course)
+                return true;
+        return false;
+    }
+
+    public String classString(){
+        String string = XiaoliData.getWeekName() + " ";
+        for (int i : classes)
+            string += i + "/";
+        return string.substring(0, string.length() - 1);
     }
 }

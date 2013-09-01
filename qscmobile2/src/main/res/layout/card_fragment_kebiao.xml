@@ -20,21 +20,21 @@
         android:textColor="@color/blue_text" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/card_fragment_kebiao_name"
       	android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="马克思主义基本原理概论" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/card_fragment_kebiao_teacher"
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="金建伟" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/card_fragment_kebiao_time"
         android:textColor="@color/blue_text"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -43,7 +43,7 @@
         android:text="周二6/7/8" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/card_fragment_kebiao_place"
         android:textColor="@color/blue_text"
         android:textSize="20sp"
         android:textStyle="bold"
