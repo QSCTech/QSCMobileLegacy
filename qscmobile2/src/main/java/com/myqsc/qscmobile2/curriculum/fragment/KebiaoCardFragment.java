@@ -4,7 +4,6 @@ import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
-import com.myqsc.qscmobile2.curriculum.uti.KebiaoUpdateCallback;
 import com.myqsc.qscmobile2.curriculum.uti.Utility;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 
@@ -43,9 +42,9 @@ public class KebiaoCardFragment extends Fragment {
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.card_fragment_kebiao, null);
+		final View view = inflater.inflate(R.layout.card_fragment_kebiao, container, false);
 		
-		diffTextView = ((TextView)view.findViewById(R.id.card_fragment_kebiao_time));
+		diffTextView = ((TextView)view.findViewById(R.id.card_fragment_kebiao_diff));
         noticeTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_notice);
         nameTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_name);
         teacherTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_teacher);
@@ -69,8 +68,18 @@ public class KebiaoCardFragment extends Fragment {
                     Toast.makeText(getActivity(), (CharSequence) message.obj, Toast.LENGTH_SHORT).show();
                 Map<Integer, Object> map = utility.getDiffTime(Calendar.getInstance(),
                         (List<KebiaoClassData>) message.obj);
-
-                setTime((Integer) map.get(1), (KebiaoClassData) map.get(3));
+                if (map == null){
+                    view.findViewById(R.id.card_fragment_kebiao_big).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.card_fragment_kebiao_small).setVisibility(View.VISIBLE);
+                    view.getLayoutParams().height =
+                            view.findViewById(R.id.card_fragment_kebiao_small).getLayoutParams().height;
+                } else {
+                    view.findViewById(R.id.card_fragment_kebiao_big).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.card_fragment_kebiao_small).setVisibility(View.INVISIBLE);
+                    view.getLayoutParams().height =
+                            view.findViewById(R.id.card_fragment_kebiao_big).getLayoutParams().height;
+                    setTime((Integer) map.get(1), (KebiaoClassData) map.get(3));
+                }
             }
         });
 
