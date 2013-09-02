@@ -65,17 +65,22 @@ public class XiaoliData {
      * @return
      */
     public char getTerm(Calendar calendar, boolean withReMap) {
+        if (withReMap)
+            calendar = this.doRemap(calendar);
         for(XiaoliYearData xiaoliYearData : data) {
             if (xiaoliYearData.range.inRange(calendar)){
                 XiaoliEachYearData xiaoliEachYearData = xiaoliYearData.data;
-                if (withReMap)
-                    calendar = this.doRemap(calendar);
                 return xiaoliEachYearData.getTerm(calendar);
             }
         }
         return '无';
     }
 
+    /**
+     * 进行日期映射
+     * @param calendar
+     * @return
+     */
     public Calendar doRemap(Calendar calendar) {
         for(XiaoliYearData xiaoliYearData : data) {
             if (xiaoliYearData.range.inRange(calendar)){
@@ -97,5 +102,21 @@ public class XiaoliData {
         }
         string += WEEKS[calendar.get(Calendar.DAY_OF_WEEK)];
         return string;
+    }
+
+    public int getYear(Calendar calendar, boolean withReMap) {
+        if (withReMap)
+            calendar = this.doRemap(calendar);
+        for(XiaoliYearData xiaoliYearData : data) {
+            if (xiaoliYearData.range.inRange(calendar)){
+                return xiaoliYearData.year;
+            }
+        }
+        return calendar.get(Calendar.YEAR);
+    }
+
+    public static String getWeekName(){
+        Calendar calendar = Calendar.getInstance();
+        return WEEKS[calendar.get(Calendar.DAY_OF_WEEK)];
     }
 }

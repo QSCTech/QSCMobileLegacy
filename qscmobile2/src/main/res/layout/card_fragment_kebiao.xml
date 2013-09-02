@@ -1,55 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:orientation="vertical" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+        >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="距离上课还有" />
+    <LinearLayout
+            android:id="@+id/card_fragment_kebiao_big"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/card_fragment_kebiao_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:textColor="@color/blue_text"
-        android:text="21min34s" />
+        <TextView
+                android:id="@+id/card_fragment_kebiao_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="距离上课还有"/>
 
-    <TextView
-        android:id="@+id/textView3"
-      	android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="马克思主义基本原理概论" />
+        <TextView
+                android:id="@+id/card_fragment_kebiao_diff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:textColor="@color/blue_text"/>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="金建伟" />
+        <TextView
+                android:id="@+id/card_fragment_kebiao_name"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="马克思主义基本原理概论"/>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:textColor="@color/blue_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="周二6/7/8" />
+        <TextView
+                android:id="@+id/card_fragment_kebiao_teacher"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="金建伟"/>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:textColor="@color/blue_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="紫金港 西1-105" />
+        <TextView
+                android:id="@+id/card_fragment_kebiao_time"
+                android:textColor="@color/blue_text"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="周二6/7/8"/>
 
-</LinearLayout>
+        <TextView
+                android:id="@+id/card_fragment_kebiao_place"
+                android:textColor="@color/blue_text"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="紫金港 西1-105"/>
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/card_fragment_kebiao_small">
+            <TextView
+                    android:text="木有课啦！"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</FrameLayout>

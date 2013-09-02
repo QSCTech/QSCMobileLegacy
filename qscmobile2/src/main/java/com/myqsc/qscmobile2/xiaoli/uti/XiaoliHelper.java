@@ -121,7 +121,27 @@ public class XiaoliHelper {
         return data.getTerm(calendar, withReMap);
     }
 
+    /**
+     * 获取显示在校历卡片上的字符串
+     * @param calendar
+     * @param withReMap
+     * @return
+     */
     public String getDayString(Calendar calendar, boolean withReMap) {
         return data.getDayString(calendar, withReMap);
+    }
+
+    /**
+     * 获取今天是哪个学年
+     * @param calendar
+     * @param withReMap
+     * @return
+     */
+    public int getYear(Calendar calendar, boolean withReMap) {
+        return data.getYear(calendar, withReMap);
+    }
+
+    public Calendar doRemap(Calendar calendar) {
+        return data.doRemap(calendar);
     }
 }

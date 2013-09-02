@@ -1,6 +1,8 @@
 package com.myqsc.qscmobile2.curriculum.uti;
 
+import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
+import com.myqsc.qscmobile2.xiaoli.uti.XiaoliData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,12 +17,11 @@ import java.util.List;
 public class KebiaoClassData {
     final static String PREFERENCE = "KEBIAO_DATA";
 
-    String name, teacher, place;
-    int week = 0, year = 0, time = 0;
+    public String name, teacher, place, term;
+    public int week = 0, year = 0, time = 0;
     int classes[] = null;
 
     public KebiaoClassData(){
-
     }
 
     public static List<KebiaoClassData> parse (JSONArray jsonArray) throws JSONException{
@@ -44,6 +45,7 @@ public class KebiaoClassData {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String name = jsonObject.getString("name");
             String teacher = jsonObject.getString("teacher");
+            String term = jsonObject.getString("semester");
 
             JSONArray classes = jsonObject.getJSONArray("class");
 
@@ -56,6 +58,7 @@ public class KebiaoClassData {
                 data.place = object.getString("place");
                 data.time = object.getInt("weekday");
                 data.year = year;
+                data.term = term;
 
                 JSONArray classArray = object.getJSONArray("class");
                 data.classes = new int[classArray.length()];
@@ -63,16 +66,36 @@ public class KebiaoClassData {
                     data.classes[k] = classArray.getInt(k);
 
                 String week = object.getString("week");
-                if (week.compareTo("both") == 0)
+                if (week.compareTo("both") == 0) {
                     data.week = Utility.WEEK_BOTH;
+                } else {
                     if (week.compareTo("odd") == 0)
                         data.week = Utility.WEEK_ODD;
                     else
                         data.week = Utility.WEEK_EVEN;
-
+                }
                 list.add(data);
             }
         }
         return list;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    public boolean inRange(int course){
+        for (int i : classes)
+            if (i == course)
+                return true;
+        return false;
+    }
+
+    public String classString(){
+        String string = XiaoliData.getWeekName() + " ";
+        for (int i : classes)
+            string += i + "/";
+        return string.substring(0, string.length() - 1);
     }
 }

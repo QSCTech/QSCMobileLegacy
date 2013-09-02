@@ -41,7 +41,7 @@ public abstract class UpdateKebiaoAsyncTask extends AsyncTask<Void, Message, Mes
     protected Message doInBackground(Void... voids) {
         Message message = new Message();
 
-        final String url = "http://m.myqsc.com/v2/jw/kebiao?"
+        final String url = "https://m.myqsc.com/v2/jw/kebiao?"
                 + "stuid=" + structure.uid
                 + "&pwd=" + structure.pwd;
 
@@ -52,7 +52,7 @@ public abstract class UpdateKebiaoAsyncTask extends AsyncTask<Void, Message, Mes
             String result = EntityUtils.toString(httpResponse.getEntity());
 
             List<KebiaoClassData> list = KebiaoClassData.parse(new JSONArray(result));
-            message.what = 0;
+            message.what = 1;
             message.obj = list;
 
             KebiaoDataHelper helper = new KebiaoDataHelper(mContext);
