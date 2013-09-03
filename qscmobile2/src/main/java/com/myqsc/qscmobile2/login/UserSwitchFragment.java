@@ -21,18 +21,12 @@ import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class UserSwitchFragment extends Fragment{
-	Context context = null;
-	public UserSwitchFragment(Context context){
-		this.context = context;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_switch, null);
 		
-		ListView userListView = (ListView) view.findViewById(R.id.user_switch_user_list);
-		PersonalDataHelper personalDataHelper = new PersonalDataHelper(context);
+		PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         List<UserIDStructure> allUserList = personalDataHelper.allUser();
         if (allUserList == null || allUserList.size() == 0){
             Intent intent = new Intent(BroadcastHelper.BROADCAST_NEW_USER);

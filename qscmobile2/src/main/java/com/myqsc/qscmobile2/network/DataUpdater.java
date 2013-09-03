@@ -10,6 +10,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -20,14 +21,14 @@ import java.util.Map;
  * Created by richard on 13-9-2.
  */
 public class DataUpdater {
-    private static final String PROTOCOL = "https://m.myqsc.com/v2/";
+    private static final String PROTOCOL = "http://m.myqsc.com/v2/";
 
     public final static String COMMON_HASH = "share/hash";
     public final static String COMMON_TEACHER = "share/teacher";
     public final static String COMMON_XIAOCHE = "share/xiaoche";
     public final static String COMMON_XIAOLI = "share/xiaoli";
-    public final static String COMMON_SHIJIAN = "share/shijian";
-    public final static String COMMON_SHIJIAN_DETAIL = "share/notice";
+//    public final static String COMMON_SHIJIAN = "share/shijian";
+//    public final static String COMMON_SHIJIAN_DETAIL = "share/notice";
 
     public final static String JW_VALIDATE = "jw/validate";
     public final static String JW_HASH = "jw/hash";
@@ -42,8 +43,8 @@ public class DataUpdater {
         name.put(COMMON_TEACHER, PROTOCOL + COMMON_TEACHER);
         name.put(COMMON_XIAOCHE, PROTOCOL + COMMON_XIAOCHE);
         name.put(COMMON_XIAOLI, PROTOCOL + COMMON_XIAOLI);
-        name.put(COMMON_SHIJIAN, PROTOCOL + COMMON_SHIJIAN);
-        name.put(COMMON_SHIJIAN_DETAIL, PROTOCOL + COMMON_SHIJIAN_DETAIL);
+//        name.put(COMMON_SHIJIAN, PROTOCOL + COMMON_SHIJIAN);
+//        name.put(COMMON_SHIJIAN_DETAIL, PROTOCOL + COMMON_SHIJIAN_DETAIL);
 
         name.put(JW_VALIDATE, PROTOCOL + JW_VALIDATE);
         name.put(JW_HASH, PROTOCOL + JW_HASH);

@@ -10,6 +10,8 @@ import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
+import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
@@ -49,12 +51,18 @@ public class MainActivity extends FragmentActivity {
         aboutUsReceiver = new AboutUsReceiver();
         newUserReceiver = new NewUserReceiver();
 
+        PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
+        List<UserIDStructure> userIDStructureList = personalDataHelper.allUser();
+
+
 		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
 		registerReceiver(aboutUsReceiver, intentFilter);
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
-	}
+        if (userIDStructureList == null || userIDStructureList.size() == 0)
+            sendBroadcast(new Intent(BroadcastHelper.BROADCAST_NEW_USER));
+    }
 
     @Override
     protected void onDestroy() {
@@ -84,7 +92,7 @@ public class MainActivity extends FragmentActivity {
 		
 		final CardFragment cardFragment = new CardFragment();
 		
-		fragmentList.add(new UserSwitchFragment(this));
+//		fragmentList.add(new UserSwitchFragment());
 		fragmentList.add(functionListFragment);
 		fragmentList.add(cardFragment);
 		

@@ -18,7 +18,7 @@ import org.json.JSONException;
 
 public class PersonalDataHelper {
     Context context = null;
-    List<UserIDStructure> list = null;
+    List<UserIDStructure> list = new ArrayList<UserIDStructure>();
 
     public PersonalDataHelper(Context context){
         this.context = context;
@@ -26,7 +26,6 @@ public class PersonalDataHelper {
                 .getString(UserIDStructure.PREFERENCE, null);
         if (result != null) {
             try {
-                list = new ArrayList<UserIDStructure>();
                 JSONArray jsonArray = new JSONArray(result);
                 for (int i = 0; i != jsonArray.length(); ++i) {
                     list.add(new UserIDStructure(jsonArray.optJSONObject(i)));
@@ -53,6 +52,9 @@ public class PersonalDataHelper {
     }
 
     public void add(UserIDStructure userIDStructure) {
+        for(UserIDStructure structure : list)
+            if (structure.uid.compareTo(userIDStructure.uid) == 0)
+                list.remove(structure);
         list.add(userIDStructure);
         setDefault(userIDStructure.uid);
         save();

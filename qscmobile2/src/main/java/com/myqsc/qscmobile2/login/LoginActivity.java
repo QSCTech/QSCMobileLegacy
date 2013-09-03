@@ -4,10 +4,17 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
 import com.myqsc.qscmobile2.network.DataUpdater;
+import com.myqsc.qscmobile2.network.UpdateHelper;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
+import com.myqsc.qscmobile2.uti.LogHelper;
 import com.umeng.analytics.MobclickAgent;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
@@ -47,12 +54,16 @@ public class LoginActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+        unregisterReceiver(updateAllReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED);
+        registerReceiver(updateAllReceiver, intentFilter);
     }
 
     @Override
@@ -79,9 +90,12 @@ public class LoginActivity extends FragmentActivity {
                             Toast.LENGTH_LONG).show();
                 else {
                     PersonalDataHelper helper = new PersonalDataHelper(getApplicationContext());
-                    helper.add(new UserIDStructure(uid.getEditableText().toString(),
-                            pwd.getEditableText().toString(),
+                    helper.add(new UserIDStructure(uid.getText().toString(),
+                            pwd.getText().toString(),
                             true));
+
+                    UpdateHelper updateHelper = new UpdateHelper(getApplicationContext());
+                    updateHelper.UpdateAll();
                 }
                 return true;
             }
@@ -96,18 +110,19 @@ public class LoginActivity extends FragmentActivity {
                         Message message = handler.obtainMessage();
                         try {
                             String result = DataUpdater.get(
-                                    DataUpdater.name.get(DataUpdater.name.get(DataUpdater.JW_VALIDATE) +
-                                        "?stuid=" + uid.getEditableText().toString() +
-                                        "&pwd=" + pwd.getEditableText().toString()
-                            ));
+                                    DataUpdater.name.get(DataUpdater.JW_VALIDATE) +
+                                        "?stuid=" + uid.getText().toString() +
+                                        "&pwd=" + pwd.getText().toString()
+                            );
                             if (result == null){
                                 //网络错误
                                 message.what = 0;
                                 message.obj = "网络错误";
+                            } else {
+                                JSONObject jsonObject = new JSONObject(result);
+                                jsonObject.getString("stuid");
+                                message.what = 1;
                             }
-                            JSONObject jsonObject = new JSONObject(result);
-                            jsonObject.getString("stuid");
-                            message.what = 1;
                         } catch (JSONException e) {
                             e.printStackTrace();
                             message.what = 0;
@@ -115,7 +130,7 @@ public class LoginActivity extends FragmentActivity {
                         }
                         message.sendToTarget();
                     }
-                }).run();
+                }).start();
             }
         });
 	}
@@ -148,4 +163,13 @@ public class LoginActivity extends FragmentActivity {
 		activity.overridePendingTransition(R.anim.fade_in, R.anim.push_down_out);
 	}
 
+    private class UpdateAllReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    }
+
+    final BroadcastReceiver updateAllReceiver = new UpdateAllReceiver();
 }
