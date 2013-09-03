@@ -20,11 +20,15 @@ public class UpdateHelper {
 
     public void UpdateAll(final Handler handler){
         for(String key : DataUpdater.name.keySet()) {
-            executorService.submit(new DataUpdaterRunnable(key, handler));
+            executorService.submit(new DataUpdaterRunnable(key,
+                    handler,
+                    mContext));
         }
     }
 
     public void update(final Handler handler, final String key) {
-        executorService.submit(new DataUpdaterRunnable(key, handler));
+        executorService.submit(new DataUpdaterRunnable(key,
+                handler,
+                mContext));
     }
 }

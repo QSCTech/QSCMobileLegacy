@@ -8,13 +8,12 @@ import android.os.Message;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
-import com.myqsc.qscmobile2.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;

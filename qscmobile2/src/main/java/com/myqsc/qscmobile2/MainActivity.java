@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-        MobclickAgent.setDebugMode( true );
+        MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.update(this);
 		setContentView(R.layout.activity_main);
 
@@ -54,10 +54,6 @@ public class MainActivity extends FragmentActivity {
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
-
-        XiaoliHelper helper = new XiaoliHelper(this);
-        helper.update(null);
-        LogHelper.i("本周是：" + helper.checkParity(Calendar.getInstance(), false));
 	}
 
     @Override
@@ -96,7 +92,7 @@ public class MainActivity extends FragmentActivity {
 		
 		vPager.setAdapter(adapter);
         vPager.setCurrentItem(page);
-		final Handler handler = new Handler();
+//		final Handler handler = new Handler();
 //		handler.post(new Runnable() {
 //
 //			@Override

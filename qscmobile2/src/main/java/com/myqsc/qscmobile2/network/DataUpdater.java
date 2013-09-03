@@ -1,7 +1,9 @@
 package com.myqsc.qscmobile2.network;
 
 import android.content.Context;
-import android.os.Handler;
+
+import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -36,31 +38,36 @@ public class DataUpdater {
 
     public final static Map<String, String> name = new HashMap<String, String>();
     static{
-        name.put(COMMON_HASH, COMMON_HASH);
-        name.put(COMMON_TEACHER, COMMON_TEACHER);
-        name.put(COMMON_XIAOCHE, COMMON_XIAOCHE);
-        name.put(COMMON_XIAOLI, COMMON_XIAOLI);
-        name.put(COMMON_SHIJIAN, COMMON_SHIJIAN);
-        name.put(COMMON_SHIJIAN_DETAIL, COMMON_SHIJIAN_DETAIL);
+        name.put(COMMON_HASH, PROTOCOL + COMMON_HASH);
+        name.put(COMMON_TEACHER, PROTOCOL + COMMON_TEACHER);
+        name.put(COMMON_XIAOCHE, PROTOCOL + COMMON_XIAOCHE);
+        name.put(COMMON_XIAOLI, PROTOCOL + COMMON_XIAOLI);
+        name.put(COMMON_SHIJIAN, PROTOCOL + COMMON_SHIJIAN);
+        name.put(COMMON_SHIJIAN_DETAIL, PROTOCOL + COMMON_SHIJIAN_DETAIL);
 
-        name.put(JW_VALIDATE, JW_VALIDATE);
-        name.put(JW_HASH, JW_HASH);
-        name.put(JW_INFO, JW_INFO);
-        name.put(JW_KEBIAO, JW_KEBIAO);
-        name.put(JW_CHENGJI, JW_CHENGJI);
-        name.put(JW_KAOSHI, JW_KAOSHI);
+        name.put(JW_VALIDATE, PROTOCOL + JW_VALIDATE);
+        name.put(JW_HASH, PROTOCOL + JW_HASH);
+        name.put(JW_INFO, PROTOCOL + JW_INFO);
+        name.put(JW_KEBIAO, PROTOCOL + JW_KEBIAO);
+        name.put(JW_CHENGJI, PROTOCOL + JW_CHENGJI);
+        name.put(JW_KAOSHI, PROTOCOL + JW_KAOSHI);
     }
 
     public DataUpdater() {
     }
 
-    public static String update(String key) {
+    public static String update(String key, Context context) {
         String url = name.get(key);
         assert url != null;
-        return get(PROTOCOL + url);
+
+        UserIDStructure structure = new PersonalDataHelper(context).getCurrentUser();
+        assert structure != null;
+
+
+        return get(url + "?stuid" + structure.uid + "&pwd" + structure.pwd);
     }
 
-    private static String get(String url) {
+    public static String get(String url) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(url);
