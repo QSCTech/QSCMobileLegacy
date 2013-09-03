@@ -44,7 +44,7 @@ public class KebiaoCardFragment extends Fragment {
 			Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.card_fragment_kebiao, container, false);
 		
-		diffTextView = ((TextView)view.findViewById(R.id.card_fragment_kebiao_diff));
+		diffTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_diff);
         noticeTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_notice);
         nameTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_name);
         teacherTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_teacher);
