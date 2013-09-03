@@ -21,7 +21,7 @@ public class KebiaoClassData {
     public int week = 0, year = 0, time = 0;
     int classes[] = null;
 
-    public KebiaoClassData(){
+    public KebiaoClassData() {
     }
 
     public static List<KebiaoClassData> parse (JSONArray jsonArray) throws JSONException{
