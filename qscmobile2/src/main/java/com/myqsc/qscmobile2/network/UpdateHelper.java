@@ -12,17 +12,19 @@ import java.util.concurrent.Future;
  */
 public class UpdateHelper {
     Context mContext = null;
+    ExecutorService executorService = null;
     public UpdateHelper(Context context) {
         this.mContext = context;
+        executorService = Executors.newFixedThreadPool(3);
     }
 
     public void UpdateAll(final Handler handler){
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
-        DataUpdater dataUpdater = new DataUpdater();
-
         for(String key : DataUpdater.name.keySet()) {
             executorService.submit(new DataUpdaterRunnable(key, handler));
         }
+    }
 
+    public void update(final Handler handler, final String key) {
+        executorService.submit(new DataUpdaterRunnable(key, handler));
     }
 }

@@ -17,8 +17,7 @@ public class DataUpdaterRunnable implements Runnable {
     }
     @Override
     public void run() {
-        Message message = new Message();
-        message.setTarget(handler);
+        Message message = handler.obtainMessage(0);
 
         Bundle bundle = new Bundle();
         bundle.putString("key", key);
