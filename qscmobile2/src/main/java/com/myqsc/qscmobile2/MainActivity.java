@@ -92,7 +92,7 @@ public class MainActivity extends FragmentActivity {
 		
 		final CardFragment cardFragment = new CardFragment();
 		
-//		fragmentList.add(new UserSwitchFragment());
+		fragmentList.add(new UserSwitchFragment());
 		fragmentList.add(functionListFragment);
 		fragmentList.add(cardFragment);
 		

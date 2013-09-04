@@ -6,4 +6,5 @@ public class BroadcastHelper {
 	public static final String BROADCAST_ONABOUTUS_CLICK = "BROADCAST_ONABOUTUS_CLICK";
     public static final String BROADCAST_NEW_USER = "BROADCAST_NEW_USER";
     public static final String BROADCAST_ALL_UPDATED = "BROADCAST_ALL_UPDATED";
+    public static final String BROADCAST_USER_CHANGED = "BROADCAST_USER_CHANGED";
 }
