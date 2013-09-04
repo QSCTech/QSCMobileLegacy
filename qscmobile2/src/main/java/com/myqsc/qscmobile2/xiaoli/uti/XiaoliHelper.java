@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2.xiaoli.uti;
 import android.content.Context;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
@@ -24,7 +25,6 @@ import java.util.Calendar;
  * Created by richard on 13-8-31.
  */
 public class XiaoliHelper {
-    private static final String PREFERENCE = "XIAOLI_DATA";
     Context mContext = null;
     XiaoliData data = null;
 
@@ -44,14 +44,14 @@ public class XiaoliHelper {
     public void clear(String result) {
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .remove(PREFERENCE)
+                .remove(DataUpdater.COMMON_XIAOLI)
                 .commit();
     }
 
     public void set(String result) {
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .putString(PREFERENCE, result)
+                .putString(DataUpdater.COMMON_XIAOLI, result)
                 .commit();
     }
 
@@ -72,7 +72,7 @@ public class XiaoliHelper {
             String result = String.valueOf(buffer);
             mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                     .edit()
-                    .putString(XiaoliHelper.PREFERENCE, result)
+                    .putString(DataUpdater.COMMON_XIAOLI, result)
                     .commit();
             parse();
 
@@ -95,7 +95,8 @@ public class XiaoliHelper {
             return data;
 
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .getString(XiaoliHelper.PREFERENCE, null);
+                .getString(DataUpdater.COMMON_XIAOLI, null);
+        LogHelper.d(result);
         if (result == null)
             return null;
         data = new XiaoliData(new JSONArray(result));

@@ -52,11 +52,10 @@ public class MainActivity extends FragmentActivity {
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
         List<UserIDStructure> userIDStructureList = personalDataHelper.allUser();
 
-        final FunctionListFragment functionListFragment = new FunctionListFragment();
         final CardFragment cardFragment = new CardFragment();
 
         fragmentList.add(new UserSwitchFragment());
-        fragmentList.add(functionListFragment);
+        fragmentList.add(new FunctionListFragment());
         fragmentList.add(cardFragment);
 
         adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);

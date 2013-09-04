@@ -82,7 +82,7 @@ public class PersonalDataHelper {
     }
 
     public int deleteDefault() {
-        for (int i = 0; i != list.size(); ++i)
+        for (int i = 0; i < list.size(); ++i)
             if (list.get(i).select)
                 list.remove(i);
         save();

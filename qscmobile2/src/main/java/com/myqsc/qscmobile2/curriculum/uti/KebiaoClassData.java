@@ -15,8 +15,6 @@ import java.util.List;
  * Created by richard on 13-8-29.
  */
 public class KebiaoClassData {
-    final static String PREFERENCE = "KEBIAO_DATA";
-
     public String name, teacher, place, term;
     public int week = 0, year = 0, time = 0;
     int classes[] = null;

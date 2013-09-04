@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
@@ -41,7 +42,7 @@ public class KebiaoDataHelper {
         mContext
                 .getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .remove(KebiaoClassData.PREFERENCE)
+                .remove(DataUpdater.JW_KEBIAO)
                 .commit();
     }
 
@@ -49,7 +50,7 @@ public class KebiaoDataHelper {
         clear();
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .putString(KebiaoClassData.PREFERENCE, result)
+                .putString(DataUpdater.JW_KEBIAO, result)
                 .commit();
     }
 
@@ -64,32 +65,15 @@ public class KebiaoDataHelper {
             return ;
         }
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .getString(KebiaoClassData.PREFERENCE, null);
+                .getString(DataUpdater.JW_KEBIAO, null);
+        LogHelper.d(result);
 
-        if (result == null) {
-            UserIDStructure userIDStructure = new PersonalDataHelper(mContext).getCurrentUser();
-            final UpdateKebiaoAsyncTask task = new UpdateKebiaoAsyncTask(mContext, userIDStructure) {
-                @Override
-                public void onHandleMessage(Message message) {
-                    if (message.what != 0)
-                        getDay(calendar);
-                    else
-                        if (handleAsyncTaskMessage != null)
-                            handleAsyncTaskMessage.onHandleMessage(message);
-                }
-            };
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            else
-                task.execute();
-        } else {
-            try {
-                getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                clear();
-                getDay(calendar);
-            }
+        try {
+            getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            clear();
+            getDay(calendar);
         }
     }
 
