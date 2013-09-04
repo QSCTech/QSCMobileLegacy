@@ -9,7 +9,9 @@ import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +24,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class UserSwitchFragment extends Fragment {
     List<UserIDStructure> allUserList = null;
     PersonalDataHelper personalDataHelper = null;
@@ -34,9 +35,14 @@ public class UserSwitchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_switch, null);
-        personalDataHelper = new PersonalDataHelper(getActivity());
 
-        PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
+        linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_switch_main);
+        initViews(inflater);
+        return view;
+    }
+
+    private void initViews(LayoutInflater inflater){
+        personalDataHelper = new PersonalDataHelper(getActivity());
         allUserList = personalDataHelper.allUser();
 
         if (allUserList == null || allUserList.size() == 0) {
@@ -44,7 +50,7 @@ public class UserSwitchFragment extends Fragment {
             getActivity().sendBroadcast(intent);
         }
 
-        linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_switch_main);
+        linearLayout.removeAllViews();
 
         if (allUserList != null) {
             for (int i = 0; i != allUserList.size(); ++i) {
@@ -59,8 +65,8 @@ public class UserSwitchFragment extends Fragment {
                         .setText(structure.select ? R.string.icon_ok_sign : R.string.icon_circle_blank);
                 ((TextView) temp.findViewById(R.id.simple_listview_banner_icon_right))
                         .setTextColor(structure.select ?
-                        getActivity().getResources().getColor(R.color.blue_text)
-                        : getActivity().getResources().getColor(R.color.gray_text));
+                                getActivity().getResources().getColor(R.color.blue_text)
+                                : getActivity().getResources().getColor(R.color.gray_text));
 
                 ((TextView) temp.findViewById(R.id.simple_listview_banner_text))
                         .setText(structure.uid);
@@ -98,9 +104,53 @@ public class UserSwitchFragment extends Fragment {
                 getActivity().sendBroadcast(new Intent(BroadcastHelper.BROADCAST_NEW_USER));
             }
         });
+        newUser.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
         linearLayout.addView(newUser);
 
-        return view;
+        LinearLayout deleteUser = (LinearLayout) inflater.inflate(R.layout.simple_listview_banner, null);
+        ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_left))
+                .setText(R.string.icon_minus_sign);
+        AwesomeFontHelper.setFontFace((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_left),
+                getActivity());
+
+        ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right))
+                .setText(R.string.icon_chevron_right);
+        AwesomeFontHelper.setFontFace((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right),
+                getActivity());
+        ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_text))
+                .setText("删除当前用户");
+        deleteUser.setId(2);
+        deleteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("删除用户");
+                builder.setMessage("确定删除用户：" +
+                        ((TextView) view.findViewById(R.id.simple_listview_banner_text)).getText() +
+                        "吗？");
+                builder.setPositiveButton("确定", new AlertDialog.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        PersonalDataHelper helper = new PersonalDataHelper(getActivity());
+                        helper.deleteDefault();
+                        helper = null;
+                        initViews(LayoutInflater.from(getActivity()));
+                    }
+                });
+                builder.setNegativeButton("取消", new AlertDialog.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
+            }
+        });
+        deleteUser.setBackgroundColor(getActivity().getResources().getColor(R.color.list_even));
+        linearLayout.addView(deleteUser);
     }
 
     final View.OnClickListener userOnClickListener = new View.OnClickListener() {

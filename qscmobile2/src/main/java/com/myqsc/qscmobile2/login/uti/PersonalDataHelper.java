@@ -77,4 +77,18 @@ public class PersonalDataHelper {
         return null;
     }
 
+    public int deleteDefault() {
+        for (UserIDStructure structure : list) {
+            if (structure.select)
+                list.remove(structure);
+        }
+        save();
+        if (list.size() > 0) {
+            setDefault(list.get(0).uid);
+            save();
+            return 0;
+        } else
+            return -1;
+    }
+
 }

@@ -40,5 +40,5 @@ public class Utility {
         result += diff % 60 + "<font size='10sp'>s</font>";
         return result;
     }
-    
+
 }
