@@ -93,7 +93,7 @@ public class LoginActivity extends FragmentActivity {
                     helper.add(new UserIDStructure(uid.getText().toString(),
                             pwd.getText().toString(),
                             true));
-
+                    sendBroadcast(new Intent(BroadcastHelper.BROADCAST_USER_CHANGED));
                     UpdateHelper updateHelper = new UpdateHelper(getApplicationContext());
                     updateHelper.UpdateAll();
                 }

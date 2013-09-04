@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.support.database.table.UserIDTable;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -67,6 +69,8 @@ public class PersonalDataHelper {
             else
                 structure.select = false;
         }
+        save();
+        context.sendBroadcast(new Intent(BroadcastHelper.BROADCAST_USER_CHANGED));
     }
 
     public UserIDStructure getCurrentUser() {
@@ -78,10 +82,9 @@ public class PersonalDataHelper {
     }
 
     public int deleteDefault() {
-        for (UserIDStructure structure : list) {
-            if (structure.select)
-                list.remove(structure);
-        }
+        for (int i = 0; i != list.size(); ++i)
+            if (list.get(i).select)
+                list.remove(i);
         save();
         if (list.size() > 0) {
             setDefault(list.get(0).uid);

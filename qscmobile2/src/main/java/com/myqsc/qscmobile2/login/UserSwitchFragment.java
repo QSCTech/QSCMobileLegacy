@@ -6,10 +6,14 @@ import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.umeng.fb.FeedbackAgent;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,7 +26,6 @@ import java.util.List;
 
 public class UserSwitchFragment extends Fragment {
     List<UserIDStructure> allUserList = null;
-    PersonalDataHelper personalDataHelper = null;
     LinearLayout linearLayout = null;
 
     final int USER_MAGIC_NUM = 0XCC00;
@@ -34,11 +37,20 @@ public class UserSwitchFragment extends Fragment {
 
         linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_switch_main);
         initViews(inflater);
+
+        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_USER_CHANGED);
+        getActivity().registerReceiver(userChangedReceiver, intentFilter);
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(userChangedReceiver);
+    }
+
     private void initViews(LayoutInflater inflater){
-        personalDataHelper = new PersonalDataHelper(getActivity());
+        final PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         allUserList = personalDataHelper.allUser();
 
         if (allUserList == null || allUserList.size() == 0) {
@@ -76,7 +88,6 @@ public class UserSwitchFragment extends Fragment {
                         getActivity().getResources().getColor(R.color.list_odd) :
                         getActivity().getResources().getColor(R.color.list_even)
                 );
-
                 linearLayout.addView(temp);
             }
         }
@@ -135,9 +146,7 @@ public class UserSwitchFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        PersonalDataHelper helper = new PersonalDataHelper(getActivity());
-                        helper.deleteDefault();
-                        helper = null;
+                        personalDataHelper.deleteDefault();
                         initViews(LayoutInflater.from(getActivity()));
                     }
                 });
@@ -174,38 +183,79 @@ public class UserSwitchFragment extends Fragment {
                 getActivity());
         ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_text))
                 .setText("关于我们");
-        aboutUs.setId(1);
+        aboutUs.setId(3);
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().sendBroadcast(new Intent(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK));
+                getActivity().startActivity(new Intent(getActivity(), AboutUsActivity.class));
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
             }
         });
         aboutUs.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
         linearLayout.addView(aboutUs);
+
+        //提建议
+        LinearLayout adviceUs = (LinearLayout) inflater.inflate(R.layout.simple_listview_banner, null);
+
+        ((TextView) adviceUs.findViewById(R.id.simple_listview_banner_icon_left))
+                .setText(R.string.icon_edit);
+        AwesomeFontHelper.setFontFace((TextView) adviceUs.findViewById(R.id.simple_listview_banner_icon_left),
+                getActivity());
+
+        ((TextView) adviceUs.findViewById(R.id.simple_listview_banner_icon_right))
+                .setText(R.string.icon_chevron_right);
+        ((TextView) adviceUs.findViewById(R.id.simple_listview_banner_icon_right))
+                .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
+        AwesomeFontHelper.setFontFace((TextView) adviceUs.findViewById(R.id.simple_listview_banner_icon_right),
+                getActivity());
+        ((TextView) adviceUs.findViewById(R.id.simple_listview_banner_text))
+                .setText("提建议");
+        adviceUs.setId(4);
+        adviceUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FeedbackAgent agent = new FeedbackAgent(getActivity());
+                agent.startFeedbackActivity();
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
+            }
+        });
+        adviceUs.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
+        linearLayout.addView(adviceUs);
+
+        //去评分
+        LinearLayout star = (LinearLayout) inflater.inflate(R.layout.simple_listview_banner, null);
+
+        ((TextView) star.findViewById(R.id.simple_listview_banner_icon_left))
+                .setText(R.string.icon_star);
+        AwesomeFontHelper.setFontFace((TextView) star.findViewById(R.id.simple_listview_banner_icon_left),
+                getActivity());
+
+        ((TextView) star.findViewById(R.id.simple_listview_banner_icon_right))
+                .setText(R.string.icon_chevron_right);
+        ((TextView) star.findViewById(R.id.simple_listview_banner_icon_right))
+                .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
+        AwesomeFontHelper.setFontFace((TextView) star.findViewById(R.id.simple_listview_banner_icon_right),
+                getActivity());
+        ((TextView) star.findViewById(R.id.simple_listview_banner_text))
+                .setText("去评分");
+        star.setId(5);
+        star.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
+        linearLayout.addView(star);
     }
 
     final View.OnClickListener userOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int id = view.getId() - USER_MAGIC_NUM;
-            Intent intent = new Intent(BroadcastHelper.BROADCAST_USER_CHANGED);
-            getActivity().sendBroadcast(intent);
+            PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
             personalDataHelper.setDefault(allUserList.get(id).uid);
-            for (int i = 0; i != linearLayout.getChildCount(); ++i) {
-                View v = linearLayout.getChildAt(i);
-                if ((v.getId() & USER_MAGIC_NUM) == USER_MAGIC_NUM) {
-                    ((TextView) v.findViewById(R.id.simple_listview_banner_icon_right))
-                            .setText(R.string.icon_circle_blank);
-                    ((TextView) v.findViewById(R.id.simple_listview_banner_icon_right))
-                            .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
-                }
-            }
+        }
+    };
 
-            ((TextView) view.findViewById(R.id.simple_listview_banner_icon_right))
-                    .setText(R.string.icon_ok_sign);
-            ((TextView) view.findViewById(R.id.simple_listview_banner_icon_right))
-                    .setTextColor(getActivity().getResources().getColor(R.color.blue_text));
+    final BroadcastReceiver userChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initViews(LayoutInflater.from(getActivity()));
         }
     };
 

@@ -36,7 +36,6 @@ public class MainActivity extends FragmentActivity {
 	ViewPager vPager = null;
     int page = 0;
 
-    AboutUsReceiver aboutUsReceiver = null;
     NewUserReceiver newUserReceiver = null;
 
 	@Override
@@ -48,7 +47,6 @@ public class MainActivity extends FragmentActivity {
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 
-        aboutUsReceiver = new AboutUsReceiver();
         newUserReceiver = new NewUserReceiver();
 
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
@@ -75,7 +73,6 @@ public class MainActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
-        unregisterReceiver(aboutUsReceiver);
         unregisterReceiver(newUserReceiver);
     }
 
@@ -83,9 +80,6 @@ public class MainActivity extends FragmentActivity {
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
-
-        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
-        registerReceiver(aboutUsReceiver, intentFilter);
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
@@ -119,15 +113,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onPause() {
 		super.onPause();
         MobclickAgent.onPause(this);
-	}
-	
-	private class AboutUsReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context context, Intent intent) {
-            Intent intent1 = new Intent(getApplicationContext(), AboutUsActivity.class);
-            startActivity(intent1);
-            overridePendingTransition(R.anim.right_push_in, 0);
-		}
 	}
 
     private class NewUserReceiver extends BroadcastReceiver{
