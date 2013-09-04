@@ -54,33 +54,41 @@ public class MainActivity extends FragmentActivity {
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
         List<UserIDStructure> userIDStructureList = personalDataHelper.allUser();
 
+        final FunctionListFragment functionListFragment = new FunctionListFragment();
+        final CardFragment cardFragment = new CardFragment();
 
-		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
-		registerReceiver(aboutUsReceiver, intentFilter);
+        fragmentList.add(new UserSwitchFragment());
+        fragmentList.add(functionListFragment);
+        fragmentList.add(cardFragment);
 
-        IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
-        registerReceiver(newUserReceiver, intentFilter2);
-        if (userIDStructureList == null || userIDStructureList.size() == 0)
-            sendBroadcast(new Intent(BroadcastHelper.BROADCAST_NEW_USER));
+        adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        vPager.setAdapter(adapter);
+        vPager.setCurrentItem(page);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(aboutUsReceiver);
-        unregisterReceiver(newUserReceiver);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+        unregisterReceiver(aboutUsReceiver);
+        unregisterReceiver(newUserReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
+        registerReceiver(aboutUsReceiver, intentFilter);
+
+        IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
+        registerReceiver(newUserReceiver, intentFilter2);
     }
 
     @Override
@@ -88,18 +96,7 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
         MobclickAgent.onResume(this);
 
-		final FunctionListFragment functionListFragment = new FunctionListFragment();
-		
-		final CardFragment cardFragment = new CardFragment();
-		
-		fragmentList.add(new UserSwitchFragment());
-		fragmentList.add(functionListFragment);
-		fragmentList.add(cardFragment);
-		
-		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-		
-		vPager.setAdapter(adapter);
-        vPager.setCurrentItem(page);
+
 //		final Handler handler = new Handler();
 //		handler.post(new Runnable() {
 //
@@ -122,9 +119,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onPause() {
 		super.onPause();
         MobclickAgent.onPause(this);
-        page = vPager.getCurrentItem();
-		fragmentList.clear();
-        adapter.notifyDataSetChanged();
 	}
 	
 	private class AboutUsReceiver extends BroadcastReceiver{

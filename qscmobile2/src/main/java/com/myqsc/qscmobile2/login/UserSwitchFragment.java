@@ -1,16 +1,13 @@
 package com.myqsc.qscmobile2.login;
 
+import com.myqsc.qscmobile2.AboutUsActivity;
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.login.uti.AboutListAdapter;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
-import com.myqsc.qscmobile2.uti.Utility;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -85,6 +81,7 @@ public class UserSwitchFragment extends Fragment {
             }
         }
 
+        //添加新用户
         LinearLayout newUser = (LinearLayout) inflater.inflate(R.layout.simple_listview_banner, null);
         ((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_left))
                 .setText(R.string.icon_plus);
@@ -93,6 +90,8 @@ public class UserSwitchFragment extends Fragment {
 
         ((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_right))
                 .setText(R.string.icon_chevron_right);
+        ((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_right))
+                .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
         AwesomeFontHelper.setFontFace((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_right),
                 getActivity());
         ((TextView) newUser.findViewById(R.id.simple_listview_banner_text))
@@ -107,6 +106,7 @@ public class UserSwitchFragment extends Fragment {
         newUser.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
         linearLayout.addView(newUser);
 
+        //删除当前用户
         LinearLayout deleteUser = (LinearLayout) inflater.inflate(R.layout.simple_listview_banner, null);
         ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_left))
                 .setText(R.string.icon_minus_sign);
@@ -115,6 +115,8 @@ public class UserSwitchFragment extends Fragment {
 
         ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right))
                 .setText(R.string.icon_chevron_right);
+        ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right))
+                .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
         AwesomeFontHelper.setFontFace((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right),
                 getActivity());
         ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_text))
@@ -151,6 +153,36 @@ public class UserSwitchFragment extends Fragment {
         });
         deleteUser.setBackgroundColor(getActivity().getResources().getColor(R.color.list_even));
         linearLayout.addView(deleteUser);
+
+        //关于我们
+        LinearLayout aboutUs = (LinearLayout) inflater.inflate(R.layout.simple_listview_banner, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.topMargin = 60;
+        aboutUs.setLayoutParams(params);
+
+        ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_left))
+                .setText(R.string.icon_info);
+        AwesomeFontHelper.setFontFace((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_left),
+                getActivity());
+
+        ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_right))
+                .setText(R.string.icon_chevron_right);
+        ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_right))
+                .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
+        AwesomeFontHelper.setFontFace((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_right),
+                getActivity());
+        ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_text))
+                .setText("关于我们");
+        aboutUs.setId(1);
+        aboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().sendBroadcast(new Intent(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK));
+            }
+        });
+        aboutUs.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
+        linearLayout.addView(aboutUs);
     }
 
     final View.OnClickListener userOnClickListener = new View.OnClickListener() {
