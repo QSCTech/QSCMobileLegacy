@@ -5,6 +5,7 @@ import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.curriculum.uti.Utility;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 
 import android.content.Intent;
@@ -41,8 +42,12 @@ public class KebiaoCardFragment extends Fragment {
                     list
             );
             if (map == null) {
+                Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
+                intent.putExtra("card", "实时课表");
+                if (getActivity() != null)
+                    getActivity().sendBroadcast(intent);
                 return;
-                //今天没有课
+                //今天没有课，发送广播请求上层重载卡片
             }
 
             int diffTime = (Integer) map.get(1);

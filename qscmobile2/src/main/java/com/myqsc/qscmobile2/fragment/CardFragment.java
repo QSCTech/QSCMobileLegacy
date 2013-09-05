@@ -40,12 +40,28 @@ public class CardFragment extends Fragment {
 		this.list = new ArrayList<String>();
 	}
 
-	@Override
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
+        getActivity().unregisterReceiver(fragmentChangedReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(
+                BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
+        getActivity().registerReceiver(receiver, intentFilter);
+
+        IntentFilter intentFilter1 = new IntentFilter(
+                BroadcastHelper.BROADCAST_CARD_REDRAW);
+        getActivity().registerReceiver(fragmentChangedReceiver, intentFilter1);
+    }
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		IntentFilter intentFilter = new IntentFilter(
-				BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
-		getActivity().registerReceiver(new receiver(), intentFilter);
 		this.list = getListFromPreference();
 		if (this.list == null)
 			this.list = new ArrayList<String>();
@@ -62,7 +78,7 @@ public class CardFragment extends Fragment {
 		return view;
 	}
 
-	private class receiver extends BroadcastReceiver {
+    final BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			list = getListFromPreference();
@@ -72,7 +88,27 @@ public class CardFragment extends Fragment {
 			final LayoutInflater inflater = LayoutInflater.from(getActivity());
 			fragmentInflate(baseLayout, inflater, list);
 		}
-	}
+	};
+
+    final BroadcastReceiver fragmentChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String name = intent.getStringExtra("card");
+            for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
+                if (FragmentUtility.cardString[i].compareTo(name) == 0) {
+                    //就是这个卡片啦！
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    Fragment fragment = fragmentManager.findFragmentByTag(name);
+                    if (fragment != null)
+                        transaction.remove(fragment);
+                    fragment = FragmentUtility.getCardFragmentByName(name, getActivity());
+                    transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment, name);
+                    transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+                    transaction.commit();
+                }
+            }
+        }
+    };
 
 	private List<String> getListFromPreference() {
 		if (getActivity() == null)
@@ -110,7 +146,7 @@ public class CardFragment extends Fragment {
 			if (fragment[i] != null) {
                 transaction.remove(fragment[i]);
             }
-			fragment[i] = FragmentUtility.getCardFragmentByName(name);
+			fragment[i] = FragmentUtility.getCardFragmentByName(name, getActivity());
 		}
 
         linearLayout.removeAllViews();

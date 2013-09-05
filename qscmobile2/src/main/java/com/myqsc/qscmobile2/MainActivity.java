@@ -60,6 +60,21 @@ public class MainActivity extends FragmentActivity {
         adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         vPager.setAdapter(adapter);
         vPager.setCurrentItem(page);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try{
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                    getThisProcessMemeryInfo();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -87,18 +102,13 @@ public class MainActivity extends FragmentActivity {
 	protected void onResume() {
 		super.onResume();
         MobclickAgent.onResume(this);
-
-
-//		final Handler handler = new Handler();
-//		handler.post(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				getThisProcessMemeryInfo();
-//				handler.postDelayed(this, 1000);
-//			}
-//		});
 	}
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 	
 	public void getThisProcessMemeryInfo() {
         ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
@@ -107,11 +117,7 @@ public class MainActivity extends FragmentActivity {
         LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024 + "mb");
     }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-        MobclickAgent.onPause(this);
-	}
+
 
     private class NewUserReceiver extends BroadcastReceiver{
         @Override

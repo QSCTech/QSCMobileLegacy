@@ -56,7 +56,7 @@ public class KebiaoDataHelper {
         }
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KEBIAO, null);
-        LogHelper.i(result);
+//        LogHelper.i(result);
         try {
             getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
         } catch (JSONException e) {
