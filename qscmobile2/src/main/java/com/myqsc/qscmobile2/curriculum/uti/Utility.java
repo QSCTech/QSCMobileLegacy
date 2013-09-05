@@ -26,7 +26,7 @@ public class Utility {
      * 计算距离上课或下课的时间，下课时间为正，上课时间为负
      * @param calendar
      * @param list
-     * @return
+     * @return Map
      */
     public static Map<Integer, Object> getDiffTime(Calendar calendar,
                                   List<KebiaoClassData> list) {
@@ -74,7 +74,7 @@ public class Utility {
         }
 
         if (!map.containsKey(2))
-            return null;
+            return null; //今天没有课
 
         int course_num = (Integer) map.get(2);
         for(KebiaoClassData data : list)

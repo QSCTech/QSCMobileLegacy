@@ -37,7 +37,6 @@ public class KebiaoEverydayFragment extends Fragment {
         kebiaoListView = (ListView) view.findViewById(R.id.fragment_kebiao_everyday_listview);
 
         helper = new KebiaoDataHelper(getActivity());
-        helper.setHandleAsyncTaskMessage(handleAsyncTaskMessage);
         return view;
     }
 

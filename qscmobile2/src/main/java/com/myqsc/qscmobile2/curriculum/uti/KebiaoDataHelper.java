@@ -26,7 +26,6 @@ import java.util.List;
  * Created by richard on 13-8-29.
  */
 public class KebiaoDataHelper {
-    HandleAsyncTaskMessage handleAsyncTaskMessage = null;
     Context mContext = null;
     List<KebiaoClassData> todayKebiaolist = null;
 
@@ -34,9 +33,6 @@ public class KebiaoDataHelper {
         this.mContext = context;
     }
 
-    public void setHandleAsyncTaskMessage(HandleAsyncTaskMessage message){
-        handleAsyncTaskMessage = message;
-    }
 
     public void clear(){
         mContext
