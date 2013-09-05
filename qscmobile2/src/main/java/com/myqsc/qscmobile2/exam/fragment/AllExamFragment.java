@@ -1,4 +1,4 @@
-package com.myqsc.qscmobile2.exam;
+package com.myqsc.qscmobile2.exam.fragment;
 
 import java.util.Calendar;
 import java.util.List;
@@ -12,6 +12,7 @@ import com.myqsc.qscmobile2.uti.ExamDataHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,29 +26,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint({ "NewApi", "ValidFragment" })
 public class AllExamFragment extends Fragment {
-	Context mContext = null;
-	View upperLinearLayout = null;
 	ListView allExamListView = null;
-	String term_arr[] = {"春", "夏", "秋", "冬"};
+	char term_arr[] = {'春', '夏', '秋', '冬'};
 	String year_str ;
 	int term_int = 0;
 	ExamDataHelper examHelper = null;
-	UserIDStructure structure = null;
 	View view = null;
 	
-	public AllExamFragment(){
-	}
-	
-	public AllExamFragment(Context context, View v){
-		mContext = context;
-		this.upperLinearLayout = v;
-	}
-	
-	
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,33 +46,42 @@ public class AllExamFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_all_exam, null);
-		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_left), mContext);
-		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_right), mContext);
+		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_left), getActivity());
+		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_right), getActivity());
 		
 		view.findViewById(R.id.fragment_all_exam_icon_left).setOnClickListener(onClickListener);
 		view.findViewById(R.id.fragment_all_exam_icon_right).setOnClickListener(onClickListener);
 		
 		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
 		
-		examHelper = new ExamDataHelper(mContext);
-		examHelper.setHandleAsyncTaskMessage(handleAsyncTaskMessage);
+		examHelper = new ExamDataHelper(getActivity());
 
-		PersonalDataHelper helper = new PersonalDataHelper(mContext);
-		
-		structure = helper.getCurrentUser();
-		if (structure == null){
-//			Intent intent = new Intent();
-//			intent.setClass(mContext, UserSwitchActivity.class);
-//			startActivity(intent);
-		}
-		
+        XiaoliHelper xiaoliHelper = new XiaoliHelper(getActivity());
+        switch (xiaoliHelper.getTerm(Calendar.getInstance(), false)) {
+            case '春':case '夏':case '秋':case '冬':
+                for (int i = 0; i != term_arr.length; ++i)
+                    if (xiaoliHelper.getTerm(Calendar.getInstance(), false) == term_arr[i]) {
+                        term_int = i;
+                    }
+                break;
+            case '寒':
+                term_int = 0;
+                break;
+            case '署':
+                term_int = 2;
+                break;
+        }
+
 		updateExamData();
 		return view;
 	}
 	
 	void updateExamData(){
-		examHelper.getExamList(term_arr[term_int], structure.uid, structure.pwd);
-		((TextView)view.findViewById(R.id.fragment_exam_all_term_textview)).setText(year_str + term_arr[term_int]); 
+		List<ExamStructure> list = examHelper.getExamList(term_arr[term_int]);
+		((TextView)view.findViewById(R.id.fragment_exam_all_term_textview))
+                .setText(year_str + term_arr[term_int]);
+        ExamAdapter adapter = new ExamAdapter(list, getActivity());
+        allExamListView.setAdapter(adapter);
 	}
 	
 	View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -98,21 +93,7 @@ public class AllExamFragment extends Fragment {
 			if (v.getId() == R.id.fragment_all_exam_icon_right)
 				++term_int;
 			term_int = (term_int + 4) % 4;
-			LogHelper.d(term_arr[term_int]);
 			updateExamData();
 		}
 	};
-	
-	HandleAsyncTaskMessage handleAsyncTaskMessage = new HandleAsyncTaskMessage() {
-		@Override
-		public void onHandleMessage(Message message) {
-			if (message.what == 0){
-				Toast.makeText(mContext, (CharSequence) message.obj, Toast.LENGTH_LONG).show();
-			} else {
-				ExamAdapter adapter = new ExamAdapter((List<ExamStructure>) message.obj, mContext);
-				allExamListView.setAdapter(adapter);
-			}
-		}
-	};
-	
 }
