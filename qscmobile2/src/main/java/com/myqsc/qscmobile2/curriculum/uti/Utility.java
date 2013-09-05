@@ -47,7 +47,7 @@ public class Utility {
         for (int i = 0; i != course.size(); ++i) {
             if (date.compareTo(classFrom[course.get(i)]) >= 0
                     && date.compareTo(classTo[course.get(i)]) < 0) {
-                LogHelper.d("in class");
+//                LogHelper.d("in class");
                 Calendar toCalendar = Calendar.getInstance();
                 toCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classTo[course.get(i)].substring(0, 2)));
@@ -61,7 +61,7 @@ public class Utility {
 
         for (int i = 0; i != course.size(); ++i) {
             if (date.compareTo(classFrom[course.get(i)]) < 0) {
-                LogHelper.d("after class");
+//                LogHelper.d("after class");
                 Calendar fromCalendar = Calendar.getInstance();
                 fromCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classFrom[course.get(i)].substring(0, 2)));

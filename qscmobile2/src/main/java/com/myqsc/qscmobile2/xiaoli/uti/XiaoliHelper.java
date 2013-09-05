@@ -55,48 +55,13 @@ public class XiaoliHelper {
                 .commit();
     }
 
-    /**
-     * 更新校历数据，完成后回调 handleAsyncTaskMessage，可为 null
-     * @param handleAsyncTaskMessage
-     */
-    public void update(HandleAsyncTaskMessage handleAsyncTaskMessage){
-        Message message = new Message();
-        message.what = 0;
-        try {
-            StringBuffer buffer = new StringBuffer();
-            InputStreamReader reader = new InputStreamReader(mContext.getAssets().open("xiaoli.json"));
-            char b[] = new char[1024];
-            while (reader.read(b) != -1) {
-                buffer.append(b);
-            }
-            String result = String.valueOf(buffer);
-            mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                    .edit()
-                    .putString(DataUpdater.COMMON_XIAOLI, result)
-                    .commit();
-            parse();
-
-            message.what = 1;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (handleAsyncTaskMessage != null) {
-            handleAsyncTaskMessage.onHandleMessage(message);
-        }
-    }
-
     private XiaoliData parse() throws JSONException, ParseException, IOException {
         if (data != null)
             return data;
 
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.COMMON_XIAOLI, null);
-        LogHelper.d(result);
+//        LogHelper.d(result);
         if (result == null)
             return null;
         data = new XiaoliData(new JSONArray(result));

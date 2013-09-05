@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
+import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoli.fragment.XiaoliCardFragment;
 
@@ -31,6 +32,9 @@ public class CardFragment extends Fragment {
 	View view = null;
 	LinearLayout baseLayout = null;
 	List<String> list = null;
+    FragmentManager fragmentManager = null;
+
+    final static int FRAGMENT_MAGIC_NUM = 0XDD00;
 
 	public CardFragment() {
 		this.list = new ArrayList<String>();
@@ -53,8 +57,8 @@ public class CardFragment extends Fragment {
 		view = (ScrollView) inflater.inflate(R.layout.fragment_card, null);
 		baseLayout = (LinearLayout) view
 				.findViewById(R.id.fragment_card_layout);
-
-		fragmentInflate(baseLayout, inflater, list);
+        fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentInflate(baseLayout, LayoutInflater.from(getActivity()), list);
 		return view;
 	}
 
@@ -90,33 +94,40 @@ public class CardFragment extends Fragment {
 		}
 	}
 
-	private void fragmentInflate(LinearLayout linearLayout,
+
+
+    private void fragmentInflate(LinearLayout linearLayout,
 			LayoutInflater inflater, List<String> cardList) {
-		FragmentManager fragmentManager = getActivity()
-				.getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-		LinearLayout tempLayout = (LinearLayout) inflater.inflate(
-				R.layout.fragment_card_background, null);
-		tempLayout.findViewById(R.id.fragment_card).setId(1000);
-		baseLayout.addView(tempLayout);
-		transaction.add(1000, new XiaoliCardFragment());
+        Fragment fragment[] = new Fragment[cardList.size()];
 
 		for (int i = 0; i != cardList.size(); ++i) {
-			LinearLayout layout = (LinearLayout) inflater.inflate(
-					R.layout.fragment_card_background, null);
-			layout.findViewById(R.id.fragment_card).setId(i + 3);
-			baseLayout.addView(layout);
+            String name = cardList.get(i);
+            LogHelper.d(name);
 
-			Fragment fragment = fragmentManager.findFragmentByTag(cardList
-					.get(i));
-			if (fragment != null)
-				transaction.remove(fragment);
-
-			fragment = FragmentUtility.getCardFragmentByName(cardList.get(i));
-			transaction.add(i + 3, fragment, cardList.get(i));
-
+			fragment[i] = fragmentManager.findFragmentByTag(name);
+			if (fragment[i] != null) {
+                transaction.remove(fragment[i]);
+            }
+			fragment[i] = FragmentUtility.getCardFragmentByName(name);
 		}
+
+        linearLayout.removeAllViews();
+
+        LinearLayout tempLayout = (LinearLayout) inflater.inflate(
+                R.layout.fragment_card_background, null);
+        tempLayout.findViewById(R.id.fragment_card).setId(1000);
+        baseLayout.addView(tempLayout);
+        transaction.add(1000, new XiaoliCardFragment());
+
+        for(int i = 0; i != cardList.size(); ++i) {
+            LinearLayout layout = (LinearLayout) inflater.inflate(
+                    R.layout.fragment_card_background, null);
+            layout.findViewById(R.id.fragment_card).setId(i + FRAGMENT_MAGIC_NUM);
+            baseLayout.addView(layout);
+            transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], cardList.get(i));
+        }
 		transaction.commit();
 	}
 }
