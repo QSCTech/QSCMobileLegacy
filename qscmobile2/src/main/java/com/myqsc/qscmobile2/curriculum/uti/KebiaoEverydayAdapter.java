@@ -1,10 +1,12 @@
 package com.myqsc.qscmobile2.curriculum.uti;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
@@ -18,9 +20,15 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
     List<KebiaoClassData> list = null;
     Context mContext = null;
     LayoutInflater mInflater = null;
+    boolean noData = false;
 
     public KebiaoEverydayAdapter(List<KebiaoClassData> list, Context context) {
         this.list = list;
+        if (list.size() == 0){
+            this.list.add(new KebiaoClassData());
+            noData = true;
+        }
+
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -42,6 +50,12 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        if (noData) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.simple_listview_noclass, null);
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.list_odd));
+            return view;
+        }
+
         ViewHolder holder = null;
         if (view == null){
             holder = new ViewHolder();
@@ -60,8 +74,13 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
 
         holder.name.setText(structure.name);
         holder.teacher.setText(structure.teacher);
-        holder.time.setText(structure.time);
+        holder.time.setText(Utility.precessTimeInfo(structure));
         holder.place.setText(structure.place);
+
+        if ((i & 1) == 0)
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.list_odd));
+        else
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.list_even));
 
         return view;
     }
