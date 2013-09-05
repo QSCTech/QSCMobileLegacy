@@ -54,30 +54,23 @@ public class KebiaoDataHelper {
                 .commit();
     }
 
-    public void getDay (final Calendar calendar){
+    public List<KebiaoClassData> getDay (final Calendar calendar){
         if (todayKebiaolist != null) {
-            if (handleAsyncTaskMessage != null) {
-                Message message = new Message();
-                message.what = 1;
-                message.obj = todayKebiaolist;
-                handleAsyncTaskMessage.onHandleMessage(message);
-            }
-            return ;
+            return todayKebiaolist;
         }
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KEBIAO, null);
-        LogHelper.d(result);
-
+        LogHelper.i(result);
         try {
             getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
         } catch (JSONException e) {
             e.printStackTrace();
-            clear();
-            getDay(calendar);
         }
+        assert todayKebiaolist != null;
+        return todayKebiaolist;
     }
 
-    private void getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
+    private List<KebiaoClassData> getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
         todayKebiaolist = new ArrayList<KebiaoClassData>();
         XiaoliHelper xiaoliHelper = new XiaoliHelper(mContext);
         calendar = xiaoliHelper.doRemap(calendar);
@@ -86,18 +79,14 @@ public class KebiaoDataHelper {
         int year = xiaoliHelper.getYear(calendar, false);
 
         for (KebiaoClassData data : allKebiaoList) {
-//            LogHelper.d(data.toString());
             if (data.year != year) {
-//                LogHelper.d("different year:" + data);
                 continue;
             }
             if (data.term.indexOf(term) == -1) {
-//                LogHelper.d("different Term:" + data);
                 continue;
             }
 
             if (data.week != Utility.WEEK_BOTH && data.week != week) {
-//                LogHelper.d("different week:" + data + "origin week:" + data.week);
                 continue;
             }
 
@@ -118,12 +107,6 @@ public class KebiaoDataHelper {
                 return kebiaoClassData.classes[0] - kebiaoClassData2.classes[0];
             }
         });
-
-        if (handleAsyncTaskMessage != null) {
-            Message message = new Message();
-            message.what = 1;
-            message.obj = todayKebiaolist;
-            handleAsyncTaskMessage.onHandleMessage(message);
-        }
+        return todayKebiaolist;
     }
 }

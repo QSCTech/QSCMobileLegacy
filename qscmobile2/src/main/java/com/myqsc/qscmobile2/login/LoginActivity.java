@@ -114,6 +114,8 @@ public class LoginActivity extends FragmentActivity {
                                         "?stuid=" + uid.getText().toString() +
                                         "&pwd=" + pwd.getText().toString()
                             );
+                            LogHelper.d(result);
+
                             if (result == null){
                                 //网络错误
                                 message.what = 0;

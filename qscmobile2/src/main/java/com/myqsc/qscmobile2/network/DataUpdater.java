@@ -65,7 +65,7 @@ public class DataUpdater {
         assert structure != null;
 
 
-        return get(url + "?stuid" + structure.uid + "&pwd" + structure.pwd);
+        return get(url + "?stuid=" + structure.uid + "&pwd=" + structure.pwd);
     }
 
     public static String get(String url) {
