@@ -23,8 +23,10 @@ public class FunctionListFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_cardlist, null);
 		
 		final FunctionListAdapter adapter = new FunctionListAdapter(getActivity());
-		((ListView)view.findViewById(R.id.fragment_cardlist)).setAdapter(adapter);
-		((ListView)view.findViewById(R.id.fragment_cardlist)).setOnItemClickListener(onItemClickListener);
+		((ListView) view.findViewById(R.id.fragment_cardlist))
+                .setAdapter(adapter);
+		((ListView) view.findViewById(R.id.fragment_cardlist))
+                .setOnItemClickListener(onItemClickListener);
 		return view;
 	}
 	

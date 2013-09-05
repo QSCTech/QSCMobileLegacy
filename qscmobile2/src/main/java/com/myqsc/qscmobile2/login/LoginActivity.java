@@ -2,35 +2,35 @@ package com.myqsc.qscmobile2.login;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.common.view.LoadingFragment;
-import com.myqsc.qscmobile2.exam.ExamActivity;
+import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.network.DataUpdater;
+import com.myqsc.qscmobile2.network.UpdateHelper;
+import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
-import com.myqsc.qscmobile2.uti.PersonalDataHelper;
-import com.myqsc.qscmobile2.uti.Utility;
-import com.myqsc.qscmobile2.xiaoche.XiaocheActivity;
 import com.umeng.analytics.MobclickAgent;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Message;
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends FragmentActivity {
 	EditText uid = null;
@@ -54,12 +54,16 @@ public class LoginActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+        unregisterReceiver(updateAllReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED);
+        registerReceiver(updateAllReceiver, intentFilter);
     }
 
     @Override
@@ -76,35 +80,61 @@ public class LoginActivity extends FragmentActivity {
 		
 		uid.addTextChangedListener(myTextWatcher);
 		pwd.addTextChangedListener(myTextWatcher);
-		
-		btn.setOnClickListener(new View.OnClickListener() {
-			
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) {
-				
-				CheckUserAsyncTask task = new CheckUserAsyncTask(uid.getText().toString(), pwd.getText().toString(), getBaseContext()) {
-					
-					@Override
-					public void onHandleMessage(Message message) {
-						if (message.what == 0){
-							Toast.makeText(mContext, (CharSequence) message.obj, Toast.LENGTH_LONG).show();
-						}
-						if (message.what == 1){
-							Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
-							activity.finish();
-							activity.overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
-						}
-					}
-				};
-				if (android.os.Build.VERSION.SDK_INT >= 15)
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-				else
-					task.execute();
-				
-			}
-		});
-		
+
+        final Handler handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message message) {
+                if (message.what == 0)
+                    Toast.makeText(getApplicationContext(),
+                            (CharSequence) message.obj,
+                            Toast.LENGTH_LONG).show();
+                else {
+                    PersonalDataHelper helper = new PersonalDataHelper(getApplicationContext());
+                    helper.add(new UserIDStructure(uid.getText().toString(),
+                            pwd.getText().toString(),
+                            true));
+                    sendBroadcast(new Intent(BroadcastHelper.BROADCAST_USER_CHANGED));
+                    UpdateHelper updateHelper = new UpdateHelper(getApplicationContext());
+                    updateHelper.UpdateAll();
+                }
+                return true;
+            }
+        });
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message = handler.obtainMessage();
+                        try {
+                            String result = DataUpdater.get(
+                                    DataUpdater.name.get(DataUpdater.JW_VALIDATE) +
+                                        "?stuid=" + uid.getText().toString() +
+                                        "&pwd=" + pwd.getText().toString()
+                            );
+                            LogHelper.d(result);
+
+                            if (result == null){
+                                //网络错误
+                                message.what = 0;
+                                message.obj = "网络错误";
+                            } else {
+                                JSONObject jsonObject = new JSONObject(result);
+                                jsonObject.getString("stuid");
+                                message.what = 1;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            message.what = 0;
+                            message.obj = "密码错误";
+                        }
+                        message.sendToTarget();
+                    }
+                }).start();
+            }
+        });
 	}
 
 	final TextWatcher myTextWatcher = new TextWatcher() {
@@ -127,9 +157,7 @@ public class LoginActivity extends FragmentActivity {
 			}
 		}
 	};
-	
-	
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -137,13 +165,13 @@ public class LoginActivity extends FragmentActivity {
 		activity.overridePendingTransition(R.anim.fade_in, R.anim.push_down_out);
 	}
 
+    private class UpdateAllReceiver extends BroadcastReceiver{
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
-
+    final BroadcastReceiver updateAllReceiver = new UpdateAllReceiver();
 }

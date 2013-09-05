@@ -10,6 +10,8 @@ import com.myqsc.qscmobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.qscmobile2.login.LoginActivity;
 import com.myqsc.qscmobile2.login.UserSwitchFragment;
+import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
@@ -34,78 +36,79 @@ public class MainActivity extends FragmentActivity {
 	ViewPager vPager = null;
     int page = 0;
 
-    AboutUsReceiver aboutUsReceiver = null;
     NewUserReceiver newUserReceiver = null;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-        MobclickAgent.setDebugMode( true );
+        MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.update(this);
 		setContentView(R.layout.activity_main);
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 
-        aboutUsReceiver = new AboutUsReceiver();
         newUserReceiver = new NewUserReceiver();
 
-		IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ONABOUTUS_CLICK);
-		registerReceiver(aboutUsReceiver, intentFilter);
+        PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
+        List<UserIDStructure> userIDStructureList = personalDataHelper.allUser();
 
-        IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
-        registerReceiver(newUserReceiver, intentFilter2);
 
-        XiaoliHelper helper = new XiaoliHelper(this);
-        helper.update(null);
-        LogHelper.i("本周是：" + helper.checkParity(Calendar.getInstance(), false));
-	}
+        fragmentList.add(new UserSwitchFragment());
+        fragmentList.add(new FunctionListFragment());
+        fragmentList.add(new CardFragment());
+
+        adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        vPager.setAdapter(adapter);
+        vPager.setCurrentItem(page);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try{
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                    getThisProcessMemeryInfo();
+                }
+            }
+        }).start();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(aboutUsReceiver);
-        unregisterReceiver(newUserReceiver);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+        unregisterReceiver(newUserReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
+        registerReceiver(newUserReceiver, intentFilter2);
     }
 
     @Override
 	protected void onResume() {
 		super.onResume();
         MobclickAgent.onResume(this);
-
-		final FunctionListFragment functionListFragment = new FunctionListFragment();
-		
-		final CardFragment cardFragment = new CardFragment();
-		
-		fragmentList.add(new UserSwitchFragment(this));
-		fragmentList.add(functionListFragment);
-		fragmentList.add(cardFragment);
-		
-		adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-		
-		vPager.setAdapter(adapter);
-        vPager.setCurrentItem(page);
-		final Handler handler = new Handler();
-//		handler.post(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				getThisProcessMemeryInfo();
-//				handler.postDelayed(this, 1000);
-//			}
-//		});
 	}
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 	
 	public void getThisProcessMemeryInfo() {
         ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
@@ -114,23 +117,7 @@ public class MainActivity extends FragmentActivity {
         LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024 + "mb");
     }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-        MobclickAgent.onPause(this);
-        page = vPager.getCurrentItem();
-		fragmentList.clear();
-        adapter.notifyDataSetChanged();
-	}
-	
-	private class AboutUsReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context context, Intent intent) {
-            Intent intent1 = new Intent(getApplicationContext(), AboutUsActivity.class);
-            startActivity(intent1);
-            overridePendingTransition(R.anim.right_push_in, 0);
-		}
-	}
+
 
     private class NewUserReceiver extends BroadcastReceiver{
         @Override

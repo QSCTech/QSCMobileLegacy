@@ -49,8 +49,7 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK){
-            finish();
-            overridePendingTransition(0, R.anim.right_push_out);
+            scrollToFinishActivity();
             return true;
         }
         return false;

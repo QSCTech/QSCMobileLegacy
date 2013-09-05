@@ -5,6 +5,7 @@ import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.curriculum.uti.Utility;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 
 import android.content.Intent;
@@ -27,7 +28,6 @@ public class KebiaoCardFragment extends Fragment {
     TextView diffTextView = null;
     TextView noticeTextView = null;
     KebiaoDataHelper helper = null;
-    final Utility utility = new Utility();
 
     TextView nameTextView = null, teacherTextView = null, timeTextView = null, placeTextView = null;
 
@@ -35,8 +35,24 @@ public class KebiaoCardFragment extends Fragment {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            helper.getDay(Calendar.getInstance());
             handler.postDelayed(this, 1000);
+            List<KebiaoClassData> list = helper.getDay(Calendar.getInstance());
+            Map<Integer, Object> map = com.myqsc.qscmobile2.curriculum.uti.Utility.getDiffTime(
+                    Calendar.getInstance(),
+                    list
+            );
+            if (map == null) {
+                Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
+                intent.putExtra("card", "实时课表");
+                if (getActivity() != null)
+                    getActivity().sendBroadcast(intent);
+                return;
+                //今天没有课，发送广播请求上层重载卡片
+            }
+
+            int diffTime = (Integer) map.get(1);
+            KebiaoClassData kebiao = (KebiaoClassData) map.get(3);
+            setTime(diffTime, kebiao);
         }
     };
     @Override
@@ -44,7 +60,7 @@ public class KebiaoCardFragment extends Fragment {
 			Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.card_fragment_kebiao, container, false);
 		
-		diffTextView = ((TextView)view.findViewById(R.id.card_fragment_kebiao_diff));
+		diffTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_diff);
         noticeTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_notice);
         nameTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_name);
         teacherTextView = (TextView) view.findViewById(R.id.card_fragment_kebiao_teacher);
@@ -61,27 +77,6 @@ public class KebiaoCardFragment extends Fragment {
         });
 
         helper = new KebiaoDataHelper(getActivity());
-        helper.setHandleAsyncTaskMessage(new HandleAsyncTaskMessage() {
-            @Override
-            public void onHandleMessage(Message message) {
-                if (message.what == 0)
-                    Toast.makeText(getActivity(), (CharSequence) message.obj, Toast.LENGTH_SHORT).show();
-                Map<Integer, Object> map = utility.getDiffTime(Calendar.getInstance(),
-                        (List<KebiaoClassData>) message.obj);
-                if (map == null){
-                    view.findViewById(R.id.card_fragment_kebiao_big).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.card_fragment_kebiao_small).setVisibility(View.VISIBLE);
-                    view.getLayoutParams().height =
-                            view.findViewById(R.id.card_fragment_kebiao_small).getLayoutParams().height;
-                } else {
-                    view.findViewById(R.id.card_fragment_kebiao_big).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.card_fragment_kebiao_small).setVisibility(View.INVISIBLE);
-                    view.getLayoutParams().height =
-                            view.findViewById(R.id.card_fragment_kebiao_big).getLayoutParams().height;
-                    setTime((Integer) map.get(1), (KebiaoClassData) map.get(3));
-                }
-            }
-        });
 
         handler.post(runnable);
 		return view;

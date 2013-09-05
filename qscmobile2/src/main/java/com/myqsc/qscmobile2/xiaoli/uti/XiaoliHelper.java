@@ -3,6 +3,7 @@ package com.myqsc.qscmobile2.xiaoli.uti;
 import android.content.Context;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
@@ -24,7 +25,6 @@ import java.util.Calendar;
  * Created by richard on 13-8-31.
  */
 public class XiaoliHelper {
-    private static final String PREFERENCE = "XIAOLI_DATA";
     Context mContext = null;
     XiaoliData data = null;
 
@@ -44,50 +44,15 @@ public class XiaoliHelper {
     public void clear(String result) {
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .remove(PREFERENCE)
+                .remove(DataUpdater.COMMON_XIAOLI)
                 .commit();
     }
 
     public void set(String result) {
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .putString(PREFERENCE, result)
+                .putString(DataUpdater.COMMON_XIAOLI, result)
                 .commit();
-    }
-
-    /**
-     * 更新校历数据，完成后回调 handleAsyncTaskMessage，可为 null
-     * @param handleAsyncTaskMessage
-     */
-    public void update(HandleAsyncTaskMessage handleAsyncTaskMessage){
-        Message message = new Message();
-        message.what = 0;
-        try {
-            StringBuffer buffer = new StringBuffer();
-            InputStreamReader reader = new InputStreamReader(mContext.getAssets().open("xiaoli.json"));
-            char b[] = new char[1024];
-            while (reader.read(b) != -1) {
-                buffer.append(b);
-            }
-            String result = String.valueOf(buffer);
-            mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                    .edit()
-                    .putString(XiaoliHelper.PREFERENCE, result)
-                    .commit();
-            parse();
-
-            message.what = 1;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (handleAsyncTaskMessage != null) {
-            handleAsyncTaskMessage.onHandleMessage(message);
-        }
     }
 
     private XiaoliData parse() throws JSONException, ParseException, IOException {
@@ -95,7 +60,8 @@ public class XiaoliHelper {
             return data;
 
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .getString(XiaoliHelper.PREFERENCE, null);
+                .getString(DataUpdater.COMMON_XIAOLI, null);
+//        LogHelper.d(result);
         if (result == null)
             return null;
         data = new XiaoliData(new JSONArray(result));

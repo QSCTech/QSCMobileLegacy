@@ -5,16 +5,16 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
-import com.myqsc.qscmobile2.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +26,6 @@ import java.util.List;
  * Created by richard on 13-8-29.
  */
 public class KebiaoDataHelper {
-    HandleAsyncTaskMessage handleAsyncTaskMessage = null;
     Context mContext = null;
     List<KebiaoClassData> todayKebiaolist = null;
 
@@ -34,15 +33,12 @@ public class KebiaoDataHelper {
         this.mContext = context;
     }
 
-    public void setHandleAsyncTaskMessage(HandleAsyncTaskMessage message){
-        handleAsyncTaskMessage = message;
-    }
 
     public void clear(){
         mContext
                 .getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .remove(KebiaoClassData.PREFERENCE)
+                .remove(DataUpdater.JW_KEBIAO)
                 .commit();
     }
 
@@ -50,51 +46,27 @@ public class KebiaoDataHelper {
         clear();
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
-                .putString(KebiaoClassData.PREFERENCE, result)
+                .putString(DataUpdater.JW_KEBIAO, result)
                 .commit();
     }
 
-    public void getDay (final Calendar calendar){
+    public List<KebiaoClassData> getDay (final Calendar calendar){
         if (todayKebiaolist != null) {
-            if (handleAsyncTaskMessage != null) {
-                Message message = new Message();
-                message.what = 1;
-                message.obj = todayKebiaolist;
-                handleAsyncTaskMessage.onHandleMessage(message);
-            }
-            return ;
+            return todayKebiaolist;
         }
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .getString(KebiaoClassData.PREFERENCE, null);
-
-        if (result == null) {
-            UserIDStructure userIDStructure = new PersonalDataHelper(mContext).getCurrentUser();
-            final UpdateKebiaoAsyncTask task = new UpdateKebiaoAsyncTask(mContext, userIDStructure) {
-                @Override
-                public void onHandleMessage(Message message) {
-                    if (message.what != 0)
-                        getDay(calendar);
-                    else
-                        if (handleAsyncTaskMessage != null)
-                            handleAsyncTaskMessage.onHandleMessage(message);
-                }
-            };
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            else
-                task.execute();
-        } else {
-            try {
-                getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                clear();
-                getDay(calendar);
-            }
+                .getString(DataUpdater.JW_KEBIAO, null);
+//        LogHelper.i(result);
+        try {
+            getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        assert todayKebiaolist != null;
+        return todayKebiaolist;
     }
 
-    private void getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
+    private List<KebiaoClassData> getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
         todayKebiaolist = new ArrayList<KebiaoClassData>();
         XiaoliHelper xiaoliHelper = new XiaoliHelper(mContext);
         calendar = xiaoliHelper.doRemap(calendar);
@@ -103,18 +75,14 @@ public class KebiaoDataHelper {
         int year = xiaoliHelper.getYear(calendar, false);
 
         for (KebiaoClassData data : allKebiaoList) {
-//            LogHelper.d(data.toString());
             if (data.year != year) {
-//                LogHelper.d("different year:" + data);
                 continue;
             }
             if (data.term.indexOf(term) == -1) {
-//                LogHelper.d("different Term:" + data);
                 continue;
             }
 
             if (data.week != Utility.WEEK_BOTH && data.week != week) {
-//                LogHelper.d("different week:" + data + "origin week:" + data.week);
                 continue;
             }
 
@@ -135,12 +103,6 @@ public class KebiaoDataHelper {
                 return kebiaoClassData.classes[0] - kebiaoClassData2.classes[0];
             }
         });
-
-        if (handleAsyncTaskMessage != null) {
-            Message message = new Message();
-            message.what = 1;
-            message.obj = todayKebiaolist;
-            handleAsyncTaskMessage.onHandleMessage(message);
-        }
+        return todayKebiaolist;
     }
 }

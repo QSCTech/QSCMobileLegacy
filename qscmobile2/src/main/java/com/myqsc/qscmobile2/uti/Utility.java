@@ -35,10 +35,13 @@ public class Utility {
 
     public static String processDiffSecond(int diff){
         String result = "";
+        if (diff >= 60 * 60)
+            result += diff / 60 / 60 + "<font size='7sp'>h</font>";
+        diff %= 60 * 60;
         if (diff >= 60)
-            result += diff / 60 + "<font size='10sp'>min</font>";
-        result += diff % 60 + "<font size='10sp'>s</font>";
+            result += diff / 60 + "<font size='7sp'>min</font>";
+        result += diff % 60 + "<font size='7sp'>s</font>";
         return result;
     }
-    
+
 }
