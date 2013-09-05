@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="@color/blue_text"
             />
     <TextView
             android:layout_marginTop="7dp"
@@ -28,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/black_text"
+            android:textColor="@color/blue_text"
             />
     <TextView
             android:layout_marginTop="7dp"
@@ -36,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/black_text"
+            android:textColor="@color/blue_text"
             android:layout_marginBottom="10dp"
             />
 

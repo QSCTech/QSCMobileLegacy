@@ -82,4 +82,27 @@ public class Utility {
                 map.put(3, data);
         return map;
     }
+
+
+    /**
+     * 输入一个课程对象，传出标准的“周一 6/7/8"这种格式的字符串
+     * @param kebiaoClassData
+     * @return
+     */
+    public static String precessTimeInfo(KebiaoClassData kebiaoClassData) {
+        final String[] week = {"", "周一", "周二", "周三", "周四", "周五", "周六", "周日"};
+        String string = week[kebiaoClassData.time];
+        for(int i : kebiaoClassData.classes) {
+            string += i + "/";
+        }
+        string = string.substring(0, string.length() - 1);
+        return string;
+    }
+
+    public static String processTimeTitle(Calendar calendar) {
+        final String[] week = {"", "周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+        String string = (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.DAY_OF_MONTH);
+        string += " " + week[calendar.get(Calendar.DAY_OF_WEEK)];
+        return string;
+    }
 }

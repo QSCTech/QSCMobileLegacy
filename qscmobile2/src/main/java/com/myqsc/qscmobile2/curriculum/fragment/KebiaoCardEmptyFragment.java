@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.curriculum.uti.Utility;
@@ -56,6 +57,14 @@ public class KebiaoCardEmptyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_fragment_kebiao_empty, null);
         thread.start();
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CurriculumActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
+            }
+        });
         return view;
     }
 

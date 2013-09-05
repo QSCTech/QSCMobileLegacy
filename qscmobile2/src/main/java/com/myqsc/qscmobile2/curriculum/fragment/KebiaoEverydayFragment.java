@@ -16,7 +16,10 @@ import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoEverydayAdapter;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
+import com.myqsc.qscmobile2.uti.LogHelper;
+import com.myqsc.qscmobile2.uti.Utility;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,6 +28,8 @@ import java.util.List;
 public class KebiaoEverydayFragment extends Fragment {
     ListView kebiaoListView = null;
     KebiaoDataHelper helper = null;
+    Calendar calendar = Calendar.getInstance();
+    TextView dateTextView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,26 +40,40 @@ public class KebiaoEverydayFragment extends Fragment {
                 , getActivity());
 
         kebiaoListView = (ListView) view.findViewById(R.id.fragment_kebiao_everyday_listview);
-
         helper = new KebiaoDataHelper(getActivity());
+
+        view.findViewById(R.id.fragment_kebiao_everyday_icon_left)
+                .setOnClickListener(onClickListener);
+        view.findViewById(R.id.fragment_kebiao_everyday_icon_right)
+                .setOnClickListener(onClickListener);
+        dateTextView = (TextView) view.findViewById(R.id.fragment_kebiao_everyday_title);
+
+        setListData();
         return view;
     }
 
-    private void setListData(List<KebiaoClassData> data) {
-        KebiaoEverydayAdapter adapter = new KebiaoEverydayAdapter(data, getActivity());
-        kebiaoListView.setAdapter(adapter);
-    }
-
-    private HandleAsyncTaskMessage handleAsyncTaskMessage = new HandleAsyncTaskMessage() {
+    final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
-        public void onHandleMessage(Message message) {
-            if (message.what == 0) {
-                Toast.makeText(getActivity(), (CharSequence) message.obj, Toast.LENGTH_LONG).show();
-                return;
+        public void onClick(View view) {
+            if (view.getId() == R.id.fragment_kebiao_everyday_icon_left){
+                //左
+                calendar.add(Calendar.DATE, -1);
+            } else{
+                //右
+                calendar.add(Calendar.DATE, 1);
             }
-            setListData((List<KebiaoClassData>) message.obj);
+            LogHelper.d(calendar.get(Calendar.DAY_OF_WEEK) + " " + calendar.get(Calendar.DATE));
+            setListData();
         }
     };
 
-
+    private void setListData() {
+        KebiaoEverydayAdapter adapter = new KebiaoEverydayAdapter(
+                helper.getDay(calendar),
+                getActivity()
+        );
+        kebiaoListView.setAdapter(adapter);
+        dateTextView.setText(com.myqsc.qscmobile2.curriculum.uti.Utility.processTimeTitle(calendar));
+        Utility.setListViewHeightBasedOnChildren(kebiaoListView);
+    }
 }
