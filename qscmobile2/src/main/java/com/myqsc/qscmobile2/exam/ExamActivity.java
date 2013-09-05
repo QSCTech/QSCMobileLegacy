@@ -3,12 +3,12 @@ package com.myqsc.qscmobile2.exam;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.exam.fragment.AllExamFragment;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -43,7 +43,7 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStop(this);
+        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ExamActivity extends SwipeBackActivity {
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		
-		AllExamFragment fragment = new AllExamFragment(this, findViewById(R.id.activity_exam_upper_linear));
+		AllExamFragment fragment = new AllExamFragment();
 		transaction.add(R.id.exam_linear_all, fragment);
 		transaction.commit();
 		
