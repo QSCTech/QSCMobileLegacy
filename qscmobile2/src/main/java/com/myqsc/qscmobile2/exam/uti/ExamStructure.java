@@ -1,4 +1,4 @@
-package com.myqsc.qscmobile2.support.database.structure;
+package com.myqsc.qscmobile2.exam.uti;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -6,12 +6,42 @@ import org.json.JSONObject;
 
 import android.database.Cursor;
 
+import com.myqsc.qscmobile2.uti.LogHelper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class ExamStructure {
 	public final static String PREFERENCE = "ExamData";
 	public String course_num, course_name, credit, stu_name, term, time, position, seat, is_rebuild;
 	
 	public ExamStructure(){
 	};
+
+    public Calendar getStartTime()  {
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.set(Calendar.YEAR, Integer.parseInt(time.substring(0, 4)));
+            calendar.set(Calendar.MONTH, Integer.parseInt(time.substring(5, 7)) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(time.substring(8, 10)));
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.substring(12, 14)));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(time.substring(15, 17)));
+            calendar.set(Calendar.SECOND, 0);
+        } catch (StringIndexOutOfBoundsException e) {
+            return null;
+        }
+        return calendar;
+    }
+
+    public boolean isToday(Calendar calendar) {
+        Calendar timeCalendar = getStartTime();
+        if (timeCalendar != null && timeCalendar.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)){
+            LogHelper.d(course_name);
+            return true;
+        }
+        return false;
+    }
 	
 	public ExamStructure(JSONObject jsonObject) throws JSONException {
 		course_num  = jsonObject.getString("选课课号").trim();

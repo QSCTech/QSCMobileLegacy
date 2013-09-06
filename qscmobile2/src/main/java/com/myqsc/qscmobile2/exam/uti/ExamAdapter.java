@@ -1,11 +1,8 @@
 package com.myqsc.qscmobile2.exam.uti;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import com.myqsc.qscmobile2.R;
-import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
-import com.myqsc.qscmobile2.uti.LogHelper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,8 +15,13 @@ public class ExamAdapter extends BaseAdapter {
 	List<ExamStructure> data = null;
 	Context mContext = null;
 	LayoutInflater mInflater = null;
+    boolean noData = false;
 	public ExamAdapter(List<ExamStructure> data, Context context) {
 		this.data = data;
+        if (data.size() == 0) {
+            data.add(new ExamStructure());
+            noData = true;
+        }
 		this.mContext = context;
 		mInflater = LayoutInflater.from(context);
 	}
@@ -40,6 +42,14 @@ public class ExamAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+        if (noData) {
+            convertView = mInflater.inflate(R.layout.simple_listview_noclass, null);
+            ((TextView) convertView.findViewById(R.id.list_no_data))
+                    .setText("木有考试啦！");
+            convertView.setBackgroundColor(mContext.getResources().getColor(R.color.list_even));
+            return convertView;
+        }
+
 		ViewHolder holder = null;
 		final ExamStructure structure = data.get(position);
 		if (convertView == null){

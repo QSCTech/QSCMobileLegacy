@@ -5,27 +5,17 @@ import java.util.List;
 
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.exam.uti.ExamAdapter;
-import com.myqsc.qscmobile2.support.database.structure.ExamStructure;
-import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
-import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
-import com.myqsc.qscmobile2.uti.ExamDataHelper;
-import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
-import com.myqsc.qscmobile2.uti.LogHelper;
-import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.exam.uti.ExamStructure;
+import com.myqsc.qscmobile2.exam.uti.ExamDataHelper;
 import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class AllExamFragment extends Fragment {
 	ListView allExamListView = null;
@@ -46,7 +36,7 @@ public class AllExamFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.fragment_all_exam, null);
+		view = inflater.inflate(R.layout.fragment_exam_all, null);
 
         Utility.initCheckBar(view, getActivity(), onClickListener);
 		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);

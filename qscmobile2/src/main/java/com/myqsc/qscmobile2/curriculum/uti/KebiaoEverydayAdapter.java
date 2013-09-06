@@ -50,7 +50,7 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (noData) {
             view = LayoutInflater.from(mContext).inflate(R.layout.simple_listview_noclass, null);
-            view.setBackgroundColor(mContext.getResources().getColor(R.color.list_odd));
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.list_even));
             return view;
         }
 

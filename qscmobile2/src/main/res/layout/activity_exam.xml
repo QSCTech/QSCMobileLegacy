@@ -69,21 +69,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/exam_linear_all"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </LinearLayout>
-    </FrameLayout>
+        android:id="@+id/activity_exam_fragment"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 </LinearLayout>
