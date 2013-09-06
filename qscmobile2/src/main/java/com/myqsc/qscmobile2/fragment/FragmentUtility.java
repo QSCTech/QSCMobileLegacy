@@ -10,6 +10,8 @@ import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.qscmobile2.exam.fragment.ExamCardFragment;
+import com.myqsc.qscmobile2.exam.fragment.ExamCardNoDataFragment;
+import com.myqsc.qscmobile2.exam.uti.ExamDataHelper;
 import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
 import com.myqsc.qscmobile2.curriculum.fragment.KebiaoCardFragment;
 import com.myqsc.qscmobile2.uti.LogHelper;
@@ -41,8 +43,13 @@ public class FragmentUtility {
             else
                 return new KebiaoCardFragment();
         }
-		if (name.compareTo(cardString[2]) == 0)
-			return new ExamCardFragment();
+		if (name.compareTo(cardString[2]) == 0) {
+            ExamDataHelper helper = new ExamDataHelper(context);
+            if (helper.getCardExamStructure(Calendar.getInstance()) == null)
+                return new ExamCardNoDataFragment();
+            else
+                return new ExamCardFragment();
+        }
 		if (name.compareTo(cardString[3]) == 0)
 			return new ChengjiCardFragment();
 		LogHelper.d("none fragment");

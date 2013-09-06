@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40sp"
+            android:singleLine="true"
             android:textColor="@color/blue_text"/>
 
     <TextView
@@ -26,6 +27,7 @@
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="马克思主义基本原理概论"/>
 
     <TextView
@@ -33,6 +35,7 @@
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="金建伟"/>
 
     <TextView
@@ -41,6 +44,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="周二6/7/8"/>
 
@@ -49,6 +53,7 @@
             android:textColor="@color/blue_text"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="紫金港 西1-105"/>

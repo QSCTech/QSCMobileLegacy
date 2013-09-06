@@ -57,4 +57,30 @@ public class ExamDataHelper {
         }
         return today;
     }
+
+    public ExamStructure getCardExamStructure(Calendar calendar) {
+        List<ExamStructure> list = getExamList((char) 0x0);
+        ExamStructure examStructure = null;
+        for (ExamStructure structure : list) {
+            Calendar time = structure.getStartTime();
+            if (time == null)
+                continue;
+            if (examStructure == null &&
+                    time.getTimeInMillis() -
+                        Calendar.getInstance().getTimeInMillis() > 0 &&
+                    time.getTimeInMillis() -
+                        Calendar.getInstance().getTimeInMillis() < 1000L * 60 * 60 * 24 * 30)
+                examStructure = structure;
+            else {
+                if (examStructure != null &&
+                        examStructure.getStartTime().getTimeInMillis() -
+                                time.getTimeInMillis() > 0 &&
+                        time.getTimeInMillis() -
+                                Calendar.getInstance().getTimeInMillis() > 0) {
+                    examStructure = structure;
+                }
+            }
+        }
+        return examStructure;
+    }
 }
