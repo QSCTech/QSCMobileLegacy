@@ -44,12 +44,15 @@ public class Utility {
 
     public static String processDiffSecond(int diff) {
         String result = "";
+        if (diff >= 60 * 60 * 24)
+            result += diff / 60 / 60 / 24 + "<font size='5px'>days</font>";
+        diff %= 60 * 60 * 24;
         if (diff >= 60 * 60)
-            result += diff / 60 / 60 + "<font size='7sp'>h</font>";
+            result += diff / 60 / 60 + "<font size='5px'>h</font>";
         diff %= 60 * 60;
         if (diff >= 60)
-            result += diff / 60 + "<font size='7sp'>min</font>";
-        result += diff % 60 + "<font size='7sp'>s</font>";
+            result += diff / 60 + "<font size='5px'>min</font>";
+        result += diff % 60 + "<font size='5px'>s</font>";
         return result;
     }
 

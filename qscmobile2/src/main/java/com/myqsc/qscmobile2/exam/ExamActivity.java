@@ -4,11 +4,13 @@ package com.myqsc.qscmobile2.exam;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.exam.fragment.AllExamFragment;
+import com.myqsc.qscmobile2.exam.fragment.EveryDayExamFragment;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -18,7 +20,6 @@ import android.widget.TextView;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-@SuppressLint("NewApi")
 public class ExamActivity extends SwipeBackActivity {
 	int check = 1;
 
@@ -68,13 +69,7 @@ public class ExamActivity extends SwipeBackActivity {
 		text_right	= (TextView) findViewById(R.id.exam_text_right);
 		text_left	= (TextView) findViewById(R.id.exam_text_left);
 		
-		FragmentManager manager = getSupportFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
-		
-		AllExamFragment fragment = new AllExamFragment();
-		transaction.add(R.id.exam_linear_all, fragment);
-		transaction.commit();
-		
+		manager = getSupportFragmentManager();
 		setTextColor(check);
 		
 		((LinearLayout)findViewById(R.id.exam_linear_left)).setOnClickListener(onClickListener);
@@ -100,6 +95,13 @@ public class ExamActivity extends SwipeBackActivity {
 			
 			icon_left.setTextColor(getResources().getColor(R.color.blue_text));
 			text_left.setTextColor(getResources().getColor(R.color.blue_text));
+
+            FragmentTransaction transaction = manager.beginTransaction();
+            Fragment fragment = manager.findFragmentByTag("exam_everyday");
+            if (fragment == null)
+                fragment = new EveryDayExamFragment();
+            transaction.replace(R.id.activity_exam_fragment, fragment, "exam_everyday");
+            transaction.commit();
 		} 
 		if (check == 1){
 			icon_left.setTextColor(getResources().getColor(R.color.black_text));
@@ -107,7 +109,16 @@ public class ExamActivity extends SwipeBackActivity {
 			
 			icon_right.setTextColor(getResources().getColor(R.color.blue_text));
 			text_right.setTextColor(getResources().getColor(R.color.blue_text));
+
+            FragmentTransaction transaction = manager.beginTransaction();
+            Fragment fragment = manager.findFragmentByTag("exam_all");
+            if (fragment == null)
+                fragment = new AllExamFragment();
+            transaction.replace(R.id.activity_exam_fragment, fragment, "exam_all");
+            transaction.commit();
 		}
 	}
+
+    FragmentManager manager = null;
 
 }

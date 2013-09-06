@@ -25,10 +25,13 @@ public class XiaoliRange {
         endTime = Calendar.getInstance();
         endTime.clear();
         endTime.setTime(simpleDateFormat.parse(end));
+        endTime.set(Calendar.HOUR_OF_DAY, 23);
+        endTime.set(Calendar.MINUTE, 59);
+        endTime.set(Calendar.SECOND, 59);
     }
 
     public boolean inRange(Calendar calendar) {
-        if (startTime.compareTo(calendar) <= 0 && endTime.compareTo(calendar) > 0) {
+        if (startTime.compareTo(calendar) <= 0 && endTime.compareTo(calendar) >= 0) {
             return true;
         }
         return false;
