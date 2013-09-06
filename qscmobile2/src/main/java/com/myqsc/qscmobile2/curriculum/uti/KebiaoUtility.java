@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by richard on 13-8-31.
  */
-public class Utility {
+public class KebiaoUtility {
     public final static String[] classFrom = new String[]{
             "", "08:00", "08:50", "09:50", "10:40", "11:30", "13:15", "14:05", "14:55", "15:55", "16:45", "18:30", "19:20", "20:10"
     };

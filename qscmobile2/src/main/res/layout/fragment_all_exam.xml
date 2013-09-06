@@ -4,51 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/blue"
-        android:gravity="center_vertical" >
-
-        <TextView
-            android:id="@+id/fragment_all_exam_icon_left"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="@string/icon_chevron_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_weight="2"  />
-
-        <TextView
-            android:id="@+id/fragment_exam_all_term_textview"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/fragment_all_exam_icon_right"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="@string/icon_chevron_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_weight="2"  />
-    </LinearLayout>
+    <include layout="@layout/view_checkbar"/>
 
     <ListView
         android:id="@+id/activity_exam_term_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/white"
-        android:dividerHeight="2px" >
+        android:dividerHeight="2dp" >
     </ListView>
 
 </LinearLayout>

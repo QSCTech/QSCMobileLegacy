@@ -8,7 +8,7 @@ import com.myqsc.qscmobile2.chengji.fragment.ChengjiCardFragment;
 import com.myqsc.qscmobile2.curriculum.fragment.KebiaoCardEmptyFragment;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
-import com.myqsc.qscmobile2.curriculum.uti.Utility;
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.qscmobile2.exam.fragment.ExamCardFragment;
 import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
 import com.myqsc.qscmobile2.curriculum.fragment.KebiaoCardFragment;
@@ -16,7 +16,6 @@ import com.myqsc.qscmobile2.uti.LogHelper;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 
 public class FragmentUtility {
@@ -37,7 +36,7 @@ public class FragmentUtility {
 		if (name.compareTo(cardString[1]) == 0) {
             KebiaoDataHelper helper = new KebiaoDataHelper(context);
             List<KebiaoClassData> list = helper.getDay(Calendar.getInstance());
-            if (Utility.getDiffTime(Calendar.getInstance(), list) == null)
+            if (KebiaoUtility.getDiffTime(Calendar.getInstance(), list) == null)
                 return new KebiaoCardEmptyFragment();
             else
                 return new KebiaoCardFragment();

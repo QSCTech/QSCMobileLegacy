@@ -12,6 +12,7 @@ import com.myqsc.qscmobile2.uti.ExamDataHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
+import com.myqsc.qscmobile2.uti.Utility;
 import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
 import android.annotation.SuppressLint;
@@ -46,12 +47,8 @@ public class AllExamFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_all_exam, null);
-		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_left), getActivity());
-		AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.fragment_all_exam_icon_right), getActivity());
-		
-		view.findViewById(R.id.fragment_all_exam_icon_left).setOnClickListener(onClickListener);
-		view.findViewById(R.id.fragment_all_exam_icon_right).setOnClickListener(onClickListener);
-		
+
+        Utility.initCheckBar(view, getActivity(), onClickListener);
 		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
 		
 		examHelper = new ExamDataHelper(getActivity());
@@ -78,8 +75,7 @@ public class AllExamFragment extends Fragment {
 	
 	void updateExamData(){
 		List<ExamStructure> list = examHelper.getExamList(term_arr[term_int]);
-		((TextView)view.findViewById(R.id.fragment_exam_all_term_textview))
-                .setText(year_str + term_arr[term_int]);
+        Utility.setCheckBarTitle(year_str + term_arr[term_int], view);
         ExamAdapter adapter = new ExamAdapter(list, getActivity());
         allExamListView.setAdapter(adapter);
 	}
@@ -88,9 +84,9 @@ public class AllExamFragment extends Fragment {
 		
 		@Override
 		public void onClick(View v) {
-			if (v.getId() == R.id.fragment_all_exam_icon_left)
+			if (v.getId() == Utility.ICON_LEFT)
 				--term_int;
-			if (v.getId() == R.id.fragment_all_exam_icon_right)
+			if (v.getId() == Utility.ICON_RIGHT)
 				++term_int;
 			term_int = (term_int + 4) % 4;
 			updateExamData();

@@ -1,12 +1,10 @@
 package com.myqsc.qscmobile2.curriculum.uti;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
@@ -74,7 +72,7 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
 
         holder.name.setText(structure.name);
         holder.teacher.setText(structure.teacher);
-        holder.time.setText(Utility.precessTimeInfo(structure));
+        holder.time.setText(KebiaoUtility.precessTimeInfo(structure));
         holder.place.setText(structure.place);
 
         if ((i & 1) == 0)

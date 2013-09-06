@@ -4,21 +4,18 @@ import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
-import com.myqsc.qscmobile2.curriculum.uti.Utility;
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
-import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -37,7 +34,7 @@ public class KebiaoCardFragment extends Fragment {
         public void run() {
             handler.postDelayed(this, 1000);
             List<KebiaoClassData> list = helper.getDay(Calendar.getInstance());
-            Map<Integer, Object> map = com.myqsc.qscmobile2.curriculum.uti.Utility.getDiffTime(
+            Map<Integer, Object> map = KebiaoUtility.getDiffTime(
                     Calendar.getInstance(),
                     list
             );
