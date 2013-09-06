@@ -12,7 +12,7 @@ import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
-import com.myqsc.qscmobile2.curriculum.uti.Utility;
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.qscmobile2.fragment.FragmentUtility;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
@@ -37,7 +37,7 @@ public class KebiaoCardEmptyFragment extends Fragment {
                     e.printStackTrace();
                     break;
                 }
-                if (Utility.getDiffTime(Calendar.getInstance(), list) != null) {
+                if (KebiaoUtility.getDiffTime(Calendar.getInstance(), list) != null) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
