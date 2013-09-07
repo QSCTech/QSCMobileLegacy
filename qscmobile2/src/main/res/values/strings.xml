@@ -32,6 +32,7 @@
     <string name="icon_star">&#xF005;</string>
     <string name="icon_th">&#xF00A;</string>
     <string name="icon_th_list">&#xF00B;</string>
+    <string name="icon_truck">&#xF0D1;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
     
 </resources>
