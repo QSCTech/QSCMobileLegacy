@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.exam.ExamActivity;
 import com.myqsc.qscmobile2.exam.uti.ExamDataHelper;
 import com.myqsc.qscmobile2.exam.uti.ExamStructure;
 import com.myqsc.qscmobile2.fragment.FragmentUtility;
@@ -48,6 +49,15 @@ public class ExamCardFragment extends Fragment {
         view = inflater.inflate(R.layout.card_fragment_kebiao, null);
         helper = new ExamDataHelper(getActivity());
         handler.post(runnable);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ExamActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
+            }
+        });
         return view;
     }
 

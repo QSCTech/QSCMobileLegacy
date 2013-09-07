@@ -68,7 +68,7 @@ public class KebiaoCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CurriculumActivity.class);
-                startActivity(intent);
+                getActivity().startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.right_push_in, 0);
             }
         });
