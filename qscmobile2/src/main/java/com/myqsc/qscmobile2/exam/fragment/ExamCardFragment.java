@@ -25,52 +25,36 @@ import java.util.Calendar;
 public class ExamCardFragment extends Fragment {
     View view = null;
     final Handler handler = new Handler();
-    final Thread thread = new Thread(new Runnable() {
+    ExamDataHelper helper = null;
+    final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            final ExamDataHelper helper = new ExamDataHelper(getActivity());
-            while (true) {
-                final ExamStructure structure = helper.getCardExamStructure(Calendar.getInstance());
-                if (structure == null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (getActivity() != null) {
-                                Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
-                                intent.putExtra("card", FragmentUtility.cardString[2]);
-                                getActivity().sendBroadcast(intent);
-                            }
-                        }
-                    });
-                } else {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            setText(structure);
-                        }
-                    });
+            handler.postDelayed(this, 1000);
+            final ExamStructure structure = helper.getCardExamStructure(Calendar.getInstance());
+            if (structure == null) {
+                if (getActivity() != null) {
+                    Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
+                    intent.putExtra("card", FragmentUtility.cardString[2]);
+                    getActivity().sendBroadcast(intent);
                 }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    return ;
-                }
+            } else {
+                setText(structure);
             }
         }
-    });
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.card_fragment_kebiao, null);
-        thread.start();
+        helper = new ExamDataHelper(getActivity());
+        handler.post(runnable);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        thread.interrupt();
+        handler.removeCallbacks(runnable);
     }
 
     private void setText(ExamStructure examStructure) {
