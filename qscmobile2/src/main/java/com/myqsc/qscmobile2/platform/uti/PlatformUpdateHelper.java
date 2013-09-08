@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.platform.platform;
+import com.myqsc.qscmobile2.uti.Utility;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -21,15 +24,16 @@ import java.io.IOException;
  * Created by richard on 13-9-8.
  */
 public class PlatformUpdateHelper {
+    final static String URLBASE = "http://qsctech.github.io/qsc-mobile-plugins/";
+    final static String PATH_ADD = "platform/";
+
     public static void updatePlatform(final Context context, final Handler handler) {
         final Message message = handler.obtainMessage();
         message.what = 0;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final String URLBASE = "http://qsctech.github.io/qsc-mobile-plugins/";
                 final String url = "http://qsctech.github.io/qsc-mobile-plugins/resources.json";
-                final String PATH_ADD = "platform/";
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);
                 try {
@@ -67,5 +71,58 @@ public class PlatformUpdateHelper {
         });
 
         thread.start();
+    }
+
+    public static void updatePlugin(final String pluginID,
+                                    final Context context,
+                                    final Handler handler) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String URL = "http://qsctech.github.io/qsc-mobile-plugins/plugins.json";
+                Message message = handler.obtainMessage();
+                message.what = 0;
+
+                try {
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpGet httpGet = new HttpGet(URL);
+                    HttpResponse response = httpClient.execute(httpGet);
+                    String result = EntityUtils.toString(response.getEntity());
+                    JSONArray jsonArray = new JSONArray(result);
+
+                    for (int i = 0; i != jsonArray.length(); ++i) {
+                        JSONObject jsonObject = jsonArray.optJSONObject(i);
+                        context.getSharedPreferences(Utility.PREFERENCE, 0)
+                                .edit()
+                                .putString(platform.PLUGIN, jsonObject.toString())
+                                .commit();
+                        String id = jsonObject.getString("id");
+                        String path = jsonObject.getString("path");
+                        if (id.compareTo(pluginID) == 0) {
+                            JSONArray files = jsonObject.getJSONArray("web_accessible_resources");
+                            for (int j = 0; j != files.length(); ++j) {
+                                byte data[] = EntityUtils.toByteArray(
+                                        new DefaultHttpClient().execute(
+                                                new HttpGet(URLBASE + path + files.getString(j))).getEntity());
+                                File file = new File(context.getFilesDir(), PATH_ADD + path + files.getString(j));
+                                if (file.exists())
+                                    file.delete();
+                                file.createNewFile();
+
+                                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                                fileOutputStream.write(data);
+                                fileOutputStream.close();
+                            }
+                        }
+                    }
+                    message.what = 1;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                message.sendToTarget();
+            }
+        });
     }
 }
