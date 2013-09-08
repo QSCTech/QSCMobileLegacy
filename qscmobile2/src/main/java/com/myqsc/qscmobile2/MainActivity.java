@@ -42,6 +42,7 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
         MobclickAgent.setDebugMode(true);
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
 		setContentView(R.layout.activity_main);
 

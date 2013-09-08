@@ -1,18 +1,10 @@
-package com.myqsc.qscmobile2.platform.uti;
+package com.myqsc.qscmobile2.platform.JSInterface;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Base64;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by richard on 13-9-7.
@@ -28,7 +20,7 @@ public class JSInterface {
     }
 
     @JavascriptInterface
-    public void sendMessage(String result) {
+    public void sendRequest(String result) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(result);

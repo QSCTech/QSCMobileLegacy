@@ -1,4 +1,4 @@
-package com.myqsc.qscmobile2.platform.uti;
+package com.myqsc.qscmobile2.platform.JSInterface;
 
 import android.content.SharedPreferences;
 import android.webkit.WebView;

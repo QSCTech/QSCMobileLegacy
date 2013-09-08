@@ -1,11 +1,9 @@
-package com.myqsc.qscmobile2.platform.uti;
+package com.myqsc.qscmobile2.platform.JSInterface;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.webkit.WebView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
