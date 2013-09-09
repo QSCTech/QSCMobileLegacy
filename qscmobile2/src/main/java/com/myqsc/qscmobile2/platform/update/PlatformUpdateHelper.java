@@ -1,4 +1,4 @@
-package com.myqsc.qscmobile2.platform.uti;
+package com.myqsc.qscmobile2.platform.update;
 
 import android.content.Context;
 import android.os.Handler;
