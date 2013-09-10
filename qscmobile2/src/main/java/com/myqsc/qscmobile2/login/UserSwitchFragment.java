@@ -2,6 +2,8 @@ package com.myqsc.qscmobile2.login;
 
 import com.myqsc.qscmobile2.AboutUsActivity;
 import com.myqsc.qscmobile2.R;
+import com.myqsc.qscmobile2.fragment.LoadFragment;
+import com.myqsc.qscmobile2.network.UpdateHelper;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
 import com.myqsc.qscmobile2.uti.AwesomeFontHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
@@ -16,6 +18,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +143,7 @@ public class UserSwitchFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("删除用户");
                 builder.setMessage("确定删除用户：" +
-                        ((TextView) view.findViewById(R.id.simple_listview_banner_text)).getText() +
+                        personalDataHelper.getCurrentUser().uid +
                         "吗？");
                 builder.setPositiveButton("确定", new AlertDialog.OnClickListener() {
 
@@ -255,7 +259,32 @@ public class UserSwitchFragment extends Fragment {
     final BroadcastReceiver userChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            if (manager.findFragmentByTag("load") != null)
+                transaction.remove(manager.findFragmentByTag("load"));
+            transaction.add(R.id.fragment_user_switch_frame, new LoadFragment(), "load");
+            transaction.addToBackStack(null);
+            transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+            transaction.commit();
+            linearLayout.setVisibility(View.INVISIBLE);
+
+            getActivity().registerReceiver(allUpdatedReceiver,
+                    new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED));
+            UpdateHelper updateHelper = new UpdateHelper(getActivity());
+            updateHelper.UpdateAll();
+        }
+    };
+
+    final BroadcastReceiver allUpdatedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() != 0)
+                manager.popBackStack();
+            linearLayout.setVisibility(View.VISIBLE);
             initViews(LayoutInflater.from(getActivity()));
+            getActivity().unregisterReceiver(this);
         }
     };
 

@@ -36,6 +36,10 @@ public class UpdateHelper {
                             .edit()
                             .putString(message.getData().getString("key"), (String) message.obj)
                             .commit();
+                    Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
+                    intent.putExtra("card", message.getData().getString("key"));
+                    mContext.sendBroadcast(intent);
+                    //更新完后通知所有卡片重绘
                 }
 
                 if (len[0] == 0) {

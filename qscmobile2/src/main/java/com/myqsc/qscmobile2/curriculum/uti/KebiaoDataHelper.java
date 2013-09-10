@@ -1,12 +1,17 @@
 package com.myqsc.qscmobile2.curriculum.uti;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Message;
 
 import com.myqsc.qscmobile2.network.DataUpdater;
+import com.myqsc.qscmobile2.network.UpdateHelper;
 import com.myqsc.qscmobile2.support.database.structure.UserIDStructure;
+import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.login.uti.PersonalDataHelper;
@@ -31,6 +36,7 @@ public class KebiaoDataHelper {
 
     public KebiaoDataHelper(Context context) {
         this.mContext = context;
+        mContext.registerReceiver(updateReceiver, new IntentFilter(BroadcastHelper.BROADCAST_CARD_REDRAW));
     }
 
 
@@ -51,7 +57,6 @@ public class KebiaoDataHelper {
     }
 
     public List<KebiaoClassData> getDay(final Calendar calendar) {
-//        LogHelper.i(result);
         try {
             getTodayKebiao(KebiaoClassData.parse(
                     new JSONArray(
@@ -103,4 +108,16 @@ public class KebiaoDataHelper {
         });
         return todayKebiaolist;
     }
+
+    final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("实时课表".compareTo(intent.getExtras().getString("card")) == 0 ||
+                    DataUpdater.JW_KEBIAO.compareTo(intent.getExtras().getString("card")) == 0) {
+                KebiaoClassData.list = null;
+                LogHelper.d("kebiao reseted");
+            }
+        }
+    };
+
 }
