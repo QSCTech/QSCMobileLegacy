@@ -42,15 +42,29 @@ public class UserSwitchFragment extends Fragment {
         linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_switch_main);
         initViews(inflater);
 
+
+        return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(userChangedReceiver);
+        getActivity().unregisterReceiver(allUpdatedReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_USER_CHANGED);
         getActivity().registerReceiver(userChangedReceiver, intentFilter);
-        return view;
+        getActivity().registerReceiver(allUpdatedReceiver,
+                new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getActivity().unregisterReceiver(userChangedReceiver);
     }
 
     private void initViews(LayoutInflater inflater){
@@ -266,11 +280,10 @@ public class UserSwitchFragment extends Fragment {
             transaction.add(R.id.fragment_user_switch_frame, new LoadFragment(), "load");
             transaction.addToBackStack(null);
             transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
             linearLayout.setVisibility(View.INVISIBLE);
 
-            getActivity().registerReceiver(allUpdatedReceiver,
-                    new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED));
+
             UpdateHelper updateHelper = new UpdateHelper(getActivity());
             updateHelper.UpdateAll();
         }
@@ -284,7 +297,6 @@ public class UserSwitchFragment extends Fragment {
                 manager.popBackStack();
             linearLayout.setVisibility(View.VISIBLE);
             initViews(LayoutInflater.from(getActivity()));
-            getActivity().unregisterReceiver(this);
         }
     };
 

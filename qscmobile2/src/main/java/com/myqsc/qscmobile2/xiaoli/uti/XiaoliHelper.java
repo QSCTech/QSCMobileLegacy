@@ -1,8 +1,11 @@
 package com.myqsc.qscmobile2.xiaoli.uti;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Message;
 
+import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.qscmobile2.uti.LogHelper;
@@ -111,4 +114,24 @@ public class XiaoliHelper {
     public Calendar doRemap(Calendar calendar) {
         return data.doRemap(calendar);
     }
+
+    final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("近期热门活动".compareTo(intent.getExtras().getString("card")) == 0 ||
+                    DataUpdater.COMMON_XIAOLI.compareTo(intent.getExtras().getString("card")) == 0) {
+                data = null;
+                try {
+                    parse();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                LogHelper.d("xiaoli reseted");
+            }
+        }
+    };
 }

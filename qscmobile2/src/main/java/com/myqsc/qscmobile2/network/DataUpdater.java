@@ -14,6 +14,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +67,13 @@ public class DataUpdater {
         assert structure != null;
 
 
-        return get(url + "?stuid=" + structure.uid + "&pwd=" + structure.pwd);
+        try {
+            return get(url + "?stuid=" + URLEncoder.encode(structure.uid, "UTF-8") + "&pwd=" +
+                    URLEncoder.encode(structure.pwd, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String get(String url) {
