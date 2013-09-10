@@ -45,10 +45,8 @@ public class KebiaoUtility {
         String date = simpleDateFormat.format(calendar.getTime());
 
         for (int i = 0; i != course.size(); ++i) {
-//            LogHelper.d(course.get(i) + " class");
             if (date.compareTo(classFrom[course.get(i)]) >= 0
                     && date.compareTo(classTo[course.get(i)]) < 0) {
-//                LogHelper.d("in class");
                 Calendar toCalendar = Calendar.getInstance();
                 toCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classTo[course.get(i)].substring(0, 2)));
@@ -57,13 +55,13 @@ public class KebiaoUtility {
                 toCalendar.set(Calendar.SECOND, 0);
                 map.put(1, (int) ((toCalendar.getTimeInMillis() - calendar.getTimeInMillis()) / 1000));
                 map.put(2, course.get(i));
+                break;
             }
         }
 
         if (map.get(1) == null) {
             for (int i = 0; i != course.size(); ++i) {
                 if (date.compareTo(classFrom[course.get(i)]) < 0) {
-//                LogHelper.d("after class");
                     Calendar fromCalendar = Calendar.getInstance();
                     fromCalendar.set(Calendar.HOUR_OF_DAY,
                             Integer.parseInt(classFrom[course.get(i)].substring(0, 2)));
@@ -72,6 +70,7 @@ public class KebiaoUtility {
                     fromCalendar.set(Calendar.SECOND, 0);
                     map.put(1, (int) ((calendar.getTimeInMillis() - fromCalendar.getTimeInMillis()) / 1000));
                     map.put(2, course.get(i));
+                    break;
                 }
             }
         }

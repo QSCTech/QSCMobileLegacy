@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+                android:oneshot="false">
+
+    <item android:duration="50" android:drawable="@drawable/refreshing_1"/>
+    <item android:duration="50" android:drawable="@drawable/refreshing_2"/>
+    <item android:duration="50" android:drawable="@drawable/refreshing_3"/>
+    <item android:duration="50" android:drawable="@drawable/refreshing_4"/>
+    <item android:duration="50" android:drawable="@drawable/refreshing_5"/>
+    <item android:duration="50" android:drawable="@drawable/refreshing_6"/>
+
+</animation-list>

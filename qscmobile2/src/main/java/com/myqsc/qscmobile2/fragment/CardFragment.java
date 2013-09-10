@@ -78,6 +78,7 @@ public class CardFragment extends Fragment {
 		view = inflater.inflate(R.layout.fragment_card, null);
         final PullToRefreshScrollView pullToRefreshScrollView = (PullToRefreshScrollView) view
                 .findViewById(R.id.card_pull_refresh_scrollview);
+        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {

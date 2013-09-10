@@ -29,12 +29,12 @@ public class KebiaoDataHelper {
     Context mContext = null;
     List<KebiaoClassData> todayKebiaolist = null;
 
-    public KebiaoDataHelper(Context context){
+    public KebiaoDataHelper(Context context) {
         this.mContext = context;
     }
 
 
-    public void clear(){
+    public void clear() {
         mContext
                 .getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
@@ -50,15 +50,13 @@ public class KebiaoDataHelper {
                 .commit();
     }
 
-    public List<KebiaoClassData> getDay (final Calendar calendar){
-        if (todayKebiaolist != null)
-            return todayKebiaolist;
-
-        String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .getString(DataUpdater.JW_KEBIAO, null);
+    public List<KebiaoClassData> getDay(final Calendar calendar) {
 //        LogHelper.i(result);
         try {
-            getTodayKebiao(KebiaoClassData.parse(new JSONArray(result)), calendar);
+            getTodayKebiao(KebiaoClassData.parse(
+                    new JSONArray(
+                            mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                                    .getString(DataUpdater.JW_KEBIAO, null))), calendar);
         } catch (JSONException e) {
             e.printStackTrace();
         }

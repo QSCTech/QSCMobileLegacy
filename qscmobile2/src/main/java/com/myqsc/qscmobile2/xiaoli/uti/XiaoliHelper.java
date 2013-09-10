@@ -26,10 +26,12 @@ import java.util.Calendar;
  */
 public class XiaoliHelper {
     Context mContext = null;
-    XiaoliData data = null;
+    static XiaoliData data = null;
 
     public XiaoliHelper(Context context) {
         this.mContext = context;
+        if (data != null)
+            return;
         try {
             parse();
         } catch (ParseException e) {
