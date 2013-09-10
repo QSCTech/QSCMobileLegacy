@@ -62,8 +62,7 @@ public class XiaoliHelper {
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.COMMON_XIAOLI, null);
 //        LogHelper.d(result);
-        if (result == null)
-            return null;
+        assert result != null;
         data = new XiaoliData(new JSONArray(result));
         return data;
     }

@@ -52,6 +52,13 @@ public class UpdateHelper {
         }
     }
 
+    public void pullToRefresh(final Handler handler){
+        final int[] len = {DataUpdater.name.size()};
+        for (String key : DataUpdater.name.keySet()) {
+            executorService.submit(new DataUpdaterRunnable(key, handler, mContext));
+        }
+    }
+
     public void update(final Handler handler, final String key) {
         executorService.submit(new DataUpdaterRunnable(key,
                 handler,

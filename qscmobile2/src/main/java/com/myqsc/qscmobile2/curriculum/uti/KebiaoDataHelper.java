@@ -42,7 +42,7 @@ public class KebiaoDataHelper {
                 .commit();
     }
 
-    public void set(String result){
+    public void set(String result) {
         clear();
         mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .edit()
