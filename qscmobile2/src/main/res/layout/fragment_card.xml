@@ -5,8 +5,9 @@
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        ptr:ptrShowIndicator="false"
         ptr:ptrMode="pullFromStart"
-        ptr:ptrHeaderBackground="@anim/loading"
+        ptr:ptrDrawableTop="@anim/loading"
         android:orientation="vertical">
 
     <LinearLayout
