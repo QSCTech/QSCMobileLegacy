@@ -51,6 +51,9 @@ public class KebiaoDataHelper {
     }
 
     public List<KebiaoClassData> getDay (final Calendar calendar){
+        if (todayKebiaolist != null)
+            return todayKebiaolist;
+
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KEBIAO, null);
 //        LogHelper.i(result);

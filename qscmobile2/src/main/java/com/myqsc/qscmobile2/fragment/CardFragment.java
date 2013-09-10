@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
@@ -69,7 +71,15 @@ public class CardFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = (ScrollView) inflater.inflate(R.layout.fragment_card, null);
+		view = inflater.inflate(R.layout.fragment_card, null);
+        PullToRefreshScrollView pullToRefreshScrollView = (PullToRefreshScrollView) view
+                .findViewById(R.id.card_pull_refresh_scrollview);
+        pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+
+            }
+        });
 		baseLayout = (LinearLayout) view
 				.findViewById(R.id.fragment_card_layout);
         fragmentManager = getActivity().getSupportFragmentManager();

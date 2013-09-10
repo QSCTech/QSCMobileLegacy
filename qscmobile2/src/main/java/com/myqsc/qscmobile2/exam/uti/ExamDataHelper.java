@@ -26,14 +26,19 @@ public class ExamDataHelper {
 		mContext.getSharedPreferences(Utility.PREFERENCE, 0).edit()
                 .remove(DataUpdater.JW_KAOSHI).commit();
 	}
-	
-	public List<ExamStructure> getExamList(final char term){
+
+    List<ExamStructure> list = null;
+
+    public List<ExamStructure> getExamList(final char term){
+        if (list != null)
+            return list;
+
 		String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KAOSHI, null);
         assert result != null;
 
         try {
-            List<ExamStructure> list = new ArrayList<ExamStructure>();
+            list = new ArrayList<ExamStructure>();
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i != jsonArray.length(); ++i) {
                 ExamStructure examStructure = new ExamStructure(jsonArray.optJSONObject(i));

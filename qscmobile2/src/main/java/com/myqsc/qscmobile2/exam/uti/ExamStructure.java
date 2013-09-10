@@ -15,12 +15,16 @@ import java.util.Calendar;
 public class ExamStructure {
 	public final static String PREFERENCE = "ExamData";
 	public String course_num, course_name, credit, stu_name, term, time, position, seat, is_rebuild;
+
+    private Calendar calendar = null;
 	
 	public ExamStructure(){
 	};
 
     public Calendar getStartTime()  {
-        Calendar calendar = Calendar.getInstance();
+        if (calendar != null)
+            return calendar;
+        calendar = Calendar.getInstance();
         try {
             calendar.set(Calendar.YEAR, Integer.parseInt(time.substring(0, 4)));
             calendar.set(Calendar.MONTH, Integer.parseInt(time.substring(5, 7)) - 1);
@@ -36,7 +40,8 @@ public class ExamStructure {
 
     public boolean isToday(Calendar calendar) {
         Calendar timeCalendar = getStartTime();
-        if (timeCalendar != null && timeCalendar.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)){
+        if (timeCalendar != null &&
+                timeCalendar.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)){
             LogHelper.d(course_name);
             return true;
         }

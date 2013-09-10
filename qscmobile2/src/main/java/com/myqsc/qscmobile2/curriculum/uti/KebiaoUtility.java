@@ -93,9 +93,9 @@ public class KebiaoUtility {
         final String[] week = {"", "周一", "周二", "周三", "周四", "周五", "周六", "周日"};
         String string = week[kebiaoClassData.time];
         for(int i : kebiaoClassData.classes) {
-            string += i + "/";
+            string += i + ", ";
         }
-        string = string.substring(0, string.length() - 1);
+        string = string.substring(0, string.length() - 2);
         return string;
     }
 
