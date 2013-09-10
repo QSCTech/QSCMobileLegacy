@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by richard on 13-9-2.
  */
 public class DataUpdater {
-    private static final String PROTOCOL = "http://m.myqsc.com/v2/";
+    private static final String PROTOCOL = "http://m.myqsc.com/api/v2/";
 
     public final static String COMMON_HASH = "share/hash";
     public final static String COMMON_TEACHER = "share/teacher";

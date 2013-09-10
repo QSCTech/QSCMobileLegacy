@@ -14,6 +14,7 @@ import com.myqsc.qscmobile2.exam.fragment.ExamCardNoDataFragment;
 import com.myqsc.qscmobile2.exam.uti.ExamDataHelper;
 import com.myqsc.qscmobile2.huodong.fragment.HuodongCardFragment;
 import com.myqsc.qscmobile2.curriculum.fragment.KebiaoCardFragment;
+import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.xiaoche.fragment.XiaocheCardFragment;
 
@@ -24,6 +25,9 @@ import java.util.List;
 public class FragmentUtility {
     public static String cardString[] = new String[]{
             "近期热门活动", "实时课表", "查考试", "查成绩", "查校车"
+    };
+    public static String cardDataString[] = new String[] {
+            "", DataUpdater.JW_KEBIAO, DataUpdater.JW_KAOSHI, DataUpdater.JW_CHENGJI, DataUpdater.COMMON_XIAOCHE
     };
 
     public static int cardIcon[] = new int[]{

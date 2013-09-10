@@ -32,7 +32,7 @@ public class FunctionListAdapter extends BaseAdapter {
 
 		IntentFilter intentFilter = new IntentFilter(
 				BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
-		mContext.registerReceiver(new FunctionItemClickReceiver(), intentFilter);
+		mContext.registerReceiver(functionItemClickReceiver, intentFilter);
 		
 		for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
 			FunctionStructure structure = new FunctionStructure();
@@ -52,8 +52,14 @@ public class FunctionListAdapter extends BaseAdapter {
 			}
 		}
 	}
-	
-	private List<String> getSelectedCard() {
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        mContext.unregisterReceiver(functionItemClickReceiver);
+    }
+
+    private List<String> getSelectedCard() {
 		String encode = mContext.getSharedPreferences(Utility.PREFERENCE, 0).getString(FunctionStructure.PREFERENCE, null);
 		if (encode == null)
 			return null;
@@ -131,6 +137,7 @@ public class FunctionListAdapter extends BaseAdapter {
 		TextView icon_left, icon_right, name;
 	}
 
+    final BroadcastReceiver functionItemClickReceiver = new FunctionItemClickReceiver();
 	private class FunctionItemClickReceiver extends BroadcastReceiver {
 
 		@Override

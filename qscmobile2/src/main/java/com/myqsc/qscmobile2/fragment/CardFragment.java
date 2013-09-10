@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.qscmobile2.R;
 import com.myqsc.qscmobile2.fragment.cardlist.FunctionStructure;
+import com.myqsc.qscmobile2.network.DataUpdater;
+import com.myqsc.qscmobile2.network.UpdateHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
@@ -18,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -69,7 +75,40 @@ public class CardFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = (ScrollView) inflater.inflate(R.layout.fragment_card, null);
+		view = inflater.inflate(R.layout.fragment_card, null);
+        final PullToRefreshScrollView pullToRefreshScrollView = (PullToRefreshScrollView) view
+                .findViewById(R.id.card_pull_refresh_scrollview);
+        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                final int[] len = {DataUpdater.name.size()};
+                final Handler handler = new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message message) {
+                        LogHelper.d(message.getData().getString("key") + "更新完成");
+                        String result = (String) message.obj;
+                        if (result != null && getActivity() != null)
+                            getActivity().getSharedPreferences(Utility.PREFERENCE, 0)
+                                    .edit()
+                                    .putString(message.getData().getString("key"), (String) message.obj)
+                                    .commit();
+                        Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
+                        intent.putExtra("card", message.getData().getString("key"));
+                        getActivity().sendBroadcast(intent);
+
+                        --len[0];
+                        if (len[0] == 0)
+                            pullToRefreshScrollView.onRefreshComplete();
+                        return false;
+                    }
+                });
+                UpdateHelper helper = new UpdateHelper(getActivity());
+                helper.pullToRefresh(handler);
+            }
+        });
+
+
 		baseLayout = (LinearLayout) view
 				.findViewById(R.id.fragment_card_layout);
         fragmentManager = getActivity().getSupportFragmentManager();
@@ -94,8 +133,12 @@ public class CardFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             String name = intent.getStringExtra("card");
             for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
-                if (FragmentUtility.cardString[i].compareTo(name) == 0) {
+                if (FragmentUtility.cardString[i].compareTo(name) == 0 ||
+                        FragmentUtility.cardDataString[i].compareTo(name) == 0) {
                     //就是这个卡片啦！
+                    if (FragmentUtility.cardDataString[i].compareTo(name) == 0)
+                        name = FragmentUtility.cardString[i];
+
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     Fragment fragment = fragmentManager.findFragmentByTag(name);
                     if (fragment != null)

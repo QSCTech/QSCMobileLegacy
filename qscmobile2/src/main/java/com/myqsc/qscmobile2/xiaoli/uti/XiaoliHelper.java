@@ -26,10 +26,12 @@ import java.util.Calendar;
  */
 public class XiaoliHelper {
     Context mContext = null;
-    XiaoliData data = null;
+    static XiaoliData data = null;
 
     public XiaoliHelper(Context context) {
         this.mContext = context;
+        if (data != null)
+            return;
         try {
             parse();
         } catch (ParseException e) {
@@ -62,8 +64,7 @@ public class XiaoliHelper {
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.COMMON_XIAOLI, null);
 //        LogHelper.d(result);
-        if (result == null)
-            return null;
+        assert result != null;
         data = new XiaoliData(new JSONArray(result));
         return data;
     }

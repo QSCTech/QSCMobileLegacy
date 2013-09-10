@@ -47,7 +47,6 @@ public class KebiaoUtility {
         for (int i = 0; i != course.size(); ++i) {
             if (date.compareTo(classFrom[course.get(i)]) >= 0
                     && date.compareTo(classTo[course.get(i)]) < 0) {
-//                LogHelper.d("in class");
                 Calendar toCalendar = Calendar.getInstance();
                 toCalendar.set(Calendar.HOUR_OF_DAY,
                         Integer.parseInt(classTo[course.get(i)].substring(0, 2)));
@@ -56,20 +55,23 @@ public class KebiaoUtility {
                 toCalendar.set(Calendar.SECOND, 0);
                 map.put(1, (int) ((toCalendar.getTimeInMillis() - calendar.getTimeInMillis()) / 1000));
                 map.put(2, course.get(i));
+                break;
             }
         }
 
-        for (int i = 0; i != course.size(); ++i) {
-            if (date.compareTo(classFrom[course.get(i)]) < 0) {
-//                LogHelper.d("after class");
-                Calendar fromCalendar = Calendar.getInstance();
-                fromCalendar.set(Calendar.HOUR_OF_DAY,
-                        Integer.parseInt(classFrom[course.get(i)].substring(0, 2)));
-                fromCalendar.set(Calendar.MINUTE,
-                        Integer.parseInt(classFrom[course.get(i)].substring(3, 5)));
-                fromCalendar.set(Calendar.SECOND, 0);
-                map.put(1, (int) ((calendar.getTimeInMillis() - fromCalendar.getTimeInMillis()) / 1000));
-                map.put(2, course.get(i));
+        if (map.get(1) == null) {
+            for (int i = 0; i != course.size(); ++i) {
+                if (date.compareTo(classFrom[course.get(i)]) < 0) {
+                    Calendar fromCalendar = Calendar.getInstance();
+                    fromCalendar.set(Calendar.HOUR_OF_DAY,
+                            Integer.parseInt(classFrom[course.get(i)].substring(0, 2)));
+                    fromCalendar.set(Calendar.MINUTE,
+                            Integer.parseInt(classFrom[course.get(i)].substring(3, 5)));
+                    fromCalendar.set(Calendar.SECOND, 0);
+                    map.put(1, (int) ((calendar.getTimeInMillis() - fromCalendar.getTimeInMillis()) / 1000));
+                    map.put(2, course.get(i));
+                    break;
+                }
             }
         }
 
@@ -93,9 +95,9 @@ public class KebiaoUtility {
         final String[] week = {"", "周一", "周二", "周三", "周四", "周五", "周六", "周日"};
         String string = week[kebiaoClassData.time];
         for(int i : kebiaoClassData.classes) {
-            string += i + "/";
+            string += i + ", ";
         }
-        string = string.substring(0, string.length() - 1);
+        string = string.substring(0, string.length() - 2);
         return string;
     }
 

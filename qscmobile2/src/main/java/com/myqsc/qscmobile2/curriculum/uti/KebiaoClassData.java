@@ -23,8 +23,11 @@ public class KebiaoClassData {
     public KebiaoClassData() {
     }
 
+    static List<KebiaoClassData> list = null;
     public static List<KebiaoClassData> parse (JSONArray jsonArray) throws JSONException{
-        List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();
+        if (list != null)
+            return list;
+        list = new ArrayList<KebiaoClassData>();
         for (int i = 0; i != jsonArray.length(); ++i){
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String rawYear = jsonObject.getString("year");
@@ -44,7 +47,7 @@ public class KebiaoClassData {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String name = jsonObject.getString("name");
             String teacher = jsonObject.getString("teacher");
-            String term = jsonObject.getString("semester");
+
 
             JSONArray classes = jsonObject.getJSONArray("class");
 
@@ -57,7 +60,7 @@ public class KebiaoClassData {
                 data.place = object.getString("place");
                 data.time = object.getInt("weekday");
                 data.year = year;
-                data.term = term;
+                data.term = object.getString("semester");
 
                 JSONArray classArray = object.getJSONArray("class");
                 data.classes = new int[classArray.length()];
