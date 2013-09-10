@@ -85,8 +85,9 @@ public class CardFragment extends Fragment {
                 final Handler handler = new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message message) {
+                        LogHelper.d(message.getData().getString("key") + "更新完成");
                         String result = (String) message.obj;
-                        if (result != null)
+                        if (result != null && getActivity() != null)
                             getActivity().getSharedPreferences(Utility.PREFERENCE, 0)
                                     .edit()
                                     .putString(message.getData().getString("key"), (String) message.obj)
