@@ -2,90 +2,124 @@ package com.myqsc.qscmobile2.exam.uti;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Message;
 
 import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.uti.LogHelper;
 import com.myqsc.qscmobile2.uti.Utility;
-import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
 @SuppressLint("NewApi")
 public class ExamDataHelper {
 	Context mContext = null;
+    List<ExamStructure> allExamList = null;
+
+
 	public ExamDataHelper(Context context) {
 		this.mContext = context;
 	}
-	
-	public void clear(){
-		mContext.getSharedPreferences(Utility.PREFERENCE, 0).edit()
-                .remove(DataUpdater.JW_KAOSHI).commit();
-	}
 
-    List<ExamStructure> list = null;
 
     public List<ExamStructure> getExamList(final char term){
-        if (list != null)
-            return list;
+        if (allExamList != null)
+            return allExamList;
 
 		String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KAOSHI, null);
-        assert result != null;
+        allExamList = new ArrayList<ExamStructure>();
 
         try {
-            list = new ArrayList<ExamStructure>();
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i != jsonArray.length(); ++i) {
                 ExamStructure examStructure = new ExamStructure(jsonArray.optJSONObject(i));
-                if (examStructure.term.indexOf(term) != -1 || term == 0)
-                    list.add(examStructure);
+                if ((examStructure.term.indexOf(term) != -1) || (term == 0x0)) {
+                    allExamList.add(examStructure);
+                }
             }
-            return list;
-        } catch (JSONException e) {
+            return allExamList;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return allExamList;
 	}
 
+    List<ExamStructure> todayExamList = null;
+    int whichDay = 0;
+
+    /**
+     * 获取每天的课表（带缓存）
+     * @param calendar
+     * @return
+     */
     public List<ExamStructure> getTodayExamList(Calendar calendar) {
-        List<ExamStructure> today = new ArrayList<ExamStructure>();
+        if (whichDay == calendar.get(Calendar.DATE) && todayExamList != null)
+            return todayExamList;
+
+        whichDay = calendar.get(Calendar.DATE);
+        todayExamList = new ArrayList<ExamStructure>();
         List<ExamStructure> list = getExamList((char) 0x0);
         for (ExamStructure structure : list) {
             if (structure.isToday(calendar)) {
-                today.add(structure);
+                todayExamList.add(structure);
             }
         }
-        return today;
+        return todayExamList;
+    }
+
+    List<ExamStructure> day30ExamList = null;
+    int future30Day = 0;
+
+    private List<ExamStructure> get30DayExamList(Calendar calendar) {
+        if (future30Day == calendar.get(Calendar.DATE) && day30ExamList != null)
+            return day30ExamList;
+
+        future30Day = calendar.get(Calendar.DATE);
+        day30ExamList = new ArrayList<ExamStructure>();
+
+        for (ExamStructure structure : getExamList((char) 0x0)) {
+            Calendar examCalendar = structure.getStartTime();
+            if (examCalendar == null)
+                continue;
+//            LogHelper.d(examCalendar.toString());
+
+            if (examCalendar.get(Calendar.DATE) - calendar.get(Calendar.DATE) < 30 &&
+                    examCalendar.compareTo(calendar) > 0) {
+                day30ExamList.add(structure);
+            }
+        }
+        Collections.sort(day30ExamList, new Comparator<ExamStructure>() {
+            @Override
+            public int compare(ExamStructure examStructure, ExamStructure examStructure2) {
+                Calendar calendar1 = examStructure.getStartTime();
+                Calendar calendar2 = examStructure2.getStartTime();
+
+                if (calendar1 == null || calendar2 == null)
+                    return 0;
+
+                return calendar1.compareTo(calendar2);
+            }
+        });
+        return day30ExamList;
     }
 
     public ExamStructure getCardExamStructure(Calendar calendar) {
-        List<ExamStructure> list = getExamList((char) 0x0);
-        ExamStructure examStructure = null;
-        for (ExamStructure structure : list) {
+        day30ExamList = get30DayExamList(calendar);
+
+//        LogHelper.d(day30ExamList.size() + "个考试在未来30天内");
+        for (ExamStructure structure : day30ExamList) {
             Calendar time = structure.getStartTime();
             if (time == null)
                 continue;
-            if (examStructure == null &&
-                    time.getTimeInMillis() -
-                        Calendar.getInstance().getTimeInMillis() > 0 &&
-                    time.getTimeInMillis() -
-                        Calendar.getInstance().getTimeInMillis() < 1000L * 60 * 60 * 24 * 30)
-                examStructure = structure;
-            else {
-                if (examStructure != null &&
-                        examStructure.getStartTime().getTimeInMillis() -
-                                time.getTimeInMillis() > 0 &&
-                        time.getTimeInMillis() -
-                                Calendar.getInstance().getTimeInMillis() > 0) {
-                    examStructure = structure;
-                }
-            }
+
+            if (time.compareTo(calendar) > 0)
+                return structure;
         }
-        return examStructure;
+        return null;
     }
 }
