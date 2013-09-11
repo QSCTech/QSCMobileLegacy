@@ -20,6 +20,7 @@ import com.myqsc.qscmobile2.xiaoli.uti.XiaoliHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,45 +33,45 @@ import java.util.List;
  */
 public class KebiaoDataHelper {
     Context mContext = null;
+    List<KebiaoClassData> kebiaoList = null;
     List<KebiaoClassData> todayKebiaolist = null;
+    int whichDay = 0;
 
     public KebiaoDataHelper(Context context) {
         this.mContext = context;
-        mContext.registerReceiver(updateReceiver, new IntentFilter(BroadcastHelper.BROADCAST_CARD_REDRAW));
+        kebiaoList = parse(mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                .getString(DataUpdater.JW_KEBIAO, null));
     }
 
-
-    public void clear() {
-        mContext
-                .getSharedPreferences(Utility.PREFERENCE, 0)
-                .edit()
-                .remove(DataUpdater.JW_KEBIAO)
-                .commit();
-    }
-
-    public void set(String result) {
-        clear();
-        mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .edit()
-                .putString(DataUpdater.JW_KEBIAO, result)
-                .commit();
-    }
-
-    public List<KebiaoClassData> getDay(final Calendar calendar) {
+    public List<KebiaoClassData> parse(String string) {
+        List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();
         try {
-            getTodayKebiao(KebiaoClassData.parse(
-                    new JSONArray(
-                            mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                                    .getString(DataUpdater.JW_KEBIAO, null))), calendar);
+            JSONArray jsonArray = new JSONArray(string);
+            for (int i = 0; i != jsonArray.length(); ++i) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                String rawYear = jsonObject.getString("year");
+                int year = Integer.valueOf(rawYear.substring(0, 4));
+
+                List<KebiaoClassData> temp = KebiaoClassData.parseYear(jsonObject.getJSONArray("data"), year);
+                for (int j = 0; j != temp.size(); ++j)
+                    list.add(temp.get(j));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        assert todayKebiaolist != null;
+        return list;
+    }
+
+    public List<KebiaoClassData> getDay(final Calendar calendar) {
+        if (whichDay != calendar.get(Calendar.DATE)){
+            todayKebiaolist = getTodayKebiao(kebiaoList, calendar);
+            whichDay = calendar.get(Calendar.DATE);
+        }
         return todayKebiaolist;
     }
 
     private List<KebiaoClassData> getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
-        todayKebiaolist = new ArrayList<KebiaoClassData>();
+        List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();
         XiaoliHelper xiaoliHelper = new XiaoliHelper(mContext);
         calendar = xiaoliHelper.doRemap(calendar);
         int week = xiaoliHelper.checkParity(calendar, false);
@@ -97,27 +98,15 @@ public class KebiaoDataHelper {
                 continue;
 
             LogHelper.d("today: " + data);
-            todayKebiaolist.add(data);
+            list.add(data);
         }
 
-        Collections.sort(todayKebiaolist, new Comparator<KebiaoClassData>() {
+        Collections.sort(list, new Comparator<KebiaoClassData>() {
             @Override
             public int compare(KebiaoClassData kebiaoClassData, KebiaoClassData kebiaoClassData2) {
                 return kebiaoClassData.classes[0] - kebiaoClassData2.classes[0];
             }
         });
-        return todayKebiaolist;
+        return list;
     }
-
-    final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if ("实时课表".compareTo(intent.getExtras().getString("card")) == 0 ||
-                    DataUpdater.JW_KEBIAO.compareTo(intent.getExtras().getString("card")) == 0) {
-                KebiaoClassData.list = null;
-                LogHelper.d("kebiao reseted");
-            }
-        }
-    };
-
 }

@@ -23,22 +23,8 @@ public class KebiaoClassData {
     public KebiaoClassData() {
     }
 
-    static List<KebiaoClassData> list = null;
-    public static List<KebiaoClassData> parse (JSONArray jsonArray) throws JSONException{
-        if (list != null)
-            return list;
-        list = new ArrayList<KebiaoClassData>();
-        for (int i = 0; i != jsonArray.length(); ++i){
-            JSONObject jsonObject = jsonArray.optJSONObject(i);
-            String rawYear = jsonObject.getString("year");
-            int year = Integer.valueOf(rawYear.substring(0, 4));
 
-            List<KebiaoClassData> temp = parseYear(jsonObject.getJSONArray("data"), year);
-            for (int j = 0; j != temp.size(); ++j)
-                list.add(temp.get(j));
-        }
-        return list;
-    }
+
 
     public static List<KebiaoClassData> parseYear(JSONArray jsonArray, int year) throws JSONException{
         List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();

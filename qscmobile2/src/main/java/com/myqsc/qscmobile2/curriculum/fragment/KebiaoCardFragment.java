@@ -5,6 +5,8 @@ import com.myqsc.qscmobile2.curriculum.CurriculumActivity;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.qscmobile2.curriculum.uti.KebiaoUtility;
+import com.myqsc.qscmobile2.network.DataUpdater;
+import com.myqsc.qscmobile2.network.UpdateHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
 
 import android.content.Intent;
@@ -40,7 +42,7 @@ public class KebiaoCardFragment extends Fragment {
             );
             if (map == null) {
                 Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
-                intent.putExtra("card", "实时课表");
+                intent.putExtra("card", DataUpdater.JW_KEBIAO);
                 if (getActivity() != null)
                     getActivity().sendBroadcast(intent);
                 return;
