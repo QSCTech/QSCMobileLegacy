@@ -29,14 +29,14 @@ import java.util.Calendar;
  */
 public class XiaoliHelper {
     Context mContext = null;
-    static XiaoliData data = null;
+    XiaoliData data = null;
 
     public XiaoliHelper(Context context) {
         this.mContext = context;
         if (data != null)
             return;
         try {
-            parse();
+            data = parse();
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -46,30 +46,11 @@ public class XiaoliHelper {
         }
     }
 
-    public void clear(String result) {
-        mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .edit()
-                .remove(DataUpdater.COMMON_XIAOLI)
-                .commit();
-    }
-
-    public void set(String result) {
-        mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .edit()
-                .putString(DataUpdater.COMMON_XIAOLI, result)
-                .commit();
-    }
-
     private XiaoliData parse() throws JSONException, ParseException, IOException {
-        if (data != null)
-            return data;
-
         String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.COMMON_XIAOLI, null);
-//        LogHelper.d(result);
-        assert result != null;
         data = new XiaoliData(new JSONArray(result));
-        return data;
+        return data;    
     }
 
     /**

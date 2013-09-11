@@ -70,9 +70,13 @@ public class KebiaoDataHelper {
         return todayKebiaolist;
     }
 
+    XiaoliHelper xiaoliHelper = null;
+
     private List<KebiaoClassData> getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
         List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();
-        XiaoliHelper xiaoliHelper = new XiaoliHelper(mContext);
+        if (xiaoliHelper == null)
+            xiaoliHelper = new XiaoliHelper(mContext);
+
         calendar = xiaoliHelper.doRemap(calendar);
         int week = xiaoliHelper.checkParity(calendar, false);
         char term = xiaoliHelper.getTerm(calendar, false);
