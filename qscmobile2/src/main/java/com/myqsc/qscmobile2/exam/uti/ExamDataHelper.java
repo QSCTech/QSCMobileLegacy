@@ -88,7 +88,7 @@ public class ExamDataHelper {
                 continue;
 //            LogHelper.d(examCalendar.toString());
 
-            if (examCalendar.get(Calendar.DATE) - calendar.get(Calendar.DATE) < 30 &&
+            if ((int) ((examCalendar.getTimeInMillis() - calendar.getTimeInMillis()) / 1000 / 60 / 60 / 24) < 30 &&
                     examCalendar.compareTo(calendar) > 0) {
                 day30ExamList.add(structure);
             }
