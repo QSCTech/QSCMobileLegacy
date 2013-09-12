@@ -127,7 +127,21 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:background="@drawable/login_btn2"/>
+                    android:background="@color/gray_text"
+                    android:text="登陆"
+                    android:textColor="@color/white"/>
+
+            <Button
+                    android:id="@+id/login_activity_exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/blue"
+                    android:text="取消"
+                    android:textColor="@color/white"/>
 
         </LinearLayout>
     </RelativeLayout>

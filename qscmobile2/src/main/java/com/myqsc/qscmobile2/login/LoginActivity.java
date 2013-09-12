@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -84,6 +85,15 @@ public class LoginActivity extends FragmentActivity {
 		uid = (EditText) findViewById(R.id.login_activity_uid);
 		pwd = (EditText) findViewById(R.id.login_activity_pwd);
 		btn = (Button) findViewById(R.id.login_activity_btn);
+
+        ((Button)findViewById(R.id.login_activity_exit))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.push_down_out);
+                    }
+                });
 		
 		uid.addTextChangedListener(myTextWatcher);
 		pwd.addTextChangedListener(myTextWatcher);
@@ -179,19 +189,17 @@ public class LoginActivity extends FragmentActivity {
 		@Override
 		public void afterTextChanged(Editable s) {
 			if (uid.getEditableText().length() == 0 || pwd.getEditableText().length() == 0){
-				btn.setBackgroundResource(R.drawable.login_btn2);
+                btn.setBackgroundColor(getResources().getColor(R.color.gray_text));
 			} else {
-				btn.setBackgroundResource(R.drawable.login_btn1);
+                btn.setBackgroundColor(getResources().getColor(R.color.blue));
 			}
 		}
 	};
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		activity.finish();
-		activity.overridePendingTransition(R.anim.fade_in, R.anim.push_down_out);
-	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return true;
+    }
 
     private class UpdateAllReceiver extends BroadcastReceiver{
 
