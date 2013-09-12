@@ -18,18 +18,20 @@ import com.myqsc.qscmobile2.uti.Utility;
 @SuppressLint("NewApi")
 public class ExamDataHelper {
 	Context mContext = null;
-    List<ExamStructure> allExamList = null;
+
 
 
 	public ExamDataHelper(Context context) {
 		this.mContext = context;
 	}
 
-
+    List<ExamStructure> allExamList = null;
+    char whichTerm = 0x0;
     public List<ExamStructure> getExamList(final char term){
-        if (allExamList != null)
+        if (allExamList != null && whichTerm == term)
             return allExamList;
 
+        whichTerm = term;
 		String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KAOSHI, null);
         allExamList = new ArrayList<ExamStructure>();
