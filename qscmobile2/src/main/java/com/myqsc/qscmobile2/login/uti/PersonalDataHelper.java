@@ -54,9 +54,9 @@ public class PersonalDataHelper {
     }
 
     public void add(UserIDStructure userIDStructure) {
-        for(UserIDStructure structure : list)
-            if (structure.uid.compareTo(userIDStructure.uid) == 0)
-                list.remove(structure);
+        for (int i = 0; i < list.size(); ++i)
+            if (list.get(i).uid == userIDStructure.uid)
+                list.remove(i);
         list.add(userIDStructure);
         setDefault(userIDStructure.uid);
         save();

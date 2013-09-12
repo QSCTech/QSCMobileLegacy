@@ -119,6 +119,8 @@ public class LoginActivity extends FragmentActivity {
             @Override
             public void onClick(final View view) {
                 getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);//隐藏输入法
+                findViewById(R.id.login_frame).clearFocus();
+
                 findViewById(R.id.login_acitivity_main_layout).setVisibility(View.INVISIBLE);
                 final FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
