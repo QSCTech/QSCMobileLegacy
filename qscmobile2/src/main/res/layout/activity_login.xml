@@ -83,7 +83,6 @@
                         android:layout_height="48dp"
                         android:hint="@string/login_uid"
                         android:textColorHint="@color/gray_text"
-                        android:inputType="number"
                         android:imeOptions="actionNext"
                         android:background="@null"
                         android:textSize="20sp"/>

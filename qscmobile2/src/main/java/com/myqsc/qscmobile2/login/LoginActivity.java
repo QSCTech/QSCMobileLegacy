@@ -201,6 +201,10 @@ public class LoginActivity extends FragmentActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private class UpdateAllReceiver extends BroadcastReceiver{
 
         @Override
