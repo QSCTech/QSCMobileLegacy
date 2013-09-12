@@ -25,10 +25,9 @@ public class UserIDStructure {
         }
     }
 	
-	public UserIDStructure(String uid, String pwd, boolean select) {
+	public UserIDStructure(String uid, String pwd) {
 		this.uid = uid;
 		this.pwd = pwd;
-		this.select = select;
 	}
 
     public JSONObject toJsonObject() {

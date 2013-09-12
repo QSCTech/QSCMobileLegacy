@@ -105,8 +105,7 @@ public class LoginActivity extends FragmentActivity {
                 else {
                     PersonalDataHelper helper = new PersonalDataHelper(getApplicationContext());
                     helper.add(new UserIDStructure(uid.getText().toString(),
-                            pwd.getText().toString(),
-                            true));
+                            pwd.getText().toString()));
                     sendBroadcast(new Intent(BroadcastHelper.BROADCAST_USER_CHANGED));
                     UpdateHelper updateHelper = new UpdateHelper(getApplicationContext());
                     updateHelper.UpdateAll();

@@ -40,7 +40,6 @@ public class UserSwitchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_switch, null);
 
         linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_switch_main);
-        initViews(inflater);
 
 
         return view;
@@ -60,6 +59,8 @@ public class UserSwitchFragment extends Fragment {
         getActivity().registerReceiver(userChangedReceiver, intentFilter);
         getActivity().registerReceiver(allUpdatedReceiver,
                 new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED));
+
+        initViews(LayoutInflater.from(getActivity()));
     }
 
     @Override
