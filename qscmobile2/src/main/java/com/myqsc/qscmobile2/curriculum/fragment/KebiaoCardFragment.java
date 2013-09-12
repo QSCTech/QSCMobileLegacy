@@ -8,6 +8,7 @@ import com.myqsc.qscmobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.qscmobile2.network.DataUpdater;
 import com.myqsc.qscmobile2.network.UpdateHelper;
 import com.myqsc.qscmobile2.uti.BroadcastHelper;
+import com.myqsc.qscmobile2.uti.Utility;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -94,10 +95,10 @@ public class KebiaoCardFragment extends Fragment {
         placeTextView.setText(kebiaoClassData.place);
         if (diff > 0) {
             noticeTextView.setText("距离下课还有");
-            diffTextView.setText(Html.fromHtml(com.myqsc.qscmobile2.uti.Utility.processDiffSecond(diff)));
+            diffTextView.setText(Utility.processDiffSecond(diff));
         } else {
             noticeTextView.setText("距离上课还有");
-            diffTextView.setText(Html.fromHtml(com.myqsc.qscmobile2.uti.Utility.processDiffSecond(-diff)));
+            diffTextView.setText(Utility.processDiffSecond(-diff));
         }
     }
 
