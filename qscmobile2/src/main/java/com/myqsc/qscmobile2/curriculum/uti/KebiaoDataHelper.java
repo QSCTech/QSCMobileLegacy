@@ -63,7 +63,7 @@ public class KebiaoDataHelper {
     }
 
     public List<KebiaoClassData> getDay(final Calendar calendar) {
-        if (whichDay != calendar.get(Calendar.DATE)){
+        if (whichDay != calendar.get(Calendar.DATE) || todayKebiaolist == null){
             todayKebiaolist = getTodayKebiao(kebiaoList, calendar);
             whichDay = calendar.get(Calendar.DATE);
         }

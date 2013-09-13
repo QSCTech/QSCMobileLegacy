@@ -41,6 +41,12 @@ public class CurriculumActivity extends SwipeBackActivity {
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        KebiaoEverydayFragment fragment = new KebiaoEverydayFragment();
+        transaction.add(R.id.curriculum_frame, fragment);
+        transaction.commit();
     }
 
     @Override
@@ -56,14 +62,11 @@ public class CurriculumActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curriculum);
-        manager = getSupportFragmentManager();
+
         AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.curriculum_everyday), this);
         AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.curriculum_allweek), this);
 
-        FragmentTransaction transaction = manager.beginTransaction();
-        KebiaoEverydayFragment fragment = new KebiaoEverydayFragment();
-        transaction.add(R.id.curriculum_frame, fragment);
-        transaction.commit();
+
     }
 
 }
