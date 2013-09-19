@@ -132,7 +132,9 @@ public class CardFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String name = intent.getStringExtra("card");
-            for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
+            if (name == null)
+                return ;
+            for (int i = 0; i != list.size(); ++i) {
                 if (FragmentUtility.cardString[i].compareTo(name) == 0 ||
                         FragmentUtility.cardDataString[i].compareTo(name) == 0) {
                     //就是这个卡片啦！
@@ -141,8 +143,12 @@ public class CardFragment extends Fragment {
 
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     Fragment fragment = fragmentManager.findFragmentByTag(name);
-                    if (fragment != null)
-                        transaction.remove(fragment);
+                    if (fragment == null) {
+                        //这个卡片没有初始化，不重绘
+                        return;
+                    }
+                    LogHelper.d(name);
+                    transaction.remove(fragment);
                     fragment = FragmentUtility.getCardFragmentByName(name, getActivity());
                     transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment, name);
                     transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
