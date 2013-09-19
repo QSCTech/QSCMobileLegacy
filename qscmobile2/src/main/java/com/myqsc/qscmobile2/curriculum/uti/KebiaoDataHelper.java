@@ -78,6 +78,8 @@ public class KebiaoDataHelper {
             xiaoliHelper = new XiaoliHelper(mContext);
 
         calendar = xiaoliHelper.doRemap(calendar);
+        if (xiaoliHelper.checkHoliday(calendar) != null)
+            return list;
         int week = xiaoliHelper.checkParity(calendar, false);
         char term = xiaoliHelper.getTerm(calendar, false);
         int year = xiaoliHelper.getYear(calendar, false);

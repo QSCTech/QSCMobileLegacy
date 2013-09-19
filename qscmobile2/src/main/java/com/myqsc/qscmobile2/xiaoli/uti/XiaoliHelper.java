@@ -92,27 +92,21 @@ public class XiaoliHelper {
         return data.getYear(calendar, withReMap);
     }
 
+    /**
+     * 进行日期映射
+     * @param calendar
+     * @return
+     */
     public Calendar doRemap(Calendar calendar) {
         return data.doRemap(calendar);
     }
 
-    final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if ("近期热门活动".compareTo(intent.getExtras().getString("card")) == 0 ||
-                    DataUpdater.COMMON_XIAOLI.compareTo(intent.getExtras().getString("card")) == 0) {
-                data = null;
-                try {
-                    parse();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                LogHelper.d("xiaoli reseted");
-            }
-        }
-    };
+    /**
+     * 获取今天是不是假期
+     * @param calendar
+     * @return
+     */
+    public XiaoliHoliday checkHoliday(Calendar calendar) {
+        return data.getHoliday(calendar);
+    }
 }

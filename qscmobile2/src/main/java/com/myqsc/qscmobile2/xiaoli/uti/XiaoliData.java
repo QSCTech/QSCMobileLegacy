@@ -119,4 +119,14 @@ public class XiaoliData {
         Calendar calendar = Calendar.getInstance();
         return WEEKS[calendar.get(Calendar.DAY_OF_WEEK)];
     }
+
+    public XiaoliHoliday getHoliday(Calendar calendar) {
+        for (XiaoliYearData xiaoliYearData:data) {
+            for (XiaoliHoliday holiday : xiaoliYearData.data.holiday) {
+                if (holiday.inRange(calendar))
+                    return holiday;
+            }
+        }
+        return null;
+    }
 }
