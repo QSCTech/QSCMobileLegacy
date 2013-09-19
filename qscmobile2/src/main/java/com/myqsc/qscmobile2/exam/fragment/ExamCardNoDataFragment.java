@@ -31,7 +31,7 @@ public class ExamCardNoDataFragment extends Fragment {
                         @Override
                         public void run() {
                             Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
-                            intent.putExtra("card", FragmentUtility.cardString[2]);
+                            intent.putExtra("card", "查考试");
                             getActivity().sendBroadcast(intent);
                         }
                     });

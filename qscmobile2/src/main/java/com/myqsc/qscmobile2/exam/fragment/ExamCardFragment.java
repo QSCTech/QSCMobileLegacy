@@ -35,7 +35,7 @@ public class ExamCardFragment extends Fragment {
             if (structure == null) {
                 if (getActivity() != null) {
                     Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
-                    intent.putExtra("card", FragmentUtility.cardString[2]);
+                    intent.putExtra("card", "查考试");
                     getActivity().sendBroadcast(intent);
                 }
             } else {

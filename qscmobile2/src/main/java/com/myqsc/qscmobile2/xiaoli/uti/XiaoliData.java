@@ -26,6 +26,10 @@ public class XiaoliData {
             data[i] = new XiaoliYearData(jsonArray.optJSONObject(i));
     }
 
+    public XiaoliData(){
+        data = new XiaoliYearData[0];
+    }
+
     /**
      * 判断这一天是单周还是双周
      * @param calendar 这一天

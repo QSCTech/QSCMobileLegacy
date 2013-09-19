@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity {
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
 	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
-    int page = 0;
+    PersonalDataHelper personalDataHelper = null;
 
     NewUserReceiver newUserReceiver = null;
 
@@ -50,8 +50,10 @@ public class MainActivity extends FragmentActivity {
 
         newUserReceiver = new NewUserReceiver();
 
-        PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
+        personalDataHelper = new PersonalDataHelper(this);
         List<UserIDStructure> userIDStructureList = personalDataHelper.allUser();
+
+
 
 
         fragmentList.add(new UserSwitchFragment());
@@ -60,7 +62,7 @@ public class MainActivity extends FragmentActivity {
 
         adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         vPager.setAdapter(adapter);
-        vPager.setCurrentItem(page);
+        vPager.setCurrentItem(2);
 
         new Thread(new Runnable() {
             @Override
@@ -97,19 +99,29 @@ public class MainActivity extends FragmentActivity {
 
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
+
+        if (personalDataHelper.allUser() == null || personalDataHelper.allUser().size() == 0) {
+            Intent intent = new Intent(BroadcastHelper.BROADCAST_NEW_USER);
+            sendBroadcast(intent);
+        }
     }
 
     @Override
 	protected void onResume() {
 		super.onResume();
         MobclickAgent.onResume(this);
+        if (page != -1)
+            vPager.setCurrentItem(page);
 	}
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+        page = vPager.getCurrentItem();
     }
+
+    int page = -1; //当前是第几个页面
 	
 	public void getThisProcessMemeryInfo() {
         ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);

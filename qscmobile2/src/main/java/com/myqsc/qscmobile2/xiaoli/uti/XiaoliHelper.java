@@ -33,8 +33,6 @@ public class XiaoliHelper {
 
     public XiaoliHelper(Context context) {
         this.mContext = context;
-        if (data != null)
-            return;
         try {
             data = parse();
         } catch (ParseException e) {
@@ -43,7 +41,11 @@ public class XiaoliHelper {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        if (data == null)
+            data = new XiaoliData();
     }
 
     private XiaoliData parse() throws JSONException, ParseException, IOException {
