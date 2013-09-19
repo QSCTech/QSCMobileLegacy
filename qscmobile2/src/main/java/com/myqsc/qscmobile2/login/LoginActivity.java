@@ -119,6 +119,14 @@ public class LoginActivity extends FragmentActivity {
                     sendBroadcast(new Intent(BroadcastHelper.BROADCAST_USER_CHANGED));
                     UpdateHelper updateHelper = new UpdateHelper(getApplicationContext());
                     updateHelper.UpdateAll();
+
+                    final FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    if (manager.findFragmentByTag("load") != null)
+                        transaction.remove(manager.findFragmentByTag("load"));
+                    transaction.add(R.id.login_frame, new LoadFragment(), "load");
+                    transaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
+                    transaction.commit();
                 }
                 return true;
             }
