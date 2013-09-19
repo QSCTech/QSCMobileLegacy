@@ -25,6 +25,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.SSLHandshakeException;
+
 /**
  * Created by richard on 13-9-2.
  */
@@ -83,48 +85,49 @@ public class DataUpdater {
     }
 
     public static String get(String url) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            //使用支持 SNI 协议的urlconnection，走https
-            StringBuilder result = new StringBuilder();
-            try {
-                url = url.replaceFirst("http", "https");
-                LogHelper.d("URL:" + url);
-                URL address = new URL(url);
-                URLConnection urlConnection = address.openConnection();
-                urlConnection.setRequestProperty("accept", "*/*");
-                urlConnection.setConnectTimeout(15000); //15秒钟超时
-                urlConnection.connect();
+        StringBuilder result = new StringBuilder();
+        try {
+            url = url.replaceFirst("http", "https");
+            LogHelper.d("URL:" + url);
+            URL address = new URL(url);
+            URLConnection urlConnection = address.openConnection();
+            urlConnection.setRequestProperty("accept", "*/*");
+            urlConnection.setConnectTimeout(15000); //15秒钟超时
+            urlConnection.connect();
 
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(
-                                urlConnection.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            urlConnection.getInputStream()));
 
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-                reader.close();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
             }
-            return result.toString();
-
-        } else {
-            try {
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(url);
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                return EntityUtils.toString(httpResponse.getEntity());
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
+            reader.close();
+        } catch (SSLHandshakeException e) {
+            //ssl 证书失败
+            e.printStackTrace();
+            return getWithHttp(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return result.toString();
+    }
 
+    public static String getWithHttp(String url){
+        url = url.replaceFirst("https", "http");
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            return EntityUtils.toString(httpResponse.getEntity());
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
