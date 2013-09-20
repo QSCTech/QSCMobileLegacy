@@ -70,7 +70,7 @@ public class XiaoliData {
         if (withReMap)
             calendar = this.doRemap(calendar);
         for(XiaoliYearData xiaoliYearData : data) {
-            if (xiaoliYearData.range.inRange(calendar)){
+            if (xiaoliYearData.range.inRange(calendar)) {
                 XiaoliEachYearData xiaoliEachYearData = xiaoliYearData.data;
                 return xiaoliEachYearData.getTerm(calendar);
             }
@@ -85,7 +85,7 @@ public class XiaoliData {
      */
     public Calendar doRemap(Calendar calendar) {
         for(XiaoliYearData xiaoliYearData : data) {
-            if (xiaoliYearData.range.inRange(calendar)){
+            if (xiaoliYearData.range.inRange(calendar)) {
                 XiaoliEachYearData xiaoliEachYearData = xiaoliYearData.data;
                 for(XiaoliReMap xiaoliReMap : xiaoliEachYearData.reMap)
                     calendar = xiaoliReMap.doRemap(calendar);

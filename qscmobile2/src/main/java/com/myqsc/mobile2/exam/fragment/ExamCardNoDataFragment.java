@@ -3,6 +3,7 @@ package com.myqsc.mobile2.exam.fragment;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.exam.ExamActivity;
 import com.myqsc.mobile2.exam.uti.ExamDataHelper;
+import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 
 import android.content.Intent;
@@ -29,7 +30,7 @@ public class ExamCardNoDataFragment extends Fragment {
                         @Override
                         public void run() {
                             Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
-                            intent.putExtra("card", "查考试");
+                            intent.putExtra("card", DataUpdater.JW_KAOSHI);
                             getActivity().sendBroadcast(intent);
                         }
                     });

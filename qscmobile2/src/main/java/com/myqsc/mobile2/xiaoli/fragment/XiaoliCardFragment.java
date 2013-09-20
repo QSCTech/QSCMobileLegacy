@@ -16,19 +16,21 @@ import java.util.Calendar;
 
 public class XiaoliCardFragment extends Fragment {
     TextView timeTextView = null;
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
 
-		View view = inflater.inflate(R.layout.card_fragment_xiaoli, null);
+        View view = inflater.inflate(R.layout.card_fragment_xiaoli, null);
         timeTextView = (TextView) view.findViewById(R.id.fragment_card_xiaoli_time);
 
         XiaoliHelper helper = new XiaoliHelper(getActivity());
-        ((TextView) view.findViewById(R.id.fragment_card_xiaoli_term)).setText(String.valueOf(helper.getTerm(
-                Calendar.getInstance(),
-                false
-        )));
+        ((TextView) view.findViewById(R.id.fragment_card_xiaoli_term))
+                .setText(String.valueOf(helper.getTerm(
+                        Calendar.getInstance(),
+                        false
+                )));
 
 
         ((TextView) view.findViewById(R.id.fragment_card_xiaoli_day)).setText(helper.getDayString(
@@ -44,10 +46,10 @@ public class XiaoliCardFragment extends Fragment {
             }
         });
 
-		return view;
-	}
+        return view;
+    }
 
-    public void setTime(){
+    public void setTime() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         timeTextView.setText(simpleDateFormat.format(calendar.getTime()));

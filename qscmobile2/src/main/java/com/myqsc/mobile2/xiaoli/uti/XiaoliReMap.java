@@ -18,7 +18,7 @@ public class XiaoliReMap extends XiaoliRange {
     }
 
     public Calendar doRemap(Calendar calendar){
-        if (from.compareTo(calendar) == 0)
+        if (from.get(Calendar.DATE) == calendar.get(Calendar.DATE))
             return to;
         return calendar;
     }

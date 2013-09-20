@@ -33,7 +33,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 public class CardFragment extends Fragment {
-	View view = null;
+
+
+    View view = null;
 	LinearLayout baseLayout = null;
 	List<String> list = null;
     FragmentManager fragmentManager = null;
@@ -48,7 +50,6 @@ public class CardFragment extends Fragment {
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(receiver);
-        getActivity().unregisterReceiver(fragmentChangedReceiver);
     }
 
     @Override
@@ -57,10 +58,6 @@ public class CardFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter(
                 BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
         getActivity().registerReceiver(receiver, intentFilter);
-
-        IntentFilter intentFilter1 = new IntentFilter(
-                BroadcastHelper.BROADCAST_CARD_REDRAW);
-        getActivity().registerReceiver(fragmentChangedReceiver, intentFilter1);
     }
 
     @Override
@@ -112,8 +109,19 @@ public class CardFragment extends Fragment {
 				.findViewById(R.id.fragment_card_layout);
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentInflate(baseLayout, LayoutInflater.from(getActivity()), list);
+
+        IntentFilter intentFilter1 = new IntentFilter(
+                BroadcastHelper.BROADCAST_CARD_REDRAW);
+        getActivity().registerReceiver(fragmentChangedReceiver, intentFilter1);
+
 		return view;
 	}
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(fragmentChangedReceiver);
+    }
 
     final BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
@@ -131,6 +139,7 @@ public class CardFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String name = intent.getStringExtra("card");
+            LogHelper.d(name);
             if (name == null)
                 return ;
             for (int i = 0; i != list.size(); ++i) {
@@ -142,10 +151,6 @@ public class CardFragment extends Fragment {
 
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     Fragment fragment = fragmentManager.findFragmentByTag(name);
-                    if (fragment == null) {
-                        //这个卡片没有初始化，不重绘
-                        return;
-                    }
                     LogHelper.d(name);
                     transaction.remove(fragment);
                     fragment = FragmentUtility.getCardFragmentByName(name, getActivity());

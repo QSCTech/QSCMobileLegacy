@@ -7,6 +7,7 @@ import com.myqsc.mobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.mobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.uti.BroadcastHelper;
+import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
 
 import android.content.Intent;
@@ -39,15 +40,16 @@ public class KebiaoCardFragment extends Fragment {
                     Calendar.getInstance(),
                     list
             );
+            LogHelper.d("diff time got");
             if (map == null) {
                 Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                 intent.putExtra("card", DataUpdater.JW_KEBIAO);
                 if (getActivity() != null)
                     getActivity().sendBroadcast(intent);
+                LogHelper.d("Kebiao Card Redraw sent");
                 return;
                 //今天没有课，发送广播请求上层重载卡片
             }
-
             int diffTime = (Integer) map.get(1);
             KebiaoClassData kebiao = (KebiaoClassData) map.get(3);
             setTime(diffTime, kebiao);

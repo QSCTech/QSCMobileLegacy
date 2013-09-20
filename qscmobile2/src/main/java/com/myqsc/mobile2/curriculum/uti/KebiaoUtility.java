@@ -27,6 +27,8 @@ public class KebiaoUtility {
      */
     public static Map<Integer, Object> getDiffTime(Calendar calendar,
                                   List<KebiaoClassData> list) {
+        if (list == null || list.size() == 0)
+            return null;
         /**
          * map 1：时间差， 2：课程节数，3：一节课对象
          */
