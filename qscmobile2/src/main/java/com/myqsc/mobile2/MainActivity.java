@@ -31,7 +31,6 @@ public class MainActivity extends FragmentActivity {
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
 	MyFragmentPagerAdapter adapter = null;
 	ViewPager vPager = null;
-    PersonalDataHelper personalDataHelper = null;
 
     NewUserReceiver newUserReceiver = null;
 
@@ -46,12 +45,6 @@ public class MainActivity extends FragmentActivity {
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
 
         newUserReceiver = new NewUserReceiver();
-
-        personalDataHelper = new PersonalDataHelper(this);
-        List<UserIDStructure> userIDStructureList = personalDataHelper.allUser();
-
-
-
 
         fragmentList.add(new UserSwitchFragment());
         fragmentList.add(new FunctionListFragment());
@@ -97,6 +90,7 @@ public class MainActivity extends FragmentActivity {
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
 
+        PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
         if (personalDataHelper.allUser() == null || personalDataHelper.allUser().size() == 0) {
             Intent intent = new Intent(BroadcastHelper.BROADCAST_NEW_USER);
             sendBroadcast(intent);

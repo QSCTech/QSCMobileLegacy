@@ -29,3 +29,5 @@ gen/
 *~
 *.swp
 */build/
+.gradle/
+.idea/
