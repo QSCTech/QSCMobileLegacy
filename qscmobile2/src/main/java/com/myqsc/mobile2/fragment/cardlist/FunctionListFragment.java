@@ -29,8 +29,10 @@ public class FunctionListFragment extends Fragment {
                 .setOnItemClickListener(onItemClickListener);
 		return view;
 	}
-	
+
+    // FIXME: Add (un)registerReceiver() OnPause() and OnResume()
 	final OnItemClickListener onItemClickListener = new OnItemClickListener() {
+        // TODO: Provide argument names
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {

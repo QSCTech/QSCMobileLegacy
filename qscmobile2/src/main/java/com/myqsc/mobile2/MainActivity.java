@@ -1,5 +1,11 @@
 package com.myqsc.mobile2;
 
+// TODO: Format tab into 4 spaces
+// TODO: Format layout file
+// TODO: Change pinyin into English words
+// TODO: Change some of the class names to follow certain convention
+// TODO: Make unnecessarily package-access members private
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +17,6 @@ import com.myqsc.mobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.mobile2.login.LoginActivity;
 import com.myqsc.mobile2.login.UserSwitchFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
-import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -31,7 +36,9 @@ import android.support.v4.view.ViewPager;
 public class MainActivity extends FragmentActivity {
 
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
+    // TODO: Rename to pagerAdapter
 	MyFragmentPagerAdapter adapter = null;
+    // TODO: Rename to viewPager
 	ViewPager vPager = null;
 
     NewUserReceiver newUserReceiver = null;
@@ -42,12 +49,15 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
+        // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
+        // TODO: Change 5 to 2?
         vPager.setOffscreenPageLimit(5);
         vPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
 
+        // TODO: Implement animation via ViewFlipper on Android 2.3?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             vPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
@@ -61,6 +71,7 @@ public class MainActivity extends FragmentActivity {
         vPager.setAdapter(adapter);
         vPager.setCurrentItem(2);
 
+        // TODO: Comment this out when released
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -94,10 +105,13 @@ public class MainActivity extends FragmentActivity {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
 
+        // TODO: Rename intentFilter2
+        // TODO: Use LocalBroadcastManager
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
 
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
+        // TODO: Should the condition be one of these two?
         if (personalDataHelper.allUser() == null || personalDataHelper.allUser().size() == 0) {
             Intent intent = new Intent(BroadcastHelper.BROADCAST_NEW_USER);
             sendBroadcast(intent);
@@ -120,16 +134,17 @@ public class MainActivity extends FragmentActivity {
     }
 
     int page = -1; //当前是第几个页面
-	
+
+    // TODO: Change to getMemoryInfo()
 	public void getThisProcessMemeryInfo() {
         ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
         int pid = android.os.Process.myPid();
         android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(new int[] {pid});
-        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024 + "mb");
+        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024 + "MB");
     }
 
 
-
+    // TODO: Place this class before function definition?
     private class NewUserReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
