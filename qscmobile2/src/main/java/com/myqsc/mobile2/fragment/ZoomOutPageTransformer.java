@@ -1,13 +1,18 @@
-package ViewPager;
+package com.myqsc.mobile2.fragment;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-@SuppressLint("NewApi")
+
+/**
+ * Created by richard on 13-9-20.
+ */
 public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
     private static float MIN_SCALE = 0.85f;
-    private static float MIN_ALPHA = 0.5f;
+    private static float MIN_ALPHA = 0.7f;
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void transformPage(View view, float position) {
         int pageWidth = view.getWidth();
         int pageHeight = view.getHeight();
@@ -34,7 +39,7 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
             // Fade the page relative to its size.
             view.setAlpha(MIN_ALPHA +
                     (scaleFactor - MIN_SCALE) /
-                    (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+                            (1 - MIN_SCALE) * (1 - MIN_ALPHA));
 
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.

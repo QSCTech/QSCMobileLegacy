@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
+import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
 import com.myqsc.mobile2.fragment.cardlist.FunctionListFragment;
 import com.myqsc.mobile2.login.LoginActivity;
 import com.myqsc.mobile2.login.UserSwitchFragment;
@@ -21,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -44,6 +46,10 @@ public class MainActivity extends FragmentActivity {
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
         vPager.setOffscreenPageLimit(5);
+        vPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            vPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         newUserReceiver = new NewUserReceiver();
 
