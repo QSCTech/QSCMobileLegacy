@@ -32,3 +32,4 @@ gen/
 .gradle/
 .idea/
 local.properties
+*.iml
