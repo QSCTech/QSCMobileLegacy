@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
+        vPager.setOffscreenPageLimit(5);
 
         newUserReceiver = new NewUserReceiver();
 
