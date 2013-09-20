@@ -1,8 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6e58fa2d-50c6-4342-b88c-71a6681be829" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\AboutUsActivity.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/AboutUsActivity.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\MainActivity.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/MainActivity.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\chengji\fragment\ChengjiCardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/chengji/fragment/ChengjiCardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\common\view\LoadingFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/common/view/LoadingFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\CurriculumActivity.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/CurriculumActivity.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\fragment\KebiaoCardEmptyFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/fragment/KebiaoCardEmptyFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\fragment\KebiaoCardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/fragment/KebiaoCardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\fragment\KebiaoEverydayFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/fragment/KebiaoEverydayFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\uti\KebiaoClassData.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/uti/KebiaoClassData.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\uti\KebiaoDataHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/uti/KebiaoDataHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\uti\KebiaoEverydayAdapter.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/uti/KebiaoEverydayAdapter.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\curriculum\uti\KebiaoUtility.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/curriculum/uti/KebiaoUtility.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\ExamActivity.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/ExamActivity.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\fragment\AllExamFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/fragment/AllExamFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\fragment\EveryDayExamFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/fragment/EveryDayExamFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\fragment\ExamCardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/fragment/ExamCardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\fragment\ExamCardNoDataFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/fragment/ExamCardNoDataFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\uti\ExamAdapter.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/uti/ExamAdapter.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\uti\ExamDataHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/uti/ExamDataHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\exam\uti\ExamStructure.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/exam/uti/ExamStructure.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\CardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/CardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\EmptyFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/EmptyFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\FragmentUtility.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/FragmentUtility.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\LoadFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/LoadFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\MyFragmentPagerAdapter.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/MyFragmentPagerAdapter.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\cardlist\FunctionListAdapter.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/cardlist/FunctionListAdapter.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\cardlist\FunctionListFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/cardlist/FunctionListFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\cardlist\FunctionStructure.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/cardlist/FunctionStructure.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\fragment\uti\OnFragmentMessage.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/fragment/uti/OnFragmentMessage.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\huodong\fragment\HuodongCardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/huodong/fragment/HuodongCardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\login\LoginActivity.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/login/LoginActivity.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\login\UserSwitchFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/login/UserSwitchFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\login\uti\AboutListAdapter.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/login/uti/AboutListAdapter.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\login\uti\PersonalDataHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/login/uti/PersonalDataHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\network\DataUpdater.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/network/DataUpdater.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\network\DataUpdaterRunnable.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/network/DataUpdaterRunnable.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\network\UpdateHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/network/UpdateHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\JSInterface\JSInterface.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/JSInterface/JSInterface.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\JSInterface\JSInterfaceCallback.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/JSInterface/JSInterfaceCallback.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\JSInterface\JSInterfaceKVDB.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/JSInterface/JSInterfaceKVDB.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\JSInterface\JSInterfaceUser.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/JSInterface/JSInterfaceUser.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\JSInterface\JSInterfaceView.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/JSInterface/JSInterfaceView.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\platform.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/platform.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\update\PlatformUpdateHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/update/PlatformUpdateHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\platform\uti\PluginStructure.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/platform/uti/PluginStructure.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\support\database\structure\UserIDStructure.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/support/database/structure/UserIDStructure.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\support\database\table\UserIDTable.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/support/database/table/UserIDTable.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\uti\AwesomeFontHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/uti/AwesomeFontHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\uti\BroadcastHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/uti/BroadcastHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\uti\CustomViews.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/uti/CustomViews.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\uti\HandleAsyncTaskMessage.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/uti/HandleAsyncTaskMessage.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\uti\LogHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/uti/LogHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\uti\Utility.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/uti/Utility.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoche\XiaocheActivity.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoche/XiaocheActivity.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoche\fragment\XiaocheCardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoche/fragment/XiaocheCardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoche\uti\UpdateXiaocheAsyncTask.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoche/uti/UpdateXiaocheAsyncTask.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoche\uti\XiaocheAdapter.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoche/uti/XiaocheAdapter.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoche\uti\XiaocheDataHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoche/uti/XiaocheDataHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoche\uti\XiaocheStructure.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoche/uti/XiaocheStructure.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\fragment\XiaoliCardFragment.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/fragment/XiaoliCardFragment.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliData.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliData.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliEachYearData.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliEachYearData.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliExamWeek.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliExamWeek.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliHelper.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliHelper.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliHoliday.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliHoliday.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliRange.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliRange.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliReMap.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliReMap.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliTerm.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliTerm.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliWeek.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliWeek.java" />
+      <change type="MOVED" beforePath="C:\qsc-mobile-android\qscmobile2\src\main\java\com\myqsc\qscmobile2\xiaoli\uti\XiaoliYearData.java" afterPath="$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/xiaoli/uti/XiaoliYearData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qscmobile2/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/qscmobile2/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qscmobile2/cert/proguard-project.txt" afterPath="$PROJECT_DIR$/qscmobile2/cert/proguard-project.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qsc-mobile-android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,7 +144,26 @@
     <favorites_list name="qsc-mobile-android" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="LoadingFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/common/view/LoadingFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="0" selection-start="478" selection-end="478" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/qscmobile2/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="29" selection-start="198" selection-end="198" vertical-scroll-proportion="0.08421053" vertical-offset="24" max-vertical-offset="1026">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -1151,6 +1249,8 @@
         <option value="$PROJECT_DIR$/qscmobile2/libs/library/build.gradle" />
         <option value="$PROJECT_DIR$/qscmobile2/libs/pulltorefresh/build.gradle" />
         <option value="$PROJECT_DIR$/qscmobile2/build.gradle" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/qscmobile2/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1274,14 +1374,39 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="recentsLimit" value="5" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="Android Application.qscmobile2">
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -1389,6 +1514,23 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="6e58fa2d-50c6-4342-b88c-71a6681be829" name="Default" comment="" />
@@ -1419,13 +1561,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297491" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -1438,11 +1581,10 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3128788" sideWeight="0.67001677" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3128788" sideWeight="0.67001677" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1474,13 +1616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qscmobile2/libs/library/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="51" selection-start="89" selection-end="136" vertical-scroll-proportion="0.23333333" vertical-offset="0" max-vertical-offset="570">
@@ -1495,6 +1630,102 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/qscmobile2/src/main/java/com/myqsc/mobile2/common/view/LoadingFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="478" selection-end="478" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="20" selection-start="77" selection-end="77" vertical-scroll-proportion="0.09651475" vertical-offset="0" max-vertical-offset="373">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qscmobile2/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="29" selection-start="198" selection-end="198" vertical-scroll-proportion="0.08421053" vertical-offset="24" max-vertical-offset="1026">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>Android API 17 Platform</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>library</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>android-support-v4</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 

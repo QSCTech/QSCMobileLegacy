@@ -23,7 +23,7 @@
    public <init>(org.json.JSONObject);
 }
 
--keep public class com.myqsc.qscmobile2.R$*{
+-keep public class mobile2.R$*{
     public static final int *;
 }
 
