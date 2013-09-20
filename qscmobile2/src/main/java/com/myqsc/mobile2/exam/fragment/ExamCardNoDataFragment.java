@@ -5,6 +5,7 @@ import com.myqsc.mobile2.exam.ExamActivity;
 import com.myqsc.mobile2.exam.uti.ExamDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.uti.BroadcastHelper;
+import com.myqsc.mobile2.uti.LogHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class ExamCardNoDataFragment extends Fragment {
         @Override
         public void run() {
             final ExamDataHelper examDataHelper = new ExamDataHelper(getActivity());
-            while (true){
+            while (true) {
                 if (examDataHelper.getCardExamStructure(Calendar.getInstance()) != null) {
                     handler.post(new Runnable() {
                         @Override

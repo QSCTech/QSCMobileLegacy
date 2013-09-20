@@ -139,7 +139,6 @@ public class CardFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String name = intent.getStringExtra("card");
-            LogHelper.d(name);
             if (name == null)
                 return ;
             for (int i = 0; i != list.size(); ++i) {
@@ -156,7 +155,9 @@ public class CardFragment extends Fragment {
                     fragment = FragmentUtility.getCardFragmentByName(name, getActivity());
                     transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment, name);
                     transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-                    transaction.commit();
+                    transaction.commitAllowingStateLoss();
+
+                    break;
                 }
             }
         }

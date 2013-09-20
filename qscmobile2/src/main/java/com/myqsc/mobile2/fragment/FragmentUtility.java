@@ -40,6 +40,7 @@ public class FragmentUtility {
     };
 
     public static Fragment getCardFragmentByName(String name, Context context) {
+        LogHelper.d(name + " fragment Inited");
         if (name.compareTo("近期热门活动") == 0)
             return new HuodongCardFragment();
         if (name.compareTo("实时课表") == 0) {
