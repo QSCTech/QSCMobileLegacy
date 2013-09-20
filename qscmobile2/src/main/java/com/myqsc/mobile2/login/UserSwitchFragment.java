@@ -55,8 +55,9 @@ public class UserSwitchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_USER_CHANGED);
-        getActivity().registerReceiver(userChangedReceiver, intentFilter);
+        // TODO: Reuse IntentFilter?
+        getActivity().registerReceiver(userChangedReceiver,
+                new IntentFilter(BroadcastHelper.BROADCAST_USER_CHANGED));
         getActivity().registerReceiver(allUpdatedReceiver,
                 new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED));
 
@@ -103,6 +104,7 @@ public class UserSwitchFragment extends Fragment {
                 AwesomeFontHelper.setFontFace((TextView) temp.findViewById(R.id.simple_listview_banner_icon_left),
                         getActivity());
 
+                // TODO: Inconsistent UI behavior since the other items didn't follow
                 temp.setBackgroundColor((i & 1) == 0 ?
                         getActivity().getResources().getColor(R.color.list_odd) :
                         getActivity().getResources().getColor(R.color.list_even)
@@ -117,15 +119,16 @@ public class UserSwitchFragment extends Fragment {
                 .setText(R.string.icon_plus);
         AwesomeFontHelper.setFontFace((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_left),
                 getActivity());
-
         ((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_right))
                 .setText(R.string.icon_chevron_right);
         ((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_right))
                 .setTextColor(getActivity().getResources().getColor(R.color.gray_text));
         AwesomeFontHelper.setFontFace((TextView) newUser.findViewById(R.id.simple_listview_banner_icon_right),
                 getActivity());
+        // TODO: Move this string into string.xml
         ((TextView) newUser.findViewById(R.id.simple_listview_banner_text))
                 .setText("添加新用户");
+        // TODO: Use constants instead of literal values
         newUser.setId(1);
         newUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +145,6 @@ public class UserSwitchFragment extends Fragment {
                 .setText(R.string.icon_minus_sign);
         AwesomeFontHelper.setFontFace((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_left),
                 getActivity());
-
         ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right))
                 .setText(R.string.icon_chevron_right);
         ((TextView) deleteUser.findViewById(R.id.simple_listview_banner_icon_right))
@@ -157,7 +159,7 @@ public class UserSwitchFragment extends Fragment {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("删除用户");
-                builder.setMessage("确定删除用户：" +
+                builder.setMessage("确定删除用户" +
                         personalDataHelper.getCurrentUser().uid +
                         "吗？");
                 builder.setPositiveButton("确定", new AlertDialog.OnClickListener() {
@@ -166,6 +168,7 @@ public class UserSwitchFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         personalDataHelper.deleteDefault();
+                        // TODO: Should we refresh all the contents?
                         initViews(LayoutInflater.from(getActivity()));
                     }
                 });
@@ -188,12 +191,10 @@ public class UserSwitchFragment extends Fragment {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         params.topMargin = 60;
         aboutUs.setLayoutParams(params);
-
         ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_left))
                 .setText(R.string.icon_info);
         AwesomeFontHelper.setFontFace((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_left),
                 getActivity());
-
         ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_right))
                 .setText(R.string.icon_chevron_right);
         ((TextView) aboutUs.findViewById(R.id.simple_listview_banner_icon_right))
@@ -265,9 +266,12 @@ public class UserSwitchFragment extends Fragment {
     final View.OnClickListener userOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            int id = view.getId() - USER_MAGIC_NUM;
             PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
-            personalDataHelper.setDefault(allUserList.get(id).uid);
+            UserIDStructure clickedUser = allUserList.get(view.getId() - USER_MAGIC_NUM);
+            UserIDStructure currentUser = personalDataHelper.getCurrentUser();
+            if (currentUser == null || currentUser.uid.compareTo(clickedUser.uid) != 0) {
+                personalDataHelper.setDefault(clickedUser.uid);
+            }
         }
     };
 
