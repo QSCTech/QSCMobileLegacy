@@ -40,12 +40,23 @@ android {
             keyAlias "qscdebug"
             keyPassword "password"
         }
+        release{
+            storeFile file("cert/keystore")
+            storePassword "password"
+            keyAlias "release"
+            keyPassword "password"
+        }
     }
 
     buildTypes{
         release {
+            zipAlign true
+            signingConfig signingConfigs.release
+//            runProguard true
+//            proguardFile file('cert/proguard-project.txt')
         }
         debug {
+            zipAlign true
         }
     }
 }
