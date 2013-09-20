@@ -15,24 +15,9 @@ import android.content.Context;
 
 public class XiaocheDataHelper {
 	Context mContext = null;
-	HandleAsyncTaskMessage handleAsyncTaskMessage = null;
-	public void setHandleAsyncTaskMessage(HandleAsyncTaskMessage message){
-		this.handleAsyncTaskMessage = message;
-	}
-	
+
 	public XiaocheDataHelper(Context context){
 		this.mContext = context;
-	}
-	
-	public void clear(){
-		mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .edit().remove(DataUpdater.COMMON_XIAOCHE).commit();
-	}
-	
-	public void update(String result){
-		clear();
-		mContext.getSharedPreferences(Utility.PREFERENCE, 0).edit()
-                .putString(DataUpdater.COMMON_XIAOCHE, result).commit();
 	}
 	
 	public List<XiaocheStructure> getBus(final String start, final String stop) {

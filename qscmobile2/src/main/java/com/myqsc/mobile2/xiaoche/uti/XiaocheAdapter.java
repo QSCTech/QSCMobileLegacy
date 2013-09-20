@@ -8,6 +8,7 @@ import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +67,21 @@ public class XiaocheAdapter extends BaseAdapter {
 				convertView = mInflater.inflate(R.layout.simple_listview_bus_big, null);;
 				
 				((TextView)convertView.findViewById(R.id.listview_bus_big_busnum)).setText(structure.bus_num);
-				((TextView)convertView.findViewById(R.id.listview_bus_big_pos)).setText(structure.position);
 				((TextView)convertView.findViewById(R.id.listview_bus_big_starttime)).setText(structure.startTime);
 				((TextView)convertView.findViewById(R.id.listview_bus_big_stoptime)).setText(structure.stopTime);
 				((TextView)convertView.findViewById(R.id.listview_bus_big_time)).setText(structure.runTime);
 				AwesomeFontHelper.setFontFace((TextView) convertView.findViewById(R.id.listview_bus_big_icon_arrow), mContext);
+
+                String pos = "";
+                for (int i = 0; i != structure.campus.length; ++i) {
+                    pos += "<strong>" + structure.campus[i] + "</strong>";
+                    pos += "<br />" + structure.position[i] + "<br />";
+                }
+                ((TextView)convertView.findViewById(R.id.listview_bus_big_pos))
+                        .setText(Html.fromHtml(pos));
+
 				views.set(position, convertView);
+
 			} else {
 				convertView = views.get(position);
 			}
@@ -82,7 +92,7 @@ public class XiaocheAdapter extends BaseAdapter {
 				
 				((TextView) convertView.findViewById(R.id.listview_bus_small_left)).setText(structure.startTime);
 				((TextView) convertView.findViewById(R.id.listview_bus_small_right)).setText(structure.bus_num);
-				AwesomeFontHelper.setFontFace((TextView)convertView.findViewById(R.id.listview_bus_small_arrow), mContext);
+				AwesomeFontHelper.setFontFace((TextView) convertView.findViewById(R.id.listview_bus_small_arrow), mContext);
 				views.set(position, convertView);
 				
 			} else {

@@ -1,12 +1,15 @@
 package com.myqsc.mobile2.xiaoche.uti;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class XiaocheStructure {
 	public final static String PREFERENCE = "xiaoche";
 	
-	public String bus_num, startPos, stopPos, startTime, stopTime, runTime, position, hint;
+	public String bus_num, startPos, stopPos, startTime, stopTime, runTime, hint;
+
+    public String campus[] = null, position[] = null;
 	
 	public XiaocheStructure(){
 		
@@ -21,21 +24,16 @@ public class XiaocheStructure {
 		startTime = jsonObject.getString("发车时间");
 		stopTime = jsonObject.getString("到站时间");
 		runTime = jsonObject.getString("运行时间");
-		position = jsonObject.getString("停靠地点");
 		hint = jsonObject.getString("备注");
-	}
-	
-	public JSONObject toJsonObject() throws JSONException{
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("车号", bus_num);
-		jsonObject.put("起点", startPos);
-		jsonObject.put("终点", stopPos);
-		jsonObject.put("发车时间", startTime);
-		jsonObject.put("到站时间", stopTime);
-		jsonObject.put("运行时间", runTime);
-		jsonObject.put("停靠地点", position);
-		jsonObject.put("备注", hint);
-		
-		return jsonObject;
+
+        JSONArray jsonArray = jsonObject.getJSONArray("停靠地点");
+        campus = new String[jsonArray.length()];
+        position = new String[jsonArray.length()];
+
+        for(int i = 0; i != jsonArray.length(); ++i) {
+            JSONObject pos = jsonArray.optJSONObject(i);
+            campus[i] = pos.getString("校区");
+            position[i] = pos.getString("位置");
+        }
 	}
 }
