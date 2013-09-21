@@ -27,7 +27,7 @@ public class FragmentUtility {
             /*"近期热门活动", */"实时课表", "查考试", /*"查成绩",*/ "查校车"
     };
     public static String cardDataString[] = new String[] {
-            "", DataUpdater.JW_KEBIAO, DataUpdater.JW_KAOSHI,
+            DataUpdater.JW_KEBIAO, DataUpdater.JW_KAOSHI,
              /*DataUpdater.JW_CHENGJI,*/ DataUpdater.COMMON_XIAOCHE
     };
 
@@ -40,6 +40,7 @@ public class FragmentUtility {
     };
 
     public static Fragment getCardFragmentByName(String name, Context context) {
+        LogHelper.d(name + " fragment Inited");
         if (name.compareTo("近期热门活动") == 0)
             return new HuodongCardFragment();
         if (name.compareTo("实时课表") == 0) {
