@@ -37,31 +37,37 @@ public class KebiaoClassData {
             JSONArray classes = jsonObject.getJSONArray("class");
 
             for (int j = 0; j != classes.length(); ++j){
-                JSONObject object = classes.optJSONObject(j);
+                try {
+                    JSONObject object = classes.optJSONObject(j);
 
-                KebiaoClassData data = new KebiaoClassData();
-                data.name = name;
-                data.teacher = teacher;
-                data.place = object.getString("place");
-                data.time = object.getInt("weekday");
-                data.year = year;
-                data.term = object.getString("semester");
+                    KebiaoClassData data = new KebiaoClassData();
+                    data.name = name;
+                    data.teacher = teacher;
+                    data.place = object.getString("place");
+                    data.time = object.getInt("weekday");
+                    data.year = year;
+                    data.term = object.getString("semester");
 
-                JSONArray classArray = object.getJSONArray("class");
-                data.classes = new int[classArray.length()];
-                for(int k = 0; k != classArray.length(); ++k)
-                    data.classes[k] = classArray.getInt(k);
+                    JSONArray classArray = object.getJSONArray("class");
+                    data.classes = new int[classArray.length()];
+                    for (int k = 0; k != classArray.length(); ++k)
+                        data.classes[k] = classArray.getInt(k);
 
-                String week = object.getString("week");
-                if (week.compareTo("both") == 0) {
-                    data.week = Utility.WEEK_BOTH;
-                } else {
-                    if (week.compareTo("odd") == 0)
-                        data.week = Utility.WEEK_ODD;
-                    else
-                        data.week = Utility.WEEK_EVEN;
+                    String week = object.getString("week");
+                    if (week.compareTo("both") == 0) {
+                        data.week = Utility.WEEK_BOTH;
+                    } else {
+                        if (week.compareTo("odd") == 0)
+                            data.week = Utility.WEEK_ODD;
+                        else
+                            data.week = Utility.WEEK_EVEN;
+                    }
+                    list.add(data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //任何一节课解析shi
                 }
-                list.add(data);
+
             }
         }
         return list;

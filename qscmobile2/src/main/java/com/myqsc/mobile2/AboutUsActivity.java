@@ -3,6 +3,7 @@ package com.myqsc.mobile2;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class AboutUsActivity extends SwipeBackActivity {
 
         WebView webView = (WebView) findViewById(R.id.about_us_text);
         webView.setHorizontalScrollBarEnabled(false);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.loadUrl("file:///android_asset/aboutus.html");
     }
 
