@@ -53,10 +53,13 @@ public class FunctionListAdapter extends BaseAdapter {
 		}
 	}
 
+    public BroadcastReceiver getBroadcastReceiver(){
+        return functionItemClickReceiver;
+    }
+
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        mContext.unregisterReceiver(functionItemClickReceiver);
     }
 
     private List<String> getSelectedCard() {
