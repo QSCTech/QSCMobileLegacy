@@ -35,9 +35,9 @@ public class XiaoliRange {
         endTime.set(Calendar.MINUTE, 59);
         endTime.set(Calendar.SECOND, 59);
 
-        endTime.set(Calendar.HOUR_OF_DAY, 0);
-        endTime.set(Calendar.MINUTE, 0);
-        endTime.set(Calendar.SECOND, 0);
+        startTime.set(Calendar.HOUR_OF_DAY, 0);
+        startTime.set(Calendar.MINUTE, 0);
+        startTime.set(Calendar.SECOND, 0);
 
         if (startTime.compareTo(calendar) <= 0 && endTime.compareTo(calendar) >= 0) {
             return true;

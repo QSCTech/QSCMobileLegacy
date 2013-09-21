@@ -14,6 +14,8 @@ import com.myqsc.mobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.mobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.mobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.mobile2.fragment.FragmentUtility;
+import com.myqsc.mobile2.network.DataUpdater;
+import com.myqsc.mobile2.network.UpdateHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 
@@ -24,39 +26,29 @@ import java.util.List;
  * Created by richard on 13-9-5.
  */
 public class KebiaoCardEmptyFragment extends Fragment {
-    Handler handler = new Handler();
-    final Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            KebiaoDataHelper helper = new KebiaoDataHelper(getActivity());
-            List<KebiaoClassData> list = helper.getDay(Calendar.getInstance());
-            while (true){
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                }
-                if (KebiaoUtility.getDiffTime(Calendar.getInstance(), list) != null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
-                            intent.putExtra("card", FragmentUtility.cardString[1]);
-                            if (getActivity() != null)
-                                getActivity().sendBroadcast(intent);
-                        }
-                    });
-                }
-            }
-            LogHelper.d("thread interrupted");
-        }
-    });
-
+    Handler handler = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_fragment_kebiao_empty, null);
-        thread.start();
+
+        handler = new Handler();
+        final KebiaoDataHelper kebiaoDataHelper = new KebiaoDataHelper(getActivity());
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                handler.post(this);
+                Calendar calendar = Calendar.getInstance();
+                List<KebiaoClassData> list = kebiaoDataHelper.getDay(calendar);
+                if (KebiaoUtility.getDiffTime(calendar, list) != null) {
+                    Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
+                    intent.putExtra("card", DataUpdater.JW_KEBIAO);
+                    if (getActivity() != null)
+                        getActivity().sendBroadcast(intent);
+                }
+            }
+        });
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +63,6 @@ public class KebiaoCardEmptyFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        thread.interrupt();
+        handler.removeCallbacks(null);
     }
 }
