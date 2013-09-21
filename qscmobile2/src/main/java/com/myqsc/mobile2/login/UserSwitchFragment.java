@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -259,6 +260,15 @@ public class UserSwitchFragment extends Fragment {
         ((TextView) star.findViewById(R.id.simple_listview_banner_text))
                 .setText("去评分");
         star.setId(5);
+        star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
+                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
         star.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
         linearLayout.addView(star);
     }
