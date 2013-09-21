@@ -22,7 +22,6 @@ public class AboutUsActivity extends SwipeBackActivity {
 
         WebView webView = (WebView) findViewById(R.id.about_us_text);
         webView.loadUrl("file:///android_asset/aboutus.html");
-
     }
 
     @Override
