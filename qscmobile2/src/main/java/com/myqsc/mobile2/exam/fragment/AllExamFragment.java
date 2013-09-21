@@ -7,6 +7,7 @@ import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.exam.uti.ExamAdapter;
 import com.myqsc.mobile2.exam.uti.ExamStructure;
 import com.myqsc.mobile2.exam.uti.ExamDataHelper;
+import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
 import com.myqsc.mobile2.xiaoli.uti.XiaoliHelper;
 
@@ -44,10 +45,12 @@ public class AllExamFragment extends Fragment {
 		examHelper = new ExamDataHelper(getActivity());
 
         XiaoliHelper xiaoliHelper = new XiaoliHelper(getActivity());
-        switch (xiaoliHelper.getTerm(Calendar.getInstance(), false)) {
+
+        char term = xiaoliHelper.getTerm(Calendar.getInstance(), false);
+        switch (term) {
             case '春':case '夏':case '秋':case '冬':
                 for (int i = 0; i != term_arr.length; ++i)
-                    if (xiaoliHelper.getTerm(Calendar.getInstance(), false) == term_arr[i]) {
+                    if (term == term_arr[i]) {
                         term_int = i;
                     }
                 break;
@@ -79,6 +82,7 @@ public class AllExamFragment extends Fragment {
 			if (v.getId() == Utility.ICON_RIGHT)
 				++term_int;
 			term_int = (term_int + 4) % 4;
+            LogHelper.d("这是" + term_arr[term_int] + "学期");
 			updateExamData();
 		}
 	};

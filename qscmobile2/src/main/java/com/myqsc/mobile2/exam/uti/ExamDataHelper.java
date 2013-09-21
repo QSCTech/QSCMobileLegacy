@@ -36,11 +36,26 @@ public class ExamDataHelper {
                 .getString(DataUpdater.JW_KAOSHI, null);
         allExamList = new ArrayList<ExamStructure>();
 
+        String termString = null;
+        switch (term) {
+            case '秋':case '春':
+                termString = String.valueOf(term);
+                break;
+            case '冬':
+                termString = "秋冬";
+                break;
+            case '夏':
+                termString = "春夏";
+                break;
+            default:
+                termString = "";
+                break;
+        }
         try {
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i != jsonArray.length(); ++i) {
                 ExamStructure examStructure = new ExamStructure(jsonArray.optJSONObject(i));
-                if ((examStructure.term.indexOf(term) != -1) || (term == 0x0)) {
+                if ((examStructure.term.compareTo(termString) == 0) || (term == 0x0)) {
                     allExamList.add(examStructure);
                 }
             }
