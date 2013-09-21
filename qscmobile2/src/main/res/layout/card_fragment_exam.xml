@@ -8,7 +8,6 @@
         android:id="@+id/card_fragment_exam_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:singleLine="true"
         android:text="距离考试周还有23天，你还在准备吗？" />
 
