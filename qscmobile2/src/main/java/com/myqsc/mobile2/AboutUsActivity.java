@@ -21,6 +21,7 @@ public class AboutUsActivity extends SwipeBackActivity {
         setContentView(R.layout.activity_about_us);
 
         WebView webView = (WebView) findViewById(R.id.about_us_text);
+        webView.setHorizontalScrollBarEnabled(false);
         webView.loadUrl("file:///android_asset/aboutus.html");
     }
 
