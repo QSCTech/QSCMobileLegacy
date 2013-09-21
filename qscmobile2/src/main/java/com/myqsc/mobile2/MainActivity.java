@@ -72,20 +72,20 @@ public class MainActivity extends FragmentActivity {
         vPager.setCurrentItem(2);
 
         // TODO: Comment this out when released
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    try{
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        break;
-                    }
-                    getThisProcessMemeryInfo();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true){
+//                    try{
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                        break;
+//                    }
+//                    getThisProcessMemeryInfo();
+//                }
+//            }
+//        }).start();
     }
 
     @Override

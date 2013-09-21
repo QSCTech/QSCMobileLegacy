@@ -62,11 +62,6 @@ public class CurriculumActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curriculum);
-
-        AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.curriculum_everyday), this);
-        AwesomeFontHelper.setFontFace((TextView)findViewById(R.id.curriculum_allweek), this);
-
-
     }
 
 }
