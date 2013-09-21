@@ -1,7 +1,10 @@
 package com.myqsc.mobile2.curriculum.uti;
 
+import android.app.Application;
 import android.content.Context;
+import android.widget.Toast;
 
+import com.myqsc.mobile2.MyBaseApplication;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -52,9 +55,9 @@ public class KebiaoDataHelper {
     }
 
     public List<KebiaoClassData> getDay(final Calendar calendar) {
-        if (whichDay != calendar.get(Calendar.DATE) || todayKebiaolist == null){
+        if (whichDay != calendar.get(Calendar.DAY_OF_YEAR) || todayKebiaolist == null){
             todayKebiaolist = getTodayKebiao(kebiaoList, calendar);
-            whichDay = calendar.get(Calendar.DATE);
+            whichDay = calendar.get(Calendar.DAY_OF_YEAR);
         }
         return todayKebiaolist;
     }
@@ -66,9 +69,23 @@ public class KebiaoDataHelper {
         if (xiaoliHelper == null)
             xiaoliHelper = new XiaoliHelper(mContext);
 
+        int origin = calendar.get(Calendar.DAY_OF_YEAR);
         calendar = xiaoliHelper.doRemap(calendar);
-        if (xiaoliHelper.checkHoliday(calendar) != null)
-            return list;
+        if (calendar.get(Calendar.DAY_OF_YEAR) != origin){
+            //完成了映射，不需要判断假期了
+            Toast.makeText(MyBaseApplication.getAppContext(),
+                    "今天上 " + (calendar.get(Calendar.MONTH) + 1) + " 月 " +
+                            calendar.get(Calendar.DAY_OF_MONTH) + " 日的课",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            if (xiaoliHelper.checkHoliday(calendar) != null) {
+                LogHelper.d(calendar.get(Calendar.DAY_OF_YEAR) + " 是假期");
+                return list;
+            } else {
+                LogHelper.d(calendar.get(Calendar.DAY_OF_YEAR) + " 不是假期");
+            }
+        }
+
         int week = xiaoliHelper.checkParity(calendar, false);
         char term = xiaoliHelper.getTerm(calendar, false);
         int year = xiaoliHelper.getYear(calendar, false);

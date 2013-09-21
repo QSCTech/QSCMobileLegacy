@@ -60,10 +60,10 @@ public class ExamDataHelper {
      * @return
      */
     public List<ExamStructure> getTodayExamList(Calendar calendar) {
-        if (whichDay == calendar.get(Calendar.DATE) && todayExamList != null)
+        if (whichDay == calendar.get(Calendar.DAY_OF_YEAR) && todayExamList != null)
             return todayExamList;
 
-        whichDay = calendar.get(Calendar.DATE);
+        whichDay = calendar.get(Calendar.DAY_OF_YEAR);
         todayExamList = new ArrayList<ExamStructure>();
         List<ExamStructure> list = getExamList((char) 0x0);
         for (ExamStructure structure : list) {
@@ -78,10 +78,10 @@ public class ExamDataHelper {
     int future30Day = 0;
 
     private List<ExamStructure> get30DayExamList(Calendar calendar) {
-        if (future30Day == calendar.get(Calendar.DATE) && day30ExamList != null)
+        if (future30Day == calendar.get(Calendar.DAY_OF_YEAR) && day30ExamList != null)
             return day30ExamList;
 
-        future30Day = calendar.get(Calendar.DATE);
+        future30Day = calendar.get(Calendar.DAY_OF_YEAR);
         day30ExamList = new ArrayList<ExamStructure>();
 
         for (ExamStructure structure : getExamList((char) 0x0)) {
