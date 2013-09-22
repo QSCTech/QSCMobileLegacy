@@ -100,7 +100,7 @@ public class ExamActivity extends SwipeBackActivity {
             if (fragment == null)
                 fragment = new EveryDayExamFragment();
             transaction.replace(R.id.activity_exam_fragment, fragment, "exam_everyday");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
 		} 
 		if (check == 1){
 			icon_left.setTextColor(getResources().getColor(R.color.black_text));
@@ -114,7 +114,7 @@ public class ExamActivity extends SwipeBackActivity {
             if (fragment == null)
                 fragment = new AllExamFragment();
             transaction.replace(R.id.activity_exam_fragment, fragment, "exam_all");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
 		}
 	}
 

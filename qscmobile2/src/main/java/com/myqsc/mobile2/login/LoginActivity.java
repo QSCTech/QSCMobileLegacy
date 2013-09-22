@@ -125,7 +125,7 @@ public class LoginActivity extends FragmentActivity {
                         transaction.remove(manager.findFragmentByTag("load"));
                     transaction.add(R.id.login_frame, new LoadFragment(), "load");
                     transaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
-                    transaction.commit();
+                    transaction.commitAllowingStateLoss();
                 }
                 return true;
             }
@@ -145,7 +145,7 @@ public class LoginActivity extends FragmentActivity {
                 transaction.add(R.id.login_frame, new LoadFragment(), "load");
                 transaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commitAllowingStateLoss();
 
                 new Thread(new Runnable() {
                     @Override

@@ -46,7 +46,7 @@ public class CurriculumActivity extends SwipeBackActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         KebiaoEverydayFragment fragment = new KebiaoEverydayFragment();
         transaction.add(R.id.curriculum_frame, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     @Override
