@@ -91,7 +91,8 @@ public class CardFragment extends Fragment {
                                     .commit();
                         Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                         intent.putExtra("card", message.getData().getString("key"));
-                        getActivity().sendBroadcast(intent);
+                        if (getActivity() != null)
+                            getActivity().sendBroadcast(intent);
 
                         --len[0];
                         if (len[0] == 0)
@@ -99,8 +100,11 @@ public class CardFragment extends Fragment {
                         return false;
                     }
                 });
-                UpdateHelper helper = new UpdateHelper(getActivity());
-                helper.pullToRefresh(handler);
+
+                if (getActivity() != null) {
+                    UpdateHelper helper = new UpdateHelper(getActivity());
+                    helper.pullToRefresh(handler);
+                }
             }
         });
 
