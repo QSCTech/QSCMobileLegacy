@@ -24,7 +24,14 @@ public class ExamCardNoDataFragment extends Fragment {
     final Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            final ExamDataHelper examDataHelper = new ExamDataHelper(getActivity());
+            while (getActivity() == null) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            ExamDataHelper examDataHelper = new ExamDataHelper(getActivity());
             while (true) {
                 if (examDataHelper.getCardExamStructure(Calendar.getInstance()) != null) {
                     handler.post(new Runnable() {
@@ -32,7 +39,8 @@ public class ExamCardNoDataFragment extends Fragment {
                         public void run() {
                             Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                             intent.putExtra("card", DataUpdater.JW_KAOSHI);
-                            getActivity().sendBroadcast(intent);
+                            if (getActivity() != null)
+                                getActivity().sendBroadcast(intent);
                         }
                     });
                 }
