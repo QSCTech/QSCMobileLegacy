@@ -11,6 +11,7 @@ import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.umeng.fb.FeedbackAgent;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -263,10 +264,16 @@ public class UserSwitchFragment extends Fragment {
         star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                try {
+                    Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
+                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    //如果没有电子市场等接收，处理异常防止崩溃
+                }
+
             }
         });
         star.setBackgroundColor(getActivity().getResources().getColor(R.color.list_odd));
