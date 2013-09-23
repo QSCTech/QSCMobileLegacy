@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 public class XiaoliCardFragment extends Fragment {
     TextView timeTextView = null;
+    Handler handler = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +38,7 @@ public class XiaoliCardFragment extends Fragment {
                 Calendar.getInstance(),
                 false
         ));
-        final Handler handler = new Handler();
+        handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -47,6 +48,12 @@ public class XiaoliCardFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeCallbacks(null);
     }
 
     public void setTime() {
