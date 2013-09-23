@@ -37,7 +37,7 @@ public class KebiaoCardEmptyFragment extends Fragment {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                handler.post(this);
+                handler.postDelayed(this, 1000);
                 Calendar calendar = Calendar.getInstance();
                 List<KebiaoClassData> list = kebiaoDataHelper.getDay(calendar);
                 if (KebiaoUtility.getDiffTime(calendar, list) != null) {
