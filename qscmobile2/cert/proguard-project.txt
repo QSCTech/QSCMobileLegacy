@@ -29,3 +29,7 @@
 
 -keep public class com.umeng.fb.ui.ThreadView {
 }
+
+-keep public class com.myqsc.mobile2.platform.JSInterface.* {
+    
+}

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.myqsc.mobile2.platform.platform;
+import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
 
 import org.apache.http.HttpResponse;
@@ -30,6 +31,7 @@ public class PlatformUpdateHelper {
     public static void updatePlatform(final Context context, final Handler handler) {
         final Message message = handler.obtainMessage();
         message.what = 0;
+        message.obj = "平台更新完成";
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -38,9 +40,12 @@ public class PlatformUpdateHelper {
                 HttpGet httpGet = new HttpGet(url);
                 try {
                     HttpResponse response = httpClient.execute(httpGet);
+                    LogHelper.d("platform file downloaded");
+
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i != jsonArray.length(); ++i) {
+                        LogHelper.d("platform file " + i + " download started");
                         JSONObject jsonObject = jsonArray.optJSONObject(i);
                         String path = jsonObject.getString("path");
                         JSONArray files = jsonObject.getJSONArray("web_accessible_resources");
@@ -49,6 +54,7 @@ public class PlatformUpdateHelper {
                             File file = new File(context.getFilesDir(), PATH_ADD + path + files.getString(j));
                             if (file.exists())
                                 file.delete();
+                            file.getParentFile().mkdirs();
                             file.createNewFile();
                             FileOutputStream fileOutputStream = new FileOutputStream(file);
 
