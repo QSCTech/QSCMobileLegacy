@@ -23,33 +23,62 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 public class FunctionListFragment extends Fragment {
     BroadcastReceiver receiver = null;
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		LogHelper.d("FunctionListFragment OnCreateView called");
-		View view = inflater.inflate(R.layout.fragment_cardlist, null);
-		
-		final FunctionListAdapter adapter = new FunctionListAdapter(getActivity());
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        LogHelper.d("FunctionListFragment OnCreateView called");
+        View view = inflater.inflate(R.layout.fragment_cardlist, null);
+
+        final FunctionListAdapter adapter = new FunctionListAdapter(getActivity());
         receiver = adapter.getBroadcastReceiver();
 
-		((ListView) view.findViewById(R.id.fragment_cardlist))
+        ((ListView) view.findViewById(R.id.fragment_cardlist))
                 .setAdapter(adapter);
-		((ListView) view.findViewById(R.id.fragment_cardlist))
+        ((ListView) view.findViewById(R.id.fragment_cardlist))
                 .setOnItemClickListener(onItemClickListener);
         Utility.setListViewHeightBasedOnChildren((ListView) view.findViewById(R.id.fragment_cardlist));
-
-
 
         final PullToRefreshScrollView scrollView = (PullToRefreshScrollView) view.findViewById(R.id.fragment_cardlist_refresh);
 
         final Handler handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message message) {
-                if ("平台更新完成".equals((String) message.obj)) {
-                    scrollView.onRefreshComplete();
+                if ("平台更新完成".equals(message.obj)) {
+                    if (message.what == 0) {
+                        if (getActivity() != null)
+                            Toast.makeText(getActivity(), "平台文件更新失败", Toast.LENGTH_SHORT).show();
+                        return true;
+                    } else {
+                        if (getActivity() != null)
+                            Toast.makeText(getActivity(), "平台文件更新完成", Toast.LENGTH_SHORT).show();
+                    }
+
+                    PlatformUpdateHelper.getPluginList(getActivity(),
+                            new Handler(new Handler.Callback() {
+                                @Override
+                                public boolean handleMessage(Message message) {
+                                    //TODO: here it's a dirty hack
+                                    if ("插件列表下载完成".equals(message.obj)) {
+                                        if (message.what == 0) {
+                                            if (getActivity() != null)
+                                                Toast.makeText(getActivity(), "插件列表更新失败", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        } else {
+                                            if (getActivity() != null)
+                                                Toast.makeText(getActivity(), "插件列表更新完成", Toast.LENGTH_SHORT).show();
+                                        }
+                                        scrollView.onRefreshComplete();
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            }));
+                    return true;
                 }
                 return false;
             }
@@ -61,9 +90,8 @@ public class FunctionListFragment extends Fragment {
                 PlatformUpdateHelper.updatePlatform(getActivity(), handler);
             }
         });
-
-		return view;
-	}
+        return view;
+    }
 
     @Override
     public void onDestroyView() {
@@ -71,14 +99,14 @@ public class FunctionListFragment extends Fragment {
         getActivity().unregisterReceiver(receiver);
     }
 
-	final OnItemClickListener onItemClickListener = new OnItemClickListener() {
+    final OnItemClickListener onItemClickListener = new OnItemClickListener() {
         // TODO: Provide argument names
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			Intent intent = new Intent(BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
-			intent.putExtra("position", arg2);
-			getActivity().sendBroadcast(intent);
-		}
-	};
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                long arg3) {
+            Intent intent = new Intent(BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
+            intent.putExtra("position", arg2);
+            getActivity().sendBroadcast(intent);
+        }
+    };
 }
