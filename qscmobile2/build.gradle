@@ -13,17 +13,19 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:13.0.+'
+    compile 'com.android.support:support-v4:13.0.0'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/umeng_sdk.jar')
+    compile files('libs/libGoogleAnalyticsServices.jar')
     compile project('libs:library')
+    compile project('libs:pulltorefresh')
 }
 
 
 
 android {
     compileSdkVersion 17
-    buildToolsVersion "18.0.1"
+    buildToolsVersion "18.1"
 
     defaultConfig {
         minSdkVersion 7
@@ -31,12 +33,17 @@ android {
     }
 
 
-
     signingConfigs {
-        myConfig{
+        debug{
             storeFile file("cert/keystore")
             storePassword "password"
             keyAlias "qscdebug"
+            keyPassword "password"
+        }
+        release{
+            storeFile file("cert/keystore")
+            storePassword "password"
+            keyAlias "release"
             keyPassword "password"
         }
     }
@@ -44,10 +51,12 @@ android {
     buildTypes{
         release {
             runProguard true
-            proguardFile 'cert/proguard-project.txt'
-            signingConfig signingConfigs.myConfig
+            proguardFile file('cert/proguard-project.txt')
+            zipAlign true
+            signingConfig signingConfigs.release
         }
         debug {
+            zipAlign true
         }
     }
 }

@@ -1,52 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-            android:background="@color/blue"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center">
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/icon_chevron_left"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:id="@+id/fragment_kebiao_everyday_icon_left"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="WEDNESDAY"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:id="@+id/fragment_kebiao_everyday_title"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/icon_chevron_right"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:id="@+id/fragment_kebiao_everyday_icon_right"/>
-    </LinearLayout>
+    <include layout="@layout/view_checkbar" />
 
     <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:divider="@color/white"
-            android:dividerHeight="2dp"
-            android:id="@+id/fragment_kebiao_everyday_listview"/>
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/white"
+        android:dividerHeight="2dp"
+        android:id="@+id/fragment_kebiao_everyday_listview" />
 </LinearLayout>
