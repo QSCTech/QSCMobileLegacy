@@ -102,7 +102,7 @@ public class PlatformUpdateHelper {
                     HttpGet httpGet = new HttpGet(URL);
                     HttpResponse httpResponse = httpClient.execute(httpGet);
 
-                    String pluginList = EntityUtils.toString(httpResponse.getEntity());
+                    String pluginList = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
                     if (pluginList != null)
                         context.getSharedPreferences(Utility.PREFERENCE, 0)
                                 .edit()
