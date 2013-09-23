@@ -40,7 +40,7 @@ public class KebiaoCardFragment extends Fragment {
                     Calendar.getInstance(),
                     list
             );
-            LogHelper.d("diff time got");
+//            LogHelper.d("diff time got");
             if (map == null) {
                 Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                 intent.putExtra("card", DataUpdater.JW_KEBIAO);
