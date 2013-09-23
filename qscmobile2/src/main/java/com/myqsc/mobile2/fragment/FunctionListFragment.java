@@ -6,6 +6,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
+import com.myqsc.mobile2.platform.uti.PluginListAdapter;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -27,12 +28,13 @@ import android.widget.Toast;
 
 public class FunctionListFragment extends Fragment {
     BroadcastReceiver receiver = null;
+    View view = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LogHelper.d("FunctionListFragment OnCreateView called");
-        View view = inflater.inflate(R.layout.fragment_cardlist, null);
+        view = inflater.inflate(R.layout.fragment_cardlist, null);
 
         final FunctionListAdapter adapter = new FunctionListAdapter(getActivity());
         receiver = adapter.getBroadcastReceiver();
@@ -71,6 +73,7 @@ public class FunctionListFragment extends Fragment {
                                         } else {
                                             if (getActivity() != null)
                                                 Toast.makeText(getActivity(), "插件列表更新完成", Toast.LENGTH_SHORT).show();
+                                            initPluginList();
                                         }
                                         scrollView.onRefreshComplete();
                                         return true;
@@ -90,7 +93,14 @@ public class FunctionListFragment extends Fragment {
                 PlatformUpdateHelper.updatePlatform(getActivity(), handler);
             }
         });
+        initPluginList();
         return view;
+    }
+
+    private void initPluginList() {
+        ListView listView = (ListView) view.findViewById(R.id.fragment_cardlist_pluginlist);
+        listView.setAdapter(new PluginListAdapter(getActivity()));
+        Utility.setListViewHeightBasedOnChildren(listView);
     }
 
     @Override

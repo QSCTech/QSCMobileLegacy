@@ -31,8 +31,8 @@ public class PlatformUpdateHelper {
     final static String URLBASE = "http://qsctech.github.io/qsc-mobile-plugins/";
     final static String PATH_ADD = "platform/";
 
-    final static String PLUGIN_LIST_PRE = "PLUGIN_LIST";
-    final static String PLUGIN_PREFIX = "PLUGIN_PREFIX";
+    public final static String PLUGIN_LIST_PRE = "PLUGIN_LIST";
+    public final static String PLUGIN_PREFIX = "PLUGIN_PREFIX";
 
     public static void updatePlatform(final Context context, final Handler handler) {
         final Message message = handler.obtainMessage();
