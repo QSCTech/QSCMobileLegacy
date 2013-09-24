@@ -126,7 +126,7 @@ public class LoginActivity extends FragmentActivity {
                             if (result == null){
                                 throw new IOException("网络错误");
                             }
-                            
+
                             JSONObject jsonObject = new JSONObject(result);
                             jsonObject.getString("stuid");
                             //解析到了学号代表登陆成功
@@ -151,6 +151,7 @@ public class LoginActivity extends FragmentActivity {
                                     Toast.makeText(activity, "数据解析失败，可能是密码错误或教务网暂时不可用", Toast.LENGTH_LONG).show();
                                     if (manager.getBackStackEntryCount() != 0)
                                         manager.popBackStack();
+                                    findViewById(R.id.login_acitivity_main_layout).setVisibility(View.VISIBLE);
                                 }
                             });
                         } catch (UnsupportedEncodingException e) {
@@ -161,6 +162,7 @@ public class LoginActivity extends FragmentActivity {
                                     Toast.makeText(activity, "密码中含有过于特殊的字符，无法提交，请联系求是潮处理", Toast.LENGTH_LONG).show();
                                     if (manager.getBackStackEntryCount() != 0)
                                         manager.popBackStack();
+                                    findViewById(R.id.login_acitivity_main_layout).setVisibility(View.VISIBLE);
                                 }
                             });
                         } catch (IOException e) {
@@ -171,10 +173,9 @@ public class LoginActivity extends FragmentActivity {
                                     Toast.makeText(activity, "网络失败，请稳定后再试", Toast.LENGTH_LONG).show();
                                     if (manager.getBackStackEntryCount() != 0)
                                         manager.popBackStack();
+                                    findViewById(R.id.login_acitivity_main_layout).setVisibility(View.VISIBLE);
                                 }
                             });
-                        } finally {
-
                         }
                     }
                 }).start();
