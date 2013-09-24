@@ -72,7 +72,7 @@ public class KebiaoEverydayAdapter extends BaseAdapter {
 
         holder.name.setText(structure.name);
         holder.teacher.setText(structure.teacher);
-        holder.time.setText(KebiaoUtility.precessTimeInfo(structure));
+        holder.time.setText(KebiaoUtility.precessClassTime(structure));
         holder.place.setText(structure.place);
 
         if ((i & 1) == 0)

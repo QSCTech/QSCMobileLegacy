@@ -90,13 +90,22 @@ public class KebiaoUtility {
      * @param kebiaoClassData
      * @return
      */
-    public static String precessTimeInfo(KebiaoClassData kebiaoClassData) {
+    public static String precessClassTime(KebiaoClassData kebiaoClassData) {
         final String[] week = {"", "周一", "周二", "周三", "周四", "周五", "周六", "周日"};
         String string = week[kebiaoClassData.time];
         for(int i : kebiaoClassData.classes) {
             string += i + ", ";
         }
         string = string.substring(0, string.length() - 2);
+        try {
+            //添加上课下课时间
+            string += " (" + classFrom[kebiaoClassData.classes[0]] +
+                    " - " + classTo[kebiaoClassData.classes[kebiaoClassData.classes.length - 1]] + ")";
+        }catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+
+
         return string;
     }
 
