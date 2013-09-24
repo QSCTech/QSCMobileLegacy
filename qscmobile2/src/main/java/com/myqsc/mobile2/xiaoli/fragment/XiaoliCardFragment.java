@@ -16,6 +16,15 @@ import java.util.Calendar;
 
 public class XiaoliCardFragment extends Fragment {
     TextView timeTextView = null;
+    final Handler handler = new Handler();
+
+    final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            setTime();
+            handler.postDelayed(this, 2000);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,16 +46,25 @@ public class XiaoliCardFragment extends Fragment {
                 Calendar.getInstance(),
                 false
         ));
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                setTime();
-                handler.postDelayed(this, 2000);
-            }
-        });
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.post(runnable);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     public void setTime() {

@@ -13,7 +13,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
-import com.myqsc.mobile2.fragment.cardlist.FunctionListFragment;
+import com.myqsc.mobile2.fragment.FunctionListFragment;
 import com.myqsc.mobile2.login.LoginActivity;
 import com.myqsc.mobile2.login.UserSwitchFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;

@@ -128,7 +128,7 @@ public class ExamDataHelper {
     public ExamStructure getCardExamStructure(Calendar calendar) {
         day30ExamList = get30DayExamList(calendar);
 
-        LogHelper.d(day30ExamList.size() + "个考试在未来30天内");
+//        LogHelper.d(day30ExamList.size() + "个考试在未来30天内");
         for (ExamStructure structure : day30ExamList) {
             Calendar time = structure.getStartTime();
             if (time == null)

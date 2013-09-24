@@ -25,7 +25,7 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onResume(this);
+        MobclickAgent.onPause(this);
     }
 
     @Override
