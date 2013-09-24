@@ -36,6 +36,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -61,16 +62,12 @@ public class LoginActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
-        unregisterReceiver(updateAllReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
-
-        IntentFilter intentFilter = new IntentFilter(BroadcastHelper.BROADCAST_ALL_UPDATED);
-        registerReceiver(updateAllReceiver, intentFilter);
     }
 
     @Override
@@ -97,39 +94,7 @@ public class LoginActivity extends FragmentActivity {
 		uid.addTextChangedListener(myTextWatcher);
 		pwd.addTextChangedListener(myTextWatcher);
 
-        final Handler handler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message message) {
-                if (message.what == 0){
-                    FragmentManager manager = getSupportFragmentManager();
-                    if (manager.getBackStackEntryCount() != 0)
-                        manager.popBackStack();
-                    findViewById(R.id.login_acitivity_main_layout).setVisibility(View.VISIBLE);
-
-                    Toast.makeText(getApplicationContext(),
-                            (CharSequence) message.obj,
-                            Toast.LENGTH_LONG).show();
-                }
-
-                else {
-                    PersonalDataHelper helper = new PersonalDataHelper(getApplicationContext());
-                    helper.add(new UserIDStructure(uid.getText().toString(),
-                            pwd.getText().toString()));
-                    sendBroadcast(new Intent(BroadcastHelper.BROADCAST_USER_CHANGED));
-                    UpdateHelper updateHelper = new UpdateHelper(getApplicationContext());
-                    updateHelper.UpdateAll();
-
-                    final FragmentManager manager = getSupportFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    if (manager.findFragmentByTag("load") != null)
-                        transaction.remove(manager.findFragmentByTag("load"));
-                    transaction.add(R.id.login_frame, new LoadFragment(), "load");
-                    transaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
-                    transaction.commitAllowingStateLoss();
-                }
-                return true;
-            }
-        });
+        final Handler handler = new Handler();
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,12 +110,11 @@ public class LoginActivity extends FragmentActivity {
                 transaction.add(R.id.login_frame, new LoadFragment(), "load");
                 transaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
                 transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                transaction.commit();
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Message message = handler.obtainMessage();
                         try {
                             String result = DataUpdater.get(
                                     DataUpdater.name.get(DataUpdater.JW_VALIDATE) +
@@ -160,22 +124,55 @@ public class LoginActivity extends FragmentActivity {
                             LogHelper.d(result);
 
                             if (result == null){
-                                //网络错误
-                                message.what = 0;
-                                message.obj = "网络错误";
+                                throw new IOException("网络错误");
                             } else {
                                 JSONObject jsonObject = new JSONObject(result);
                                 jsonObject.getString("stuid");
-                                message.what = 1;
+                                //解析到了学号代表登陆成功
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            message.what = 0;
-                            message.obj = "密码错误";
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity, "数据解析失败，可能是密码错误或教务网暂时不可用", Toast.LENGTH_LONG).show();
+                                    if (manager.getBackStackEntryCount() != 0)
+                                        manager.popBackStack();
+                                }
+                            });
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity, "密码中含有过于特殊的字符，无法提交，请联系求是潮处理", Toast.LENGTH_LONG).show();
+                                    if (manager.getBackStackEntryCount() != 0)
+                                        manager.popBackStack();
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity, "网络失败，请稳定后再试", Toast.LENGTH_LONG).show();
+                                    if (manager.getBackStackEntryCount() != 0)
+                                        manager.popBackStack();
+                                }
+                            });
+                        } finally {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PersonalDataHelper helper = new PersonalDataHelper(activity);
+                                    helper.add(
+                                            new UserIDStructure(
+                                                    uid.getText().toString(),
+                                                    pwd.getText().toString()));
+                                    finish();
+                                }
+                            });
                         }
-                        message.sendToTarget();
                     }
                 }).start();
             }
@@ -212,13 +209,4 @@ public class LoginActivity extends FragmentActivity {
     public void onBackPressed() {
     }
 
-    private class UpdateAllReceiver extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            finish();
-        }
-    }
-
-    final BroadcastReceiver updateAllReceiver = new UpdateAllReceiver();
 }
