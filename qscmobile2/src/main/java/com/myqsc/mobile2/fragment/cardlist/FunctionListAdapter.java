@@ -63,13 +63,20 @@ public class FunctionListAdapter extends BaseAdapter {
     }
 
     private List<String> getSelectedCard() {
+        List<String> list = new ArrayList<String>();
 		String encode = mContext.getSharedPreferences(Utility.PREFERENCE, 0).getString(FunctionStructure.PREFERENCE, null);
-		if (encode == null)
-			return null;
-		
+
+		if (encode == null) {
+            //没有选择时默认全选
+            for (String string : FragmentUtility.cardDataString) {
+                list.add(string);
+            }
+            return list;
+        }
+
 		try {
 			JSONArray jsonArray = new JSONArray(encode);
-			List<String> list = new ArrayList<String>();
+
 			for(int i = 0; i != jsonArray.length(); ++i)
 				list.add(jsonArray.optString(i));
 			return list;

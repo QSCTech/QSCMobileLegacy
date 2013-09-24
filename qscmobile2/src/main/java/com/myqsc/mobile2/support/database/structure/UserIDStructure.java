@@ -43,5 +43,13 @@ public class UserIDStructure {
         return null;
     }
 
-
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        UserIDStructure right = (UserIDStructure) o;
+        if (right.uid.equals(uid) && right.pwd.equals(pwd))
+            return true;
+        return false;
+    }
 }
