@@ -2,18 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myqsc.mobile2"
     android:versionCode="36"
-    android:versionName="1.36" >
+    android:versionName="1.36">
 
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
     <application
@@ -22,18 +23,22 @@
         android:icon="@drawable/icon"
         android:hardwareAccelerated="true"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <meta-data android:value="52207a9e56240b330d01a7c3" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="QSCTEST" android:name="UMENG_CHANNEL"/>
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:value="52207a9e56240b330d01a7c3"
+            android:name="UMENG_APPKEY" />
+        <meta-data
+            android:value="QSCTEST"
+            android:name="UMENG_CHANNEL" />
+
         <service
-                android:name="com.umeng.common.net.DownloadingService"
-                android:exported="true"
-                android:process=":DownloadingService" >
-        </service>
+            android:name="com.umeng.common.net.DownloadingService"
+            android:exported="true"
+            android:process=":DownloadingService"></service>
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,11 +47,13 @@
         </activity>
         <activity android:name=".exam.ExamActivity" />
         <activity android:name=".xiaoche.XiaocheActivity" />
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".AboutUsActivity"/>
-        <activity android:name=".curriculum.CurriculumActivity"/>
-        <activity android:name="com.umeng.fb.ConversationActivity"/>
-        <activity android:name="com.umeng.fb.ContactActivity"/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".curriculum.CurriculumActivity" />
+        <activity android:name="com.umeng.fb.ConversationActivity" />
+        <activity android:name="com.umeng.fb.ContactActivity" />
     </application>
 
 </manifest>
