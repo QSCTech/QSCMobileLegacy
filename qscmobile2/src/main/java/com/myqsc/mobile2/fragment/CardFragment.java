@@ -42,7 +42,7 @@ public class CardFragment extends Fragment {
 	LinearLayout baseLayout = null;
 	List<String> list = null;
     FragmentManager fragmentManager = null;
-    UserIDStructure userIDStructure = null;
+    UserIDStructure userIDStructure = new UserIDStructure();
     final Handler handler = new Handler();
 
     final static int FRAGMENT_MAGIC_NUM = 0XDD00;
@@ -83,6 +83,8 @@ public class CardFragment extends Fragment {
 		this.list = getListFromPreference();
 		if (this.list == null)
 			this.list = new ArrayList<String>();
+
+        userIDStructure = new PersonalDataHelper(getActivity()).getCurrentUser();
 	}
 
 	@Override
