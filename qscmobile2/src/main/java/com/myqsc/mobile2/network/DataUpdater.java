@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 
 /**
@@ -103,7 +104,7 @@ public class DataUpdater {
                 result.append(line);
             }
             reader.close();
-        } catch (SSLHandshakeException e) {
+        } catch (SSLException e){
             //ssl 证书失败
             e.printStackTrace();
             return getWithHttp(url);
