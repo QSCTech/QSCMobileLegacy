@@ -68,7 +68,7 @@ public class FunctionListAdapter extends BaseAdapter {
 
 		if (encode == null) {
             //没有选择时默认全选
-            for (String string : FragmentUtility.cardDataString) {
+            for (String string : FragmentUtility.cardString) {
                 list.add(string);
             }
             return list;
