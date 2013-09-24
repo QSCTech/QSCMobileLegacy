@@ -125,11 +125,24 @@ public class LoginActivity extends FragmentActivity {
 
                             if (result == null){
                                 throw new IOException("网络错误");
-                            } else {
-                                JSONObject jsonObject = new JSONObject(result);
-                                jsonObject.getString("stuid");
-                                //解析到了学号代表登陆成功
                             }
+                            
+                            JSONObject jsonObject = new JSONObject(result);
+                            jsonObject.getString("stuid");
+                            //解析到了学号代表登陆成功
+
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PersonalDataHelper helper = new PersonalDataHelper(activity);
+                                    helper.add(
+                                            new UserIDStructure(
+                                                    uid.getText().toString(),
+                                                    pwd.getText().toString()));
+                                    finish();
+                                }
+                            });
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             handler.post(new Runnable() {
@@ -161,17 +174,7 @@ public class LoginActivity extends FragmentActivity {
                                 }
                             });
                         } finally {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    PersonalDataHelper helper = new PersonalDataHelper(activity);
-                                    helper.add(
-                                            new UserIDStructure(
-                                                    uid.getText().toString(),
-                                                    pwd.getText().toString()));
-                                    finish();
-                                }
-                            });
+
                         }
                     }
                 }).start();
