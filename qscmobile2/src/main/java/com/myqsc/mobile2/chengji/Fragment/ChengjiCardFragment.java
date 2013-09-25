@@ -20,9 +20,19 @@ public class ChengjiCardFragment extends Fragment {
 
         GradeHelper gradeHelper = new GradeHelper(getActivity());
         GradeAverageStructure structure = gradeHelper.getTotalAverageGrade();
+        if (structure == null) {
+            ((TextView) view.findViewById(R.id.card_fragment_chengji_textLeft))
+                    .setText("暂时木有成绩");
+            ((TextView) view.findViewById(R.id.card_fragment_chengji_textRight))
+                    .setText("下拉刷新试试");
+        } else {
+            ((TextView) view.findViewById(R.id.card_fragment_chengji_textLeft))
+                    .setText(Html.fromHtml("总学分 <font color='#007EF6'>" + structure.credit + "</font>"));
+            ((TextView) view.findViewById(R.id.card_fragment_chengji_textRight))
+                    .setText(Html.fromHtml("平均绩点 <font color='#007EF6'>" + structure.grade + "</font>"));
+        }
 
-        ((TextView) view.findViewById(R.id.card_fragment_chengji_textLeft)).setText(Html.fromHtml("总学分 <font color='#007EF6'>" + structure.credit + "</font>"));
-		((TextView)view.findViewById(R.id.card_fragment_chengji_textRight)).setText(Html.fromHtml("平均绩点 <font color='#007EF6'>" + structure.grade + "</font>"));
+
 		
 		return view;
 	}

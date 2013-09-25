@@ -56,7 +56,7 @@ public class GradeHelper {
 
     public GradeAverageStructure getTotalAverageGrade() {
         for (GradeAverageStructure structure : average) {
-            if (structure.time.equals("所有课程")) {
+            if (structure.time.compareTo("所有课程") == 0) {
                 return structure;
             }
         }

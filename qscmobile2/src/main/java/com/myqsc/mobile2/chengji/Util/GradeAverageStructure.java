@@ -12,6 +12,6 @@ public class GradeAverageStructure {
     public GradeAverageStructure(JSONObject jsonObject) throws JSONException {
         credit      = jsonObject.getString("总学分");
         grade       = jsonObject.getString("均绩");
-        time        = jsonObject.getString("所有课程");
+        time        = jsonObject.getString("时间");
     }
 }
