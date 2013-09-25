@@ -1,4 +1,4 @@
-package com.myqsc.mobile2.chengji.Util;
+package com.myqsc.mobile2.Grade.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;

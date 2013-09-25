@@ -1,25 +1,17 @@
 package com.myqsc.mobile2.login;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.LoadFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
-import com.myqsc.mobile2.network.UpdateHelper;
 import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
-import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.umeng.analytics.MobclickAgent;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -61,13 +53,11 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override

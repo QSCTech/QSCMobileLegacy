@@ -9,7 +9,6 @@ package com.myqsc.mobile2;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
@@ -96,14 +95,12 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
         unregisterReceiver(newUserReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
 
         // TODO: Rename intentFilter2
         // TODO: Use LocalBroadcastManager

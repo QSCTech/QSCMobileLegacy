@@ -1,8 +1,9 @@
-package com.myqsc.mobile2.chengji.Util;
+package com.myqsc.mobile2.Grade.Util;
 
 import android.content.Context;
 
 import com.myqsc.mobile2.network.DataUpdater;
+import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
 
 import org.json.JSONArray;
@@ -61,5 +62,33 @@ public class GradeHelper {
             }
         }
         return null;
+    }
+
+    public List<GradeClassStructure> getTermGrade(String term) {
+        List<GradeClassStructure> list = new ArrayList<GradeClassStructure>();
+        int yearFrom    = Integer.valueOf(term.substring(0, 4));
+        int yearTo      = Integer.valueOf(term.substring(5, 9));
+        int t           = 1;
+        if (term.contains("春夏"))
+            t           = 2;
+        String termString = "(" + yearFrom + "-" + yearTo + "-" + t + ")";
+        LogHelper.d(termString);
+
+        for (GradeClassStructure structure : grade) {
+            if (structure.courseID.contains(termString))
+                list.add(structure);
+        }
+
+        return list;
+    }
+
+    public List<String> getAllTermString() {
+        List<String> list = new ArrayList<String>();
+        for (GradeAverageStructure structure : average) {
+            if (structure.time.contains("所有"))
+                continue;
+            list.add(structure.time);
+        }
+        return list;
     }
 }

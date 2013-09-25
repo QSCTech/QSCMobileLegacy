@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.myqsc.mobile2.R;
-import com.myqsc.mobile2.chengji.Fragment.ChengjiCardFragment;
+import com.myqsc.mobile2.Grade.Fragment.ChengjiCardFragment;
 import com.myqsc.mobile2.curriculum.fragment.KebiaoCardEmptyFragment;
 import com.myqsc.mobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.mobile2.curriculum.uti.KebiaoDataHelper;

@@ -1,9 +1,11 @@
-package com.myqsc.mobile2.chengji.Fragment;
+package com.myqsc.mobile2.Grade.Fragment;
 
+import com.myqsc.mobile2.Grade.GradeActivity;
 import com.myqsc.mobile2.R;
-import com.myqsc.mobile2.chengji.Util.GradeAverageStructure;
-import com.myqsc.mobile2.chengji.Util.GradeHelper;
+import com.myqsc.mobile2.Grade.Util.GradeAverageStructure;
+import com.myqsc.mobile2.Grade.Util.GradeHelper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -31,9 +33,13 @@ public class ChengjiCardFragment extends Fragment {
             ((TextView) view.findViewById(R.id.card_fragment_chengji_textRight))
                     .setText(Html.fromHtml("平均绩点 <font color='#007EF6'>" + structure.grade + "</font>"));
         }
-
-
-		
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), GradeActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 		return view;
 	}
 
