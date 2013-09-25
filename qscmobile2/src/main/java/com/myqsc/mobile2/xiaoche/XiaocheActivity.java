@@ -1,6 +1,5 @@
 package com.myqsc.mobile2.xiaoche;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.myqsc.mobile2.xiaoche.uti.XiaocheAdapter;
@@ -95,12 +94,10 @@ public class XiaocheActivity extends SwipeBackActivity{
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
     }
 }

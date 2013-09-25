@@ -1720,7 +1720,7 @@ com.myqsc.mobile2.MyBaseApplication -> com.myqsc.mobile2.MyBaseApplication:
     android.content.Context context -> a
     void onCreate() -> onCreate
     android.content.Context getAppContext() -> a
-com.myqsc.mobile2.chengji.fragment.ChengjiCardFragment -> com.myqsc.mobile2.a.a.a:
+com.myqsc.mobile2.chengji.Fragment.ChengjiCardFragment -> com.myqsc.mobile2.a.a.a:
     android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
 com.myqsc.mobile2.curriculum.CurriculumActivity -> com.myqsc.mobile2.curriculum.CurriculumActivity:
     android.support.v4.app.FragmentManager manager -> e

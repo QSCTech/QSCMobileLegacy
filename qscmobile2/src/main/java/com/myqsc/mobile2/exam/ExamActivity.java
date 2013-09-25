@@ -1,7 +1,6 @@
 package com.myqsc.mobile2.exam;
 
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.exam.fragment.AllExamFragment;
 import com.myqsc.mobile2.exam.fragment.EveryDayExamFragment;
@@ -37,13 +36,11 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
