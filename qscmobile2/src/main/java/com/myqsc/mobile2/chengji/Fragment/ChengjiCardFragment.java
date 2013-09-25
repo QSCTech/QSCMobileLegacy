@@ -1,4 +1,4 @@
-package com.myqsc.mobile2.chengji.fragment;
+package com.myqsc.mobile2.chengji.Fragment;
 
 import com.myqsc.mobile2.R;
 
