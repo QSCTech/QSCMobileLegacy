@@ -53,4 +53,13 @@ public class GradeHelper {
             e.printStackTrace();
         }
     }
+
+    public GradeAverageStructure getTotalAverageGrade() {
+        for (GradeAverageStructure structure : average) {
+            if (structure.time.equals("所有课程")) {
+                return structure;
+            }
+        }
+        return null;
+    }
 }
