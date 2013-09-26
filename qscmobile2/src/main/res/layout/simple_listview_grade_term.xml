@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview_grade_term_time"
+        android:textColor="@color/blue_text"
+        android:textStyle="bold"
+        android:layout_marginTop="2dp"
+        android:layout_gravity="left|center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview_grade_term_credit"
+        android:layout_marginTop="2dp"
+        android:layout_gravity="left|center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview_grade_term_GPA"
+        android:layout_marginTop="2dp"
+        android:layout_gravity="left|center_vertical" />
+</LinearLayout>

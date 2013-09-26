@@ -45,16 +45,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".exam.ExamActivity" />
-        <activity android:name=".xiaoche.XiaocheActivity" />
+        <activity
+            android:name=".exam.ExamActivity"
+            android:launchMode="singleTask" />
+        />
+        <activity
+            android:name=".xiaoche.XiaocheActivity"
+            android:launchMode="singleTask" />/>
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".AboutUsActivity" />
-        <activity android:name=".curriculum.CurriculumActivity" />
+        <activity
+            android:name=".AboutUsActivity"
+            android:launchMode="singleTask" />/>
+        <activity
+            android:name=".curriculum.CurriculumActivity"
+            android:launchMode="singleTask" />/>
         <activity android:name="com.umeng.fb.ConversationActivity" />
         <activity android:name="com.umeng.fb.ContactActivity" />
-        <activity android:name=".Grade.GradeActivity"/>
+        <activity
+            android:name=".Grade.GradeActivity"
+            android:launchMode="singleTask" />/>
     </application>
 
 </manifest>

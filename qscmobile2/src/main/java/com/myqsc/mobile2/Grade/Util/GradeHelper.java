@@ -82,6 +82,10 @@ public class GradeHelper {
         return list;
     }
 
+    public List<GradeAverageStructure> getAllTermGrade() {
+        return this.average;
+    }
+
     public List<String> getAllTermString() {
         List<String> list = new ArrayList<String>();
         for (GradeAverageStructure structure : average) {
