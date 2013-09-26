@@ -52,9 +52,9 @@ public class GradeAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.simple_grade_grade))
                 .setText("成绩:" + structure.grade);
         ((TextView) view.findViewById(R.id.simple_grade_credit))
-                .setText("学分:" + structure.gradePoint);
+                .setText("学分:" + structure.credit);
         ((TextView) view.findViewById(R.id.simple_grade_gradepoint))
-                .setText("绩点:" + structure.credit);
+                .setText("绩点:" + structure.gradePoint);
 
         if ((i & 1) == 0)
             view.setBackgroundColor(mContext.getResources().getColor(R.color.list_odd));
