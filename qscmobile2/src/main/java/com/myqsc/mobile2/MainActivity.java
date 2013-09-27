@@ -9,6 +9,7 @@ package com.myqsc.mobile2;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myqsc.mobile2.Service.UpdateAllService;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
@@ -48,6 +49,9 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
+
+        startService(new Intent(this, UpdateAllService.class));
+
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
 

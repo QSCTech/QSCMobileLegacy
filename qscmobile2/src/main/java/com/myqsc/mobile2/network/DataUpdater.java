@@ -72,8 +72,8 @@ public class DataUpdater {
         assert url != null;
 
         UserIDStructure structure = new PersonalDataHelper(context).getCurrentUser();
-        assert structure != null;
-
+        if (structure == null)
+            return null;
 
         try {
             return get(url + "?stuid=" + URLEncoder.encode(structure.uid, "UTF-8") + "&pwd=" +
