@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.network.DataUpdaterRunnable;
+import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -33,6 +34,10 @@ public class UpdateAllService extends IntentService {
         @Override
         public boolean handleMessage(Message message) {
             if (message.obj != null) {
+                if ("插件列表下载完成".equals(message.obj)) {
+                    //更新插件列表了
+                }
+
                 String key = message.getData().getString("key");
                 String data = (String) message.obj;
 
@@ -95,5 +100,7 @@ public class UpdateAllService extends IntentService {
         for (String name : subs) {
             service.submit(new DataUpdaterRunnable(name, handler, this));
         }
+
+        PlatformUpdateHelper.getPluginList(this, handler);
     }
 }
