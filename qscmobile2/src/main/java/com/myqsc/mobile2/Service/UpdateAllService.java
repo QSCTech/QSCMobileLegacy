@@ -47,12 +47,14 @@ public class UpdateAllService extends IntentService {
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 
                 } catch (JSONException e) {
-                    //数据解析成功
+                    //没有msg
                     if (context != null)
                         context.getSharedPreferences(Utility.PREFERENCE, 0)
                                 .edit()
                                 .putString(key, data)
                                 .commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return true;
             }
