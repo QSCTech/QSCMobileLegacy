@@ -3,10 +3,12 @@ package com.myqsc.mobile2.fragment;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.myqsc.mobile2.ExtraFunction.ZJUWLANLogin.ZJUWLANActivity;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.platform.uti.PluginListAdapter;
+import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -22,8 +24,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FunctionListFragment extends Fragment {
@@ -93,7 +97,9 @@ public class FunctionListFragment extends Fragment {
                 PlatformUpdateHelper.updatePlatform(getActivity(), handler);
             }
         });
+
         initPluginList();
+        initExtraList();
         return view;
     }
 
@@ -101,6 +107,27 @@ public class FunctionListFragment extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.fragment_cardlist_pluginlist);
         listView.setAdapter(new PluginListAdapter(getActivity()));
         Utility.setListViewHeightBasedOnChildren(listView);
+    }
+
+    private void initExtraList() {
+        LinearLayout ZJUWLANLoginLayout = (LinearLayout) view.findViewById(R.id.function_extra);
+
+        AwesomeFontHelper.setFontFace((TextView) ZJUWLANLoginLayout.findViewById(R.id.simple_listview_banner_icon_left),
+                getActivity());
+        ((TextView) ZJUWLANLoginLayout.findViewById(R.id.simple_listview_banner_icon_left))
+                .setText(R.string.icon_signal);
+
+        ((TextView) ZJUWLANLoginLayout.findViewById(R.id.simple_listview_banner_text))
+                .setText("ZJUWLAN 自动登录");
+
+        ZJUWLANLoginLayout.setBackgroundColor(getResources().getColor(R.color.list_odd));
+        ZJUWLANLoginLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ZJUWLANActivity.class));
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
+            }
+        });
     }
 
     @Override

@@ -36,6 +36,7 @@ public class UpdateAllService extends IntentService {
             if (message.obj != null) {
                 if ("插件列表下载完成".equals(message.obj)) {
                     //更新插件列表了
+                    return false;
                 }
 
                 String key = message.getData().getString("key");
@@ -69,14 +70,14 @@ public class UpdateAllService extends IntentService {
 
     public UpdateAllService() {
         super("UpdateAllService");
-        context = this;
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        final Context context = this;
+        LogHelper.d("service handle intent");
+        context = this;
 
-        ExecutorService service = Executors.newFixedThreadPool(2);
+        ExecutorService service = Executors.newCachedThreadPool();
 
         final PersonalDataHelper helper = new PersonalDataHelper(context);
         final UserIDStructure structure = helper.getCurrentUser();
