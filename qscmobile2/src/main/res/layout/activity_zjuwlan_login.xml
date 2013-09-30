@@ -11,10 +11,12 @@
         android:layout_height="wrap_content"
         android:text="ZJUWLAN 自动登录"
         android:textSize="24dp"
+        android:layout_marginBottom="16dp"
         android:textColor="@color/blue_text"
         android:id="@+id/textView2" />
 
     <LinearLayout
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,14 +27,14 @@
             android:layout_height="wrap_content"
             android:text="用户名:"
             android:id="@+id/textView"
-            android:layout_gravity="left|center_vertical" />
+            android:layout_gravity="center_vertical|right" />
 
         <EditText
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:layout_gravity="center" />
+            android:id="@+id/zju_login_stuid"
+            android:layout_gravity="center_vertical|right" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="密码"
             android:id="@+id/textView"
-            android:layout_gravity="left|center_vertical" />
+            android:layout_gravity="center_vertical" />
 
         <EditText
             android:layout_width="0dp"
@@ -54,8 +56,19 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/editText" />
+            android:id="@+id/zju_login_pwd" />
 
     </LinearLayout>
+
+    <Button
+        android:layout_marginTop="16dp"
+        android:background="@color/blue"
+        android:id="@+id/zju_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="确 定"
+        />
 
 </LinearLayout>

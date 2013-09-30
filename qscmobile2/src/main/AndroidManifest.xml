@@ -69,6 +69,20 @@
         <activity
             android:name=".Grade.GradeActivity"
             android:launchMode="singleTask" />/>
+        <activity
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANActivity"
+            android:launchMode="singleTask"
+            />
+        <receiver
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectReceiver"
+            android:label="NetworkConnection" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService"
+            />
     </application>
 
 </manifest>

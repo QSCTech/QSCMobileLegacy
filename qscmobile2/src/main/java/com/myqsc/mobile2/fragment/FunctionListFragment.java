@@ -3,6 +3,7 @@ package com.myqsc.mobile2.fragment;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.myqsc.mobile2.ExtraFunction.ZJUWLANLogin.ZJUWLANActivity;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
@@ -120,6 +121,12 @@ public class FunctionListFragment extends Fragment {
                 .setText("ZJUWLAN 自动登录");
 
         ZJUWLANLoginLayout.setBackgroundColor(getResources().getColor(R.color.list_odd));
+        ZJUWLANLoginLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ZJUWLANActivity.class));
+            }
+        });
     }
 
     @Override
