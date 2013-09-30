@@ -125,6 +125,7 @@ public class FunctionListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), ZJUWLANActivity.class));
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
             }
         });
     }

@@ -32,10 +32,15 @@ public class ZJUWLANActivity extends SwipeBackActivity {
 
         Button button = (Button) findViewById(R.id.zju_login_button);
 
+        final SharedPreferences preferences = getSharedPreferences(Utility.PREFERENCE, 0);
+        editTextStuid.setText(preferences.getString(PREFERENCE_STUID, ""));
+        editTextPwd.setText(preferences.getString(PREFERENCE_PWD, ""));
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = getSharedPreferences(Utility.PREFERENCE, 0).edit();
+                SharedPreferences.Editor editor = preferences.edit();
 
                 editor.putString(PREFERENCE_STUID, editTextStuid.getEditableText().toString());
                 editor.putString(PREFERENCE_PWD, editTextPwd.getEditableText().toString());
@@ -44,7 +49,6 @@ public class ZJUWLANActivity extends SwipeBackActivity {
 
                 Toast.makeText(getApplicationContext(), "保存成功，将在连接ZJUWLAN后自动登录哦~", Toast.LENGTH_LONG)
                         .show();
-
                 finish();
             }
         });

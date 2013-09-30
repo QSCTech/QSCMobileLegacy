@@ -71,4 +71,11 @@
         android:text="确 定"
         />
 
+    <TextView
+        android:textColor="@color/gray_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注：ZJUWLAN登陆功能不保证每次都能成功，如果要取消使用这一功能，请删除您的学号密码。"
+        android:id="@+id/textView3" />
+
 </LinearLayout>
