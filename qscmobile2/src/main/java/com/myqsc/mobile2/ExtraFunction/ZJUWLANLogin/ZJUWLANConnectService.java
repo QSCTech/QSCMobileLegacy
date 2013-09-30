@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -45,6 +46,8 @@ public class ZJUWLANConnectService extends IntentService {
 
         if (username.length() < 1 || pwd.length() < 1)
             return ;
+
+        MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN START");
 
         try {
             login(preferences, username, pwd);
@@ -101,6 +104,7 @@ public class ZJUWLANConnectService extends IntentService {
                 preferences.edit()
                         .putLong(ZJUWLANActivity.PREFERENCE_LAST, System.currentTimeMillis())
                         .commit();
+                MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN SUCCESS");
             } else {
                 if ("password_error".equalsIgnoreCase(res)) {
                     doToast("求是潮手机站：ZJUWLAN 密码错误");

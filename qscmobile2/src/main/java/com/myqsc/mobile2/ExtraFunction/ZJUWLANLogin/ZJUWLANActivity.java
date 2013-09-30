@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.uti.Utility;
+import com.umeng.analytics.MobclickAgent;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
@@ -19,6 +20,18 @@ public class ZJUWLANActivity extends SwipeBackActivity {
     public static String PREFERENCE_STUID = "ZJUWLAN_STUID";
     public static String PREFERENCE_PWD = "ZJUWLAN_PWD";
     public static String PREFERENCE_LAST = "PREFERENCE_LAST";
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     EditText editTextStuid, editTextPwd;
 
