@@ -44,6 +44,12 @@ public class UpdateAllService extends IntentService {
 
                 LogHelper.d(key + " Service update complete");
 
+
+                if (data.length() < 5) {
+                    //本次请求失败
+                    return true;
+                }
+
                 try {
                     JSONObject jsonObject = new JSONObject(data);
 
