@@ -74,8 +74,7 @@ public class MainActivity extends FragmentActivity {
         vPager.setAdapter(adapter);
         vPager.setCurrentItem(2);
 
-        // TODO: Comment this out when released
-//        new Thread(new Runnable() {
+//        thread = new Thread(new Runnable() {
 //            @Override
 //            public void run() {
 //                while (true){
@@ -88,12 +87,16 @@ public class MainActivity extends FragmentActivity {
 //                    getThisProcessMemeryInfo();
 //                }
 //            }
-//        }).start();
+//        });
+//        thread.start();
     }
+
+//    Thread thread = null;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        thread.interrupt();
     }
 
     @Override

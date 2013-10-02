@@ -23,7 +23,7 @@ public class XiaocheDataHelper {
 	public List<XiaocheStructure> getBus(final String start, final String stop) {
 		String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.COMMON_XIAOCHE, null);
-        assert result != null;
+
         try {
             JSONArray jsonArray;
             jsonArray = new JSONArray(result);
@@ -39,6 +39,6 @@ public class XiaocheDataHelper {
         } catch (JSONException e) {
             e.printStackTrace();
 		}
-        throw new RuntimeException("校车数据为空");
+        return new ArrayList<XiaocheStructure>();
 	}
 }

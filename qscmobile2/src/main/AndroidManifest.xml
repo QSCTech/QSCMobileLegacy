@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myqsc.mobile2"
-    android:versionCode="40"
-    android:versionName="1.40">
+    android:versionCode="41"
+    android:versionName="1.41">
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -69,6 +69,20 @@
         <activity
             android:name=".Grade.GradeActivity"
             android:launchMode="singleTask" />/>
+        <activity
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANActivity"
+            android:launchMode="singleTask"
+            />
+        <receiver
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectReceiver"
+            android:label="NetworkConnection" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService"
+            />
     </application>
 
 </manifest>

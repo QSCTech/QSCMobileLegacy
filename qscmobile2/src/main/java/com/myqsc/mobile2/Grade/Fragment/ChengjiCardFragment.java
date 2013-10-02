@@ -38,6 +38,7 @@ public class ChengjiCardFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), GradeActivity.class);
                 getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.right_push_in, 0);
             }
         });
 		return view;

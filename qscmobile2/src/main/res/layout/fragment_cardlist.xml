@@ -10,15 +10,17 @@
     ptr:ptrDrawableTop="@anim/loading"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
+
     <LinearLayout
         android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
+
         <ListView
             android:id="@+id/fragment_cardlist"
             android:dividerHeight="2dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
             android:divider="@color/white"
             android:background="@color/white"
             android:layout_width="match_parent"
@@ -28,11 +30,17 @@
             android:id="@+id/fragment_cardlist_pluginlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
             android:divider="@color/white"
-            android:background="@color/white"
-            />
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/function_extra"
+            android:layout_marginTop="40dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <include layout="@layout/simple_listview_banner" />
+        </LinearLayout>
     </LinearLayout>
 
 

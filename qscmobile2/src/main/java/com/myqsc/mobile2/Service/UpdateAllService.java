@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.network.DataUpdaterRunnable;
+import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -33,10 +34,21 @@ public class UpdateAllService extends IntentService {
         @Override
         public boolean handleMessage(Message message) {
             if (message.obj != null) {
+                if ("插件列表下载完成".equals(message.obj)) {
+                    //更新插件列表了
+                    return false;
+                }
+
                 String key = message.getData().getString("key");
                 String data = (String) message.obj;
 
                 LogHelper.d(key + " Service update complete");
+
+
+                if (data.length() < 5) {
+                    //本次请求失败
+                    return true;
+                }
 
                 try {
                     JSONObject jsonObject = new JSONObject(data);
@@ -47,12 +59,14 @@ public class UpdateAllService extends IntentService {
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 
                 } catch (JSONException e) {
-                    //数据解析成功
+                    //没有msg
                     if (context != null)
                         context.getSharedPreferences(Utility.PREFERENCE, 0)
                                 .edit()
                                 .putString(key, data)
                                 .commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return true;
             }
@@ -62,14 +76,14 @@ public class UpdateAllService extends IntentService {
 
     public UpdateAllService() {
         super("UpdateAllService");
-        context = this;
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        final Context context = this;
+        LogHelper.d("service handle intent");
+        context = this;
 
-        ExecutorService service = Executors.newFixedThreadPool(2);
+        ExecutorService service = Executors.newCachedThreadPool();
 
         final PersonalDataHelper helper = new PersonalDataHelper(context);
         final UserIDStructure structure = helper.getCurrentUser();
@@ -93,5 +107,7 @@ public class UpdateAllService extends IntentService {
         for (String name : subs) {
             service.submit(new DataUpdaterRunnable(name, handler, this));
         }
+
+        PlatformUpdateHelper.getPluginList(this, handler);
     }
 }
