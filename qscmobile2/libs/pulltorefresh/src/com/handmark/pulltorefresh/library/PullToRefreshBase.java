@@ -49,7 +49,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 	static final boolean DEBUG = false;
 
-	static final boolean USE_HW_LAYERS = false;
+	static final boolean USE_HW_LAYERS = true;
 
 	static final String LOG_TAG = "PullToRefresh";
 

@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 
+import com.myqsc.mobile2.MyBaseApplication;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,10 +36,13 @@ public class UpdateHelper {
                 if (message.obj != null) {
                     --len[0];
                     LogHelper.d(message.getData().getString("key") + "update finished");
-                    mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                            .edit()
-                            .putString(message.getData().getString("key"), (String) message.obj)
-                            .commit();
+
+                    if (!messageChecker((String) message.obj)) {
+                        mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                                .edit()
+                                .putString(message.getData().getString("key"), (String) message.obj)
+                                .commit();
+                    }
                     Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                     intent.putExtra("card", message.getData().getString("key"));
                     mContext.sendBroadcast(intent);
@@ -53,6 +61,26 @@ public class UpdateHelper {
                     handler,
                     mContext));
         }
+    }
+
+    /**
+     * 判断这个json 中是否有msg，有的话toast出来，并返回true，没有返回false
+     * @param data
+     * @return
+     */
+    public static boolean messageChecker(String data) {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            String message = jsonObject.getString("msg");
+
+            if (MyBaseApplication.getAppContext() != null) {
+                Toast.makeText(MyBaseApplication.getAppContext(), message, Toast.LENGTH_LONG).show();
+            }
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void pullToRefresh(final Handler handler){

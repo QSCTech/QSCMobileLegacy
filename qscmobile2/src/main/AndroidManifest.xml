@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myqsc.mobile2"
-    android:versionCode="34"
-    android:versionName="1.34" >
+    android:versionCode="43"
+    android:versionName="1.43">
 
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
     <application
@@ -22,31 +23,66 @@
         android:icon="@drawable/icon"
         android:hardwareAccelerated="true"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <meta-data android:value="52207a9e56240b330d01a7c3" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="QSCTEST" android:name="UMENG_CHANNEL"/>
+        android:theme="@style/AppTheme">
         <service
-                android:name="com.umeng.common.net.DownloadingService"
-                android:exported="true"
-                android:process=":DownloadingService" >
-        </service>
+            android:name=".Service.UpdateAllService"/>
+
+        <meta-data
+            android:value="5252a86d56240b850d371398"
+            android:name="UMENG_APPKEY" />
+        <meta-data
+            android:value="QSC_RELSEASE"
+            android:name="UMENG_CHANNEL" />
+
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:exported="true"
+            android:process=":DownloadingService"></service>
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".exam.ExamActivity" />
-        <activity android:name=".xiaoche.XiaocheActivity" />
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".AboutUsActivity"/>
-        <activity android:name=".curriculum.CurriculumActivity"/>
-        <activity android:name="com.umeng.fb.ConversationActivity"/>
-        <activity android:name="com.umeng.fb.ContactActivity"/>
+        <activity
+            android:name=".exam.ExamActivity"
+            android:launchMode="singleTask" />
+        />
+        <activity
+            android:name=".xiaoche.XiaocheActivity"
+            android:launchMode="singleTask" />/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".AboutUsActivity"
+            android:launchMode="singleTask" />/>
+        <activity
+            android:name=".curriculum.CurriculumActivity"
+            android:launchMode="singleTask" />/>
+        <activity android:name="com.umeng.fb.ConversationActivity" />
+        <activity android:name="com.umeng.fb.ContactActivity" />
+        <activity
+            android:name=".Grade.GradeActivity"
+            android:launchMode="singleTask" />/>
+        <activity
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANActivity"
+            android:launchMode="singleTask"
+            />
+        <receiver
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectReceiver"
+            android:label="NetworkConnection" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService"
+            />
     </application>
 
 </manifest>

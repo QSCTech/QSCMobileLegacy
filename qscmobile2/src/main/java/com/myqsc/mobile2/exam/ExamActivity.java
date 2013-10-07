@@ -1,7 +1,6 @@
 package com.myqsc.mobile2.exam;
 
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.exam.fragment.AllExamFragment;
 import com.myqsc.mobile2.exam.fragment.EveryDayExamFragment;
@@ -25,7 +24,7 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onResume(this);
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -37,13 +36,11 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
@@ -100,7 +97,7 @@ public class ExamActivity extends SwipeBackActivity {
             if (fragment == null)
                 fragment = new EveryDayExamFragment();
             transaction.replace(R.id.activity_exam_fragment, fragment, "exam_everyday");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
 		} 
 		if (check == 1){
 			icon_left.setTextColor(getResources().getColor(R.color.black_text));
@@ -114,7 +111,7 @@ public class ExamActivity extends SwipeBackActivity {
             if (fragment == null)
                 fragment = new AllExamFragment();
             transaction.replace(R.id.activity_exam_fragment, fragment, "exam_all");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
 		}
 	}
 

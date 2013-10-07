@@ -23,9 +23,16 @@
    public <init>(org.json.JSONObject);
 }
 
--keep public class mobile2.R$*{
+-keep public class com.myqsc.mobile2.R$*{
     public static final int *;
 }
 
 -keep public class com.umeng.fb.ui.ThreadView {
 }
+
+-keep public class com.myqsc.mobile2.platform.JSInterface.* {
+}
+
+-keep public class * extends com.umeng.**
+
+-keep class com.umeng.** { *; }

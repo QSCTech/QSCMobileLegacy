@@ -9,8 +9,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.cardlist.FunctionStructure;
+import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.network.UpdateHelper;
+import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -26,6 +28,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,8 @@ public class CardFragment extends Fragment {
 	LinearLayout baseLayout = null;
 	List<String> list = null;
     FragmentManager fragmentManager = null;
+    UserIDStructure userIDStructure = new UserIDStructure();
+    final Handler handler = new Handler();
 
     final static int FRAGMENT_MAGIC_NUM = 0XDD00;
 
@@ -50,6 +55,9 @@ public class CardFragment extends Fragment {
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(receiver);
+
+        PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
+        userIDStructure = personalDataHelper.getCurrentUser();
     }
 
     @Override
@@ -58,6 +66,15 @@ public class CardFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter(
                 BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
         getActivity().registerReceiver(receiver, intentFilter);
+
+        PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
+        UserIDStructure structure = personalDataHelper.getCurrentUser();
+        if (structure != null && !structure.equals(userIDStructure)) {
+            //用户不相同，需要下拉刷新
+            final PullToRefreshScrollView pullToRefreshScrollView = (PullToRefreshScrollView) view
+                    .findViewById(R.id.card_pull_refresh_scrollview);
+            pullToRefreshScrollView.setRefreshing();
+        }
     }
 
     @Override
@@ -66,6 +83,8 @@ public class CardFragment extends Fragment {
 		this.list = getListFromPreference();
 		if (this.list == null)
 			this.list = new ArrayList<String>();
+
+        userIDStructure = new PersonalDataHelper(getActivity()).getCurrentUser();
 	}
 
 	@Override
@@ -74,7 +93,7 @@ public class CardFragment extends Fragment {
 		view = inflater.inflate(R.layout.fragment_card, null);
         final PullToRefreshScrollView pullToRefreshScrollView = (PullToRefreshScrollView) view
                 .findViewById(R.id.card_pull_refresh_scrollview);
-        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+
         pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
@@ -89,9 +108,11 @@ public class CardFragment extends Fragment {
                                     .edit()
                                     .putString(message.getData().getString("key"), (String) message.obj)
                                     .commit();
+
                         Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                         intent.putExtra("card", message.getData().getString("key"));
-                        getActivity().sendBroadcast(intent);
+                        if (getActivity() != null)
+                            getActivity().sendBroadcast(intent);
 
                         --len[0];
                         if (len[0] == 0)
@@ -99,8 +120,11 @@ public class CardFragment extends Fragment {
                         return false;
                     }
                 });
-                UpdateHelper helper = new UpdateHelper(getActivity());
-                helper.pullToRefresh(handler);
+
+                if (getActivity() != null) {
+                    UpdateHelper helper = new UpdateHelper(getActivity());
+                    helper.pullToRefresh(handler);
+                }
             }
         });
 
@@ -110,9 +134,9 @@ public class CardFragment extends Fragment {
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentInflate(baseLayout, LayoutInflater.from(getActivity()), list);
 
-        IntentFilter intentFilter1 = new IntentFilter(
+        IntentFilter intentFilter = new IntentFilter(
                 BroadcastHelper.BROADCAST_CARD_REDRAW);
-        getActivity().registerReceiver(fragmentChangedReceiver, intentFilter1);
+        getActivity().registerReceiver(fragmentChangedReceiver, intentFilter);
 
 		return view;
 	}
@@ -168,10 +192,16 @@ public class CardFragment extends Fragment {
 			return null;
 		String encode = getActivity().getSharedPreferences(Utility.PREFERENCE,
 				0).getString(FunctionStructure.PREFERENCE, null);
-		if (encode == null)
-			return null;
-		
+
 		List<String> list = new ArrayList<String>();
+        if (encode == null) {
+            //没有选择时默认全选
+            for (String string : FragmentUtility.cardString) {
+                list.add(string);
+            }
+            return list;
+        }
+
 		try {
 			JSONArray jsonArray = new JSONArray(encode);
 			for(int i = 0; i != jsonArray.length(); ++i)

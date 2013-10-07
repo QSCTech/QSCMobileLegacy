@@ -1720,7 +1720,7 @@ com.myqsc.mobile2.MyBaseApplication -> com.myqsc.mobile2.MyBaseApplication:
     android.content.Context context -> a
     void onCreate() -> onCreate
     android.content.Context getAppContext() -> a
-com.myqsc.mobile2.chengji.fragment.ChengjiCardFragment -> com.myqsc.mobile2.a.a.a:
+com.myqsc.mobile2.chengji.Fragment.ChengjiCardFragment -> com.myqsc.mobile2.a.a.a:
     android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
 com.myqsc.mobile2.curriculum.CurriculumActivity -> com.myqsc.mobile2.curriculum.CurriculumActivity:
     android.support.v4.app.FragmentManager manager -> e
@@ -1979,13 +1979,13 @@ com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter$1 -> com.myqsc.mobile2.b
 com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter$FunctionItemClickReceiver -> com.myqsc.mobile2.b.a.c:
     com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.myqsc.mobile2.fragment.cardlist.FunctionListFragment -> com.myqsc.mobile2.b.a.d:
+com.myqsc.mobile2.fragment.FunctionListFragment -> com.myqsc.mobile2.b.a.d:
     android.content.BroadcastReceiver receiver -> M
     android.widget.AdapterView$OnItemClickListener onItemClickListener -> N
     android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
     void onDestroyView() -> n
-com.myqsc.mobile2.fragment.cardlist.FunctionListFragment$1 -> com.myqsc.mobile2.b.a.e:
-    com.myqsc.mobile2.fragment.cardlist.FunctionListFragment this$0 -> a
+com.myqsc.mobile2.fragment.FunctionListFragment$1 -> com.myqsc.mobile2.b.a.e:
+    com.myqsc.mobile2.fragment.FunctionListFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.myqsc.mobile2.huodong.fragment.HuodongCardFragment -> com.myqsc.mobile2.c.a.a:
     android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a

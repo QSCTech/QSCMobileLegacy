@@ -31,8 +31,12 @@ public class KebiaoDataHelper {
 
     public KebiaoDataHelper(Context context) {
         this.mContext = context;
-        kebiaoList = parse(mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                .getString(DataUpdater.JW_KEBIAO, null));
+        String string = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                .getString(DataUpdater.JW_KEBIAO, null);
+        if (string == null)
+            kebiaoList = new ArrayList<KebiaoClassData>();
+        else
+            kebiaoList = parse(string);
     }
 
     public List<KebiaoClassData> parse(String string) {

@@ -9,11 +9,11 @@ package com.myqsc.mobile2;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.myqsc.mobile2.Service.UpdateAllService;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
 import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
-import com.myqsc.mobile2.fragment.cardlist.FunctionListFragment;
+import com.myqsc.mobile2.fragment.FunctionListFragment;
 import com.myqsc.mobile2.login.LoginActivity;
 import com.myqsc.mobile2.login.UserSwitchFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
@@ -49,6 +49,9 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
+
+        startService(new Intent(this, UpdateAllService.class));
+
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
 
@@ -71,8 +74,7 @@ public class MainActivity extends FragmentActivity {
         vPager.setAdapter(adapter);
         vPager.setCurrentItem(2);
 
-        // TODO: Comment this out when released
-//        new Thread(new Runnable() {
+//        thread = new Thread(new Runnable() {
 //            @Override
 //            public void run() {
 //                while (true){
@@ -85,25 +87,27 @@ public class MainActivity extends FragmentActivity {
 //                    getThisProcessMemeryInfo();
 //                }
 //            }
-//        }).start();
+//        });
+//        thread.start();
     }
+
+//    Thread thread = null;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        thread.interrupt();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
         unregisterReceiver(newUserReceiver);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
 
         // TODO: Rename intentFilter2
         // TODO: Use LocalBroadcastManager

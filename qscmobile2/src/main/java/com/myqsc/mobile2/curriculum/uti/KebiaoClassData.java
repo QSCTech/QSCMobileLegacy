@@ -85,10 +85,4 @@ public class KebiaoClassData {
         return false;
     }
 
-    public String classString(){
-        String string = XiaoliData.getWeekName() + " ";
-        for (int i : classes)
-            string += i + "/";
-        return string.substring(0, string.length() - 1);
-    }
 }

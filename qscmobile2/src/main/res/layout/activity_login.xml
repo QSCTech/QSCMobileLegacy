@@ -81,9 +81,10 @@
                     android:layout_height="48dp"
                     android:hint="@string/login_uid"
                     android:textColorHint="@color/gray_text"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="flagNoEnterAction|actionNext"
                     android:background="@null"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:inputType="textCapCharacters|textNoSuggestions" />
             </LinearLayout>
 
             <LinearLayout
