@@ -28,10 +28,10 @@
             android:name=".Service.UpdateAllService"/>
 
         <meta-data
-            android:value="52207a9e56240b330d01a7c3"
+            android:value="5252a86d56240b850d371398"
             android:name="UMENG_APPKEY" />
         <meta-data
-            android:value="QSCTEST"
+            android:value="QSC_RELSEASE"
             android:name="UMENG_CHANNEL" />
 
         <service
