@@ -1,9 +1,13 @@
 package com.myqsc.mobile2.Notice;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,6 +30,7 @@ public class NoticeActivity extends SwipeBackActivity {
     PullToRefreshScrollView scrollView = null;
     LayoutInflater mInflater = null;
     NoticeHelper noticeHelper = null;
+    Context mContext = null;
 
     public static final int SELECT_TINT = 0;
     public static final int SELECT_FIRE = 1;
@@ -36,12 +41,13 @@ public class NoticeActivity extends SwipeBackActivity {
     private int selected = 0;
 
     private final static int[] SELECT = {
-        SELECT_TINT, SELECT_FIRE, SELECT_SEARCH
+            SELECT_TINT, SELECT_FIRE, SELECT_SEARCH
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         mInflater = LayoutInflater.from(this);
         setContentView(R.layout.activity_notice);
 
@@ -131,10 +137,42 @@ public class NoticeActivity extends SwipeBackActivity {
                     selected = SELECT_SEARCH;
                     setSelected();
                     noticeHelper.reset();
+
+                    final View searchView = mInflater.inflate(R.layout.notice_search, null);
+                    AwesomeFontHelper.setFontFace((TextView) searchView.findViewById(R.id.notice_search_icon), mContext);
+                    ((EditText) searchView.findViewById(R.id.notice_search_edittext))
+                            .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                @Override
+                                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                                    if (i == EditorInfo.IME_ACTION_SEARCH) {
+                                        //在输入法上按了搜索键
+                                        doSearch(((EditText) ((EditText) searchView.findViewById(R.id.notice_search_edittext)))
+                                                .getText().toString());
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+
+                    searchView.findViewById(R.id.notice_search_icon)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    //点击那个搜索图标搜索
+                                    doSearch(((EditText) ((EditText) searchView.findViewById(R.id.notice_search_edittext)))
+                                            .getText().toString());
+                                }
+                            });
+                    linearLayout.addView(searchView);
                     break;
             }
         }
     };
+
+    private void doSearch(String key) {
+        noticeHelper.reset();
+        noticeHelper.getSearchResult(handler, key);
+    }
 
     @Override
     protected void onResume() {
@@ -146,5 +184,14 @@ public class NoticeActivity extends SwipeBackActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            scrollToFinishActivity();
+            return true;
+        }
+        return false;
     }
 }

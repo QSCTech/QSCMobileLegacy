@@ -1,6 +1,7 @@
 package com.myqsc.mobile2.Notice;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +95,76 @@ public class NoticeHelper {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+                            addView(list);
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "木有更多活动啦！", Toast.LENGTH_LONG).show();
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "网络失败，请稍后重试", Toast.LENGTH_LONG).show();
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public void getSearchResult(final Handler handler, final String key) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = Uri.parse("http://test.myqsc.com/notice/events")
+                        .buildUpon()
+                        .appendQueryParameter("page", String.valueOf(pager))
+                        .appendQueryParameter("keyword", key)
+                        .build().toString();
+                ++pager;
+
+                LogHelper.e(url);
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(url);
+
+                httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
+                httpGet.setHeader("X-Need-Escape", "0");
+
+                try {
+                    HttpResponse response = httpClient.execute(httpGet);
+
+                    String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (jsonObject.getInt("code") != 0 || jsonArray.length() == 0)
+                        throw new RuntimeException("没有更多活动了");
+
+                    final List<NoticeStructure> list = new ArrayList<NoticeStructure>();
+                    for (int i = 0; i != jsonArray.length(); ++i) {
+                        list.add(new NoticeStructure(jsonArray.getJSONObject(i)));
+                    }
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (pager == 2) {
+                                //说明这是第一次请求，就要把搜索框删掉！
+                                linearLayout.removeAllViews();
+                            }
+
                             addView(list);
                             scrollView.onRefreshComplete();
                         }

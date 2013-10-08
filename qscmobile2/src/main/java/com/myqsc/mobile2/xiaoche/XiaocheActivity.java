@@ -8,6 +8,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -99,5 +100,14 @@ public class XiaocheActivity extends SwipeBackActivity{
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            scrollToFinishActivity();
+            return true;
+        }
+        return false;
     }
 }
