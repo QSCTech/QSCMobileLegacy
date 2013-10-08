@@ -47,6 +47,10 @@ public class NoticeHelper {
         this.mInflater = LayoutInflater.from(mContext);
     }
 
+    public void reset() {
+        pager = 1;
+    }
+
     public void getMore(final int type, final Handler handler) {
         final Thread thread = new Thread(new Runnable() {
             @Override

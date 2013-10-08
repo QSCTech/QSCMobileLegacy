@@ -49,7 +49,12 @@ public class NoticeActivity extends SwipeBackActivity {
         AwesomeFontHelper.setFontFace((TextView) findViewById(R.id.notice_icon_search), this);
         AwesomeFontHelper.setFontFace((TextView) findViewById(R.id.notice_icon_tint), this);
 
-        setSelected(selected);
+        findViewById(R.id.notice_tint)
+                .setOnClickListener(onSelectChangedListener);
+        findViewById(R.id.notice_fire)
+                .setOnClickListener(onSelectChangedListener);
+        findViewById(R.id.notice_search)
+                .setOnClickListener(onSelectChangedListener);
 
         linearLayout = (LinearLayout) findViewById(R.id.activity_notice_linear);
 
@@ -63,9 +68,10 @@ public class NoticeActivity extends SwipeBackActivity {
 
         noticeHelper = new NoticeHelper(linearLayout, scrollView, this);
         noticeHelper.getMore(selected, handler);
+        setSelected();
     }
 
-    private void setSelected(int k) {
+    private void setSelected() {
         ((TextView) findViewById(R.id.notice_icon_tint)).setTextColor(getResources().getColor(R.color.gray_text));
         ((TextView) findViewById(R.id.notice_icon_fire)).setTextColor(getResources().getColor(R.color.gray_text));
         ((TextView) findViewById(R.id.notice_icon_search)).setTextColor(getResources().getColor(R.color.gray_text));
@@ -74,7 +80,7 @@ public class NoticeActivity extends SwipeBackActivity {
         ((TextView) findViewById(R.id.notice_icon_fire_text)).setTextColor(getResources().getColor(R.color.gray_text));
         ((TextView) findViewById(R.id.notice_icon_search_text)).setTextColor(getResources().getColor(R.color.gray_text));
 
-        switch (k) {
+        switch (selected) {
             case SELECT_TINT:
                 ((TextView) findViewById(R.id.notice_icon_tint)).setTextColor(getResources().getColor(R.color.blue_text));
                 ((TextView) findViewById(R.id.notice_icon_tint_text)).setTextColor(getResources().getColor(R.color.blue_text));
@@ -90,6 +96,46 @@ public class NoticeActivity extends SwipeBackActivity {
         }
     }
 
+    final View.OnClickListener onSelectChangedListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.notice_tint:
+                    if (selected == SELECT_TINT)
+                        break;
+
+                    scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+                    linearLayout.removeAllViews();
+                    selected = SELECT_TINT;
+                    setSelected();
+                    noticeHelper.reset();
+                    noticeHelper.getMore(selected, handler);
+                    break;
+
+                case R.id.notice_fire:
+                    if (selected == SELECT_FIRE)
+                        break;
+
+                    scrollView.setMode(PullToRefreshBase.Mode.DISABLED);
+                    linearLayout.removeAllViews();
+                    selected = SELECT_FIRE;
+                    setSelected();
+                    noticeHelper.reset();
+                    noticeHelper.getMore(selected, handler);
+                    break;
+
+                case R.id.notice_search:
+
+                    scrollView.setMode(PullToRefreshBase.Mode.DISABLED);
+                    linearLayout.removeAllViews();
+                    selected = SELECT_SEARCH;
+                    setSelected();
+                    noticeHelper.reset();
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -100,10 +146,5 @@ public class NoticeActivity extends SwipeBackActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }
