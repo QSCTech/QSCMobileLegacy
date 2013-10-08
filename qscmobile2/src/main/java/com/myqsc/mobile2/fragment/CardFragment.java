@@ -103,6 +103,9 @@ public class CardFragment extends Fragment {
                     public boolean handleMessage(Message message) {
                         LogHelper.d(message.getData().getString("key") + "更新完成");
                         String result = (String) message.obj;
+                        if (result == null || message.getData().getString("key") == null)
+                            return true;
+
                         if (result != null && getActivity() != null)
                             getActivity().getSharedPreferences(Utility.PREFERENCE, 0)
                                     .edit()
@@ -165,22 +168,29 @@ public class CardFragment extends Fragment {
             String name = intent.getStringExtra("card");
             if (name == null)
                 return ;
+            int num = -1;
             for (int i = 0; i != list.size(); ++i) {
-                if (FragmentUtility.cardString[i].compareTo(name) == 0 ||
-                        FragmentUtility.cardDataString[i].compareTo(name) == 0) {
+                if (list.get(i).equals(name))
+                    num = i;
+            }
+            if (num == -1)
+                return;
+
+            for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
+                if (FragmentUtility.cardString[i].equals(name) ||
+                        FragmentUtility.cardDataString[i].equals(name) ) {
                     //就是这个卡片啦！
-                    if (FragmentUtility.cardDataString[i].compareTo(name) == 0)
+                    if (FragmentUtility.cardDataString[i].equals(name))
                         name = FragmentUtility.cardString[i];
 
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     Fragment fragment = fragmentManager.findFragmentByTag(name);
-                    LogHelper.d(name);
-                    transaction.remove(fragment);
+                    if (fragment != null)
+                        transaction.remove(fragment);
+
                     fragment = FragmentUtility.getCardFragmentByName(name, getActivity());
                     transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment, name);
-                    transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                     transaction.commitAllowingStateLoss();
-
                     break;
                 }
             }
@@ -194,6 +204,7 @@ public class CardFragment extends Fragment {
 				0).getString(FunctionStructure.PREFERENCE, null);
 
 		List<String> list = new ArrayList<String>();
+        LogHelper.e(encode);
         if (encode == null) {
             //没有选择时默认全选
             for (String string : FragmentUtility.cardString) {
@@ -236,9 +247,9 @@ public class CardFragment extends Fragment {
 
         LinearLayout tempLayout = (LinearLayout) inflater.inflate(
                 R.layout.fragment_card_background, null);
-        tempLayout.findViewById(R.id.fragment_card).setId(1000);
+        tempLayout.findViewById(R.id.fragment_card).setId(FRAGMENT_MAGIC_NUM + 1010);
         baseLayout.addView(tempLayout);
-        transaction.add(1000, new XiaoliCardFragment());
+        transaction.add(FRAGMENT_MAGIC_NUM + 1010, new XiaoliCardFragment());
 
         for(int i = 0; i != cardList.size(); ++i) {
             LinearLayout layout = (LinearLayout) inflater.inflate(
@@ -247,6 +258,6 @@ public class CardFragment extends Fragment {
             baseLayout.addView(layout);
             transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], cardList.get(i));
         }
-		transaction.commit();
+		transaction.commitAllowingStateLoss();
 	}
 }

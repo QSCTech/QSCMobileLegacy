@@ -2,7 +2,161 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="20dp"
+        android:background="@color/gray_back">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="@string/icon_chevron_right"
+            android:id="@+id/notice_bar_icon"
+            android:layout_gravity="right|center_vertical"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="false"
+            android:clickable="false"
+            android:editable="false"
+            android:layout_marginRight="7dp"
+            android:textColor="@color/blue_text"
+            android:layout_alignBaseline="@+id/notice_bar_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notice 产品发布会"
+            android:id="@+id/notice_bar_name"
+            android:layout_gravity="left|center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/blue_text"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时间："
+            android:id="@+id/notice_bar_time"
+            android:layout_gravity="left|center_vertical"
+            android:layout_below="@+id/notice_bar_name"
+            android:layout_alignLeft="@+id/notice_bar_name"
+            android:textStyle="bold"
+            android:textColor="@color/blue_text"
+            android:layout_marginTop="7dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="从 2013年6月2日 12:00"
+            android:id="@+id/notice_bar_starttime"
+            android:layout_gravity="left|center_vertical"
+            android:layout_toRightOf="@+id/notice_bar_time"
+            android:layout_alignBaseline="@+id/notice_bar_time"
+            android:textColor="@color/blue_text"
+            android:layout_marginLeft="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="至 2013年7月2日 16:00"
+            android:id="@+id/notice_bar_stoptime"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginTop="4dp"
+            android:layout_alignLeft="@+id/notice_bar_starttime"
+            android:layout_below="@+id/notice_bar_time"
+            android:textColor="@color/blue_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地点："
+            android:id="@+id/notice_bar_place_temp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_alignLeft="@+id/notice_bar_time"
+            android:layout_below="@+id/notice_bar_stoptime"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/blue_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小剧场B座217室"
+            android:id="@+id/notice_bar_place"
+            android:layout_alignLeft="@+id/notice_bar_starttime"
+            android:layout_alignBaseline="@+id/notice_bar_place_temp"
+            android:textColor="@color/blue_text" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:background="@color/gray_back">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="其他"
+                android:id="@+id/notice_bar_category"
+                android:textColor="@color/blue_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_vertical"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:background="@color/gray_back"
+            android:layout_marginLeft="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/notice_bar_sponser"
+                android:textColor="@color/blue_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:layout_marginLeft="2dp"
+            android:background="@color/gray_back">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/notice_bar_rating"
+                android:textColor="@color/blue_text" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

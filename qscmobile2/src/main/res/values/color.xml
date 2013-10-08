@@ -11,6 +11,7 @@
     <color name="list_even">#F2F2F2</color>
     <color name="gray_text">#cccccc</color>
     <color name="gray">#DDDDDD</color>
+    <color name="gray_back">#F7F7F7</color>
     <color name="gray_top">#AAAAAA</color>
     <color name="gray_bottom">#555555</color>
 </resources>

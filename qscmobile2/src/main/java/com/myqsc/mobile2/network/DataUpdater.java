@@ -47,6 +47,8 @@ public class DataUpdater {
     public final static String JW_CHENGJI = "jw/chengji";
     public final static String JW_KAOSHI = "jw/kaoshi";
 
+    public final static String COMMON_NOTICE = "NOTICE";
+
     public final static Map<String, String> name = new HashMap<String, String>();
     static{
         name.put(COMMON_HASH, HTTP_PROTOCOL + COMMON_HASH);
@@ -62,6 +64,8 @@ public class DataUpdater {
         name.put(JW_KEBIAO, HTTP_PROTOCOL + JW_KEBIAO);
         name.put(JW_CHENGJI, HTTP_PROTOCOL + JW_CHENGJI);
         name.put(JW_KAOSHI, HTTP_PROTOCOL + JW_KAOSHI);
+
+        name.put(COMMON_NOTICE, COMMON_NOTICE);
     }
 
     public DataUpdater() {
