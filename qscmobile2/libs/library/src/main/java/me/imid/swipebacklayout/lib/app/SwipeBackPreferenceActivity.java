@@ -3,10 +3,10 @@ package me.imid.swipebacklayout.lib.app;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.preference.PreferenceActivity;
 import android.view.View;
 
-public class SwipeBackActivity extends FragmentActivity implements SwipeBackActivityBase{
+public class SwipeBackPreferenceActivity extends PreferenceActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override
