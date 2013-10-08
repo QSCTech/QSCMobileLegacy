@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.handmark.pulltorefresh.library.PullToRefreshScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.handmark.pulltorefresh.library.PullToRefreshScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_notice_scroll"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,11 +9,103 @@
     ptr:ptrMode="pullFromEnd"
     ptr:ptrDrawableEnd="@anim/loading"
     android:orientation="vertical">
+
     <LinearLayout
-        android:id="@+id/activity_notice_linear"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical"
-        />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_marginBottom="17dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/notice_tint"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_tint"
+                    android:id="@+id/notice_icon_tint"
+                    android:textColor="@color/blue_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最新鲜"
+                    android:id="@+id/notice_icon_tint_text"
+                    android:textColor="@color/blue_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/notice_fire"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_fire"
+                    android:id="@+id/notice_icon_fire"
+                    android:textColor="@color/blue_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最热门"
+                    android:id="@+id/notice_icon_fire_text"
+                    android:textColor="@color/blue_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/notice_search"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_search"
+                    android:id="@+id/notice_icon_search"
+                    android:textColor="@color/blue_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:id="@+id/notice_icon_search_text"
+                    android:textColor="@color/blue_text" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_notice_linear"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

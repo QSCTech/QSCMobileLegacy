@@ -34,7 +34,7 @@
             android:layout_alignBaseline="@+id/notice_bar_name" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Notice 产品发布会"
             android:id="@+id/notice_bar_name"
@@ -43,7 +43,8 @@
             android:layout_alignParentTop="true"
             android:textColor="@color/blue_text"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="60dp" />
 
         <TextView
             android:layout_width="wrap_content"
