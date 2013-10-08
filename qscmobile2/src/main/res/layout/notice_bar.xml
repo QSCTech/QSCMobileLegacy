@@ -114,7 +114,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:background="@color/gray_back">
+            android:background="@color/gray_back"
+            android:id="@+id/notice_category_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,7 +133,8 @@
             android:layout_weight="5"
             android:gravity="center"
             android:background="@color/gray_back"
-            android:layout_marginLeft="2dp">
+            android:layout_marginLeft="2dp"
+            android:id="@+id/notice_sponsor_layout">
 
             <TextView
                 android:layout_width="wrap_content"

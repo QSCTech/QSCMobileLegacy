@@ -23,5 +23,6 @@
         android:singleLine="true"
         android:layout_marginLeft="7dp"
         android:imeOptions="actionSearch"
-        android:hint="输入搜索关键字" />
+        android:hint="输入搜索关键字"
+        android:textSize="18sp" />
 </LinearLayout>

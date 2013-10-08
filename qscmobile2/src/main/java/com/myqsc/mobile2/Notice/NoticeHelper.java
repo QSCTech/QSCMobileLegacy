@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.MemoryHandler;
 
 /**
  * Created by richard on 13-10-8.
@@ -40,12 +42,14 @@ public class NoticeHelper {
     Context mContext = null;
     LayoutInflater mInflater = null;
     int pager = 1;
+    Handler mHandler = null;
 
-    public NoticeHelper(LinearLayout linearLayout, PullToRefreshScrollView scrollView, Context context){
+    public NoticeHelper(LinearLayout linearLayout, PullToRefreshScrollView scrollView, Context context, Handler handler){
         this.linearLayout = linearLayout;
         this.scrollView = scrollView;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
+        this.mHandler = handler;
     }
 
     public void reset() {
@@ -174,7 +178,147 @@ public class NoticeHelper {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext, "木有更多活动啦！", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, "木有更多搜索结果啦！", Toast.LENGTH_LONG).show();
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "网络失败，请稍后重试", Toast.LENGTH_LONG).show();
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public void getCategoryResult(final Handler handler, final int key) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = Uri.parse("http://test.myqsc.com/notice/events")
+                        .buildUpon()
+                        .appendQueryParameter("page", String.valueOf(pager))
+                        .appendQueryParameter("category", String.valueOf(key))
+                        .build().toString();
+                ++pager;
+
+                LogHelper.e(url);
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(url);
+
+                httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
+                httpGet.setHeader("X-Need-Escape", "0");
+
+                try {
+                    HttpResponse response = httpClient.execute(httpGet);
+
+                    String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (jsonObject.getInt("code") != 0 || jsonArray.length() == 0)
+                        throw new RuntimeException("没有更多活动了");
+
+                    final List<NoticeStructure> list = new ArrayList<NoticeStructure>();
+                    for (int i = 0; i != jsonArray.length(); ++i) {
+                        list.add(new NoticeStructure(jsonArray.getJSONObject(i)));
+                    }
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (pager == 2) {
+                                //说明这是第一次请求，就要把搜索框删掉！
+                                linearLayout.removeAllViews();
+                            }
+
+                            addView(list);
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "木有更多结果啦！", Toast.LENGTH_LONG).show();
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "网络失败，请稍后重试", Toast.LENGTH_LONG).show();
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public void getSponsorResult(final Handler handler, final int key) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = Uri.parse("http://test.myqsc.com/notice/events")
+                        .buildUpon()
+                        .appendQueryParameter("page", String.valueOf(pager))
+                        .appendQueryParameter("sponsor", String.valueOf(key))
+                        .build().toString();
+                ++pager;
+
+                LogHelper.e(url);
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(url);
+
+                httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
+                httpGet.setHeader("X-Need-Escape", "0");
+
+                try {
+                    HttpResponse response = httpClient.execute(httpGet);
+
+                    String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (jsonObject.getInt("code") != 0 || jsonArray.length() == 0)
+                        throw new RuntimeException("没有更多活动了");
+
+                    final List<NoticeStructure> list = new ArrayList<NoticeStructure>();
+                    for (int i = 0; i != jsonArray.length(); ++i) {
+                        list.add(new NoticeStructure(jsonArray.getJSONObject(i)));
+                    }
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (pager == 2) {
+                                //说明这是第一次请求，就要把搜索框删掉！
+                                linearLayout.removeAllViews();
+                            }
+
+                            addView(list);
+                            scrollView.onRefreshComplete();
+                        }
+                    });
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "木有更多结果啦！", Toast.LENGTH_LONG).show();
                             scrollView.onRefreshComplete();
                         }
                     });
@@ -215,6 +359,48 @@ public class NoticeHelper {
 
             ((TextView) view.findViewById(R.id.notice_bar_sponser))
                     .setText(structure.getSponsorItem("showname"));
+
+            view.findViewById(R.id.notice_category_layout)
+                    .setOnClickListener(onCategoryClickListener);
+            view.findViewById(R.id.notice_category_layout)
+                    .setTag(structure.getCategoryItem("id"));
+
+            view.findViewById(R.id.notice_sponsor_layout)
+                    .setOnClickListener(onSponsorClickListener);
+            view.findViewById(R.id.notice_sponsor_layout)
+                    .setTag(structure.getSponsorItem("id"));
         }
     }
+
+    View.OnClickListener onCategoryClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final Integer id = Integer.parseInt((String) view.getTag());
+            scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+                @Override
+                public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                    getCategoryResult(mHandler, id);
+                }
+            });
+            reset();
+            linearLayout.removeAllViews();
+            getCategoryResult(mHandler, id);
+        }
+    };
+
+    View.OnClickListener onSponsorClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final Integer id = Integer.parseInt((String) view.getTag());
+            scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+                @Override
+                public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                    getSponsorResult(mHandler, id);
+                }
+            });
+            reset();
+            linearLayout.removeAllViews();
+            getSponsorResult(mHandler, id);
+        }
+    };
 }

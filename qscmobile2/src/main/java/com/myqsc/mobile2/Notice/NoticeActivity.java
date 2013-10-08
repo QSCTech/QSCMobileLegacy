@@ -65,14 +65,9 @@ public class NoticeActivity extends SwipeBackActivity {
         linearLayout = (LinearLayout) findViewById(R.id.activity_notice_linear);
 
         scrollView = (PullToRefreshScrollView) findViewById(R.id.activity_notice_scroll);
-        scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                noticeHelper.getMore(selected, handler);
-            }
-        });
 
-        noticeHelper = new NoticeHelper(linearLayout, scrollView, this);
+
+        noticeHelper = new NoticeHelper(linearLayout, scrollView, this, handler);
         noticeHelper.getMore(selected, handler);
         setSelected();
     }
@@ -107,21 +102,23 @@ public class NoticeActivity extends SwipeBackActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.notice_tint:
-                    if (selected == SELECT_TINT)
-                        break;
-
                     scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+                    scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+                        @Override
+                        public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                            noticeHelper.getMore(selected, handler);
+                        }
+                    });
+
                     linearLayout.removeAllViews();
                     selected = SELECT_TINT;
                     setSelected();
                     noticeHelper.reset();
                     noticeHelper.getMore(selected, handler);
+
                     break;
 
                 case R.id.notice_fire:
-                    if (selected == SELECT_FIRE)
-                        break;
-
                     scrollView.setMode(PullToRefreshBase.Mode.DISABLED);
                     linearLayout.removeAllViews();
                     selected = SELECT_FIRE;
@@ -169,7 +166,14 @@ public class NoticeActivity extends SwipeBackActivity {
         }
     };
 
-    private void doSearch(String key) {
+    private void doSearch(final String key) {
+        scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                noticeHelper.getSearchResult(handler, key);
+            }
+        });
         noticeHelper.reset();
         noticeHelper.getSearchResult(handler, key);
     }
@@ -184,6 +188,12 @@ public class NoticeActivity extends SwipeBackActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        linearLayout.removeAllViews();
     }
 
     @Override
