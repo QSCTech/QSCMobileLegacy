@@ -1,5 +1,6 @@
 package com.myqsc.mobile2.Notice;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -392,7 +393,8 @@ public class NoticeHelper {
             int id = Integer.parseInt((String) view.getTag());
             Intent intent = new Intent(mContext, NoticeDetailActivity.class);
             intent.putExtra("id", id);
-            mContext.startActivity(intent);
+            ((Activity) mContext).startActivity(intent);
+            ((Activity) mContext).overridePendingTransition(R.anim.right_push_in, 0);
         }
     };
 }

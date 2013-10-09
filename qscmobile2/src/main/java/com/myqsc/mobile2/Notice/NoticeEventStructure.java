@@ -7,8 +7,8 @@ import org.json.JSONObject;
  * Created by richard on 13-10-9.
  */
 public class NoticeEventStructure {
-    JSONObject event, cover, category, sponsor, picture;
-    JSONArray hotTag;
+    JSONObject event, cover, category, sponsor;
+    JSONArray hotTag, picture;
 
     public NoticeEventStructure (JSONObject jsonObject) {
         try {
@@ -16,7 +16,7 @@ public class NoticeEventStructure {
             cover = jsonObject.getJSONObject("cover");
             category = jsonObject.getJSONObject("category");
             sponsor = jsonObject.getJSONObject("sponsor");
-            picture = jsonObject.getJSONObject("picture");
+            picture = jsonObject.getJSONArray("picture");
             hotTag = jsonObject.getJSONArray("hottag");
         } catch (Exception e) {
             e.printStackTrace();

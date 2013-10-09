@@ -1,7 +1,9 @@
 package com.myqsc.mobile2.Notice;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,8 +23,19 @@ import org.json.JSONObject;
  */
 public class NoticeDetailHelper {
     LinearLayout linearLayout = null;
+    View shareItem = null;
+    View openItem = null;
+
     public NoticeDetailHelper(LinearLayout linearLayout) {
         this.linearLayout = linearLayout;
+    }
+
+    public void setShareItem (View v) {
+        shareItem = v;
+    }
+
+    public void setOpenItem (View v) {
+        openItem = v;
     }
 
     public void getEvent(final int id) {
@@ -75,6 +88,39 @@ public class NoticeDetailHelper {
 
                             linearLayout.removeAllViews();
                             linearLayout.addView(relativeLayout);
+
+                            if (shareItem != null) {
+                                shareItem.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent();
+                                        intent.setAction(Intent.ACTION_SEND);
+                                        intent.setType("text/plain");
+                                        intent.putExtra(Intent.EXTRA_TEXT,
+                                                "窝在求是潮 Notice 中发现了一个活动： " +
+                                                        structure.getEventItem("name") +
+                                                        " " +
+                                                        "http://notice.myqsc.com/#!/event/" + id
+                                        );
+                                        linearLayout.getContext()
+                                                .startActivity(Intent.createChooser(intent, "分享 Notice 活动"));
+                                    }
+                                });
+                            }
+
+                            if (openItem != null) {
+                                openItem.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String url = "http://notice.myqsc.com/#!/event/" + id;
+                                        Intent intent = new Intent();
+                                        intent.setData(Uri.parse(url));
+                                        linearLayout.getContext()
+                                                .startActivity(Intent.createChooser(intent, "打开 Notice 活动网页"));
+                                    }
+                                });
+                            }
+
                         }
                     });
 
