@@ -1,6 +1,7 @@
 package com.myqsc.mobile2.Notice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
@@ -301,7 +302,7 @@ public class NoticeHelper {
                     JSONObject jsonObject = new JSONObject(result);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    if (jsonObject.getInt("code") != 0 || jsonArray.length() == 0)
+                    if (jsonObject.getInt("code") == 1 || jsonArray.length() == 0)
                         throw new RuntimeException("没有更多活动了");
 
                     final List<NoticeStructure> list = new ArrayList<NoticeStructure>();
@@ -377,6 +378,21 @@ public class NoticeHelper {
                     .setOnClickListener(onSponsorClickListener);
             view.findViewById(R.id.notice_sponsor_layout)
                     .setTag(structure.getSponsorItem("id"));
+
+            view.findViewById(R.id.notice_bar_relative)
+                    .setTag(structure.getEventItem("id"));
+            view.findViewById(R.id.notice_bar_relative)
+                    .setOnClickListener(onEventClickListener);
         }
     }
+
+    final View.OnClickListener onEventClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int id = Integer.parseInt((String) view.getTag());
+            Intent intent = new Intent(mContext, NoticeDetailActivity.class);
+            intent.putExtra("id", id);
+            mContext.startActivity(intent);
+        }
+    };
 }

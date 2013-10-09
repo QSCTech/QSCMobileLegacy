@@ -16,7 +16,8 @@
         android:paddingTop="20dp"
         android:paddingRight="2dp"
         android:paddingBottom="20dp"
-        android:background="@color/gray_back">
+        android:background="@color/gray_back"
+        android:id="@+id/notice_bar_relative">
 
         <TextView
             android:layout_width="30dp"

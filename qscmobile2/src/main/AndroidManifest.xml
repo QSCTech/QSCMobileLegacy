@@ -77,6 +77,9 @@
             android:name=".Notice.NoticeActivity"
             android:launchMode="singleTask"
             />
+        <activity
+            android:name=".Notice.NoticeDetailActivity"
+            android:launchMode="singleTask"/>
         <receiver
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectReceiver"
             android:label="NetworkConnection" >
