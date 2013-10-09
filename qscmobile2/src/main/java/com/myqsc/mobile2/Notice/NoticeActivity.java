@@ -65,10 +65,10 @@ public class NoticeActivity extends SwipeBackActivity {
         linearLayout = (LinearLayout) findViewById(R.id.activity_notice_linear);
 
         scrollView = (PullToRefreshScrollView) findViewById(R.id.activity_notice_scroll);
+        scrollView.setOnRefreshListener(onTintRefreshListener);
 
-
-        noticeHelper = new NoticeHelper(linearLayout, scrollView, this, handler);
-        noticeHelper.getMore(selected, handler);
+        noticeHelper = new NoticeHelper(linearLayout, scrollView, this);
+        noticeHelper.getMore(selected);
         setSelected();
     }
 
@@ -103,18 +103,13 @@ public class NoticeActivity extends SwipeBackActivity {
             switch (view.getId()) {
                 case R.id.notice_tint:
                     scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-                    scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-                        @Override
-                        public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                            noticeHelper.getMore(selected, handler);
-                        }
-                    });
+                    scrollView.setOnRefreshListener(onTintRefreshListener);
 
                     linearLayout.removeAllViews();
                     selected = SELECT_TINT;
                     setSelected();
                     noticeHelper.reset();
-                    noticeHelper.getMore(selected, handler);
+                    noticeHelper.getMore(selected);
 
                     break;
 
@@ -124,7 +119,7 @@ public class NoticeActivity extends SwipeBackActivity {
                     selected = SELECT_FIRE;
                     setSelected();
                     noticeHelper.reset();
-                    noticeHelper.getMore(selected, handler);
+                    noticeHelper.getMore(selected);
                     break;
 
                 case R.id.notice_search:
@@ -167,6 +162,9 @@ public class NoticeActivity extends SwipeBackActivity {
     };
 
     private void doSearch(final String key) {
+        selected = SELECT_SEARCH;
+        setSelected();
+        
         scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
@@ -177,6 +175,13 @@ public class NoticeActivity extends SwipeBackActivity {
         noticeHelper.reset();
         noticeHelper.getSearchResult(handler, key);
     }
+
+    final PullToRefreshBase.OnRefreshListener onTintRefreshListener = new PullToRefreshBase.OnRefreshListener() {
+        @Override
+        public void onRefresh(PullToRefreshBase refreshView) {
+            noticeHelper.getMore(selected);
+        }
+    };
 
     @Override
     protected void onResume() {

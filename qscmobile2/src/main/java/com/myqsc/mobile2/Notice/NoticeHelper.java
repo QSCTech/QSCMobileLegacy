@@ -42,21 +42,19 @@ public class NoticeHelper {
     Context mContext = null;
     LayoutInflater mInflater = null;
     int pager = 1;
-    Handler mHandler = null;
 
-    public NoticeHelper(LinearLayout linearLayout, PullToRefreshScrollView scrollView, Context context, Handler handler){
+    public NoticeHelper(LinearLayout linearLayout, PullToRefreshScrollView scrollView, Context context){
         this.linearLayout = linearLayout;
         this.scrollView = scrollView;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
-        this.mHandler = handler;
     }
 
     public void reset() {
         pager = 1;
     }
 
-    public void getMore(final int type, final Handler handler) {
+    public void getMore(final int type) {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +94,7 @@ public class NoticeHelper {
                         list.add(new NoticeStructure(jsonArray.getJSONObject(i)));
                     }
 
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             addView(list);
@@ -105,7 +103,7 @@ public class NoticeHelper {
                     });
                 } catch (RuntimeException e) {
                     e.printStackTrace();
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext, "木有更多活动啦！", Toast.LENGTH_LONG).show();
@@ -114,7 +112,7 @@ public class NoticeHelper {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext, "网络失败，请稍后重试", Toast.LENGTH_LONG).show();
@@ -197,7 +195,7 @@ public class NoticeHelper {
         thread.start();
     }
 
-    public void getCategoryResult(final Handler handler, final int key) {
+    public void getCategoryResult(final int key) {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -231,7 +229,7 @@ public class NoticeHelper {
                         list.add(new NoticeStructure(jsonArray.getJSONObject(i)));
                     }
 
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             if (pager == 2) {
@@ -245,7 +243,7 @@ public class NoticeHelper {
                     });
                 } catch (RuntimeException e) {
                     e.printStackTrace();
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext, "木有更多结果啦！", Toast.LENGTH_LONG).show();
@@ -254,7 +252,7 @@ public class NoticeHelper {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext, "网络失败，请稍后重试", Toast.LENGTH_LONG).show();
@@ -267,7 +265,7 @@ public class NoticeHelper {
         thread.start();
     }
 
-    public void getSponsorResult(final Handler handler, final int key) {
+    public void getSponsorResult(final int key) {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -301,7 +299,7 @@ public class NoticeHelper {
                         list.add(new NoticeStructure(jsonArray.getJSONObject(i)));
                     }
 
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             if (pager == 2) {
@@ -315,7 +313,7 @@ public class NoticeHelper {
                     });
                 } catch (RuntimeException e) {
                     e.printStackTrace();
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext, "木有更多结果啦！", Toast.LENGTH_LONG).show();
@@ -324,7 +322,7 @@ public class NoticeHelper {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
-                    handler.post(new Runnable() {
+                    linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext, "网络失败，请稍后重试", Toast.LENGTH_LONG).show();
@@ -379,12 +377,12 @@ public class NoticeHelper {
             scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
                 @Override
                 public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                    getCategoryResult(mHandler, id);
+                    getCategoryResult(id);
                 }
             });
             reset();
             linearLayout.removeAllViews();
-            getCategoryResult(mHandler, id);
+            getCategoryResult(id);
         }
     };
 
@@ -395,12 +393,12 @@ public class NoticeHelper {
             scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
                 @Override
                 public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                    getSponsorResult(mHandler, id);
+                    getSponsorResult(id);
                 }
             });
             reset();
             linearLayout.removeAllViews();
-            getSponsorResult(mHandler, id);
+            getSponsorResult(id);
         }
     };
 }
