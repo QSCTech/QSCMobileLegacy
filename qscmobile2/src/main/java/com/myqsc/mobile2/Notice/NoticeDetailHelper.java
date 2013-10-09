@@ -43,7 +43,7 @@ public class NoticeDetailHelper {
             @Override
             public void run() {
                 try {
-                    String url = "http://test.myqsc.com/notice/events/" + id;
+                    String url = "http://notice.myqsc.com/" + id;
 
                     LogHelper.e(url);
                     HttpClient httpClient = new DefaultHttpClient();

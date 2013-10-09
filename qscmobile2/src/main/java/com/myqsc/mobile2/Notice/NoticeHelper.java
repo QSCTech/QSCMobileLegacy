@@ -70,7 +70,7 @@ public class NoticeHelper {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = "http://test.myqsc.com/notice/";
+                String url = "http://notice.myqsc.com/";
                 switch (type) {
                     case NoticeActivity.SELECT_TINT:
                         url += "events";
@@ -141,7 +141,7 @@ public class NoticeHelper {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = Uri.parse("http://test.myqsc.com/notice/events")
+                String url = Uri.parse("http://notice.myqsc.com/events")
                         .buildUpon()
                         .appendQueryParameter("page", String.valueOf(pager))
                         .appendQueryParameter("keyword", key)
@@ -211,7 +211,7 @@ public class NoticeHelper {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = Uri.parse("http://test.myqsc.com/notice/events")
+                String url = Uri.parse("http://notice.myqsc.com/events")
                         .buildUpon()
                         .appendQueryParameter("page", String.valueOf(pager))
                         .appendQueryParameter("category", String.valueOf(key))
@@ -281,7 +281,7 @@ public class NoticeHelper {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = Uri.parse("http://test.myqsc.com/notice/events")
+                String url = Uri.parse("http://notice.myqsc.com/events")
                         .buildUpon()
                         .appendQueryParameter("page", String.valueOf(pager))
                         .appendQueryParameter("sponsor", String.valueOf(key))
