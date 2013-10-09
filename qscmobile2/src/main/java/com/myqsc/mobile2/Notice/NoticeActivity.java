@@ -69,6 +69,9 @@ public class NoticeActivity extends SwipeBackActivity {
 
         noticeHelper = new NoticeHelper(linearLayout, scrollView, this);
         noticeHelper.getMore(selected);
+        noticeHelper.setOnCategoryClickListener(onCategoryClickListener);
+        noticeHelper.setOnSponsorClickListener(onSponsorClickListener);
+
         setSelected();
     }
 
@@ -162,9 +165,6 @@ public class NoticeActivity extends SwipeBackActivity {
     };
 
     private void doSearch(final String key) {
-        selected = SELECT_SEARCH;
-        setSelected();
-        
         scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
@@ -180,6 +180,44 @@ public class NoticeActivity extends SwipeBackActivity {
         @Override
         public void onRefresh(PullToRefreshBase refreshView) {
             noticeHelper.getMore(selected);
+        }
+    };
+
+    View.OnClickListener onCategoryClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            selected = SELECT_SEARCH;
+            setSelected();
+
+            final Integer id = Integer.parseInt((String) view.getTag());
+            scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+                @Override
+                public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                    noticeHelper.getCategoryResult(id);
+                }
+            });
+            noticeHelper.reset();
+            linearLayout.removeAllViews();
+            noticeHelper.getCategoryResult(id);
+        }
+    };
+
+    View.OnClickListener onSponsorClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            selected = SELECT_SEARCH;
+            setSelected();
+
+            final Integer id = Integer.parseInt((String) view.getTag());
+            scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+                @Override
+                public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                    noticeHelper.getSponsorResult(id);
+                }
+            });
+            noticeHelper.reset();
+            linearLayout.removeAllViews();
+            noticeHelper.getSponsorResult(id);
         }
     };
 

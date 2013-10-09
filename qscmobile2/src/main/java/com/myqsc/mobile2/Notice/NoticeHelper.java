@@ -43,11 +43,21 @@ public class NoticeHelper {
     LayoutInflater mInflater = null;
     int pager = 1;
 
+    private View.OnClickListener onCategoryClickListener, onSponsorClickListener;
+
     public NoticeHelper(LinearLayout linearLayout, PullToRefreshScrollView scrollView, Context context){
         this.linearLayout = linearLayout;
         this.scrollView = scrollView;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
+    }
+
+    public void setOnCategoryClickListener (View.OnClickListener onClickListener) {
+        this.onCategoryClickListener = onClickListener;
+    }
+
+    public void setOnSponsorClickListener (View.OnClickListener onClickListener) {
+        this.onSponsorClickListener = onClickListener;
     }
 
     public void reset() {
@@ -369,36 +379,4 @@ public class NoticeHelper {
                     .setTag(structure.getSponsorItem("id"));
         }
     }
-
-    View.OnClickListener onCategoryClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            final Integer id = Integer.parseInt((String) view.getTag());
-            scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-                @Override
-                public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                    getCategoryResult(id);
-                }
-            });
-            reset();
-            linearLayout.removeAllViews();
-            getCategoryResult(id);
-        }
-    };
-
-    View.OnClickListener onSponsorClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            final Integer id = Integer.parseInt((String) view.getTag());
-            scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-                @Override
-                public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                    getSponsorResult(id);
-                }
-            });
-            reset();
-            linearLayout.removeAllViews();
-            getSponsorResult(id);
-        }
-    };
 }
