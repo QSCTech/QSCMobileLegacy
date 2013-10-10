@@ -71,6 +71,7 @@ public class LoginActivity extends FragmentActivity {
 		uid = (EditText) findViewById(R.id.login_activity_uid);
 		pwd = (EditText) findViewById(R.id.login_activity_pwd);
 		btn = (Button) findViewById(R.id.login_activity_btn);
+        btn.setEnabled(false);
 
         ((Button)findViewById(R.id.login_activity_exit))
                 .setOnClickListener(new View.OnClickListener() {
@@ -188,8 +189,10 @@ public class LoginActivity extends FragmentActivity {
 		public void afterTextChanged(Editable s) {
 			if (uid.getEditableText().length() == 0 || pwd.getEditableText().length() == 0){
                 btn.setBackgroundColor(getResources().getColor(R.color.gray_text));
+                btn.setEnabled(false);
 			} else {
                 btn.setBackgroundColor(getResources().getColor(R.color.blue));
+                btn.setEnabled(true);
 			}
 		}
 	};
