@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,8 +170,11 @@ public class CardFragment extends Fragment {
             if (name == null)
                 return ;
             int num = -1;
+            LogHelper.e(name);
             for (int i = 0; i != list.size(); ++i) {
-                if (list.get(i).equals(name))
+//                LogHelper.d(list.get(i));
+                if (list.get(i).equals(name) ||
+                        FragmentUtility.getCardDataStringByCardName(list.get(i)).equals(name))
                     num = i;
             }
             if (num == -1)
@@ -189,7 +193,7 @@ public class CardFragment extends Fragment {
                         transaction.remove(fragment);
 
                     fragment = FragmentUtility.getCardFragmentByName(name, getActivity());
-                    transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment, name);
+                    transaction.replace(num + FRAGMENT_MAGIC_NUM, fragment, name);
                     transaction.commitAllowingStateLoss();
                     break;
                 }

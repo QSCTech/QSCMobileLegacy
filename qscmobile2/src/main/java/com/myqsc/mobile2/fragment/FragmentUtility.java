@@ -41,6 +41,14 @@ public class FragmentUtility {
             R.string.icon_group
     };
 
+    public static String getCardDataStringByCardName (String string) {
+        for (int i = 0; i != cardDataString.length; ++i) {
+            if (string.equals(cardString[i]))
+                return cardDataString[i];
+        }
+        return "";
+    }
+
     public static Fragment getCardFragmentByName(String name, Context context) {
         LogHelper.d(name + " fragment Inited");
         if (name.compareTo("实时课表") == 0) {
