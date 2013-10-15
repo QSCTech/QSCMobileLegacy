@@ -352,6 +352,8 @@ public class NoticeHelper {
             NoticeStructure structure = list.get(i);
 
             View view = mInflater.inflate(R.layout.notice_bar, null);
+
+
             linearLayout.addView(view);
             AwesomeFontHelper.setFontFace((TextView) view.findViewById(R.id.notice_bar_icon), mContext);
 
@@ -382,6 +384,28 @@ public class NoticeHelper {
 
             view.findViewById(R.id.notice_bar_relative)
                     .setTag(structure.getEventItem("id"));
+
+            try {
+                TextView ratingTextView = (TextView) view.findViewById(R.id.notice_bar_rating);
+                AwesomeFontHelper.setFontFace(
+                        ratingTextView,
+                        mContext
+                );
+                String ratingString = "";
+                int stars = (int)(double)Double.valueOf(structure.getEventItem("rating"));
+                for (int j = 0; j != stars; ++j) {
+                    ratingString += mContext.getText(R.string.icon_star);
+                }
+                for (int j = 5; j > stars; --j) {
+                    ratingString += mContext.getText(R.string.icon_star_empty);
+                }
+                ratingTextView.setText(ratingString);
+                LogHelper.e(ratingString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
             view.findViewById(R.id.notice_bar_relative)
                     .setOnClickListener(onEventClickListener);
         }
