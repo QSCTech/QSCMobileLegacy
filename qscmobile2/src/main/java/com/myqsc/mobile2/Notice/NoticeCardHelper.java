@@ -26,7 +26,6 @@ public class NoticeCardHelper {
 
         String data = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.COMMON_NOTICE, null);
-        LogHelper.d(data);
         if (data == null)
             return;
 

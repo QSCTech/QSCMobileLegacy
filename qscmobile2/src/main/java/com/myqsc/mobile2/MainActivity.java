@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -50,7 +51,13 @@ public class MainActivity extends FragmentActivity {
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
 
-        startService(new Intent(this, UpdateAllService.class));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d("update all server started");
+                startService(new Intent(MainActivity.this, UpdateAllService.class));
+            }
+        }, 10000);
 
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
