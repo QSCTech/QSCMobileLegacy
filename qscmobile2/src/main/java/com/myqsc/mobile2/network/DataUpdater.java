@@ -47,7 +47,7 @@ public class DataUpdater {
     public final static String JW_CHENGJI = "jw/chengji";
     public final static String JW_KAOSHI = "jw/kaoshi";
 
-    public final static String COMMON_NOTICE = "NOTICE";
+    public final static String COMMON_NOTICE = "notice/events/hot";
 
     public final static Map<String, String> name = new HashMap<String, String>();
     static{
@@ -65,7 +65,7 @@ public class DataUpdater {
         name.put(JW_CHENGJI, HTTP_PROTOCOL + JW_CHENGJI);
         name.put(JW_KAOSHI, HTTP_PROTOCOL + JW_KAOSHI);
 
-        name.put(COMMON_NOTICE, COMMON_NOTICE);
+        name.put(COMMON_NOTICE, "http://notice.myqsc.com/events/hot");
     }
 
     public DataUpdater() {
@@ -95,7 +95,8 @@ public class DataUpdater {
             LogHelper.d("URL:" + url);
             URL address = new URL(url);
             URLConnection urlConnection = address.openConnection();
-            urlConnection.setRequestProperty("accept", "*/*");
+            urlConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+            urlConnection.setRequestProperty("X-Need-Escape", "0");
             urlConnection.setConnectTimeout(15000); //15秒钟超时
             urlConnection.connect();
 
@@ -125,6 +126,8 @@ public class DataUpdater {
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
+            httpGet.setHeader("X-Need-Escape", "0");
             HttpResponse httpResponse = httpClient.execute(httpGet);
             return EntityUtils.toString(httpResponse.getEntity());
         } catch (ClientProtocolException e) {
