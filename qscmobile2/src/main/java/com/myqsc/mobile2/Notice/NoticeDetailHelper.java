@@ -71,9 +71,9 @@ public class NoticeDetailHelper {
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_name))
                                     .setText(structure.getEventItem("name"));
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_starttime))
-                                    .setText(structure.getEventItem("start_time"));
+                                    .setText("从 " + structure.getEventItem("start_time"));
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_stoptime))
-                                    .setText(structure.getEventItem("end_time"));
+                                    .setText("至 " + structure.getEventItem("end_time"));
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_place))
                                     .setText(structure.getEventItem("place"));
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_category))
@@ -101,6 +101,7 @@ public class NoticeDetailHelper {
                                                         structure.getEventItem("name") +
                                                         " " +
                                                         "http://notice.myqsc.com/#!/event/" + id
+                                                        + " "
                                         );
                                         linearLayout.getContext()
                                                 .startActivity(Intent.createChooser(intent, "分享 Notice 活动"));

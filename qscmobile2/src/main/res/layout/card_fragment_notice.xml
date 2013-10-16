@@ -17,7 +17,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:singleLine="true"
             android:id="@+id/notice_card_name1"
             android:layout_marginRight="60dp" />
@@ -34,7 +33,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/notice_card_rating1"
             android:layout_alignParentRight="true"
             android:layout_alignBaseline="@+id/notice_card_name1" />
@@ -52,7 +50,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:singleLine="true"
             android:id="@+id/notice_card_name2"
             android:layout_marginRight="60dp" />
@@ -69,7 +66,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/notice_card_rating2"
             android:layout_alignParentRight="true"
             android:layout_alignBaseline="@+id/notice_card_name2" />
@@ -88,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="New Text"
             android:id="@+id/notice_card_name3"
             android:layout_marginRight="60dp" />
 
@@ -104,7 +99,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/notice_card_rating3"
             android:layout_alignParentRight="true"
             android:layout_alignBaseline="@+id/notice_card_name3" />

@@ -360,9 +360,9 @@ public class NoticeHelper {
             ((TextView) view.findViewById(R.id.notice_bar_name))
                     .setText(structure.getEventItem("name"));
             ((TextView) view.findViewById(R.id.notice_bar_starttime))
-                    .setText(structure.getEventItem("start_time"));
+                    .setText("从 " + structure.getEventItem("start_time"));
             ((TextView) view.findViewById(R.id.notice_bar_stoptime))
-                    .setText(structure.getEventItem("end_time"));
+                    .setText("至 " + structure.getEventItem("end_time"));
             ((TextView) view.findViewById(R.id.notice_bar_place))
                     .setText(structure.getEventItem("place"));
 
