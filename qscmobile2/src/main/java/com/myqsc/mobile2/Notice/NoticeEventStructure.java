@@ -57,7 +57,7 @@ public class NoticeEventStructure {
                 JSONObject object = hotTag.getJSONObject(i);
                 tag += object.getString("name") + ", ";
             }
-            tag = tag.substring(0, tag.length() - 1);
+            tag = tag.substring(0, tag.length() - 2);
             return tag;
         } catch (Exception e) {
             e.printStackTrace();
