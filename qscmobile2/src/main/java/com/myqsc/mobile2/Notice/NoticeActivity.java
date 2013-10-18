@@ -1,6 +1,7 @@
 package com.myqsc.mobile2.Notice;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -72,6 +73,9 @@ public class NoticeActivity extends SwipeBackActivity {
         noticeHelper.setOnCategoryClickListener(onCategoryClickListener);
         noticeHelper.setOnSponsorClickListener(onSponsorClickListener);
 
+        ((AnimationDrawable) findViewById(R.id.loading_image)
+                .getBackground()).start();
+
         setSelected();
     }
 
@@ -103,12 +107,18 @@ public class NoticeActivity extends SwipeBackActivity {
     final View.OnClickListener onSelectChangedListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            View loadingView = null;
             switch (view.getId()) {
                 case R.id.notice_tint:
                     scrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
                     scrollView.setOnRefreshListener(onTintRefreshListener);
-
                     linearLayout.removeAllViews();
+
+                    loadingView = mInflater.inflate(R.layout.loading, null);
+                    linearLayout.addView(loadingView);
+                    ((AnimationDrawable) loadingView.findViewById(R.id.loading_image)
+                            .getBackground()).start();
+
                     selected = SELECT_TINT;
                     setSelected();
                     noticeHelper.reset();
@@ -119,6 +129,12 @@ public class NoticeActivity extends SwipeBackActivity {
                 case R.id.notice_fire:
                     scrollView.setMode(PullToRefreshBase.Mode.DISABLED);
                     linearLayout.removeAllViews();
+
+                    loadingView = mInflater.inflate(R.layout.loading, null);
+                    linearLayout.addView(loadingView);
+                    ((AnimationDrawable) loadingView.findViewById(R.id.loading_image)
+                            .getBackground()).start();
+
                     selected = SELECT_FIRE;
                     setSelected();
                     noticeHelper.reset();

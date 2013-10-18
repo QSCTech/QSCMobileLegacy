@@ -76,7 +76,16 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="12dp"
-            android:paddingBottom="50dp" />
+            android:paddingBottom="50dp">
+
+            <ImageView
+                android:layout_width="129dp"
+                android:layout_height="56dp"
+                android:id="@+id/loading_image"
+                android:layout_gravity="center"
+                android:background="@drawable/loading" />
+        </LinearLayout>
+
 
     </LinearLayout>
 

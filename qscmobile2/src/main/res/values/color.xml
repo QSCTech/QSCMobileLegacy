@@ -14,4 +14,5 @@
     <color name="gray_back">#F7F7F7</color>
     <color name="gray_top">#AAAAAA</color>
     <color name="gray_bottom">#555555</color>
+    <color name="notice_highlight">#C408B7</color>
 </resources>
