@@ -144,11 +144,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="点此查看封面"
+        android:id="@+id/notice_bar_pic"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/notice_bar_tag_temp"
+        android:layout_alignLeft="@+id/notice_bar_name"
+        android:textColor="@color/blue_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="活动详情"
         android:id="@+id/notice_bar_content_temp"
         android:layout_below="@+id/notice_bar_tag_temp"
         android:layout_alignLeft="@+id/notice_bar_name"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:textColor="@color/blue_text" />
 
     <TextView

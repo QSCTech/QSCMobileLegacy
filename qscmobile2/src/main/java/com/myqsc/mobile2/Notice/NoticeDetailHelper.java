@@ -1,5 +1,6 @@
 package com.myqsc.mobile2.Notice;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
@@ -87,6 +88,19 @@ public class NoticeDetailHelper {
                                     .setText(structure.getSponsorItem("showname"));
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_rating))
                                     .setText(structure.getEventItem("rating"));
+
+                            relativeLayout.findViewById(R.id.notice_bar_pic)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(linearLayout.getContext(), NoticeImageActivity.class);
+                                            intent.putExtra("url", structure.getCoverPic());
+                                            linearLayout.getContext()
+                                                    .startActivity(intent);
+                                            ((Activity) linearLayout.getContext())
+                                                    .overridePendingTransition(R.anim.right_push_in, 0);
+                                        }
+                                    });
 
                             if (highlight == null) {
                                 ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))

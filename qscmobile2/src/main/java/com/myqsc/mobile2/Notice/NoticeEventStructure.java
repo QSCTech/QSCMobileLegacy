@@ -63,6 +63,14 @@ public class NoticeEventStructure {
             e.printStackTrace();
         }
         return null;
+    }
 
+    public String getCoverPic() {
+        try {
+            return cover.getString("filename");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
