@@ -2,6 +2,10 @@ package com.myqsc.mobile2.Notice;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,6 +20,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -30,15 +35,15 @@ public class NoticeDetailHelper {
         this.linearLayout = linearLayout;
     }
 
-    public void setShareItem (View v) {
+    public void setShareItem(View v) {
         shareItem = v;
     }
 
-    public void setOpenItem (View v) {
+    public void setOpenItem(View v) {
         openItem = v;
     }
 
-    public void getEvent(final int id) {
+    public void getEvent(final int id, final String highlight) {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -83,8 +88,27 @@ public class NoticeDetailHelper {
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_rating))
                                     .setText(structure.getEventItem("rating"));
 
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))
-                                    .setText(structure.getEventItem("description"));
+                            if (highlight == null) {
+                                ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))
+                                        .setText(structure.getEventItem("description"));
+                            } else {
+                                int pos = 0;
+                                String content = structure.getEventItem("description");
+                                if (content == null)
+                                    return ;
+
+                                Spannable spannable = new SpannableString(content);
+                                ForegroundColorSpan span = new ForegroundColorSpan(
+                                        linearLayout.getResources().getColor(R.color.notice_highlight));
+                                while ((pos = content.indexOf(highlight, pos)) != -1) {
+                                    spannable.setSpan(span, pos, pos + highlight.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                }
+                                ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))
+                                        .setText(spannable);
+                            }
+
+                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_tag))
+                                    .setText(structure.getHotTagString());
 
                             linearLayout.removeAllViews();
                             linearLayout.addView(relativeLayout);

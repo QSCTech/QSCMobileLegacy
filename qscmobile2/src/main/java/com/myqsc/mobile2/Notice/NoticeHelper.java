@@ -109,6 +109,11 @@ public class NoticeHelper {
                     linearLayout.post(new Runnable() {
                         @Override
                         public void run() {
+                            if (pager == 2) {
+                                //说明这是第一次请求，就要把搜索框删掉！
+                                linearLayout.removeAllViews();
+                            }
+
                             addView(list);
                             scrollView.onRefreshComplete();
                         }
@@ -400,7 +405,6 @@ public class NoticeHelper {
                     ratingString += mContext.getText(R.string.icon_star_empty);
                 }
                 ratingTextView.setText(ratingString);
-                LogHelper.e(ratingString);
             } catch (Exception e) {
                 e.printStackTrace();
             }

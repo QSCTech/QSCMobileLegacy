@@ -1,6 +1,7 @@
 package com.myqsc.mobile2.Notice;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -41,7 +42,10 @@ public class NoticeDetailActivity extends SwipeBackActivity {
 
         int id = getIntent().getIntExtra("id", 1);
 
-        helper.getEvent(id);
+        ((AnimationDrawable) findViewById(R.id.loading_image)
+                .getBackground()).start();
+
+        helper.getEvent(id, null);
     }
 
     @Override
