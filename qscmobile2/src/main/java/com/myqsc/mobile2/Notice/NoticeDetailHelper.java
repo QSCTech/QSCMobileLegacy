@@ -16,6 +16,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -85,6 +86,9 @@ public class NoticeDetailHelper {
 
                             ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))
                                     .setText(structure.getEventItem("description"));
+
+                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_tag))
+                                    .setText(structure.getHotTagString());
 
                             linearLayout.removeAllViews();
                             linearLayout.addView(relativeLayout);

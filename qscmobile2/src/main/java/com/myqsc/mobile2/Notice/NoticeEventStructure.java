@@ -49,4 +49,20 @@ public class NoticeEventStructure {
         }
         return null;
     }
+
+    public String getHotTagString() {
+        try {
+            String tag = "";
+            for (int i = 0; i != hotTag.length(); ++i) {
+                JSONObject object = hotTag.getJSONObject(i);
+                tag += object.getString("name") + ", ";
+            }
+            tag = tag.substring(0, tag.length() - 1);
+            return tag;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 }
