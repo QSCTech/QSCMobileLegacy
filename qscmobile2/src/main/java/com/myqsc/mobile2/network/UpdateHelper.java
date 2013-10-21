@@ -70,6 +70,10 @@ public class UpdateHelper {
      */
     public static boolean messageChecker(String data) {
         try {
+            if (data.length() < 2) {
+                return false;
+            }
+
             JSONObject jsonObject = new JSONObject(data);
             String message = jsonObject.getString("msg");
 
