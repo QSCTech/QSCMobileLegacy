@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:paddingLeft="45dp"
+    android:paddingRight="45dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/icon_search"
+        android:id="@+id/notice_search_icon"
+        android:textSize="20sp"
+        android:textColor="@color/gray_text" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notice_search_edittext"
+        android:singleLine="true"
+        android:layout_marginLeft="7dp"
+        android:imeOptions="actionSearch"
+        android:hint="输入搜索关键字"
+        android:textSize="18sp" />
+</LinearLayout>

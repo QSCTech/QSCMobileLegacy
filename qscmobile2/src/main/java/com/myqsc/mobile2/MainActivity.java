@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -36,33 +37,39 @@ import android.support.v4.view.ViewPager;
 public class MainActivity extends FragmentActivity {
 
 	final List<Fragment> fragmentList = new ArrayList<Fragment>();
-    // TODO: Rename to pagerAdapter
-	MyFragmentPagerAdapter adapter = null;
-    // TODO: Rename to viewPager
-	ViewPager vPager = null;
+
+	MyFragmentPagerAdapter pagerAdapter = null;
+	ViewPager viewPager = null;
+    int page = -1; //当前是第几个页面
 
     NewUserReceiver newUserReceiver = null;
 
+
 	@Override
-	protected void onCreate(Bundle arg0) {
-		super.onCreate(arg0);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-
-        startService(new Intent(this, UpdateAllService.class));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d("update all server started");
+                startService(new Intent(MainActivity.this, UpdateAllService.class));
+            }
+        }, 10000);
 
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
-
-		vPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
+		viewPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
         // TODO: Change 5 to 2?
-        vPager.setOffscreenPageLimit(5);
-        vPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
-
+        viewPager.setOffscreenPageLimit(5);
+        viewPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
         // TODO: Implement animation via ViewFlipper on Android 2.3?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            vPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        }
 
         newUserReceiver = new NewUserReceiver();
 
@@ -70,9 +77,9 @@ public class MainActivity extends FragmentActivity {
         fragmentList.add(new FunctionListFragment());
         fragmentList.add(new CardFragment());
 
-        adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-        vPager.setAdapter(adapter);
-        vPager.setCurrentItem(2);
+        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(2);
 
 //        thread = new Thread(new Runnable() {
 //            @Override
@@ -84,7 +91,7 @@ public class MainActivity extends FragmentActivity {
 //                        e.printStackTrace();
 //                        break;
 //                    }
-//                    getThisProcessMemeryInfo();
+//                    getMemoryInfo();
 //                }
 //            }
 //        });
@@ -127,26 +134,24 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
         MobclickAgent.onResume(this);
         if (page != -1)
-            vPager.setCurrentItem(page);
+            viewPager.setCurrentItem(page);
 	}
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        page = vPager.getCurrentItem();
+        page = viewPager.getCurrentItem();
     }
 
-    int page = -1; //当前是第几个页面
 
     // TODO: Change to getMemoryInfo()
-	public void getThisProcessMemeryInfo() {
+	public void getMemoryInfo() {
         ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
         int pid = android.os.Process.myPid();
         android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(new int[] {pid});
-        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024 + "MB");
+        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024+ "MB");
     }
-
 
     // TODO: Place this class before function definition?
     private class NewUserReceiver extends BroadcastReceiver{

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notice_card_relative1"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/notice_card_name1"
+            android:layout_marginRight="60dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_star"
+            android:id="@+id/notice_card_star1"
+            android:layout_alignBaseline="@+id/notice_card_name1"
+            android:layout_toLeftOf="@+id/notice_card_rating1"
+            android:layout_marginRight="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notice_card_rating1"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/notice_card_name1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notice_card_relative2"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/notice_card_name2"
+            android:layout_marginRight="60dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_star"
+            android:id="@+id/notice_card_star2"
+            android:layout_alignBaseline="@+id/notice_card_name2"
+            android:layout_toLeftOf="@+id/notice_card_rating2"
+            android:layout_marginRight="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notice_card_rating2"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/notice_card_name2" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notice_card_relative3"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/notice_card_name3"
+            android:layout_marginRight="60dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_star"
+            android:id="@+id/notice_card_star3"
+            android:layout_alignBaseline="@+id/notice_card_name3"
+            android:layout_toLeftOf="@+id/notice_card_rating3"
+            android:layout_marginRight="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notice_card_rating3"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/notice_card_name3" />
+    </RelativeLayout>
+
+</LinearLayout>

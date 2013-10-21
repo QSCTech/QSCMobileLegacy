@@ -31,11 +31,17 @@
     <string name="icon_trophy">&#xF091;</string>
     <string name="icon_edit">&#xF044;</string>
     <string name="icon_star">&#xF005;</string>
+    <string name="icon_star_empty">&#xF006;</string>
     <string name="icon_th">&#xF00A;</string>
     <string name="icon_th_list">&#xF00B;</string>
     <string name="icon_truck">&#xF0D1;</string>
     <string name="icon_code">&#xF121;</string>
     <string name="icon_signal">&#xF012;</string>
+    <string name="icon_tint">&#xF043;</string>
+    <string name="icon_fire">&#xF06D;</string>
+    <string name="icon_search">&#xF002;</string>
+    <string name="icon_share">&#xF045;</string>
+    <string name="icon_globe">&#xF0AC;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
     
 </resources>

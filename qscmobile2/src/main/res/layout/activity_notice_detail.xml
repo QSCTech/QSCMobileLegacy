@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="17dp"
+                android:paddingBottom="20dp"
+                android:id="@+id/notice_detail_share">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_share"
+                    android:id="@+id/notice_detail_share_icon"
+                    android:textSize="20sp"
+                    android:textColor="@color/blue_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分享"
+                    android:id="@+id/textView2"
+                    android:textSize="20sp"
+                    android:textColor="@color/blue_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/notice_detail_globe">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_globe"
+                    android:id="@+id/notice_detail_globe_icon"
+                    android:textSize="20sp"
+                    android:textColor="@color/blue_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="打开"
+                    android:id="@+id/textView4"
+                    android:textSize="20sp"
+                    android:textColor="@color/blue_text" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_notice_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="12dp"
+            android:paddingBottom="50dp">
+
+            <ImageView
+                android:layout_width="129dp"
+                android:layout_height="56dp"
+                android:id="@+id/loading_image"
+                android:layout_gravity="center"
+                android:background="@drawable/loading" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -3,6 +3,7 @@ package com.myqsc.mobile2.fragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.myqsc.mobile2.Notice.Fragment.NoticeCardFragment;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.Grade.Fragment.ChengjiCardFragment;
 import com.myqsc.mobile2.curriculum.fragment.KebiaoCardEmptyFragment;
@@ -24,25 +25,32 @@ import java.util.List;
 
 public class FragmentUtility {
     public static String cardString[] = new String[]{
-            /*"近期热门活动", */"实时课表", "查考试", "查成绩", "查校车"
+            "实时课表", "查考试", "查成绩", "查校车", "近期热门活动"
     };
     public static String cardDataString[] = new String[] {
             DataUpdater.JW_KEBIAO, DataUpdater.JW_KAOSHI,
-            DataUpdater.JW_CHENGJI, DataUpdater.COMMON_XIAOCHE
+            DataUpdater.JW_CHENGJI, DataUpdater.COMMON_XIAOCHE,
+            DataUpdater.COMMON_NOTICE
     };
 
     public static int cardIcon[] = new int[]{
-            /*R.string.icon_group,*/
             R.string.icon_calendar,
             R.string.icon_copy,
             R.string.icon_trophy,
-            R.string.icon_truck
+            R.string.icon_truck,
+            R.string.icon_group
     };
+
+    public static String getCardDataStringByCardName (String string) {
+        for (int i = 0; i != cardDataString.length; ++i) {
+            if (string.equals(cardString[i]))
+                return cardDataString[i];
+        }
+        return "";
+    }
 
     public static Fragment getCardFragmentByName(String name, Context context) {
         LogHelper.d(name + " fragment Inited");
-        if (name.compareTo("近期热门活动") == 0)
-            return new HuodongCardFragment();
         if (name.compareTo("实时课表") == 0) {
             KebiaoDataHelper helper = new KebiaoDataHelper(context);
             List<KebiaoClassData> list = helper.getDay(Calendar.getInstance());
@@ -62,6 +70,8 @@ public class FragmentUtility {
             return new ChengjiCardFragment();
         if (name.compareTo("查校车") == 0)
             return new XiaocheCardFragment();
+        if (name.compareTo("近期热门活动") == 0)
+            return new NoticeCardFragment();
         LogHelper.d("none fragment");
         return null;
     }
