@@ -47,18 +47,18 @@ public class NoticeCardFragment extends Fragment {
                 };
 
                 ((TextView) view.findViewById(R.id.notice_card_name1))
-                        .setText(list.get(0).getEventItem("name"));
+                        .setText(structure[0].getEventItem("name"));
                 ((TextView) view.findViewById(R.id.notice_card_name2))
-                        .setText(list.get(1).getEventItem("name"));
+                        .setText(structure[1].getEventItem("name"));
                 ((TextView) view.findViewById(R.id.notice_card_name3))
-                        .setText(list.get(2).getEventItem("name"));
+                        .setText(structure[2].getEventItem("name"));
 
                 ((TextView) view.findViewById(R.id.notice_card_rating1))
-                        .setText(list.get(0).getEventItem("rating"));
+                        .setText(structure[0].getEventItem("rating"));
                 ((TextView) view.findViewById(R.id.notice_card_rating2))
-                        .setText(list.get(1).getEventItem("rating"));
+                        .setText(structure[1].getEventItem("rating"));
                 ((TextView) view.findViewById(R.id.notice_card_rating3))
-                        .setText(list.get(2).getEventItem("rating"));
+                        .setText(structure[2].getEventItem("rating"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
