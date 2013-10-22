@@ -40,20 +40,29 @@ public class NoticeCardFragment extends Fragment {
 
         List<NoticeStructure> list = helper.getData();
 
-        if (list != null) {
-            ((TextView) view.findViewById(R.id.notice_card_name1))
-                    .setText(list.get(0).getEventItem("name"));
-            ((TextView) view.findViewById(R.id.notice_card_name2))
-                    .setText(list.get(1).getEventItem("name"));
-            ((TextView) view.findViewById(R.id.notice_card_name3))
-                    .setText(list.get(2).getEventItem("name"));
+        if (list != null && list.size() >= 3) {
+            try {
+                NoticeStructure structure[] = {
+                        list.get(0), list.get(1), list.get(2)
+                };
 
-            ((TextView) view.findViewById(R.id.notice_card_rating1))
-                    .setText(list.get(0).getEventItem("rating"));
-            ((TextView) view.findViewById(R.id.notice_card_rating2))
-                    .setText(list.get(1).getEventItem("rating"));
-            ((TextView) view.findViewById(R.id.notice_card_rating3))
-                    .setText(list.get(2).getEventItem("rating"));
+                ((TextView) view.findViewById(R.id.notice_card_name1))
+                        .setText(structure[0].getEventItem("name"));
+                ((TextView) view.findViewById(R.id.notice_card_name2))
+                        .setText(structure[1].getEventItem("name"));
+                ((TextView) view.findViewById(R.id.notice_card_name3))
+                        .setText(structure[2].getEventItem("name"));
+
+                ((TextView) view.findViewById(R.id.notice_card_rating1))
+                        .setText(structure[0].getEventItem("rating"));
+                ((TextView) view.findViewById(R.id.notice_card_rating2))
+                        .setText(structure[1].getEventItem("rating"));
+                ((TextView) view.findViewById(R.id.notice_card_rating3))
+                        .setText(structure[2].getEventItem("rating"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
         return view;

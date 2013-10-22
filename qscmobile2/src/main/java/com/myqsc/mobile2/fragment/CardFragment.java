@@ -104,7 +104,7 @@ public class CardFragment extends Fragment {
                     public boolean handleMessage(Message message) {
                         LogHelper.d(message.getData().getString("key") + "更新完成");
                         String result = (String) message.obj;
-                        if (result == null || message.getData().getString("key") == null)
+                        if (result == null || message.getData().getString("key") == null || result.length() < 2)
                             return true;
 
                         if (result != null && getActivity() != null)

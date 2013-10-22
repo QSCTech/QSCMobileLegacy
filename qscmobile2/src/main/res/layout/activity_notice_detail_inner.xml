@@ -71,7 +71,7 @@
         android:layout_alignLeft="@+id/notice_bar_starttime"
         android:layout_alignBaseline="@+id/notice_bar_place_temp"
         android:textColor="@color/blue_text"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <TextView
         android:layout_width="wrap_content"

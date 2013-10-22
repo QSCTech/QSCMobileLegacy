@@ -100,6 +100,8 @@ public class DataUpdater {
             urlConnection.setConnectTimeout(15000); //15秒钟超时
             urlConnection.connect();
 
+
+
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             urlConnection.getInputStream()));

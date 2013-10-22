@@ -92,7 +92,7 @@ public class PlatformUpdateHelper {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final String URL = "http://qsctech.github.io/qsc-mobile-plugins/plugins.json";
+                final String URL = "http://qsctech.github.io/qsc-mobile-plugins/plugin-android.json";
                 Message message = handler.obtainMessage();
                 message.what = 0;
                 message.obj = "插件列表下载完成";
