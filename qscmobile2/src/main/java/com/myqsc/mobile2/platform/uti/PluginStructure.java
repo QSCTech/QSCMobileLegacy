@@ -3,12 +3,11 @@ package com.myqsc.mobile2.platform.uti;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+import android.content.SharedPreferences;
+import android.widget.LinearLayout;
 
-import com.handmark.pulltorefresh.library.R;
+import com.myqsc.mobile2.platform.platform;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
-import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
 
 import org.apache.http.client.methods.HttpGet;
@@ -21,11 +20,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by richard on 13-9-9.
@@ -71,6 +66,19 @@ public class PluginStructure implements Serializable {
         return true;
     }
 
+    public boolean isSelected (Context mContext) {
+        return mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                .getBoolean(PlatformUpdateHelper.PLUGIN_PREFIX_SELECT + id, false);
+    }
+
+    public void toggleSelected (Context mContext) {
+        boolean select = isSelected(mContext);
+        mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                .edit()
+                .putBoolean(PlatformUpdateHelper.PLUGIN_PREFIX_SELECT + id, !select)
+                .commit();
+    }
+
     public PluginStructure(JSONObject jsonObject) throws JSONException {
         id = jsonObject.getString("id");
         name = jsonObject.getString("name");
@@ -107,7 +115,9 @@ public class PluginStructure implements Serializable {
         return new JSONObject();
     }
 
-    public void downloadPlugin(final ProgressDialog progressDialog, final Context mContext) {
+    public void downloadPlugin(final ProgressDialog progressDialog,
+                               final Context mContext,
+                               final LinearLayout layout) {
         final String base_url = PlatformUpdateHelper.URLBASE;
         final String url = base_url + path + '/';
 
@@ -160,9 +170,11 @@ public class PluginStructure implements Serializable {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
+
+                        PlatformPluginListHelper helper = new PlatformPluginListHelper();
+                        helper.initList(layout);
                     }
                 });
-
             }
         });
 

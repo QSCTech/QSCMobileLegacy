@@ -99,13 +99,8 @@ public class FunctionListFragment extends Fragment {
         });
 
         initExtraList();
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         initPluginList();
+        return view;
     }
 
     private void initPluginList() {

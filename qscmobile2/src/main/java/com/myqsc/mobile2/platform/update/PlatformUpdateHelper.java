@@ -39,6 +39,7 @@ public class PlatformUpdateHelper {
     public final static String PLUGIN_LIST_PRE = "PLUGIN_LIST";
     public final static String PLUGIN_PREFIX = "PLUGIN_PREFIX_";
     public final static String PLUGIN_LIST_RAW = "PLUGIN_LIST_RAW";
+    public final static String PLUGIN_PREFIX_SELECT = "PLUGIN_PREFIX_SELECT_";
 
     public static void updatePlatform(final Context context, final Handler handler) {
         final Message message = handler.obtainMessage();
