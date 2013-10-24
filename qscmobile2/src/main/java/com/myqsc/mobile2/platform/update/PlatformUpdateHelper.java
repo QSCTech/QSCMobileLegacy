@@ -28,8 +28,8 @@ import java.util.List;
  * Created by richard on 13-9-8.
  */
 public class PlatformUpdateHelper {
-    final static String URLBASE = "http://qsctech.github.io/qsc-mobile-plugins/";
-    final static String PATH_ADD = "platform/";
+    public final static String URLBASE = "http://qsctech.github.io/qsc-mobile-plugins/";
+    public final static String PATH_ADD = "platform/";
 
     public final static String PLUGIN_LIST_PRE = "PLUGIN_LIST";
     public final static String PLUGIN_PREFIX = "PLUGIN_PREFIX";
@@ -119,56 +119,5 @@ public class PlatformUpdateHelper {
         });
 
         thread.start();
-    }
-
-    public static void updatePlugin(final String pluginID,
-                                    final Context context,
-                                    final Handler handler) {
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//
-//
-//                try {
-//                    HttpClient httpClient = new DefaultHttpClient();
-//                    HttpGet httpGet = new HttpGet(URL);
-//                    HttpResponse response = httpClient.execute(httpGet);
-//                    String result = EntityUtils.toString(response.getEntity());
-//                    JSONArray jsonArray = new JSONArray(result);
-//
-//                    for (int i = 0; i != jsonArray.length(); ++i) {
-//                        JSONObject jsonObject = jsonArray.optJSONObject(i);
-//                        context.getSharedPreferences(Utility.PREFERENCE, 0)
-//                                .edit()
-//                                .putString(platform.PLUGIN, jsonObject.toString())
-//                                .commit();
-//                        String id = jsonObject.getString("id");
-//                        String path = jsonObject.getString("path");
-//                        if (id.compareTo(pluginID) == 0) {
-//                            JSONArray files = jsonObject.getJSONArray("web_accessible_resources");
-//                            for (int j = 0; j != files.length(); ++j) {
-//                                byte data[] = EntityUtils.toByteArray(
-//                                        new DefaultHttpClient().execute(
-//                                                new HttpGet(URLBASE + path + files.getString(j))).getEntity());
-//                                File file = new File(context.getFilesDir(), PATH_ADD + path + "/" + files.getString(j));
-//                                if (file.exists())
-//                                    file.delete();
-//                                file.getParentFile().mkdirs();
-//                                file.createNewFile();
-//
-//                                FileOutputStream fileOutputStream = new FileOutputStream(file);
-//                                fileOutputStream.write(data);
-//                                fileOutputStream.close();
-//                            }
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
     }
 }
