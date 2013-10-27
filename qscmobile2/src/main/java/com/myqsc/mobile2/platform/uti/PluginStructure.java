@@ -3,10 +3,8 @@ package com.myqsc.mobile2.platform.uti;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.widget.LinearLayout;
 
-import com.myqsc.mobile2.platform.platform;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.uti.Utility;
 

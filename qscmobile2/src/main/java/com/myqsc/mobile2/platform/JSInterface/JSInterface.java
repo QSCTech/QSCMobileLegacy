@@ -15,10 +15,6 @@ public class JSInterface {
     public final static int JS_FAILED = 0, JS_SUCCESS = 1;
     public final static int VIEW_CARD = 1;
 
-    public JSInterface(WebView webView) {
-        this.webView = webView;
-    }
-
     @JavascriptInterface
     public void sendRequest(String result) {
         JSONObject jsonObject = null;
