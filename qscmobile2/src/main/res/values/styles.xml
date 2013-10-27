@@ -19,4 +19,34 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="AppWidgetTimetableDateText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="AppWidgetTimetableDateText.Active">
+        <item name="android:textColor">#FFFFFFFF</item>
+    </style>
+
+    <style name="AppWidgetTimetableDateText.Fading">
+        <item name="android:textColor">#BFFFFFFF</item>
+    </style>
+
+    <style name="AppWidgetTimetableTaskText"/>
+
+    <style name="AppWidgetTimetableTaskText.Finished">
+        <item name="android:textColor">@color/grey_light</item>
+    </style>
+
+    <style name="AppWidgetTimetableTaskText.Active">
+        <item name="android:textColor">@color/blue_light</item>
+    </style>
+
+    <style name="AppWidgetTimetableTaskText.Scheduled">
+        <item name="android:textColor">@color/grey_dark</item>
+    </style>
+
 </resources>
