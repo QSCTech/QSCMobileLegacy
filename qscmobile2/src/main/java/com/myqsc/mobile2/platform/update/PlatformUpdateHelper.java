@@ -64,7 +64,7 @@ public class PlatformUpdateHelper {
                         LogHelper.d("platform json " + path + " download started");
                         for (int j = 0; j != files.length(); ++j) {
                             LogHelper.d("platform file " + files.getString(j) + " download start");
-                            String file_url = URLBASE + path + files.getString(j);
+                            String file_url = URLBASE + path + '/' + files.getString(j);
                             File file = new File(context.getFilesDir(), PATH_ADD + path + "/" + files.getString(j));
                             if (file.exists())
                                 file.delete();

@@ -38,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -283,7 +284,7 @@ public class CardFragment extends Fragment {
         String listData = preferences.getString(PlatformUpdateHelper.PLUGIN_LIST_RAW, null);
         List<PluginStructure> pluginList = PlatformUpdateHelper.parsePluginList(listData);
 
-        for (PluginStructure structure : pluginList) {
+        for (final PluginStructure structure : pluginList) {
             LogHelper.e("is selected:" + structure.isSelected(mContext));
             if (structure.isDownloaded(mContext) || structure.isSelected(mContext)) {
                 LinearLayout view = (LinearLayout) mInflater.inflate(
@@ -294,11 +295,13 @@ public class CardFragment extends Fragment {
                         .setText("插件");
                 ((TextView) cardView.findViewById(R.id.card_content))
                         .setText(structure.name);
-                view.addView(cardView);
+                ((FrameLayout) view.findViewById(R.id.fragment_card))
+                        .addView(cardView);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), PluginDetailActivity.class);
+                        intent.putExtra("ID", structure.id);
                         getActivity().startActivity(intent);
                     }
                 });

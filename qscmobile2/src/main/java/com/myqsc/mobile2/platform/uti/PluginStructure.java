@@ -34,7 +34,44 @@ public class PluginStructure implements Serializable {
     public static final int UPDATE_FINISH = 0x123;
 
     public PluginStructure() {
+    }
 
+    /**
+     * 使用插件ID初始化插件
+     * @param ID
+     */
+
+    public PluginStructure(String ID, Context mContext) {
+        String info = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                .getString(PlatformUpdateHelper.PLUGIN_PREFIX + ID, null);
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            init(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PluginStructure(JSONObject jsonObject) throws JSONException {
+        init(jsonObject);
+    }
+
+    private void init(JSONObject jsonObject) throws JSONException{
+        id = jsonObject.getString("id");
+        name = jsonObject.getString("name");
+        description = jsonObject.getString("description");
+        version = jsonObject.getString("version");
+        developer = jsonObject.getJSONObject("developer");
+
+        permissions = jsonObject.getJSONObject("permissions");
+
+        JSONArray jsonArray = jsonObject.getJSONArray("web_accessible_resources");
+
+        web_accessible_resources = new String[jsonArray.length()];
+        for (int i = 0; i != jsonArray.length(); ++i) {
+            web_accessible_resources[i] = jsonArray.getString(i);
+        }
+        path = jsonObject.getString("path");
     }
 
     public boolean isDownloaded(Context mContext) {
@@ -77,23 +114,7 @@ public class PluginStructure implements Serializable {
                 .commit();
     }
 
-    public PluginStructure(JSONObject jsonObject) throws JSONException {
-        id = jsonObject.getString("id");
-        name = jsonObject.getString("name");
-        description = jsonObject.getString("description");
-        version = jsonObject.getString("version");
-        developer = jsonObject.getJSONObject("developer");
 
-        permissions = jsonObject.getJSONObject("permissions");
-
-        JSONArray jsonArray = jsonObject.getJSONArray("web_accessible_resources");
-
-        web_accessible_resources = new String[jsonArray.length()];
-        for (int i = 0; i != jsonArray.length(); ++i) {
-            web_accessible_resources[i] = jsonArray.getString(i);
-        }
-        path = jsonObject.getString("path");
-    }
 
     public JSONObject toJSONObject () {
         try {
@@ -141,7 +162,7 @@ public class PluginStructure implements Serializable {
 
                         byte data[] = EntityUtils.toByteArray(
                                 new DefaultHttpClient().execute(
-                                        new HttpGet(base_url + path + file_url)
+                                        new HttpGet(base_url + path + '/' + file_url)
                                 ).getEntity()
                         );
                         fileOutputStream.write(data);
