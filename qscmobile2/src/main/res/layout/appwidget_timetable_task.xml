@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_weight="1"
-    android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical">
@@ -14,17 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:baselineAligned="true"
-        android:orientation="horizontal">
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:gravity="bottom">
 
         <TextView
             android:id="@+id/appwidget_timetable_task_time_start"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:gravity="bottom"
-            android:textSize="11dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textSize="12sp"
 
             android:text="00:00"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
@@ -34,10 +34,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:gravity="bottom"
-            android:textSize="14dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textSize="16sp"
 
             android:text="任务名称"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
@@ -48,17 +47,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:baselineAligned="true"
+        android:baselineAligned="false"
+        android:gravity="top"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/appwidget_timetable_task_time_end"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:gravity="top"
-            android:textSize="11dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textSize="12sp"
 
             android:text="24:00"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
@@ -68,10 +67,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:gravity="top"
-            android:textSize="12dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textSize="14sp"
 
             android:text="详细信息"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>

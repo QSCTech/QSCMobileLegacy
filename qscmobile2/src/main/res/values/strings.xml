@@ -43,5 +43,7 @@
     <string name="icon_share">&#xF045;</string>
     <string name="icon_globe">&#xF0AC;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
-    
+
+    <string name="appwidget_timetable_name">手机站课程表</string>
+
 </resources>

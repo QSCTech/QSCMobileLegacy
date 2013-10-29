@@ -10,6 +10,6 @@
     android:minResizeHeight="180dp"
     android:previewImage="@drawable/appwidget_timetable_preview"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="1800000"
+    android:updatePeriodMillis="0"
     android:widgetCategory="home_screen|keyguard">
 </appwidget-provider>
