@@ -42,7 +42,9 @@ public class PluginDetailActivity extends SwipeBackActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
 
-        webView.addJavascriptInterface(new JSInterface(), "QSCAndroid");
+        JSInterface jsInterface = new JSInterface(this, webView);
+        jsInterface.init();
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
