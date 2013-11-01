@@ -91,7 +91,7 @@ public class DataUpdater {
     public static String get(String url) {
         StringBuilder result = new StringBuilder();
         try {
-            url = url.replaceFirst("http", "https");
+            url = url.replaceFirst("http://m.myqsc.com", "https://m.myqsc.com");
             LogHelper.d("URL:" + url);
             URL address = new URL(url);
             URLConnection urlConnection = address.openConnection();
@@ -99,8 +99,6 @@ public class DataUpdater {
             urlConnection.setRequestProperty("X-Need-Escape", "0");
             urlConnection.setConnectTimeout(15000); //15秒钟超时
             urlConnection.connect();
-
-
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(

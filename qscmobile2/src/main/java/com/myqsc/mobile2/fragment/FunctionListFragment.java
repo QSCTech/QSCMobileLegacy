@@ -7,7 +7,7 @@ import com.myqsc.mobile2.ExtraFunction.ZJUWLANLogin.ZJUWLANActivity;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
-import com.myqsc.mobile2.platform.uti.PluginListAdapter;
+import com.myqsc.mobile2.platform.uti.PlatformPluginListHelper;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
@@ -98,15 +98,16 @@ public class FunctionListFragment extends Fragment {
             }
         });
 
-        initPluginList();
         initExtraList();
+        initPluginList();
         return view;
     }
 
     private void initPluginList() {
-        ListView listView = (ListView) view.findViewById(R.id.fragment_cardlist_pluginlist);
-        listView.setAdapter(new PluginListAdapter(getActivity()));
-        Utility.setListViewHeightBasedOnChildren(listView);
+        PlatformPluginListHelper helper = new PlatformPluginListHelper();
+        helper.initList(
+                (LinearLayout) view.findViewById(R.id.plugin_list_layout)
+        );
     }
 
     private void initExtraList() {

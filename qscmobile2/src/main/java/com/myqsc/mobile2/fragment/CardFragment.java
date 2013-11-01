@@ -12,6 +12,9 @@ import com.myqsc.mobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.network.UpdateHelper;
+import com.myqsc.mobile2.platform.PluginDetailActivity;
+import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
+import com.myqsc.mobile2.platform.uti.PluginStructure;
 import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
@@ -22,6 +25,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,18 +37,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 public class CardFragment extends Fragment {
-
 
     View view = null;
 	LinearLayout baseLayout = null;
 	List<String> list = null;
     FragmentManager fragmentManager = null;
     UserIDStructure userIDStructure = new UserIDStructure();
-    final Handler handler = new Handler();
+
 
     final static int FRAGMENT_MAGIC_NUM = 0XDD00;
 
@@ -263,5 +269,44 @@ public class CardFragment extends Fragment {
             transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], cardList.get(i));
         }
 		transaction.commitAllowingStateLoss();
+
+        initCardList(linearLayout);
 	}
+
+    private void initCardList(LinearLayout layout) {
+        final int cardIDOffset = 0X123abc;
+        final Context mContext = layout.getContext();
+        LayoutInflater mInflater = LayoutInflater.from(mContext);
+
+        WebView webView = new WebView(mContext);
+        SharedPreferences preferences = layout.getContext()
+                .getSharedPreferences(Utility.PREFERENCE, 0);
+        String listData = preferences.getString(PlatformUpdateHelper.PLUGIN_LIST_RAW, null);
+        List<PluginStructure> pluginList = PlatformUpdateHelper.parsePluginList(listData);
+
+        for (final PluginStructure structure : pluginList) {
+            LogHelper.e("is selected:" + structure.isSelected(mContext));
+            if (structure.isDownloaded(mContext) || structure.isSelected(mContext)) {
+                LinearLayout view = (LinearLayout) mInflater.inflate(
+                        R.layout.fragment_card_background, null);
+                View cardView = mInflater.inflate(R.layout.plugin_card, null);
+                cardView.setId(cardIDOffset + structure.id.hashCode());
+                ((TextView) cardView.findViewById(R.id.card_title))
+                        .setText("插件");
+                ((TextView) cardView.findViewById(R.id.card_content))
+                        .setText(structure.name);
+                ((FrameLayout) view.findViewById(R.id.fragment_card))
+                        .addView(cardView);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), PluginDetailActivity.class);
+                        intent.putExtra("ID", structure.id);
+                        getActivity().startActivity(intent);
+                    }
+                });
+                layout.addView(view);
+            }
+        }
+    }
 }
