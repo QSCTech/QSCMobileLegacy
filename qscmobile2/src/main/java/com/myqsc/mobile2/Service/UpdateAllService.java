@@ -34,11 +34,6 @@ public class UpdateAllService extends IntentService {
         @Override
         public boolean handleMessage(Message message) {
             if (message.obj != null) {
-                if ("插件列表下载完成".equals(message.obj)) {
-                    //更新插件列表了
-                    return false;
-                }
-
                 String key = message.getData().getString("key");
                 String data = (String) message.obj;
 
@@ -107,7 +102,5 @@ public class UpdateAllService extends IntentService {
         for (String name : subs) {
             service.submit(new DataUpdaterRunnable(name, handler, this));
         }
-
-        PlatformUpdateHelper.getPluginList(this, handler);
     }
 }
