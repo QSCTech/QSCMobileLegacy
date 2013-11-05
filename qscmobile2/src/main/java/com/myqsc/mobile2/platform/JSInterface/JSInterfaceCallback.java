@@ -11,13 +11,14 @@ import org.json.JSONObject;
  * Created by richard on 13-9-8.
  */
 public class JSInterfaceCallback {
-    public static void successCallback(String name, String reason, WebView webView) {
+    public static void successCallback(final String name, String reason, final WebView webView) {
         String res = null;
         if (reason == null) {
-            res = "javascript: " + name + "();";
+            res = "javascript: window." + name + "();";
         } else {
-            res = "javascript: " + name + "(" + reason + ")";
+            res = "javascript: window." + name + "('" + reason + "')";
         }
+
         LogHelper.e(res);
         webView.loadUrl(res);
     }
@@ -28,7 +29,7 @@ public class JSInterfaceCallback {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("error", reason);
-            webView.loadUrl("javascript: " + name + "(" + jsonObject.toString() + ")");
+            webView.loadUrl("javascript: window." + name + "(" + jsonObject.toString() + ")");
         } catch (JSONException e) {
             e.printStackTrace();
         }
