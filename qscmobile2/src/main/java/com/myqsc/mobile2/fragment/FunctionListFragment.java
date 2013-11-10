@@ -10,7 +10,9 @@ import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.platform.uti.PlatformPluginListHelper;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
+import com.myqsc.mobile2.uti.DataObservable;
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.MyFragment;
 import com.myqsc.mobile2.uti.Utility;
 
 import android.content.BroadcastReceiver;
@@ -30,7 +32,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FunctionListFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observer;
+
+public class FunctionListFragment extends MyFragment{
     BroadcastReceiver receiver = null;
     View view = null;
 
