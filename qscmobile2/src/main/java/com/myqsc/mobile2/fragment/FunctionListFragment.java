@@ -49,57 +49,8 @@ public class FunctionListFragment extends Fragment {
                 .setOnItemClickListener(onItemClickListener);
         Utility.setListViewHeightBasedOnChildren((ListView) view.findViewById(R.id.fragment_cardlist));
 
-        final PullToRefreshScrollView scrollView = (PullToRefreshScrollView) view.findViewById(R.id.fragment_cardlist_refresh);
-
-        final Handler handler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message message) {
-                if ("平台更新完成".equals(message.obj)) {
-                    if (message.what == 0) {
-                        if (getActivity() != null)
-                            Toast.makeText(getActivity(), "平台文件更新失败", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else {
-                        if (getActivity() != null)
-                            Toast.makeText(getActivity(), "平台文件更新完成", Toast.LENGTH_SHORT).show();
-                    }
-
-                    PlatformUpdateHelper.getPluginList(getActivity(),
-                            new Handler(new Handler.Callback() {
-                                @Override
-                                public boolean handleMessage(Message message) {
-                                    //TODO: here it's a dirty hack
-                                    if ("插件列表下载完成".equals(message.obj)) {
-                                        if (message.what == 0) {
-                                            if (getActivity() != null)
-                                                Toast.makeText(getActivity(), "插件列表更新失败", Toast.LENGTH_SHORT).show();
-                                            return true;
-                                        } else {
-                                            if (getActivity() != null)
-                                                Toast.makeText(getActivity(), "插件列表更新完成", Toast.LENGTH_SHORT).show();
-                                            initPluginList();
-                                        }
-                                        scrollView.onRefreshComplete();
-                                        return true;
-                                    }
-                                    return false;
-                                }
-                            }));
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        scrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                PlatformUpdateHelper.updatePlatform(getActivity(), handler);
-            }
-        });
-
-        initExtraList();
         initPluginList();
+        initExtraList();
         return view;
     }
 
