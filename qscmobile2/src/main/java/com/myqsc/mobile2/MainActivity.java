@@ -73,37 +73,18 @@ public class MainActivity extends FragmentActivity {
 
         newUserReceiver = new NewUserReceiver();
 
+        final FunctionListFragment functionListFragment = new FunctionListFragment();
+        final CardFragment cardFragment = new CardFragment();
+        functionListFragment.addObserver(cardFragment);
+
         fragmentList.add(new UserSwitchFragment());
-        fragmentList.add(new FunctionListFragment());
-        fragmentList.add(new CardFragment());
+        fragmentList.add(functionListFragment);
+        fragmentList.add(cardFragment);
 
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(2);
 
-//        thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    try{
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        break;
-//                    }
-//                    getMemoryInfo();
-//                }
-//            }
-//        });
-//        thread.start();
-    }
-
-//    Thread thread = null;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        thread.interrupt();
     }
 
     @Override

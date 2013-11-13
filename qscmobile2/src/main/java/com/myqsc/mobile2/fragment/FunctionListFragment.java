@@ -1,42 +1,24 @@
 package com.myqsc.mobile2.fragment;
 
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.mobile2.ExtraFunction.ZJUWLANLogin.ZJUWLANActivity;
 import com.myqsc.mobile2.R;
-import com.myqsc.mobile2.fragment.cardlist.FunctionListAdapter;
 import com.myqsc.mobile2.fragment.cardlist.FunctionStructure;
-import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.platform.uti.PlatformPluginListHelper;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
-import com.myqsc.mobile2.uti.BroadcastHelper;
-import com.myqsc.mobile2.uti.DataObservable;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.MyFragment;
 import com.myqsc.mobile2.uti.Utility;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observer;
 import java.util.Vector;
 
 public class FunctionListFragment extends MyFragment{
@@ -102,6 +84,7 @@ public class FunctionListFragment extends MyFragment{
 
             functionListLayout.addView(bannerLayout);
         }
+        noticeObserver();
     }
 
     final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
@@ -110,16 +93,36 @@ public class FunctionListFragment extends MyFragment{
             final FunctionStructure structure = (FunctionStructure) view.getTag();
             changeIcon(structure);
             setIcon(structure, (TextView) view.findViewById(R.id.simple_listview_banner_icon_right));
+            noticeObserver();   //通知所有观察者
             //每次点击仅仅修改内存中的变量值，这是为了防止由于每次使用preference操作造成严重的性能问题
         }
     };
+
+    /**
+     * 获取目前启用功能的列表
+     * @return
+     */
+    public Vector<FunctionStructure> getFunctionVector() {
+        Vector<FunctionStructure> vector = new Vector<FunctionStructure>();
+
+        try {
+            SharedPreferences preferences = getActivity().getSharedPreferences(Utility.PREFERENCE, 0);
+            for (FunctionStructure structure : functionVector) {
+                if (structure.isSelected())
+                    vector.add(structure);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vector;
+    }
 
     /**
      * 修改一次卡片的选择状态
      * @param structure
      */
     private void changeIcon(FunctionStructure structure) {
-        if (structure.iconRight == R.string.icon_ok_sign) {
+        if (structure.isSelected()) {
             structure.iconRight = R.string.icon_circle_blank;
         }
         else {
@@ -141,7 +144,7 @@ public class FunctionListFragment extends MyFragment{
                 .edit();
         for(FunctionStructure structure : functionVector) {
             editor.putBoolean(PLUGIN_ENABLE_PREFIX + structure.cardName,
-                    structure.iconRight == R.string.icon_ok_sign ? true : false
+                    structure.isSelected()
             );
         }
         editor.commit();

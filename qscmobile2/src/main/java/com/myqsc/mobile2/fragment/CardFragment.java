@@ -2,6 +2,7 @@ package com.myqsc.mobile2.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.json.JSONArray;
 
@@ -49,21 +50,16 @@ public class CardFragment extends Fragment implements DataObserver {
 
     View view = null;
 	LinearLayout baseLayout = null;
-	List<String> list = null;
     FragmentManager fragmentManager = null;
     UserIDStructure userIDStructure = new UserIDStructure();
+    Vector<FunctionStructure> functionVector = null;
 
 
     final static int FRAGMENT_MAGIC_NUM = 0XDD00;
 
-	public CardFragment() {
-		this.list = new ArrayList<String>();
-	}
-
     @Override
     public void onPause() {
         super.onPause();
-
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         userIDStructure = personalDataHelper.getCurrentUser();
     }
@@ -85,10 +81,6 @@ public class CardFragment extends Fragment implements DataObserver {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.list = getListFromPreference();
-		if (this.list == null)
-			this.list = new ArrayList<String>();
-
         userIDStructure = new PersonalDataHelper(getActivity()).getCurrentUser();
 	}
 
@@ -140,7 +132,6 @@ public class CardFragment extends Fragment implements DataObserver {
 		baseLayout = (LinearLayout) view
 				.findViewById(R.id.fragment_card_layout);
         fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentInflate(baseLayout, LayoutInflater.from(getActivity()), list);
 
         IntentFilter intentFilter = new IntentFilter(
                 BroadcastHelper.BROADCAST_CARD_REDRAW);
@@ -165,10 +156,9 @@ public class CardFragment extends Fragment implements DataObserver {
                 return ;
             int num = -1;
             LogHelper.e(name);
-            for (int i = 0; i != list.size(); ++i) {
-//                LogHelper.d(list.get(i));
-                if (list.get(i).equals(name) ||
-                        FragmentUtility.getCardDataStringByCardName(list.get(i)).equals(name))
+            for (int i = 0; i != functionVector.size(); ++i) {
+                if (functionVector.get(i).cardName.equals(name) ||
+                        FragmentUtility.getCardDataStringByCardName(functionVector.get(i).cardName).equals(name))
                     num = i;
             }
             if (num == -1)
@@ -195,44 +185,16 @@ public class CardFragment extends Fragment implements DataObserver {
         }
     };
 
-	private List<String> getListFromPreference() {
-		if (getActivity() == null)
-			return null;
-		String encode = getActivity().getSharedPreferences(Utility.PREFERENCE,
-				0).getString(FunctionStructure.PREFERENCE, null);
-
-		List<String> list = new ArrayList<String>();
-        LogHelper.e(encode);
-        if (encode == null) {
-            //没有选择时默认全选
-            for (String string : FragmentUtility.cardString) {
-                list.add(string);
-            }
-            return list;
-        }
-
-		try {
-			JSONArray jsonArray = new JSONArray(encode);
-			for(int i = 0; i != jsonArray.length(); ++i)
-				list.add(jsonArray.optString(i));
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-
-
-    private void fragmentInflate(LinearLayout linearLayout,
-			LayoutInflater inflater, List<String> cardList) {
+    /**
+     * 初始化各个卡片
+     */
+    private void fragmentInflate() {
+        final LayoutInflater inflater = LayoutInflater.from(getActivity());
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment[] = new Fragment[functionVector.size()];
 
-        Fragment fragment[] = new Fragment[cardList.size()];
-
-		for (int i = 0; i != cardList.size(); ++i) {
-            String name = cardList.get(i);
-            LogHelper.d(name);
+		for (int i = 0; i != functionVector.size(); ++i) {
+            String name = functionVector.get(i).cardName;
 
 			fragment[i] = fragmentManager.findFragmentByTag(name);
 			if (fragment[i] != null) {
@@ -241,7 +203,7 @@ public class CardFragment extends Fragment implements DataObserver {
 			fragment[i] = FragmentUtility.getCardFragmentByName(name, getActivity());
 		}
 
-        linearLayout.removeAllViews();
+        baseLayout.removeAllViews();
 
         LinearLayout tempLayout = (LinearLayout) inflater.inflate(
                 R.layout.fragment_card_background, null);
@@ -249,25 +211,25 @@ public class CardFragment extends Fragment implements DataObserver {
         baseLayout.addView(tempLayout);
         transaction.add(FRAGMENT_MAGIC_NUM + 1010, new XiaoliCardFragment());
 
-        for(int i = 0; i != cardList.size(); ++i) {
+        for(int i = 0; i != functionVector.size(); ++i) {
             LinearLayout layout = (LinearLayout) inflater.inflate(
                     R.layout.fragment_card_background, null);
             layout.findViewById(R.id.fragment_card).setId(i + FRAGMENT_MAGIC_NUM);
             baseLayout.addView(layout);
-            transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], cardList.get(i));
+            transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], functionVector.get(i).cardName);
         }
 		transaction.commitAllowingStateLoss();
 
-        initCardList(linearLayout);
+        initCardList();
 	}
 
-    private void initCardList(LinearLayout layout) {
+    private void initCardList() {
         final int cardIDOffset = 0X123abc;
-        final Context mContext = layout.getContext();
+        final Context mContext = baseLayout.getContext();
         LayoutInflater mInflater = LayoutInflater.from(mContext);
 
         WebView webView = new WebView(mContext);
-        SharedPreferences preferences = layout.getContext()
+        SharedPreferences preferences = baseLayout.getContext()
                 .getSharedPreferences(Utility.PREFERENCE, 0);
         String listData = preferences.getString(PlatformUpdateHelper.PLUGIN_LIST_RAW, null);
         List<PluginStructure> pluginList = PlatformUpdateHelper.parsePluginList(listData);
@@ -293,18 +255,15 @@ public class CardFragment extends Fragment implements DataObserver {
                         getActivity().startActivity(intent);
                     }
                 });
-                layout.addView(view);
+                baseLayout.addView(view);
             }
         }
     }
 
     @Override
-    public void update() {
-        list = getListFromPreference();
-        if (list == null)
-            list = new ArrayList<String>();
-        baseLayout.removeAllViews();
-        final LayoutInflater inflater = LayoutInflater.from(getActivity());
-        fragmentInflate(baseLayout, inflater, list);
+    public void update(MyFragment fragment) {
+        FunctionListFragment functionListFragment = (FunctionListFragment) fragment;
+        functionVector = functionListFragment.getFunctionVector();
+        fragmentInflate();
     }
 }
