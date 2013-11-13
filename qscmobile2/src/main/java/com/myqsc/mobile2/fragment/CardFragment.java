@@ -17,7 +17,9 @@ import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.platform.uti.PluginStructure;
 import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.BroadcastHelper;
+import com.myqsc.mobile2.uti.DataObserver;
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.MyFragment;
 import com.myqsc.mobile2.uti.Utility;
 import com.myqsc.mobile2.xiaoli.fragment.XiaoliCardFragment;
 
@@ -43,7 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class CardFragment extends Fragment {
+public class CardFragment extends Fragment implements DataObserver {
 
     View view = null;
 	LinearLayout baseLayout = null;
@@ -61,7 +63,6 @@ public class CardFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(receiver);
 
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         userIDStructure = personalDataHelper.getCurrentUser();
@@ -70,9 +71,6 @@ public class CardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter intentFilter = new IntentFilter(
-                BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
-        getActivity().registerReceiver(receiver, intentFilter);
 
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         UserIDStructure structure = personalDataHelper.getCurrentUser();
@@ -157,17 +155,7 @@ public class CardFragment extends Fragment {
         getActivity().unregisterReceiver(fragmentChangedReceiver);
     }
 
-    final BroadcastReceiver receiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			list = getListFromPreference();
-			if (list == null)
-				list = new ArrayList<String>();
-			baseLayout.removeAllViews();
-			final LayoutInflater inflater = LayoutInflater.from(getActivity());
-			fragmentInflate(baseLayout, inflater, list);
-		}
-	};
+
 
     final BroadcastReceiver fragmentChangedReceiver = new BroadcastReceiver() {
         @Override
@@ -308,5 +296,15 @@ public class CardFragment extends Fragment {
                 layout.addView(view);
             }
         }
+    }
+
+    @Override
+    public void update() {
+        list = getListFromPreference();
+        if (list == null)
+            list = new ArrayList<String>();
+        baseLayout.removeAllViews();
+        final LayoutInflater inflater = LayoutInflater.from(getActivity());
+        fragmentInflate(baseLayout, inflater, list);
     }
 }

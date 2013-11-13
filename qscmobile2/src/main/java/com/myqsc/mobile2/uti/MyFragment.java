@@ -22,6 +22,6 @@ public abstract class MyFragment extends Fragment implements DataObservable {
     @Override
     public void noticeObserver() {
         for(DataObserver observer : observers)
-            observer.update();
+            observer.update(this);
     }
 }

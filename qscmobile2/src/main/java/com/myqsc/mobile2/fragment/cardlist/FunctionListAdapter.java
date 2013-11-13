@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,15 @@ public class FunctionListAdapter extends BaseAdapter {
 	List<FunctionStructure> list = new ArrayList<FunctionStructure>();
 	Context mContext = null;
 	LayoutInflater inflater = null;
+    SharedPreferences preferences = null;
+
+    final String PLUGIN_ENABLE_PREFIX = "PLUGIN_ENABLE_PREFIX_";
 
 	public FunctionListAdapter(Context context) {
 		this.mContext = context;
+        preferences = context.getSharedPreferences(Utility.PREFERENCE, 0);
 		inflater = LayoutInflater.from(context);
 
-		IntentFilter intentFilter = new IntentFilter(
-				BroadcastHelper.BROADCAST_FUNCTIONLIST_ONITEMCLICKED);
-		mContext.registerReceiver(functionItemClickReceiver, intentFilter);
-		
 		for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
 			FunctionStructure structure = new FunctionStructure();
 			structure.cardIcon = FragmentUtility.cardIcon[i];
@@ -42,50 +43,13 @@ public class FunctionListAdapter extends BaseAdapter {
 			list.add(structure);
 		}
 
-        List<String> selectedCard = getSelectedCard();
-        if (selectedCard == null)
-            return;
-		for (String string : selectedCard) {
-			for (FunctionStructure structure : list) {
-				if (string.compareTo(structure.cardName) == 0)
-					structure.iconRight = R.string.icon_ok_sign;
-			}
-		}
-	}
-
-    public BroadcastReceiver getBroadcastReceiver(){
-        return functionItemClickReceiver;
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
-
-    private List<String> getSelectedCard() {
-        List<String> list = new ArrayList<String>();
-		String encode = mContext.getSharedPreferences(Utility.PREFERENCE, 0).getString(FunctionStructure.PREFERENCE, null);
-
-		if (encode == null) {
-            //没有选择时默认全选
-            for (String string : FragmentUtility.cardString) {
-                list.add(string);
-            }
-            return list;
+        for (FunctionStructure structure : list) {
+            if (preferences.getBoolean(PLUGIN_ENABLE_PREFIX + structure.cardName, false))
+                structure.iconRight = R.string.icon_ok_sign;
+            //判断每个插件卡片是不是已经选中了的
         }
-
-		try {
-			JSONArray jsonArray = new JSONArray(encode);
-
-			for(int i = 0; i != jsonArray.length(); ++i)
-				list.add(jsonArray.optString(i));
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
-	
+
 	@Override
 	public int getCount() {
 		return list.size();
@@ -102,52 +66,69 @@ public class FunctionListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder = null;
-		if (convertView == null) {
-			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.simple_listview_banner,
-					null);
+	public View getView(int position, View bannerLayout, ViewGroup parent) {
+        bannerLayout = inflater.inflate(R.layout.simple_listview_banner,
+                null);
 
-			viewHolder.icon_left = (TextView) convertView
-					.findViewById(R.id.simple_listview_banner_icon_left);
-			viewHolder.icon_right = (TextView) convertView
-					.findViewById(R.id.simple_listview_banner_icon_right);
-			viewHolder.name = (TextView) convertView
-					.findViewById(R.id.simple_listview_banner_text);
+        TextView iconLeftTextView = (TextView) bannerLayout.findViewById(R.id.simple_listview_banner_icon_left);
+        TextView nameTextView = (TextView) bannerLayout.findViewById(R.id.simple_listview_banner_text);
+        TextView iconRightTextView = (TextView) bannerLayout.findViewById(R.id.simple_listview_banner_icon_right);
 
-			AwesomeFontHelper.setFontFace(viewHolder.icon_left, mContext);
-			AwesomeFontHelper.setFontFace(viewHolder.icon_right, mContext);
-			convertView.setTag(viewHolder);
-		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
+        AwesomeFontHelper.setFontFace(iconLeftTextView, mContext);
+        AwesomeFontHelper.setFontFace(iconRightTextView, mContext);
+
 		FunctionStructure structure = list.get(position);
-		viewHolder.icon_left.setText(structure.cardIcon);
-		viewHolder.name.setText(structure.cardName);
-		viewHolder.icon_right.setText(structure.iconRight);
 
-		if (structure.iconRight == R.string.icon_ok_sign)
-			viewHolder.icon_right.setTextColor(mContext.getResources()
-					.getColor(R.color.blue_text));
-		else
-			viewHolder.icon_right.setTextColor(mContext.getResources()
-					.getColor(R.color.gray_text));
+        nameTextView.setText(structure.cardName);
+        iconLeftTextView.setText(structure.cardIcon);
+        iconRightTextView.setText(structure.iconRight);
 
 		if ((position & 1) == 0)
-			convertView.setBackgroundColor(mContext.getResources().getColor(
+			bannerLayout.setBackgroundColor(mContext.getResources().getColor(
 					R.color.list_odd));
 		else
-			convertView.setBackgroundColor(mContext.getResources().getColor(
+			bannerLayout.setBackgroundColor(mContext.getResources().getColor(
 					R.color.list_even));
-		return convertView;
+
+        setIcon(structure, iconRightTextView);
+        bannerLayout.setOnClickListener(itemOnClickListener);
+        bannerLayout.setTag(structure);
+		return bannerLayout;
 	}
 
-	private class ViewHolder {
-		TextView icon_left, icon_right, name;
-	}
+    private void setIcon(FunctionStructure structure, TextView iconRightTextView) {
+        if (structure.iconRight == R.string.icon_ok_sign)
+            iconRightTextView.setTextColor(mContext.getResources()
+                    .getColor(R.color.blue_text));
+        else
+            iconRightTextView.setTextColor(mContext.getResources()
+                    .getColor(R.color.gray_text));
+    }
 
-    final BroadcastReceiver functionItemClickReceiver = new FunctionItemClickReceiver();
+    /**
+     * 修改一次卡片的修改状态
+     * @param structure
+     */
+    private void resetIcon(FunctionStructure structure) {
+        if (structure.iconRight == R.string.icon_ok_sign)
+            structure.iconRight = R.string.icon_circle_blank;
+        else
+            structure.iconRight = R.string.icon_ok_sign;
+    }
+
+    /**
+     * 修改一个功能开启关闭的点击监听器
+     */
+    final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final FunctionStructure structure = (FunctionStructure) view.getTag();
+            resetIcon(structure);
+            setIcon(structure, (TextView) view.findViewById(R.id.simple_listview_banner_icon_right));
+
+        }
+    };
+
 	private class FunctionItemClickReceiver extends BroadcastReceiver {
 
 		@Override
@@ -185,5 +166,4 @@ public class FunctionListAdapter extends BaseAdapter {
 		}
 		return list;
 	}
-
 }
