@@ -45,5 +45,6 @@
     <string name="title_activity_curriculum">课表么么哒</string>
 
     <string name="appwidget_timetable_name">手机站课程表</string>
+    <string name="appwidget_timetable_loading">正在努力加载…</string>
 
 </resources>

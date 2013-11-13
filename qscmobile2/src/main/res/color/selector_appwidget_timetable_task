@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Unable to be used in appwidget, but may be useful in the future. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobile="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:color="@color/grey_light"
+        mobile:state_task_finished="true"/>
+
+    <item
+        android:color="@color/blue_light"
+        mobile:state_task_active="true"/>
+
+    <item
+        android:color="@color/grey_dark"
+        mobile:state_task_scheduled="true"/>
+</selector>
