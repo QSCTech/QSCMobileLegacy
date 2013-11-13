@@ -19,21 +19,18 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <ListView
-            android:id="@+id/fragment_cardlist"
-            android:dividerHeight="2dp"
-            android:divider="@color/white"
-            android:background="@color/white"
+        <LinearLayout
+            android:id="@+id/fragment_card_list_layout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent" />
 
-        <ListView
-            android:layout_marginTop="40dp"
-            android:id="@+id/fragment_cardlist_pluginlist"
+        <LinearLayout
+            android:id="@+id/plugin_list_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@color/white"
-            android:background="@color/white" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            />
 
         <LinearLayout
             android:id="@+id/function_extra"
