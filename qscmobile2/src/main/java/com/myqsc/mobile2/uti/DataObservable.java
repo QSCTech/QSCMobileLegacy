@@ -15,5 +15,5 @@ public interface DataObservable {
     /**
      * 通知所有的观察者
      */
-    public void noticeObserver();
+    public void noticeObserver(int code);
 }

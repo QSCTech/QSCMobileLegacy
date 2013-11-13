@@ -261,9 +261,14 @@ public class CardFragment extends Fragment implements DataObserver {
     }
 
     @Override
-    public void update(MyFragment fragment) {
-        FunctionListFragment functionListFragment = (FunctionListFragment) fragment;
-        functionVector = functionListFragment.getFunctionVector();
-        fragmentInflate();
+    public void update(MyFragment fragment, final int code) {
+        switch (code) {
+            case 0:
+                FunctionListFragment functionListFragment = (FunctionListFragment) fragment;
+                functionVector = functionListFragment.getFunctionVector();
+                fragmentInflate();
+                break;
+        }
+
     }
 }

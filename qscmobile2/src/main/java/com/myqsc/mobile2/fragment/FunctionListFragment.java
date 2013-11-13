@@ -84,7 +84,7 @@ public class FunctionListFragment extends MyFragment{
 
             functionListLayout.addView(bannerLayout);
         }
-        noticeObserver();
+        noticeObserver(0);
     }
 
     final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class FunctionListFragment extends MyFragment{
             final FunctionStructure structure = (FunctionStructure) view.getTag();
             changeIcon(structure);
             setIcon(structure, (TextView) view.findViewById(R.id.simple_listview_banner_icon_right));
-            noticeObserver();   //通知所有观察者
+            noticeObserver(0);   //通知所有观察者
             //每次点击仅仅修改内存中的变量值，这是为了防止由于每次使用preference操作造成严重的性能问题
         }
     };

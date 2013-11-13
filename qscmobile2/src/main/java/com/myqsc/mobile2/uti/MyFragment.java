@@ -21,16 +21,15 @@ public abstract class MyFragment extends Fragment implements DataObservable {
     }
 
     @Override
-    public void noticeObserver() {
+    public void noticeObserver(final int code) {
         for(final DataObserver observer : observers) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     LogHelper.e("noticed");
-                    observer.update(MyFragment.this);
+                    observer.update(MyFragment.this, code);
                 }
             });
-
         }
 
     }
