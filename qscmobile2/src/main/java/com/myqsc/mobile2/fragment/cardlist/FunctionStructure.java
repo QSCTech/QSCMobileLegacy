@@ -1,5 +1,7 @@
 package com.myqsc.mobile2.fragment.cardlist;
 
+import com.myqsc.mobile2.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +20,10 @@ public class FunctionStructure {
 		cardName = object.getString("cardName");
 		iconRight = object.getInt("iconRight");
 	}
+
+    public boolean isSelected() {
+        return iconRight == R.string.icon_ok_sign;
+    }
 
     public FunctionStructure(int cardIcon, String cardName, int iconRight){
         this.cardIcon = cardIcon;

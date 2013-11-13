@@ -78,7 +78,7 @@ public class UpdateAllService extends IntentService {
         LogHelper.d("service handle intent");
         context = this;
 
-        ExecutorService service = Executors.newCachedThreadPool();
+        ExecutorService service = Executors.newFixedThreadPool(2);
 
         final PersonalDataHelper helper = new PersonalDataHelper(context);
         final UserIDStructure structure = helper.getCurrentUser();

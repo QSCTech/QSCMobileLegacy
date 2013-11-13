@@ -16,6 +16,7 @@ dependencies {
     compile 'com.android.support:support-v4:13.0.0'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/umeng_sdk.jar')
+    compile files('libs/gson-2.2.4.jar')
     compile files('libs/libGoogleAnalyticsServices.jar')
     compile project('libs:library')
     compile project('libs:pulltorefresh')

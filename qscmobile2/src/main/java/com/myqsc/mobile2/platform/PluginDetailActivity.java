@@ -1,9 +1,11 @@
 package com.myqsc.mobile2.platform;
 
+import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.ConsoleMessage;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -50,7 +52,7 @@ public class PluginDetailActivity extends SwipeBackActivity {
             webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         }
 
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
                 LogHelper.e(consoleMessage.message());
