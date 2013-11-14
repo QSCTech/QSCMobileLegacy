@@ -1,6 +1,7 @@
 package com.myqsc.mobile2.uti;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
@@ -23,14 +24,13 @@ public abstract class MyFragment extends Fragment implements DataObservable {
     @Override
     public void noticeObserver(final int code) {
         for(final DataObserver observer : observers) {
-            getActivity().runOnUiThread(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     LogHelper.e("noticed");
                     observer.update(MyFragment.this, code);
                 }
-            });
+            }, 100);
         }
-
     }
 }

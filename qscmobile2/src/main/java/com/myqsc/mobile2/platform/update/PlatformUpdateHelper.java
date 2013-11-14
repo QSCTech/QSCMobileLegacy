@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * Created by richard on 13-9-8.
@@ -126,8 +127,8 @@ public class PlatformUpdateHelper {
      * @param string
      * @return
      */
-    public static List<PluginStructure> parsePluginList (String string) {
-        final List<PluginStructure> list = new ArrayList<PluginStructure>();
+    public static Vector<PluginStructure> parsePluginList (String string) {
+        final Vector<PluginStructure> list = new Vector<PluginStructure>();
         try {
             JSONArray jsonArray = new JSONArray(string);
             for (int i = 0; i != jsonArray.length(); ++i) {
