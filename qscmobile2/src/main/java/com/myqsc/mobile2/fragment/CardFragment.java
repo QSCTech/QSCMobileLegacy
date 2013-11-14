@@ -138,8 +138,6 @@ public class CardFragment extends Fragment implements DataObserver {
         getActivity().unregisterReceiver(fragmentChangedReceiver);
     }
 
-
-
     final BroadcastReceiver fragmentChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

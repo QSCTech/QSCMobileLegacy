@@ -52,13 +52,7 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                LogHelper.d("update all server started");
-                startService(new Intent(MainActivity.this, UpdateAllService.class));
-            }
-        }, 10000);
+
 
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
@@ -85,6 +79,13 @@ public class MainActivity extends FragmentActivity {
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(2);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d("update all server started");
+                startService(new Intent(MainActivity.this, UpdateAllService.class));
+            }
+        }, 4000);
     }
 
     @Override
