@@ -35,7 +35,7 @@ public class JSInterface {
     }
 
     @JavascriptInterface
-    public void sendRequest(final String result) {
+    public void sendRequest (final String result) {
         LogHelper.e(result);
 
         activity.runOnUiThread(new Runnable() {
