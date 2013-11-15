@@ -83,10 +83,13 @@ public class KebiaoDataHelper {
                     Toast.LENGTH_SHORT).show();
         } else {
             if (xiaoliHelper.checkHoliday(calendar) != null) {
-                LogHelper.d(calendar.get(Calendar.DAY_OF_YEAR) + " 是假期");
+                //判断是不是假期
                 return list;
-            } else {
-                LogHelper.d(calendar.get(Calendar.DAY_OF_YEAR) + " 不是假期");
+            }
+
+            if (xiaoliHelper.checkExamWeek(calendar) != null) {
+                //0判断是不是考试周
+                return list;
             }
         }
 
