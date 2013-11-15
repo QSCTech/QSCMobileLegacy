@@ -90,7 +90,13 @@ public class FunctionListFragment extends MyFragment{
 
             functionListLayout.addView(bannerLayout);
         }
-        noticeObserver(0);
+
+        functionListLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                noticeObserver(0);
+            }
+        }, 100);
     }
 
     final View.OnClickListener itemOnClickListener = new View.OnClickListener() {

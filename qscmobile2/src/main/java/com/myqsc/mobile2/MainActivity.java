@@ -126,15 +126,6 @@ public class MainActivity extends FragmentActivity {
         page = viewPager.getCurrentItem();
     }
 
-
-    // TODO: Change to getMemoryInfo()
-	public void getMemoryInfo() {
-        ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
-        int pid = android.os.Process.myPid();
-        android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(new int[] {pid});
-        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024+ "MB");
-    }
-
     // TODO: Place this class before function definition?
     private class NewUserReceiver extends BroadcastReceiver{
         @Override

@@ -36,6 +36,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -216,6 +217,7 @@ public class CardFragment extends Fragment implements DataObserver {
         final Context mContext = getActivity();
         final LayoutInflater mInflater = LayoutInflater.from(mContext);
         final LinearLayout pluginLayout = (LinearLayout) view.findViewById(R.id.fragment_plugin_layout);
+        final WebView webView = new WebView(getActivity());
 
         pluginLayout.removeAllViews();
         if (pluginVector == null)
@@ -261,6 +263,5 @@ public class CardFragment extends Fragment implements DataObserver {
                 initCardList();
                 break;
         }
-
     }
 }
