@@ -189,7 +189,7 @@ public class FunctionListFragment extends MyFragment{
         public void initList(Vector<PluginStructure> pluginVector) {
             final LinearLayout pluginLayout = (LinearLayout) view.findViewById(R.id.plugin_list_layout);
             final Context mContext = getActivity();
-            final LayoutInflater mInflater = LayoutInflater.from(mContext);
+            final LayoutInflater mInflater = LayoutInflater.from(getActivity());
 
             if (pluginVector == null) {
                 pluginVector = PlatformUpdateHelper.parsePluginList(
@@ -232,7 +232,12 @@ public class FunctionListFragment extends MyFragment{
                 pluginLayout.addView(layout);
             }
 
-            noticeObserver(1);
+            pluginLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    noticeObserver(1);
+                }
+            }, 200);
         }
     };
 

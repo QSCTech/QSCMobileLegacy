@@ -22,8 +22,7 @@ public class JSInterfaceKVDB {
                     SharedPreferences.Editor editor = webView.getContext()
                             .getSharedPreferences("plugin" + pluginID, 0)
                             .edit();
-                    editor.putString("key", jsonObject.getString("key"));
-                    editor.putString("value", jsonObject.getString("value"));
+                    editor.putString(jsonObject.getString("key"), jsonObject.getString("value"));
                     editor.commit();
 
                     JSInterfaceCallback.successCallback(callback, null, webView);

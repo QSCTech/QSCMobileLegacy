@@ -1,5 +1,6 @@
 package com.myqsc.mobile2.fragment;
 
+import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
@@ -11,6 +12,8 @@ import com.myqsc.mobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.network.UpdateHelper;
+import com.myqsc.mobile2.platform.JSInterface.JSInterface;
+import com.myqsc.mobile2.platform.JSInterface.JSInterfaceView;
 import com.myqsc.mobile2.platform.PluginDetailActivity;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.platform.uti.PluginStructure;
@@ -27,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,6 +40,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -219,10 +225,63 @@ public class CardFragment extends Fragment implements DataObserver {
         final LinearLayout pluginLayout = (LinearLayout) view.findViewById(R.id.fragment_plugin_layout);
         final WebView webView = new WebView(getActivity());
 
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        }
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                LogHelper.e(consoleMessage.message());
+                return super.onConsoleMessage(consoleMessage);
+            }
+        });
+
+        final SharedPreferences preferences = getActivity().getSharedPreferences("plugin", 0);
+
+        /**
+         * 当preference内容修改了，就意味着卡片修改了
+         * 由于 http://stackoverflow.com/questions/2542938/sharedpreferences-onsharedpreferencechangelistener-not-being-called-consistently
+         * 这个回答，因此必须保持对监听器的引用，防止被垃圾回收
+         */
+        final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener
+                = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(final SharedPreferences preferences, final String s) {
+                LogHelper.e(s);
+                if (s.contains(JSInterfaceView.viewCardPrefix)) {
+                    //是一个视图操作
+                    try {
+                        String cardID = s.substring(0, s.indexOf(JSInterfaceView.viewCardPrefix));
+                        View cardView = pluginLayout.findViewById(cardIDOffset + cardID.hashCode());
+                        if (s.endsWith(JSInterfaceView.viewTitle)) {
+                            //修改主题
+                            ((TextView) cardView.findViewById(R.id.card_title))
+                                    .setText(preferences.getString(s, "插件"));
+                        } else {
+                            //修改内容
+                            ((TextView) cardView.findViewById(R.id.card_content))
+                                    .setText(preferences.getString(s, cardID));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        preferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+
+        JSInterface jsInterface = new JSInterface(getActivity(), webView, preferences);
+        jsInterface.init();
+
         pluginLayout.removeAllViews();
         if (pluginVector == null)
             return;
 
+        String url = "/platform/background/background.html#";
         for (final PluginStructure structure : pluginVector) {
             if (structure.isDownloaded(mContext) || structure.isSelected(mContext)) {
                 LinearLayout view = (LinearLayout) mInflater.inflate(
@@ -230,9 +289,9 @@ public class CardFragment extends Fragment implements DataObserver {
                 View cardView = mInflater.inflate(R.layout.plugin_card, null);
                 cardView.setId(cardIDOffset + structure.id.hashCode());
                 ((TextView) cardView.findViewById(R.id.card_title))
-                        .setText("插件");
+                        .setText(preferences.getString(structure.id + JSInterfaceView.viewTitle, "插件"));
                 ((TextView) cardView.findViewById(R.id.card_content))
-                        .setText(structure.name);
+                        .setText(preferences.getString(structure.id + JSInterfaceView.viewContent, structure.id));
                 ((FrameLayout) view.findViewById(R.id.fragment_card))
                         .addView(cardView);
                 view.setOnClickListener(new View.OnClickListener() {
@@ -243,9 +302,13 @@ public class CardFragment extends Fragment implements DataObserver {
                         getActivity().startActivity(intent);
                     }
                 });
+                url += structure.id + ',';
                 pluginLayout.addView(view);
             }
         }
+        url = url.substring(0, url.length() - 1);
+        LogHelper.e(new File(getActivity().getFilesDir(), url).getAbsolutePath());
+        webView.loadUrl(new File(getActivity().getFilesDir(), url).getAbsolutePath());
     }
 
     @Override
