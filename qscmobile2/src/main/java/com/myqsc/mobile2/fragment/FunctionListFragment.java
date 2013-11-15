@@ -191,6 +191,10 @@ public class FunctionListFragment extends MyFragment{
             final Context mContext = getActivity();
             final LayoutInflater mInflater = LayoutInflater.from(getActivity());
 
+            //activity after finish
+            if (mContext == null)
+                return ;
+
             if (pluginVector == null) {
                 pluginVector = PlatformUpdateHelper.parsePluginList(
                                     getActivity().getSharedPreferences(Utility.PREFERENCE, 0)
@@ -199,6 +203,8 @@ public class FunctionListFragment extends MyFragment{
             }
 
             pluginStructureVector = pluginVector;
+            if (pluginStructureVector == null)
+                return ;
 
             pluginLayout.removeAllViews();
 

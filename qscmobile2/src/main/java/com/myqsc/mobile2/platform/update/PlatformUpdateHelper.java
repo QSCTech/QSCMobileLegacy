@@ -128,8 +128,9 @@ public class PlatformUpdateHelper {
      * @return
      */
     public static Vector<PluginStructure> parsePluginList (String string) {
-        final Vector<PluginStructure> list = new Vector<PluginStructure>();
+
         try {
+            final Vector<PluginStructure> list = new Vector<PluginStructure>();
             JSONArray jsonArray = new JSONArray(string);
             for (int i = 0; i != jsonArray.length(); ++i) {
                 try {
@@ -142,9 +143,10 @@ public class PlatformUpdateHelper {
                     e.printStackTrace();
                 }
             }
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return null;
     }
 }

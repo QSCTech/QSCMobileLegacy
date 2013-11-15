@@ -44,6 +44,9 @@ public class PlatformPluginListHelper {
                 final Vector<PluginStructure> pluginList = PlatformUpdateHelper.parsePluginList(
                     pluginListStr
                 );
+                //如果网上下载是空的就不保存了
+                if (pluginList == null)
+                    return ;
                 preferences.edit()
                         .putString(PlatformUpdateHelper.PLUGIN_LIST_RAW, pluginListStr)
                         .commit();
