@@ -2,6 +2,7 @@ package com.myqsc.mobile2.platform.JSInterface;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -14,15 +15,19 @@ import org.json.JSONObject;
  * Created by richard on 13-9-7.
  */
 public class JSInterface {
-    public final static int JS_FAILED = 0, JS_SUCCESS = 1;
-    public final static int VIEW_CARD = 1;
-
     Activity activity = null;
     WebView webView = null;
+    public SharedPreferences preferences = null;
+    JSInterface jsInterface = null;
 
-    public JSInterface(Activity activity, WebView webView) {
+    public JSInterface(Activity activity, WebView webView, SharedPreferences preferences) {
         this.activity = activity;
         this.webView = webView;
+        this.jsInterface = this;
+        if (preferences == null)
+            this.preferences = activity.getSharedPreferences("plugin", 0);
+        else
+            this.preferences = preferences;
     }
 
     public void init() {
@@ -30,7 +35,7 @@ public class JSInterface {
     }
 
     @JavascriptInterface
-    public void sendRequest(final String result) {
+    public void sendRequest (final String result) {
         LogHelper.e(result);
 
         activity.runOnUiThread(new Runnable() {
@@ -51,7 +56,8 @@ public class JSInterface {
                                     pluginID,
                                     args,
                                     callback,
-                                    webView
+                                    webView,
+                                    preferences
                             );
                     }
 

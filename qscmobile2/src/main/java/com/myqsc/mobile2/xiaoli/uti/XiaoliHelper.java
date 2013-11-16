@@ -99,4 +99,8 @@ public class XiaoliHelper {
     public XiaoliHoliday checkHoliday(Calendar calendar) {
         return data.getHoliday(calendar);
     }
+
+    public XiaoliExamWeek checkExamWeek (Calendar calendar) {
+        return data.getExamWeek(calendar);
+    }
 }

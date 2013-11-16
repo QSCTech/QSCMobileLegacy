@@ -52,13 +52,7 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                LogHelper.d("update all server started");
-                startService(new Intent(MainActivity.this, UpdateAllService.class));
-            }
-        }, 10000);
+
 
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
@@ -85,6 +79,13 @@ public class MainActivity extends FragmentActivity {
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(2);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d("update all server started");
+                startService(new Intent(MainActivity.this, UpdateAllService.class));
+            }
+        }, 4000);
     }
 
     @Override
@@ -123,15 +124,6 @@ public class MainActivity extends FragmentActivity {
         super.onPause();
         MobclickAgent.onPause(this);
         page = viewPager.getCurrentItem();
-    }
-
-
-    // TODO: Change to getMemoryInfo()
-	public void getMemoryInfo() {
-        ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
-        int pid = android.os.Process.myPid();
-        android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(new int[] {pid});
-        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024+ "MB");
     }
 
     // TODO: Place this class before function definition?

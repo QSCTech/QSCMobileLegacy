@@ -44,7 +44,7 @@ public class PluginDetailActivity extends SwipeBackActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
 
-        JSInterface jsInterface = new JSInterface(this, webView);
+        JSInterface jsInterface = new JSInterface(this, webView, null);
         jsInterface.init();
 
 
