@@ -20,16 +20,6 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="AppWidgetTimetableDateText"/>
-
-    <style name="AppWidgetTimetableDateText.Active">
-        <item name="android:textColor">#FFFFFFFF</item>
-    </style>
-
-    <style name="AppWidgetTimetableDateText.Fading">
-        <item name="android:textColor">#BFFFFFFF</item>
-    </style>
-
     <style name="AppWidgetTimetableTaskText"/>
 
     <style name="AppWidgetTimetableTaskText.Finished">

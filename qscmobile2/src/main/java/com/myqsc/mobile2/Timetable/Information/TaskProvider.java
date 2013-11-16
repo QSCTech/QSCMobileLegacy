@@ -4,5 +4,5 @@ import java.util.Calendar;
 import java.util.SortedSet;
 
 public interface TaskProvider {
-    SortedSet<Task> getTasks(Calendar startTime, Calendar endTime);
+    public SortedSet<Task> getTasks(Calendar date);
 }

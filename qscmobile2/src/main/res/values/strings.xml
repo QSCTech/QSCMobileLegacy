@@ -47,5 +47,6 @@
 
     <string name="appwidget_timetable_name">手机站课程表</string>
     <string name="appwidget_timetable_loading">正在努力加载…</string>
+    <string name="appwidget_timetable_notask">好的嘛，这里是空的~</string>
 
 </resources>

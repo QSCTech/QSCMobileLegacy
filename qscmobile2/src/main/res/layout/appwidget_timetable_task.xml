@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- layout_height made 80dp for debug purposes. -->
+<!-- TODO: Remove styles from this layout; set color in AppWidgetProvider instead. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="0dp"
     android:layout_weight="1"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
@@ -27,7 +27,6 @@
             android:layout_marginRight="4dp"
             android:textSize="16sp"
 
-            android:text="00:00"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
 
         <TextView
@@ -39,7 +38,6 @@
             android:layout_marginRight="4dp"
             android:textSize="20sp"
 
-            android:text="任务名称"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
     </LinearLayout>
 
@@ -59,7 +57,6 @@
             android:layout_marginRight="4dp"
             android:textSize="16sp"
 
-            android:text="24:00"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
 
         <TextView
@@ -71,7 +68,6 @@
             android:layout_marginRight="4dp"
             android:textSize="16sp"
 
-            android:text="详细信息"
             style="@style/AppWidgetTimetableTaskText.Scheduled"/>
     </LinearLayout>
 </LinearLayout>
