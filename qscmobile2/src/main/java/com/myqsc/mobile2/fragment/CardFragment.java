@@ -1,6 +1,9 @@
 package com.myqsc.mobile2.fragment;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
@@ -268,7 +271,6 @@ public class CardFragment extends Fragment implements DataObserver {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             }
         };
@@ -282,6 +284,8 @@ public class CardFragment extends Fragment implements DataObserver {
             return;
 
         String url = "/platform/background/background.html#";
+
+
         for (final PluginStructure structure : pluginVector) {
             if (structure.isDownloaded(mContext) || structure.isSelected(mContext)) {
                 LinearLayout view = (LinearLayout) mInflater.inflate(
@@ -307,8 +311,7 @@ public class CardFragment extends Fragment implements DataObserver {
             }
         }
         url = url.substring(0, url.length() - 1);
-        LogHelper.e(new File(getActivity().getFilesDir(), url).getAbsolutePath());
-        webView.loadUrl(new File(getActivity().getFilesDir(), url).getAbsolutePath());
+        webView.loadUrl("File:" + new File(getActivity().getFilesDir(), url).getAbsolutePath());
     }
 
     @Override
