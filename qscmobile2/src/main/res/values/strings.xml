@@ -45,8 +45,9 @@
     <string name="icon_arrow_circle_o_down">&#xf01a;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
 
-    <string name="appwidget_timetable_name">手机站课程表</string>
     <string name="appwidget_timetable_loading">正在努力加载…</string>
-    <string name="appwidget_timetable_notask">好的嘛，今天没课了~</string>
+    <string name="appwidget_timetable_name">手机站课程表</string>
+    <string name="appwidget_timetable_notask">好的嘛，今天没有课~</string>
+    <string name="appwidget_timetable_today">今天</string>
 
 </resources>

@@ -44,7 +44,7 @@ public class Provider extends AppWidgetProvider {
 
     void updateCachedInfo(Context context, boolean forceUpdate) {
 
-        if (forceUpdate || cachedInfo[0] == null) {
+        if (forceUpdate || cachedInfo[0] == null || !TimeUtils.isToday(cachedInfo[DATE_NUMBER_MAXIMUM / 2].date)) {
 
             // Cache the starting date.
             Calendar dateStart = TimeUtils.getToday();
@@ -144,7 +144,11 @@ public class Provider extends AppWidgetProvider {
             if (dateShownIndexStart + i >= 0 && dateShownIndexStart + i <= DATE_NUMBER_MAXIMUM - 1) {
 
                 // Add content to the date view.
-                subViews.setTextViewText(R.id.appwidget_timetable_date, TimeUtils.getWeekdayName(cachedInfo[dateShownIndexStart + i].date));
+                if (dateShownIndexStart + i == DATE_NUMBER_MAXIMUM / 2) {
+                    subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.appwidget_timetable_today));
+                } else {
+                    subViews.setTextViewText(R.id.appwidget_timetable_date, TimeUtils.getWeekdayString(cachedInfo[dateShownIndexStart + i].date));
+                }
                 if (i == DATE_NUMBER_SHOWN / 2) {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white));
                 } else {

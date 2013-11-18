@@ -90,9 +90,9 @@ public class TimeUtils {
         return dateFormat.format(time.getTime());
     }
 
-    private static final String[] WEEKDAY_NAMES = new String[] {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+    //private static final String[] WEEKDAY_NAMES = new String[] {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
-    public static String getWeekdayName(Calendar date) {
+    public static String getWeekdayString(Calendar date) {
         return getString(date, "EE");
         //return WEEKDAY_NAMES[date.get(Calendar.DAY_OF_WEEK) - 1];
     }

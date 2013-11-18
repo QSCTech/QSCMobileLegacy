@@ -18,7 +18,7 @@
             android:layout_marginBottom="4dp"
             android:orientation="horizontal"
 
-            android:background="@color/blue_dark">
+            android:background="@drawable/appwidget_timetable_date_list_background">
 
             <!-- TODO: Change placeholder to drawable -->
             <TextView
