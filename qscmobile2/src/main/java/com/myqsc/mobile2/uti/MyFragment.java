@@ -1,14 +1,10 @@
 package com.myqsc.mobile2.uti;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
-
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  * Created by richard on 13-11-10.
