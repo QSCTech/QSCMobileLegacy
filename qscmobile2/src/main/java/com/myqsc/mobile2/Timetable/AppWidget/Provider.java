@@ -73,6 +73,13 @@ public class Provider extends AppWidgetProvider {
         }
     }
 
+    private void setTaskViewColor(RemoteViews taskViews, Context context, int color) {
+        taskViews.setTextColor(R.id.appwidget_timetable_task_name, context.getResources().getColor(color));
+        taskViews.setTextColor(R.id.appwidget_timetable_task_detail, context.getResources().getColor(color));
+        taskViews.setTextColor(R.id.appwidget_timetable_task_time_start, context.getResources().getColor(color));
+        taskViews.setTextColor(R.id.appwidget_timetable_task_time_end, context.getResources().getColor(color));
+    }
+
     private void buildUpdate(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable);
 
@@ -165,24 +172,31 @@ public class Provider extends AppWidgetProvider {
         }
 
         // Add tasks to view.
-        // TODO: Change the tasks displayed according to current time.
         SortedSet<Task> timetable = cachedInfo[dateIndex].timetable;
 
         if (timetable.size() == 0) {
 
-            // Add no-task view
+            // Add no-task view.
             subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_notask);
             appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
         } else {
 
-            // Add the first divider
+            // Add the first divider.
             // TODO: Check if this should be marked active.
             subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
             subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_normal);
             appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
+            // Add task views.
             Iterator<Task> iter = timetable.iterator();
+            Calendar now = TimeUtils.getNow();
+
+            // Auto-scroll the list to show more tasks.
+            Iterator<Task> iter2 = timetable.iterator();
+            while (timetable.size() > TASK_NUMBER_SHOWN && iter2.next().getEndTime().before(now)) {
+                iter.next();
+            }
 
             for (int i = 0; i != TASK_NUMBER_SHOWN; ++i) {
 
@@ -190,29 +204,47 @@ public class Provider extends AppWidgetProvider {
 
                     Task task = iter.next();
 
-                    // Add task view
-                    // TODO: Set text color
+                    // Add task view.
                     subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task);
+                    // Add content for task view.
                     subViews.setTextViewText(R.id.appwidget_timetable_task_name, task.getName());
                     subViews.setTextViewText(R.id.appwidget_timetable_task_detail, task.getDetail());
                     subViews.setTextViewText(R.id.appwidget_timetable_task_time_start, TimeUtils.getHourMinuteString(task.getStartTime()));
                     subViews.setTextViewText(R.id.appwidget_timetable_task_time_end, TimeUtils.getHourMinuteString(task.getEndTime()));
+                    // Set color for today's task view.
+                    // Android Studio prompts incorrectly at present; We just pass color id to our private function and resolve it inside.
+                    if (dateIndex == DATE_NUMBER_MAXIMUM / 2) {
+                        if (task.getEndTime().before(now)) {
+                            // Finished
+                            setTaskViewColor(subViews, context, R.color.grey_light);
+                        } else if (task.getStartTime().after(now)) {
+                            // Scheduled
+                            setTaskViewColor(subViews, context, R.color.grey_dark);
+                        } else {
+                            // Active
+                            setTaskViewColor(subViews, context, R.color.blue_dark);
+                        }
+                    } else {
+                        // Default
+                        setTaskViewColor(subViews, context, R.color.grey_dark);
+                    }
+                    // Add to appWidgetViews.
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
-                    // Add divider
+                    // Add divider.
                     subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
                     subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_normal);
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
                 } else {
 
-                    // Add empty views for spacing in LinearLayout
+                    // Add empty views for spacing in LinearLayout.
 
-                    // Add default (empty) task view
+                    // Add default (empty) task view.
                     subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task);
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
-                    // Add transparent divider
+                    // Add transparent divider.
                     subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
                     subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_transparent);
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
@@ -220,7 +252,7 @@ public class Provider extends AppWidgetProvider {
             }
         }
 
-        // Update AppWidget
+        // Update AppWidget.
         appWidgetManager.updateAppWidget(appWidgetId, appWidgetViews);
         LogHelper.i("appWidgetId: " + appWidgetId);
         LogHelper.i("dateIndex:" + dateIndex);
@@ -267,7 +299,6 @@ public class Provider extends AppWidgetProvider {
         super.onDisabled(context);
     }
 
-    // TODO: Remove dummy settings from layouts.
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 

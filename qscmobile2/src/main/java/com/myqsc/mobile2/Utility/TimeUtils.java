@@ -7,6 +7,13 @@ import java.util.Calendar;
 public class TimeUtils {
 
     // General functions
+
+    public static Calendar getNow() {
+        Calendar now = Calendar.getInstance();
+        now.setLenient(false);
+        return now;
+    }
+
     public static int compare(Calendar time1, Calendar time2) {
         return time1.compareTo(time2);
     }
@@ -16,6 +23,13 @@ public class TimeUtils {
     }
 
     // Date related functions
+
+    public static Calendar getToday() {
+        Calendar today = getNow();
+        clearTime(today);
+        return today;
+    }
+
     public static void setDate(Calendar date, int month, int day) {
         date.set(Calendar.MONTH, month);
         date.set(Calendar.DAY_OF_MONTH, day);
@@ -48,13 +62,6 @@ public class TimeUtils {
     }
 */
 
-    public static Calendar getToday() {
-        Calendar today = Calendar.getInstance();
-        today.setLenient(false);
-        clearTime(today);
-        return today;
-    }
-
     public static boolean isToday(Calendar date) {
         date = (Calendar) date.clone();
         clearTime(date);
@@ -62,6 +69,13 @@ public class TimeUtils {
     }
 
     // Time related functions
+
+    public static Calendar getCurrentTime() {
+        Calendar currentTime = getNow();
+        clearTime(currentTime);
+        return currentTime;
+    }
+
     public static void setTime(Calendar time, int hour, int minute, int second, int millisecond) {
         time.set(Calendar.HOUR_OF_DAY, hour);
         time.set(Calendar.MINUTE, minute);
@@ -85,6 +99,7 @@ public class TimeUtils {
     }
 
     // String related functions
+
     public static String getString(Calendar time, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.format(time.getTime());
