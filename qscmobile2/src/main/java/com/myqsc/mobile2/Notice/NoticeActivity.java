@@ -39,7 +39,7 @@ public class NoticeActivity extends SwipeBackActivity {
 
     final Handler handler = new Handler();
 
-    private int selected = 0;
+    private int selected = 1;
 
     private final static int[] SELECT = {
             SELECT_TINT, SELECT_FIRE, SELECT_SEARCH
