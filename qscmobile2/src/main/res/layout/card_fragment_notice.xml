@@ -4,12 +4,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
+        android:layout_marginLeft="13dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/notice_card_relative1"
-        android:paddingLeft="22dp"
         android:paddingRight="22dp"
         android:paddingTop="7dp"
         android:paddingBottom="7dp">
@@ -39,10 +38,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginLeft="13dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/notice_card_relative2"
-        android:paddingLeft="22dp"
         android:paddingRight="22dp"
         android:paddingTop="7dp"
         android:paddingBottom="7dp" >
@@ -72,10 +71,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginLeft="13dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/notice_card_relative3"
-        android:paddingLeft="22dp"
         android:paddingRight="22dp"
         android:paddingTop="7dp"
         android:paddingBottom="7dp" >

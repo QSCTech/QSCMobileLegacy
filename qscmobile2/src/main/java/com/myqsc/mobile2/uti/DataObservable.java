@@ -1,7 +1,5 @@
 package com.myqsc.mobile2.uti;
 
-import java.util.Observer;
-
 /**
  * Created by richard on 13-11-10.
  */

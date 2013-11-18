@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.myqsc.mobile2.network.DataUpdater;
-import com.myqsc.mobile2.uti.HandleAsyncTaskMessage;
 import com.myqsc.mobile2.uti.Utility;
 
 import android.content.Context;
