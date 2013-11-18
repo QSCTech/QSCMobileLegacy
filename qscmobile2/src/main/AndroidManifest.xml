@@ -26,6 +26,8 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".Service.UpdateAllService"/>
+        <service
+            android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService" />
 
         <meta-data
             android:value="5252a86d56240b850d371398"

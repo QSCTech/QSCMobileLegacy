@@ -293,9 +293,11 @@ public class CardFragment extends Fragment implements DataObserver {
                 View cardView = mInflater.inflate(R.layout.plugin_card, null);
                 cardView.setId(cardIDOffset + structure.id.hashCode());
                 ((TextView) cardView.findViewById(R.id.card_title))
-                        .setText(preferences.getString(structure.id + JSInterfaceView.viewTitle, "插件"));
+                        .setText(preferences
+                                .getString(structure.id + JSInterfaceView.viewTitle, "插件"));
                 ((TextView) cardView.findViewById(R.id.card_content))
-                        .setText(preferences.getString(structure.id + JSInterfaceView.viewContent, structure.id));
+                        .setText(preferences
+                                .getString(structure.id + JSInterfaceView.viewContent, structure.name));
                 ((FrameLayout) view.findViewById(R.id.fragment_card))
                         .addView(cardView);
                 view.setOnClickListener(new View.OnClickListener() {
