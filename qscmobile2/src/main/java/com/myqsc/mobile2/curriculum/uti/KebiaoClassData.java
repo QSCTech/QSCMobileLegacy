@@ -14,7 +14,7 @@ import java.util.List;
  * Created by richard on 13-8-29.
  */
 public class KebiaoClassData {
-    public String name, teacher, place, term;
+    public String name, teacher, place, term, hash;
     public int week = 0, year = 0, time = 0;
     //week 单双周，time 周几
     int classes[] = null;
@@ -32,6 +32,7 @@ public class KebiaoClassData {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String name = jsonObject.getString("name");
             String teacher = jsonObject.getString("teacher");
+            String hash = jsonObject.getString("hash");
 
 
             JSONArray classes = jsonObject.getJSONArray("class");
@@ -47,6 +48,7 @@ public class KebiaoClassData {
                     data.time = object.getInt("weekday");
                     data.year = year;
                     data.term = object.getString("semester");
+                    data.hash = hash;
 
                     JSONArray classArray = object.getJSONArray("class");
                     data.classes = new int[classArray.length()];
@@ -65,7 +67,7 @@ public class KebiaoClassData {
                     list.add(data);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //任何一节课解析shi
+                    //任何一节课解析失败，不会影响别的课程
                 }
 
             }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="20dp"
+        android:background="@color/gray_back"
+        android:id="@+id/homework_bar_relative">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据结构基础"
+            android:id="@+id/homework_list_title"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/blue_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/homework_list_content"
+            android:layout_below="@+id/homework_list_title"
+            android:layout_alignLeft="@+id/homework_list_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/homework_list_time"
+            android:layout_below="@+id/homework_list_content"
+            android:layout_alignLeft="@+id/homework_list_title" />
+    </RelativeLayout>
+
+    <LinearLayout
+
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:background="@color/blue_back"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="剩余55天"
+                android:id="@+id/homework_list_left"
+                android:textColor="@color/blue_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:gravity="center"
+            android:background="@color/gray_back"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginLeft="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加到我的作业"
+                android:id="@+id/homework_list_selected"
+                android:textColor="@color/blue_text" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -13,6 +13,7 @@ import com.myqsc.mobile2.curriculum.uti.KebiaoUtility;
 import com.myqsc.mobile2.exam.fragment.ExamCardFragment;
 import com.myqsc.mobile2.exam.fragment.ExamCardNoDataFragment;
 import com.myqsc.mobile2.exam.uti.ExamDataHelper;
+import com.myqsc.mobile2.homework.Fragment.HomeworkCardFragment;
 import com.myqsc.mobile2.huodong.fragment.HuodongCardFragment;
 import com.myqsc.mobile2.curriculum.fragment.KebiaoCardFragment;
 import com.myqsc.mobile2.network.DataUpdater;
@@ -25,14 +26,15 @@ import java.util.List;
 
 public class FragmentUtility {
     public static String cardString[] = new String[]{
-            "实时课表", "近期热门活动", "查考试", "查成绩", "查校车"
+            "实时课表", "近期热门活动", "查考试", "查成绩", "查校车", "记作业"
     };
     public static String cardDataString[] = new String[] {
             DataUpdater.JW_KEBIAO,
             DataUpdater.COMMON_NOTICE,
             DataUpdater.JW_KAOSHI,
             DataUpdater.JW_CHENGJI,
-            DataUpdater.COMMON_XIAOCHE
+            DataUpdater.COMMON_XIAOCHE,
+            DataUpdater.HOMEWORK
     };
 
     public static int cardIcon[] = new int[]{
@@ -40,7 +42,8 @@ public class FragmentUtility {
             R.string.icon_group,
             R.string.icon_copy,
             R.string.icon_trophy,
-            R.string.icon_truck
+            R.string.icon_truck,
+            R.string.icon_edit
     };
 
     public static String getCardDataStringByCardName (String string) {
@@ -74,6 +77,8 @@ public class FragmentUtility {
             return new XiaocheCardFragment();
         if (name.compareTo("近期热门活动") == 0)
             return new NoticeCardFragment();
+        if (name.compareTo("记作业") == 0)
+            return new HomeworkCardFragment();
         LogHelper.d("none fragment");
         return null;
     }

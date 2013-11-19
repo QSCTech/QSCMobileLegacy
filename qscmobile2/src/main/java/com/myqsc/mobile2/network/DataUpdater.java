@@ -47,6 +47,8 @@ public class DataUpdater {
     public final static String JW_CHENGJI = "jw/chengji";
     public final static String JW_KAOSHI = "jw/kaoshi";
 
+    public final static String HOMEWORK = "404";
+
     public final static String COMMON_NOTICE = "notice/events/hot";
 
     public final static Map<String, String> name = new HashMap<String, String>();

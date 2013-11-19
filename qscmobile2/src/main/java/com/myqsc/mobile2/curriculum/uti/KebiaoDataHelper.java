@@ -28,6 +28,7 @@ public class KebiaoDataHelper {
     List<KebiaoClassData> kebiaoList = null;
     List<KebiaoClassData> todayKebiaolist = null;
     int whichDay = 0;
+    XiaoliHelper xiaoliHelper = null;
 
     public KebiaoDataHelper(Context context) {
         this.mContext = context;
@@ -66,7 +67,30 @@ public class KebiaoDataHelper {
         return todayKebiaolist;
     }
 
-    XiaoliHelper xiaoliHelper = null;
+    /**
+     * 获取当前学期的课表
+     * @param calendar
+     * @return
+     */
+    public List<KebiaoClassData> getTerm(final Calendar calendar) {
+        List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();
+        if (xiaoliHelper == null)
+            xiaoliHelper = new XiaoliHelper(mContext);
+
+        int year = xiaoliHelper.getYear(calendar, false);
+        char term = xiaoliHelper.getTerm(calendar, false);
+
+        for (KebiaoClassData kebiaoClassData : kebiaoList) {
+            if (kebiaoClassData.year != year)
+                continue;
+            if (kebiaoClassData.term.indexOf(term) == -1) {
+                continue;
+            }
+            list.add(kebiaoClassData);
+        }
+        return list;
+    }
+
 
     private List<KebiaoClassData> getTodayKebiao(List<KebiaoClassData> allKebiaoList, Calendar calendar) {
         List<KebiaoClassData> list = new ArrayList<KebiaoClassData>();
