@@ -134,69 +134,37 @@ public class PluginStructure implements Serializable {
         return new JSONObject();
     }
 
-    public void downloadPlugin(final ProgressDialog progressDialog,
-                               final Context mContext,
-                               final LinearLayout layout) {
+
+    public void downloadPlugin(final Context mContext) {
         final String base_url = PlatformUpdateHelper.URLBASE;
         final String url = base_url + path + '/';
 
-        progressDialog.setMax(web_accessible_resources.length);
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.show();
+        for (String file_url : web_accessible_resources) {
+            try {
+                File file = new File(mContext.getFilesDir(),
+                        PlatformUpdateHelper.PATH_ADD + path + '/' + file_url);
+                if (file.exists())
+                    file.delete();
 
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
 
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (String file_url : web_accessible_resources) {
-                    try {
-                        File file = new File(mContext.getFilesDir(),
-                                PlatformUpdateHelper.PATH_ADD + path + '/' + file_url);
-                        if (file.exists())
-                            file.delete();
-
-                        file.getParentFile().mkdirs();
-                        file.createNewFile();
-                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-
-                        byte data[] = EntityUtils.toByteArray(
-                                new DefaultHttpClient().execute(
-                                        new HttpGet(base_url + path + '/' + file_url)
-                                ).getEntity()
-                        );
-                        fileOutputStream.write(data);
-                        fileOutputStream.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //更新进度条
-                            progressDialog.incrementProgressBy(1);
-                        }
-                    });
-                }
-
-                mContext.getSharedPreferences(Utility.PREFERENCE, 0)
-                        .edit()
-                        .putString(PlatformUpdateHelper.PLUGIN_PREFIX + id, toJSONObject().toString())
-                        .commit();
-
-
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.dismiss();
-
-                        PlatformPluginListHelper helper = new PlatformPluginListHelper();
-                        helper.initList(layout);
-                    }
-                });
+                byte data[] = EntityUtils.toByteArray(
+                        new DefaultHttpClient().execute(
+                                new HttpGet(url + file_url)
+                        ).getEntity()
+                );
+                fileOutputStream.write(data);
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        }
 
-        thread.start();
+        mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                .edit()
+                .putString(PlatformUpdateHelper.PLUGIN_PREFIX + id, toJSONObject().toString())
+                .commit();
     }
 }

@@ -52,13 +52,7 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                LogHelper.d("update all server started");
-                startService(new Intent(MainActivity.this, UpdateAllService.class));
-            }
-        }, 10000);
+
 
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
@@ -73,37 +67,25 @@ public class MainActivity extends FragmentActivity {
 
         newUserReceiver = new NewUserReceiver();
 
+        final FunctionListFragment functionListFragment = new FunctionListFragment();
+        final CardFragment cardFragment = new CardFragment();
+        functionListFragment.addObserver(cardFragment);
+
         fragmentList.add(new UserSwitchFragment());
-        fragmentList.add(new FunctionListFragment());
-        fragmentList.add(new CardFragment());
+        fragmentList.add(functionListFragment);
+        fragmentList.add(cardFragment);
 
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(2);
 
-//        thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    try{
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        break;
-//                    }
-//                    getMemoryInfo();
-//                }
-//            }
-//        });
-//        thread.start();
-    }
-
-//    Thread thread = null;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        thread.interrupt();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d("update all server started");
+                startService(new Intent(MainActivity.this, UpdateAllService.class));
+            }
+        }, 4000);
     }
 
     @Override
@@ -142,15 +124,6 @@ public class MainActivity extends FragmentActivity {
         super.onPause();
         MobclickAgent.onPause(this);
         page = viewPager.getCurrentItem();
-    }
-
-
-    // TODO: Change to getMemoryInfo()
-	public void getMemoryInfo() {
-        ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
-        int pid = android.os.Process.myPid();
-        android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(new int[] {pid});
-        LogHelper.i("内存使用：" + (int)memoryInfoArray[0].getTotalPrivateDirty() / 1024+ "MB");
     }
 
     // TODO: Place this class before function definition?

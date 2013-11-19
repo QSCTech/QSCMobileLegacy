@@ -25,20 +25,22 @@ import java.util.List;
 
 public class FragmentUtility {
     public static String cardString[] = new String[]{
-            "实时课表", "查考试", "查成绩", "查校车", "近期热门活动"
+            "实时课表", "近期热门活动", "查考试", "查成绩", "查校车"
     };
     public static String cardDataString[] = new String[] {
-            DataUpdater.JW_KEBIAO, DataUpdater.JW_KAOSHI,
-            DataUpdater.JW_CHENGJI, DataUpdater.COMMON_XIAOCHE,
-            DataUpdater.COMMON_NOTICE
+            DataUpdater.JW_KEBIAO,
+            DataUpdater.COMMON_NOTICE,
+            DataUpdater.JW_KAOSHI,
+            DataUpdater.JW_CHENGJI,
+            DataUpdater.COMMON_XIAOCHE
     };
 
     public static int cardIcon[] = new int[]{
             R.string.icon_calendar,
+            R.string.icon_group,
             R.string.icon_copy,
             R.string.icon_trophy,
-            R.string.icon_truck,
-            R.string.icon_group
+            R.string.icon_truck
     };
 
     public static String getCardDataStringByCardName (String string) {

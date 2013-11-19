@@ -1,12 +1,12 @@
 package com.myqsc.mobile2.platform.update;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
-import com.myqsc.mobile2.platform.platform;
 import com.myqsc.mobile2.platform.uti.PluginStructure;
 import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * Created by richard on 13-9-8.
@@ -36,119 +37,89 @@ public class PlatformUpdateHelper {
     public final static String URLBASE = "http://qsctech.github.io/qsc-mobile-plugins/";
     public final static String PATH_ADD = "platform/";
 
+    public final static String PLATFORM_PREFERENCE = "PLATFORM_PREFERENCE";
+
     public final static String PLUGIN_LIST_PRE = "PLUGIN_LIST";
     public final static String PLUGIN_PREFIX = "PLUGIN_PREFIX_";
     public final static String PLUGIN_LIST_RAW = "PLUGIN_LIST_RAW";
     public final static String PLUGIN_PREFIX_SELECT = "PLUGIN_PREFIX_SELECT_";
 
-    public static void updatePlatform(final Context context, final Handler handler) {
-        final Message message = handler.obtainMessage();
-        message.what = 0;
-        message.obj = "平台更新完成";
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String url = "http://qsctech.github.io/qsc-mobile-plugins/resources.json";
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(url);
-                try {
-                    HttpResponse response = httpClient.execute(httpGet);
-                    LogHelper.d("platform file downloaded");
+    public final static int SUCCESS = 0, FAILED_LIST = 1, FAILED_DEWNLOAD = 2;
 
-                    String result = EntityUtils.toString(response.getEntity());
-                    JSONArray jsonArray = new JSONArray(result);
-                    for (int i = 0; i != jsonArray.length(); ++i) {
-                        JSONObject jsonObject = jsonArray.optJSONObject(i);
-                        String path = jsonObject.getString("path");
-                        JSONArray files = jsonObject.getJSONArray("web_accessible_resources");
-                        LogHelper.d("platform json " + path + " download started");
-                        for (int j = 0; j != files.length(); ++j) {
-                            LogHelper.d("platform file " + files.getString(j) + " download start");
-                            String file_url = URLBASE + path + '/' + files.getString(j);
-                            File file = new File(context.getFilesDir(), PATH_ADD + path + "/" + files.getString(j));
-                            if (file.exists())
-                                file.delete();
-                            file.getParentFile().mkdirs();
-                            file.createNewFile();
-                            FileOutputStream fileOutputStream = new FileOutputStream(file);
-
-                            byte data[] = EntityUtils.toByteArray(
-                                    new DefaultHttpClient().execute(
-                                            new HttpGet(file_url)).getEntity());
-                            fileOutputStream.write(data);
-                            fileOutputStream.close();
-                        }
-                    }
-
-                    message.what = 1;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                message.sendToTarget();
-            }
-        });
-
-        thread.start();
+    /**
+     * 以同步的方式更新平台文件列表
+     * @return null if failed
+     */
+    private static String getPlatformResourceList() {
+        HttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpGet httpGet = new HttpGet("http://qsctech.github.io/qsc-mobile-plugins/resources.json");
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            return EntityUtils.toString(httpResponse.getEntity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public static void getPluginList(final Context context, final Handler handler) {
+    /**
+     * 以同步方式获取插件列表
+     * @return
+     */
+    public static String syncGetPluginList () {
+        final String URL = "http://qsctech.github.io/qsc-mobile-plugins/plugins.json";
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(URL);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            return EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    /**
+     * 以同步方式同步平台文件
+     * @param context not null
+     * @return boolean 表示成功或失败
+     */
+    public static boolean syncPlatformFile (final Context context) {
+        try {
+            SharedPreferences preferences = context.getSharedPreferences(PLATFORM_PREFERENCE, 0);
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String URL = "http://qsctech.github.io/qsc-mobile-plugins/plugin-android.json";
-                Message message = handler.obtainMessage();
-                message.what = 0;
-                message.obj = "插件列表下载完成";
+            String platformFileList = getPlatformResourceList();
+            JSONArray jsonArray = new JSONArray(platformFileList);
 
+            for (int i = 0; i != jsonArray.length(); ++i) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String path = jsonObject.getString("path");
+                String filePathPrefix = PATH_ADD + path + '/';
 
+                JSONArray web_accessible_resources = jsonObject.getJSONArray("web_accessible_resources");
 
-                try {
-                    HttpClient httpClient = new DefaultHttpClient();
-                    HttpGet httpGet = new HttpGet(URL);
-                    HttpResponse httpResponse = httpClient.execute(httpGet);
+                final boolean force = preferences.getString(filePathPrefix, "")
+                        .equalsIgnoreCase(jsonObject.getString("version"));
 
-                    String pluginListString = null;
-                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                        pluginListString = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-                    }
-
-                    if (pluginListString != null) {
-                        final SharedPreferences preferences = context.getSharedPreferences(
-                                Utility.PREFERENCE, 0
-                        );
-                        SharedPreferences.Editor editor = preferences.edit();
-
-                        Set<String> pluginIDSet = new HashSet<String>();
-
-                        List<PluginStructure> pluginList = parsePluginList(pluginListString);
-                        editor.putString(PLUGIN_LIST_RAW, pluginListString);
-
-                        for (PluginStructure structure : pluginList) {
-                            pluginIDSet.add(structure.id);
-                        }
-
-                        editor.putStringSet(PLUGIN_LIST_PRE, pluginIDSet);
-                        //存储各个插件的ID
-
-                        editor.commit();
-                    }
-                    message.what = 1;
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                for (int j = 0; j != web_accessible_resources.length(); ++j) {
+                    String fileName = web_accessible_resources.getString(j);
+                    Utility.downloadFile(
+                            URLBASE + path + '/' + fileName,
+                            new File(context.getFilesDir(), filePathPrefix + fileName),
+                            force
+                    );
                 }
-                message.sendToTarget();
+                preferences.edit()
+                        .putString(filePathPrefix, jsonObject.getString("version"))
+                        .commit();
             }
-        });
+            return true;
 
-        thread.start();
+        } catch (Exception e) {
+            //各种失败
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
@@ -156,9 +127,10 @@ public class PlatformUpdateHelper {
      * @param string
      * @return
      */
-    public static List<PluginStructure> parsePluginList (String string) {
-        final List<PluginStructure> list = new ArrayList<PluginStructure>();
+    public static Vector<PluginStructure> parsePluginList (String string) {
+
         try {
+            final Vector<PluginStructure> list = new Vector<PluginStructure>();
             JSONArray jsonArray = new JSONArray(string);
             for (int i = 0; i != jsonArray.length(); ++i) {
                 try {
@@ -171,9 +143,10 @@ public class PlatformUpdateHelper {
                     e.printStackTrace();
                 }
             }
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return null;
     }
 }

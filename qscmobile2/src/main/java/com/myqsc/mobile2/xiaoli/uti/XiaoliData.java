@@ -131,4 +131,14 @@ public class XiaoliData {
         }
         return null;
     }
+
+    public XiaoliExamWeek getExamWeek (Calendar calendar) {
+        for (XiaoliYearData xiaoliYearData:data) {
+            for (XiaoliExamWeek examWeek : xiaoliYearData.data.examWeek) {
+                if (examWeek.inRange(calendar))
+                    return examWeek;
+            }
+        }
+        return null;
+    }
 }

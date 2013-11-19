@@ -13,6 +13,15 @@ import android.widget.TextView;
 
 import com.myqsc.mobile2.R;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class Utility {
     public final static String PREFERENCE = "QSCMobile";
     public final static int WEEK_BOTH = 0;
@@ -101,5 +110,34 @@ public class Utility {
 
         AwesomeFontHelper.setFontFace((TextView) left, context);
         AwesomeFontHelper.setFontFace((TextView) right, context);
+    }
+
+    /**
+     * 下载一个文件
+     * @param url 文件网络地址
+     * @param file 文件
+     * @param force 是否强制覆盖
+     * @throws IOException
+     */
+    public static void downloadFile (String url, File file, boolean force) throws IOException {
+        if (force)
+            file.delete();
+        // 强制模式，强制覆盖文件
+
+        if (file.exists())
+            return;
+        // 如果文件存在则返回
+
+        file.getParentFile().mkdirs();
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(url);
+        byte [] data = EntityUtils.toByteArray(httpClient.execute(httpGet).getEntity());
+        // 以比特方式写入文件，防止string带来的编码问题
+
+        file.createNewFile();
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(data);
+        fileOutputStream.close();
     }
 }

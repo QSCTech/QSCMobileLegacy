@@ -1,9 +1,12 @@
 package com.myqsc.mobile2.fragment;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
-import org.json.JSONArray;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -12,12 +15,16 @@ import com.myqsc.mobile2.fragment.cardlist.FunctionStructure;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.network.DataUpdater;
 import com.myqsc.mobile2.network.UpdateHelper;
+import com.myqsc.mobile2.platform.JSInterface.JSInterface;
+import com.myqsc.mobile2.platform.JSInterface.JSInterfaceView;
 import com.myqsc.mobile2.platform.PluginDetailActivity;
 import com.myqsc.mobile2.platform.update.PlatformUpdateHelper;
 import com.myqsc.mobile2.platform.uti.PluginStructure;
 import com.myqsc.mobile2.support.database.structure.UserIDStructure;
 import com.myqsc.mobile2.uti.BroadcastHelper;
+import com.myqsc.mobile2.uti.DataObserver;
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.MyFragment;
 import com.myqsc.mobile2.uti.Utility;
 import com.myqsc.mobile2.xiaoli.fragment.XiaoliCardFragment;
 
@@ -26,43 +33,37 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class CardFragment extends Fragment {
-
+public class CardFragment extends Fragment implements DataObserver {
     View view = null;
-	LinearLayout baseLayout = null;
-	List<String> list = null;
     FragmentManager fragmentManager = null;
     UserIDStructure userIDStructure = new UserIDStructure();
+    Vector<FunctionStructure> functionVector = null;
+    Vector<PluginStructure> pluginVector = null;
 
 
     final static int FRAGMENT_MAGIC_NUM = 0XDD00;
 
-	public CardFragment() {
-		this.list = new ArrayList<String>();
-	}
-
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(receiver);
-
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         userIDStructure = personalDataHelper.getCurrentUser();
     }
@@ -70,9 +71,6 @@ public class CardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter intentFilter = new IntentFilter(
-                BroadcastHelper.BROADCAST_FUNCTIONLIST_CHANGED);
-        getActivity().registerReceiver(receiver, intentFilter);
 
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(getActivity());
         UserIDStructure structure = personalDataHelper.getCurrentUser();
@@ -87,10 +85,6 @@ public class CardFragment extends Fragment {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.list = getListFromPreference();
-		if (this.list == null)
-			this.list = new ArrayList<String>();
-
         userIDStructure = new PersonalDataHelper(getActivity()).getCurrentUser();
 	}
 
@@ -139,10 +133,7 @@ public class CardFragment extends Fragment {
         });
 
 
-		baseLayout = (LinearLayout) view
-				.findViewById(R.id.fragment_card_layout);
         fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentInflate(baseLayout, LayoutInflater.from(getActivity()), list);
 
         IntentFilter intentFilter = new IntentFilter(
                 BroadcastHelper.BROADCAST_CARD_REDRAW);
@@ -157,18 +148,6 @@ public class CardFragment extends Fragment {
         getActivity().unregisterReceiver(fragmentChangedReceiver);
     }
 
-    final BroadcastReceiver receiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			list = getListFromPreference();
-			if (list == null)
-				list = new ArrayList<String>();
-			baseLayout.removeAllViews();
-			final LayoutInflater inflater = LayoutInflater.from(getActivity());
-			fragmentInflate(baseLayout, inflater, list);
-		}
-	};
-
     final BroadcastReceiver fragmentChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -177,10 +156,9 @@ public class CardFragment extends Fragment {
                 return ;
             int num = -1;
             LogHelper.e(name);
-            for (int i = 0; i != list.size(); ++i) {
-//                LogHelper.d(list.get(i));
-                if (list.get(i).equals(name) ||
-                        FragmentUtility.getCardDataStringByCardName(list.get(i)).equals(name))
+            for (int i = 0; i != functionVector.size(); ++i) {
+                if (functionVector.get(i).cardName.equals(name) ||
+                        FragmentUtility.getCardDataStringByCardName(functionVector.get(i).cardName).equals(name))
                     num = i;
             }
             if (num == -1)
@@ -207,50 +185,22 @@ public class CardFragment extends Fragment {
         }
     };
 
-	private List<String> getListFromPreference() {
-		if (getActivity() == null)
-			return null;
-		String encode = getActivity().getSharedPreferences(Utility.PREFERENCE,
-				0).getString(FunctionStructure.PREFERENCE, null);
-
-		List<String> list = new ArrayList<String>();
-        LogHelper.e(encode);
-        if (encode == null) {
-            //没有选择时默认全选
-            for (String string : FragmentUtility.cardString) {
-                list.add(string);
-            }
-            return list;
-        }
-
-		try {
-			JSONArray jsonArray = new JSONArray(encode);
-			for(int i = 0; i != jsonArray.length(); ++i)
-				list.add(jsonArray.optString(i));
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-
-
-    private void fragmentInflate(LinearLayout linearLayout,
-			LayoutInflater inflater, List<String> cardList) {
+    /**
+     * 初始化各个卡片
+     */
+    private void fragmentInflate() {
+        final LayoutInflater inflater = LayoutInflater.from(getActivity());
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
+        final Fragment fragment[] = new Fragment[functionVector.size()];
+        final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.fragment_card_layout);
 
-        Fragment fragment[] = new Fragment[cardList.size()];
-
-		for (int i = 0; i != cardList.size(); ++i) {
-            String name = cardList.get(i);
-            LogHelper.d(name);
+		for (int i = 0; i != functionVector.size(); ++i) {
+            String name = functionVector.get(i).cardName;
 
 			fragment[i] = fragmentManager.findFragmentByTag(name);
-			if (fragment[i] != null) {
+			if (fragment[i] != null)
                 transaction.remove(fragment[i]);
-            }
-			fragment[i] = FragmentUtility.getCardFragmentByName(name, getActivity());
+            fragment[i] = FragmentUtility.getCardFragmentByName(name, getActivity());
 		}
 
         linearLayout.removeAllViews();
@@ -258,43 +208,96 @@ public class CardFragment extends Fragment {
         LinearLayout tempLayout = (LinearLayout) inflater.inflate(
                 R.layout.fragment_card_background, null);
         tempLayout.findViewById(R.id.fragment_card).setId(FRAGMENT_MAGIC_NUM + 1010);
-        baseLayout.addView(tempLayout);
+        linearLayout.addView(tempLayout);
         transaction.add(FRAGMENT_MAGIC_NUM + 1010, new XiaoliCardFragment());
 
-        for(int i = 0; i != cardList.size(); ++i) {
+        for(int i = 0; i != functionVector.size(); ++i) {
             LinearLayout layout = (LinearLayout) inflater.inflate(
                     R.layout.fragment_card_background, null);
             layout.findViewById(R.id.fragment_card).setId(i + FRAGMENT_MAGIC_NUM);
-            baseLayout.addView(layout);
-            transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], cardList.get(i));
+            linearLayout.addView(layout);
+            transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], functionVector.get(i).cardName);
         }
 		transaction.commitAllowingStateLoss();
-
-        initCardList(linearLayout);
 	}
 
-    private void initCardList(LinearLayout layout) {
+    private void initCardList() {
         final int cardIDOffset = 0X123abc;
-        final Context mContext = layout.getContext();
-        LayoutInflater mInflater = LayoutInflater.from(mContext);
+        final Context mContext = getActivity();
+        final LayoutInflater mInflater = LayoutInflater.from(mContext);
+        final LinearLayout pluginLayout = (LinearLayout) view.findViewById(R.id.fragment_plugin_layout);
+        final WebView webView = new WebView(getActivity());
 
-        WebView webView = new WebView(mContext);
-        SharedPreferences preferences = layout.getContext()
-                .getSharedPreferences(Utility.PREFERENCE, 0);
-        String listData = preferences.getString(PlatformUpdateHelper.PLUGIN_LIST_RAW, null);
-        List<PluginStructure> pluginList = PlatformUpdateHelper.parsePluginList(listData);
+        webView.getSettings().setJavaScriptEnabled(true);
 
-        for (final PluginStructure structure : pluginList) {
-            LogHelper.e("is selected:" + structure.isSelected(mContext));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        }
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                LogHelper.e(consoleMessage.message());
+                return super.onConsoleMessage(consoleMessage);
+            }
+        });
+
+        final SharedPreferences preferences = getActivity().getSharedPreferences("plugin", 0);
+
+        /**
+         * 当preference内容修改了，就意味着卡片修改了
+         * 由于 http://stackoverflow.com/questions/2542938/sharedpreferences-onsharedpreferencechangelistener-not-being-called-consistently
+         * 这个回答，因此必须保持对监听器的引用，防止被垃圾回收
+         */
+        final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener
+                = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(final SharedPreferences preferences, final String s) {
+                LogHelper.e(s);
+                if (s.contains(JSInterfaceView.viewCardPrefix)) {
+                    //是一个视图操作
+                    try {
+                        String cardID = s.substring(0, s.indexOf(JSInterfaceView.viewCardPrefix));
+                        View cardView = pluginLayout.findViewById(cardIDOffset + cardID.hashCode());
+                        if (s.endsWith(JSInterfaceView.viewTitle)) {
+                            //修改主题
+                            ((TextView) cardView.findViewById(R.id.card_title))
+                                    .setText(preferences.getString(s, "插件"));
+                        } else {
+                            //修改内容
+                            ((TextView) cardView.findViewById(R.id.card_content))
+                                    .setText(preferences.getString(s, cardID));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        preferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+
+        JSInterface jsInterface = new JSInterface(getActivity(), webView, preferences);
+        jsInterface.init();
+
+        pluginLayout.removeAllViews();
+        if (pluginVector == null)
+            return;
+
+        String url = "/platform/background/background.html#";
+
+
+        for (final PluginStructure structure : pluginVector) {
             if (structure.isDownloaded(mContext) || structure.isSelected(mContext)) {
                 LinearLayout view = (LinearLayout) mInflater.inflate(
                         R.layout.fragment_card_background, null);
                 View cardView = mInflater.inflate(R.layout.plugin_card, null);
                 cardView.setId(cardIDOffset + structure.id.hashCode());
                 ((TextView) cardView.findViewById(R.id.card_title))
-                        .setText("插件");
+                        .setText(preferences
+                                .getString(structure.id + JSInterfaceView.viewTitle, "插件"));
                 ((TextView) cardView.findViewById(R.id.card_content))
-                        .setText(structure.name);
+                        .setText(preferences
+                                .getString(structure.id + JSInterfaceView.viewContent, structure.name));
                 ((FrameLayout) view.findViewById(R.id.fragment_card))
                         .addView(cardView);
                 view.setOnClickListener(new View.OnClickListener() {
@@ -305,8 +308,28 @@ public class CardFragment extends Fragment {
                         getActivity().startActivity(intent);
                     }
                 });
-                layout.addView(view);
+                url += structure.id + ',';
+                pluginLayout.addView(view);
             }
+        }
+        url = url.substring(0, url.length() - 1);
+        webView.loadUrl("File:" + new File(getActivity().getFilesDir(), url).getAbsolutePath());
+    }
+
+    @Override
+    public void update(MyFragment fragment, final int code) {
+        final FunctionListFragment functionListFragment = (FunctionListFragment) fragment;
+        switch (code) {
+            case 0:
+                //更新功能列表
+                functionVector = functionListFragment.getFunctionVector();
+                fragmentInflate();
+                break;
+            case 1:
+                //更新插件列表
+                pluginVector = functionListFragment.getPluginStructureVector();
+                initCardList();
+                break;
         }
     }
 }
