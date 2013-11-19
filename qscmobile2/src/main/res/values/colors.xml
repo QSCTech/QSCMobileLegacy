@@ -21,6 +21,7 @@
     <color name="green_light">#99CC00</color>
     <color name="green_dark">#669900</color>
     <color name="grey_light">#DDDDDD</color>
+    <color name="grey">#999999</color>
     <color name="grey_dark">#555555</color>
     <color name="orange_light">#FFBB33</color>
     <color name="orange_dark">#FF8800</color>

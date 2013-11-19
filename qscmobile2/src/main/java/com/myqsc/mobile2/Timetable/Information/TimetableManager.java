@@ -32,29 +32,17 @@ public class TimetableManager {
         taskProviders.add(new CurriculumTaskProvider(context));
     }
 
-    public static void initialize(Context context) {
+    public static TimetableManager getInstance(Context context) {
 
         // TODO: Remove debug statement.
         if (!context.getClass().equals(context.getApplicationContext().getClass())) {
             throw new RuntimeException("You should use an application Context for singleton.");
         }
 
-        if (instance != null) {
-            throw new RuntimeException("This singleton has already been initialized.");
-        }
-
-        instance = new TimetableManager(context);
-    }
-
-    // TODO: Remove this function because it is only for appwidget debugging.
-    public static boolean isInitialized() {
-        return instance != null;
-    }
-
-    public static TimetableManager getInstance() {
-
-        if (instance == null) {
-            throw new RuntimeException("You should initialize the singleton with an application context before using.");
+        synchronized (TimetableManager.class) {
+            if (instance == null) {
+                instance = new TimetableManager(context);
+            }
         }
 
         return instance;

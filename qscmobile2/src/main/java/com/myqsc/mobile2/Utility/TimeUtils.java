@@ -24,7 +24,7 @@ public class TimeUtils {
 
     // Date related functions
 
-    public static Calendar getToday() {
+    public static Calendar getDate() {
         Calendar today = getNow();
         clearTime(today);
         return today;
@@ -65,12 +65,12 @@ public class TimeUtils {
     public static boolean isToday(Calendar date) {
         date = (Calendar) date.clone();
         clearTime(date);
-        return isSame(date, getToday());
+        return isSame(date, getDate());
     }
 
     // Time related functions
 
-    public static Calendar getCurrentTime() {
+    public static Calendar getTime() {
         Calendar currentTime = getNow();
         clearTime(currentTime);
         return currentTime;

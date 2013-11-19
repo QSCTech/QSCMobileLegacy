@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
 import com.myqsc.mobile2.R;
@@ -14,41 +15,123 @@ import com.myqsc.mobile2.Utility.TimeUtils;
 import com.myqsc.mobile2.uti.LogHelper;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.SortedSet;
 
 public class Provider extends AppWidgetProvider {
+
+    // Actions
 
     public static final String ACTION_DATE_BACKWARD = "com.myqsc.mobile2.Timetable.AppWidget.DATE_BACKWARD";
 
     public static final String ACTION_DATE_FORWARD = "com.myqsc.mobile2.Timetable.AppWidget.DATE_FORWARD";
 
+    // Constants for displaying information
     private static final int DATE_NUMBER_MAXIMUM = 7;
 
     private static final int DATE_NUMBER_SHOWN = 3;
 
     private static final int TASK_NUMBER_SHOWN = 5;
 
+    // Store date index for each AppWidget in SharedPreferences and access via DateIndexManager.
+
+    private static class DateIndexManager {
+
+        private static String PREFERENCES_FILE_NAME = "com.myqsc.mobile2.Timetable.AppWidget";
+
+        SharedPreferences sharedPreferences;
+
+
+        DateIndexManager(Context context) {
+            this.sharedPreferences = getSharedPreferences(context);
+        }
+
+        private static SharedPreferences getSharedPreferences(Context context) {
+            return context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
+        }
+
+        private static String getKey(int appWidgetId) {
+            return appWidgetId + ".DateIndex";
+        }
+
+        // Return and set to default value (DATE_NUMBER_MAXIMUM / 2 as today) if the date index has not been set.
+        private static int get(SharedPreferences sharedPreferences, int appWidgetId) {
+            String key = getKey(appWidgetId);
+            int dateIndex;
+            if (sharedPreferences.contains(key)) {
+                dateIndex = sharedPreferences.getInt(key, -1);
+            } else {
+                dateIndex = DATE_NUMBER_MAXIMUM / 2;
+                // apply() requires API Level 9.
+                sharedPreferences.edit().putInt(key, dateIndex).commit();
+            }
+            return dateIndex;
+        }
+
+        public static int get(Context context, int appWidgetId) {
+            return get(getSharedPreferences(context), appWidgetId);
+        }
+
+        public int get(int appWidgetId) {
+            return get(sharedPreferences, appWidgetId);
+        }
+
+        public static void set(SharedPreferences sharedPreferences, int appWidgetId, int dateIndex) {
+            sharedPreferences.edit().putInt(getKey(appWidgetId), dateIndex).commit();
+        }
+
+        public static void set(Context context, int appWidgetId, int dateIndex) {
+            set(getSharedPreferences(context), appWidgetId, dateIndex);
+        }
+
+        public void set(int appWidgetId, int dateIndex) {
+            set(sharedPreferences, appWidgetId, dateIndex);
+        }
+
+        public static void remove(SharedPreferences sharedPreferences, int appWidgetId) {
+            sharedPreferences.edit().remove(getKey(appWidgetId)).commit();
+        }
+
+        public static void remove(Context context, int appWidgetId) {
+            remove(getSharedPreferences(context), appWidgetId);
+        }
+
+        public void remove(int appWidgetId) {
+            remove(sharedPreferences, appWidgetId);
+        }
+
+        public static void clear(SharedPreferences sharedPreferences) {
+            sharedPreferences.edit().clear().commit();
+        }
+
+        public static void clear(Context context) {
+            clear(getSharedPreferences(context));
+        }
+
+        public void clear() {
+            clear(sharedPreferences);
+        }
+    }
+
+    // Cached information
+
     private static class CachedInfoHolder {
         Calendar date;
         SortedSet<Task> timetable;
     }
 
-    // FIXME: Use SharedPreferences instead of static variables because process or JVM might get killed.
     private static CachedInfoHolder[] cachedInfo = new CachedInfoHolder[DATE_NUMBER_MAXIMUM];
-
-    private static HashMap<Integer, Integer> appWidgetDateIndex = new LinkedHashMap<Integer, Integer>();
-
 
     void updateCachedInfo(Context context, boolean forceUpdate) {
 
         if (forceUpdate || cachedInfo[0] == null || !TimeUtils.isToday(cachedInfo[DATE_NUMBER_MAXIMUM / 2].date)) {
 
             // Cache the starting date.
-            Calendar dateStart = TimeUtils.getToday();
+            Calendar dateStart = TimeUtils.getDate();
             dateStart.add(Calendar.DAY_OF_YEAR, - DATE_NUMBER_MAXIMUM / 2);
+
+            // Cache TimetableManager.
+            TimetableManager timetableManager = TimetableManager.getInstance(context.getApplicationContext());
 
             // Update CachedInfo
             for (int i = 0; i != DATE_NUMBER_MAXIMUM; ++i) {
@@ -63,12 +146,7 @@ public class Provider extends AppWidgetProvider {
                 cachedInfo[i].date.add(Calendar.DAY_OF_YEAR, i);
 
                 // Update the timetable.
-                // FIXME: Should be moved to main application
-                if (!TimetableManager.isInitialized()) {
-                    LogHelper.i("TimetableManager initialized in AppWidget.");
-                    TimetableManager.initialize(context.getApplicationContext());
-                }
-                cachedInfo[i].timetable = TimetableManager.getInstance().getTimetable(cachedInfo[i].date);
+                cachedInfo[i].timetable = timetableManager.getTimetable(cachedInfo[i].date);
             }
         }
     }
@@ -91,12 +169,7 @@ public class Provider extends AppWidgetProvider {
         RemoteViews subViews;
 
         // Cache the date indexes.
-        int dateIndex = DATE_NUMBER_MAXIMUM / 2;
-        if (appWidgetDateIndex.containsKey(appWidgetId)) {
-            dateIndex = appWidgetDateIndex.get(appWidgetId);
-        } else {
-            appWidgetDateIndex.put(appWidgetId, dateIndex);
-        }
+        int dateIndex = DateIndexManager.get(context, appWidgetId);
         int dateShownIndexStart = dateIndex - DATE_NUMBER_SHOWN / 2;
 
         // Determine if navigable.
@@ -216,13 +289,13 @@ public class Provider extends AppWidgetProvider {
                     if (dateIndex == DATE_NUMBER_MAXIMUM / 2) {
                         if (task.getEndTime().before(now)) {
                             // Finished
-                            setTaskViewColor(subViews, context, R.color.grey_light);
+                            setTaskViewColor(subViews, context, R.color.grey);
                         } else if (task.getStartTime().after(now)) {
                             // Scheduled
                             setTaskViewColor(subViews, context, R.color.grey_dark);
                         } else {
                             // Active
-                            setTaskViewColor(subViews, context, R.color.blue_dark);
+                            setTaskViewColor(subViews, context, R.color.blue_light);
                         }
                     } else {
                         // Default
@@ -261,7 +334,10 @@ public class Provider extends AppWidgetProvider {
     private void onDateChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateDelta) {
 
         LogHelper.i("appWidgetId: " + appWidgetId);
-        int dateIndex = appWidgetDateIndex.get(appWidgetId);
+
+        DateIndexManager dateIndexManager = new DateIndexManager(context);
+
+        int dateIndex = dateIndexManager.get(appWidgetId);
 
         // Filter invalid date changes.
         if ((dateIndex == 0 && dateDelta < 0) || (dateIndex == DATE_NUMBER_MAXIMUM - 1 && dateDelta > 0)) {
@@ -269,7 +345,7 @@ public class Provider extends AppWidgetProvider {
             return;
         }
 
-        appWidgetDateIndex.put(appWidgetId, dateIndex + dateDelta);
+        dateIndexManager.set(appWidgetId, dateIndex + dateDelta);
 
         buildUpdate(context, appWidgetManager, appWidgetId);
     }
@@ -296,6 +372,9 @@ public class Provider extends AppWidgetProvider {
 
     @Override
     public void onDisabled(Context context) {
+
+        DateIndexManager.clear(context);
+
         super.onDisabled(context);
     }
 
@@ -314,9 +393,11 @@ public class Provider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
 
+        DateIndexManager dateIndexManager = new DateIndexManager(context);
+
         // Remove date index for deleted AppWidgets
         for (int appWidgetId : appWidgetIds) {
-            appWidgetDateIndex.remove(appWidgetId);
+            dateIndexManager.remove(appWidgetId);
         }
 
         super.onDeleted(context, appWidgetIds);
