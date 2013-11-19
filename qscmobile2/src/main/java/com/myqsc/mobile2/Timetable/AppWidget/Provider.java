@@ -22,11 +22,14 @@ public class Provider extends AppWidgetProvider {
 
     // Actions
 
-    public static final String ACTION_DATE_BACKWARD = "com.myqsc.mobile2.Timetable.AppWidget.DATE_BACKWARD";
+    private static final String ACTION_DATE_CHANGED = "com.myqsc.mobile2.Timetable.AppWidget.DATE_CHANGED";
 
-    public static final String ACTION_DATE_FORWARD = "com.myqsc.mobile2.Timetable.AppWidget.DATE_FORWARD";
+    // Intent extras
+
+    private static final String EXTRA_DATE_DELTA = "DATE_DELTA";
 
     // Constants for displaying information
+
     private static final int DATE_NUMBER_MAXIMUM = 7;
 
     private static final int DATE_NUMBER_SHOWN = 3;
@@ -151,6 +154,15 @@ public class Provider extends AppWidgetProvider {
         }
     }
 
+    private PendingIntent getDateChangedPendingIntent(Context context, int appWidgetId, int dateDelta) {
+        Intent dateChangedIntent = new Intent(context, this.getClass());
+        dateChangedIntent.setAction(ACTION_DATE_CHANGED);
+        dateChangedIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        dateChangedIntent.putExtra(EXTRA_DATE_DELTA, dateDelta);
+        // Using requestCode to differentiate pendingIntents.
+        return PendingIntent.getBroadcast(context, appWidgetId << 16 + dateDelta, dateChangedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
     private void setTaskViewColor(RemoteViews taskViews, Context context, int color) {
         taskViews.setTextColor(R.id.appwidget_timetable_task_name, context.getResources().getColor(color));
         taskViews.setTextColor(R.id.appwidget_timetable_task_detail, context.getResources().getColor(color));
@@ -172,47 +184,22 @@ public class Provider extends AppWidgetProvider {
         int dateIndex = DateIndexManager.get(context, appWidgetId);
         int dateShownIndexStart = dateIndex - DATE_NUMBER_SHOWN / 2;
 
-        // Determine if navigable.
-        boolean leftNavigable = true, rightNavigable = true;
-        if (dateIndex == 0) {
-            leftNavigable = false;
-        } else if (dateIndex == DATE_NUMBER_MAXIMUM - 1) {
-            rightNavigable = false;
-        }
-
-        // Create the intents for clicking.
-        PendingIntent dateBackwardPendingIntent = null, dateForwardPendingIntent = null;
-        if (leftNavigable) {
-            Intent dateBackwardIntent = new Intent(context, this.getClass());
-            dateBackwardIntent.setAction(ACTION_DATE_BACKWARD);
-            dateBackwardIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            dateBackwardPendingIntent = PendingIntent.getBroadcast(context, 0, dateBackwardIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        if (rightNavigable) {
-            Intent dateForwardIntent = new Intent(context, this.getClass());
-            dateForwardIntent.setAction(ACTION_DATE_FORWARD);
-            dateForwardIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            dateForwardPendingIntent = PendingIntent.getBroadcast(context, 0, dateForwardIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-
         // Set text color and PendingIntent for date navigation view.
         //
         // Canceling PendingIntent in case the view is reused causes exception, setBoolean with setClickable
         // causes exception, set Boolean with setEnabled does nothing; don't know how to disable it.
         // Dealing with this in onDateChanged.
-        if (leftNavigable) {
+        if (dateIndex != 0) {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_left, context.getResources().getColor(R.color.white));
-            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_navigation_left, dateBackwardPendingIntent);
+            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_navigation_left, getDateChangedPendingIntent(context, appWidgetId, -1));
         } else {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_left, context.getResources().getColor(R.color.white_fading));
-            // dateBackwardPendingIntent.cancel();
         }
-        if (rightNavigable) {
+        if (dateIndex != DATE_NUMBER_MAXIMUM - 1) {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_right, context.getResources().getColor(R.color.white));
-            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_navigation_right, dateForwardPendingIntent);
+            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_navigation_right, getDateChangedPendingIntent(context, appWidgetId, 1));
         } else {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_right, context.getResources().getColor(R.color.white_fading));
-            // dateForwardPendingIntent.cancel();
         }
 
         // Add dates to view.
@@ -233,11 +220,7 @@ public class Provider extends AppWidgetProvider {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white));
                 } else {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white_fading));
-                    if (i < DATE_NUMBER_SHOWN / 2 && leftNavigable) {
-                        subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, dateBackwardPendingIntent);
-                    } else if (rightNavigable) {
-                        subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, dateForwardPendingIntent);
-                    }
+                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, getDateChangedPendingIntent(context, appWidgetId, i - DATE_NUMBER_SHOWN / 2));
                 }
             }
 
@@ -339,8 +322,8 @@ public class Provider extends AppWidgetProvider {
 
         int dateIndex = dateIndexManager.get(appWidgetId);
 
-        // Filter invalid date changes.
-        if ((dateIndex == 0 && dateDelta < 0) || (dateIndex == DATE_NUMBER_MAXIMUM - 1 && dateDelta > 0)) {
+        // Ignore invalid date changes.
+        if (dateIndex + dateDelta < 0 || dateIndex + dateDelta > DATE_NUMBER_MAXIMUM - 1) {
             LogHelper.i("Ignoring intent for appWidgetId: " + appWidgetId);
             return;
         }
@@ -356,10 +339,8 @@ public class Provider extends AppWidgetProvider {
 
         String action = intent.getAction();
 
-        if (ACTION_DATE_BACKWARD.equals(action)) {
-            onDateChanged(context, AppWidgetManager.getInstance(context), intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), -1);
-        } else if (ACTION_DATE_FORWARD.equals(action)) {
-            onDateChanged(context, AppWidgetManager.getInstance(context), intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), 1);
+        if (ACTION_DATE_CHANGED.equals(action)) {
+            onDateChanged(context, AppWidgetManager.getInstance(context), intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), intent.getIntExtra(EXTRA_DATE_DELTA, 0));
         } else {
             super.onReceive(context, intent);
         }
