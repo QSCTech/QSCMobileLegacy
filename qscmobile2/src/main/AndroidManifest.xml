@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -91,6 +91,9 @@
         <activity
             android:name=".homework.HomeworkActivity"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".Debugger.DebugActivity"
+            android:launchMode="singleTask" />
         <receiver
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectReceiver"
             android:label="NetworkConnection" >

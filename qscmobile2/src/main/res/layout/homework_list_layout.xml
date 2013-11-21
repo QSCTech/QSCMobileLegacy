@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="7dp"
@@ -59,13 +60,13 @@
             android:background="@color/blue_back"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="剩余55天"
+                android:text="无"
                 android:id="@+id/homework_list_left"
                 android:textColor="@color/blue_text" />
         </LinearLayout>
@@ -77,7 +78,7 @@
             android:gravity="center"
             android:background="@color/gray_back"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent">
 
             <TextView

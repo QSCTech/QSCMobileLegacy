@@ -1,8 +1,6 @@
 package com.myqsc.mobile2.homework;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.LayoutInflater;
 
 import org.json.JSONObject;
 
@@ -19,7 +17,8 @@ public class HomeworkStructure {
 
 
 
-    public HomeworkStructure() {
+    public HomeworkStructure(String id) {
+        this.id = id;
     }
 
     public HomeworkStructure (JSONObject jsonObject) {
@@ -37,5 +36,18 @@ public class HomeworkStructure {
 
     public boolean isSelected (SharedPreferences preferences) {
         return preferences.getBoolean(SELECT_PREFIX + id, false);
+    }
+
+    /**
+     * 修改这个作业的选中状态，并且返回
+     * @param preferences
+     * @return
+     */
+    public boolean toggleSelect (SharedPreferences preferences) {
+        boolean select = preferences.getBoolean(SELECT_PREFIX + id, false);
+        preferences.edit()
+                .putBoolean(SELECT_PREFIX + id, !select)
+                .commit();
+        return !select;
     }
 }

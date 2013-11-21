@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.myqsc.mobile2.R;
+import com.myqsc.mobile2.fragment.MySwipeExitActivity;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -13,7 +14,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 /**
  * Created by richard on 13-9-24.
  */
-public class HomeworkActivity extends SwipeBackActivity {
+public class HomeworkActivity extends MySwipeExitActivity {
 
     TextView iconLeft, iconMiddle, iconRight;
     TextView nameLeft, nameMiddle, nameRight;
@@ -29,8 +30,7 @@ public class HomeworkActivity extends SwipeBackActivity {
 
         InitTextViews();
         setColor();
-
-        homeworkHelper.getAllHomework();
+        homeworkHelper.getMineHomework();
     }
 
     /**
@@ -107,18 +107,21 @@ public class HomeworkActivity extends SwipeBackActivity {
                         selected = 0;
                         setColor();
                     }
+                    homeworkHelper.getMineHomework();
                     break;
                 case R.id.homework_activity_layout_middle:
                     if (selected != 1) {
                         selected = 1;
                         setColor();
                     }
+                    homeworkHelper.getAllHomework();
                     break;
                 case R.id.homework_activity_layout_right:
                     if (selected != 2) {
                         selected = 2;
                         setColor();
                     }
+                    homeworkHelper.initAddViews();
                     break;
             }
         }

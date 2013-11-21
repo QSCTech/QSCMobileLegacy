@@ -1,6 +1,7 @@
 package com.myqsc.mobile2.login;
 
 import com.myqsc.mobile2.AboutUsActivity;
+import com.myqsc.mobile2.Debugger.DebugActivity;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.LoadFragment;
 import com.myqsc.mobile2.network.UpdateHelper;
@@ -43,6 +44,17 @@ public class UserSwitchFragment extends Fragment {
 
         linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_switch_main);
 
+        final int[] time = {0};
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ++time[0];
+                if (time[0] > 5) {
+                    Intent intent = new Intent(getActivity(), DebugActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         return view;
     }

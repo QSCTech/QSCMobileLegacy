@@ -80,11 +80,17 @@ public class KebiaoDataHelper {
         int year = xiaoliHelper.getYear(calendar, false);
         char term = xiaoliHelper.getTerm(calendar, false);
 
+        outer:
         for (KebiaoClassData kebiaoClassData : kebiaoList) {
             if (kebiaoClassData.year != year)
                 continue;
             if (kebiaoClassData.term.indexOf(term) == -1) {
                 continue;
+            }
+            for (KebiaoClassData data : list) {
+                //如果已经有了这门课的hash就只显示一遍
+                if (data.hash.equals(kebiaoClassData.hash))
+                    continue outer;
             }
             list.add(kebiaoClassData);
         }
