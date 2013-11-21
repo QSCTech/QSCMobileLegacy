@@ -9,6 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="没有待完成的作业"
-        android:id="@+id/card_fragment_homework_text"
-        android:layout_gravity="center" />
+        android:singleLine="true"
+        android:id="@+id/card_fragment_homework_text" />
 </LinearLayout>

@@ -53,6 +53,8 @@ import java.util.Vector;
  */
 public class HomeworkHelper {
     public static final String HOMEWORK_RAW = "HOMEWORK_RAW";
+    public static final String HOMEWORK_MINE = "HOMEWORK_MINE";
+
 
     Vector<HomeworkStructure> rawVector = null;
     List<KebiaoClassData> kebiaoList = null;
@@ -499,5 +501,16 @@ public class HomeworkHelper {
         return list;
     }
 
-
+    /**
+     * 获取我标记过了的作业的数量
+     * @return
+     */
+    public int getMineHomeworkCount () {
+        int times = 0;
+        final SharedPreferences preferences = context.getSharedPreferences(Utility.PREFERENCE, 0);
+        for (HomeworkStructure structure : rawVector)
+            if (structure.isSelected(preferences))
+                ++times;
+        return times;
+    }
 }
