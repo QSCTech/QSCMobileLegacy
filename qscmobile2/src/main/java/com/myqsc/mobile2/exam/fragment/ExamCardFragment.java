@@ -68,9 +68,9 @@ public class ExamCardFragment extends Fragment {
 
     private void setText(ExamStructure examStructure) {
         ((TextView) view.findViewById(R.id.card_fragment_kebiao_diff))
-                .setText(Html.fromHtml(
+                .setText(
                         Utility.processDiffSecond((int) ((examStructure.getStartTime().getTimeInMillis() -
-                                Calendar.getInstance().getTimeInMillis()) / 1000))));
+                                Calendar.getInstance().getTimeInMillis()) / 1000)));
         ((TextView) view.findViewById(R.id.card_fragment_kebiao_notice))
                 .setText("距离下一门考试还有：");
         ((TextView) view.findViewById(R.id.card_fragment_kebiao_name))
