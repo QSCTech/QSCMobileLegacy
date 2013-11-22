@@ -390,6 +390,8 @@ public class HomeworkHelper {
                     KebiaoClassData kebiaoClassData = kebiaoList.get(add_course.getSelectedItemPosition());
                     postParmas.add(new BasicNameValuePair("hash", kebiaoClassData.hash));
                     postParmas.add(new BasicNameValuePair("content", add_content.getText().toString()));
+
+                    add_month ++;
                     postParmas.add(new BasicNameValuePair("due_time", String.format("%04d-%02d-%02d", add_year, add_month, add_day)));
 
                     httpPost.setEntity(new UrlEncodedFormEntity(postParmas, "UTF-8"));
