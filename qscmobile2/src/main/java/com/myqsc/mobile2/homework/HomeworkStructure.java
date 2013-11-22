@@ -35,7 +35,12 @@ public class HomeworkStructure {
     }
 
     public boolean isSelected (SharedPreferences preferences) {
-        return preferences.getBoolean(SELECT_PREFIX + id, false);
+        try {
+            return preferences.getBoolean(SELECT_PREFIX + id, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**

@@ -508,6 +508,9 @@ public class HomeworkHelper {
      * @return
      */
     public int getMineHomeworkCount () {
+        if (rawVector == null)
+            return 0;
+
         int times = 0;
         final SharedPreferences preferences = context.getSharedPreferences(Utility.PREFERENCE, 0);
         for (HomeworkStructure structure : rawVector)
