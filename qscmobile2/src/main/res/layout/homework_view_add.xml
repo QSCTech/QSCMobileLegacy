@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="26dp"
+    android:paddingTop="26dp"
+    android:paddingRight="26dp">
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/homework_add_spinner"
+        android:layout_gravity="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/homework_add_content"
+        android:maxLines="5"
+        android:hint="作业内容"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/homework_add_date"
+        android:layout_marginTop="16dp"
+        android:focusableInTouchMode="false"
+        android:editable="false"
+        android:clickable="true"
+        android:hint="截止日期" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提  交"
+        android:id="@+id/homework_add_submit"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
