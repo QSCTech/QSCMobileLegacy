@@ -19,6 +19,8 @@ public abstract class MyFragment extends Fragment implements DataObservable {
 
     @Override
     public void noticeObserver(final int code) {
+        if (getActivity() == null)
+            return;
         for(final DataObserver observer : observers) {
             new Handler().postDelayed(new Runnable() {
                 @Override
