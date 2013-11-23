@@ -44,10 +44,21 @@ public class ExamCardFragment extends Fragment {
     };
 
     @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.post(runnable);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.card_fragment_kebiao, null);
         helper = new ExamDataHelper(getActivity());
-        handler.post(runnable);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,12 +69,6 @@ public class ExamCardFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        handler.removeCallbacks(runnable);
     }
 
     private void setText(ExamStructure examStructure) {
