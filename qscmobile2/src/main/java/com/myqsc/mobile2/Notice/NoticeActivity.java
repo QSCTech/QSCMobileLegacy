@@ -69,6 +69,7 @@ public class NoticeActivity extends SwipeBackActivity {
         scrollView.setOnRefreshListener(onTintRefreshListener);
 
         noticeHelper = new NoticeHelper(linearLayout, scrollView, this);
+        scrollView.setMode(PullToRefreshBase.Mode.DISABLED);
         noticeHelper.getMore(selected);
         noticeHelper.setOnCategoryClickListener(onCategoryClickListener);
         noticeHelper.setOnSponsorClickListener(onSponsorClickListener);
