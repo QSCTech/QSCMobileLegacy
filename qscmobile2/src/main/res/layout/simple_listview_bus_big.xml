@@ -62,6 +62,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="紫金港上车地点" />
+        android:text="紫金港上车地点"
+        android:layout_marginBottom="17dp" />
 
 </LinearLayout>
