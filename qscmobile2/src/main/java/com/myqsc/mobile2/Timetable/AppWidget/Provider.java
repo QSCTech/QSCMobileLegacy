@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.widget.RemoteViews;
 
 import com.myqsc.mobile2.R;
@@ -471,11 +472,11 @@ public class Provider extends AppWidgetProvider {
                 LogHelper.i(updateTime.toString());
                 updateTodayIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsShowingToday);
                 updateTodayPendingIntent = PendingIntent.getBroadcast(context, 0, updateTodayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                    alarmManager.setExact();
-//                } else {
-                alarmManager.set(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateTodayPendingIntent);
-//                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    alarmManager.setExact(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateTodayPendingIntent);
+                } else {
+                    alarmManager.set(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateTodayPendingIntent);
+                }
                 return;
             }
         }
@@ -497,11 +498,11 @@ public class Provider extends AppWidgetProvider {
         Calendar updateTime = TimeUtils.getDate();
         updateTime.add(Calendar.DAY_OF_YEAR, 1);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//        alarmManager.setExact();
-//    } else {
-        alarmManager.set(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateDatePendingIntent);
-//    }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateDatePendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateDatePendingIntent);
+        }
     }
 
     private void onDateChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateDelta) {
