@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myqsc.mobile2"
-    android:versionCode="57"
-    android:versionName="1.57">
+    android:versionCode="61"
+    android:versionName="1.61">
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -86,8 +86,14 @@
             android:name=".Notice.NoticeImageActivity"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".platform.PluginDetailActivity"
+        android:name=".platform.PluginDetailActivity"
+        android:launchMode="singleTask"/>
+        <activity
+            android:name=".homework.HomeworkActivity"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".Debugger.DebugActivity"
+            android:launchMode="singleTask" />
         <receiver
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectReceiver"
             android:label="NetworkConnection" >

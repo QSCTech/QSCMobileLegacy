@@ -44,10 +44,21 @@ public class ExamCardFragment extends Fragment {
     };
 
     @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.post(runnable);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.card_fragment_kebiao, null);
         helper = new ExamDataHelper(getActivity());
-        handler.post(runnable);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,17 +71,11 @@ public class ExamCardFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        handler.removeCallbacks(runnable);
-    }
-
     private void setText(ExamStructure examStructure) {
         ((TextView) view.findViewById(R.id.card_fragment_kebiao_diff))
-                .setText(Html.fromHtml(
+                .setText(
                         Utility.processDiffSecond((int) ((examStructure.getStartTime().getTimeInMillis() -
-                                Calendar.getInstance().getTimeInMillis()) / 1000))));
+                                Calendar.getInstance().getTimeInMillis()) / 1000)));
         ((TextView) view.findViewById(R.id.card_fragment_kebiao_notice))
                 .setText("距离下一门考试还有：");
         ((TextView) view.findViewById(R.id.card_fragment_kebiao_name))

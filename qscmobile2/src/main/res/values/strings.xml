@@ -42,6 +42,7 @@
     <string name="icon_search">&#xF002;</string>
     <string name="icon_share">&#xF045;</string>
     <string name="icon_globe">&#xF0AC;</string>
+    <string name="fa_flag">&#xF024;</string>
     <string name="icon_arrow_circle_o_down">&#xf01a;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
 

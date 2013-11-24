@@ -2,6 +2,7 @@ package com.myqsc.mobile2.uti;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -51,35 +52,35 @@ public class Utility {
         listView.setLayoutParams(params);
     }
 
-    public static String processDiffSecond(int diff) {
-        final float relativeTextSize = 0.3f;
+    public static SpannableStringBuilder processDiffSecond(int diff) {
+        final float relativeTextSize = 0.7f;
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         if (diff >= 60 * 60 * 24){
             builder.append(String.valueOf(diff / 60 / 60 / 24));
             int start = builder.length();
-            builder.append("days");
+            builder.append("days ");
             builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         diff %= 60 * 60 * 24;
         if (diff >= 60 * 60) {
             builder.append(String.valueOf(diff / 60 / 60));
             int start = builder.length();
-            builder.append("h");
+            builder.append("h ");
             builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         diff %= 60 * 60;
         if (diff >= 60) {
             builder.append(String.valueOf(diff / 60));
             int start = builder.length();
-            builder.append("min");
+            builder.append("min ");
             builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         builder.append(String.valueOf(diff % 60));
         int start = builder.length();
-        builder.append("s");
+        builder.append("s ");
         builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        return builder.toString();
+        return builder;
     }
 
     public static void initCheckBar(View view, Context context, View.OnClickListener onClickListener) {

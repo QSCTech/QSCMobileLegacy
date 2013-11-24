@@ -60,6 +60,8 @@ public class XiaocheActivity extends SwipeBackActivity{
                 FROM);
         ArrayAdapter<String> toAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
                 TO);
+        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fromSpinner.setAdapter(fromAdapter);
         toSpinner.setAdapter(toAdapter);
         fromSpinner.setOnItemSelectedListener(onItemSelectedListener);

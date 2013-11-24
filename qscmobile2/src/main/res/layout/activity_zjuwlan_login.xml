@@ -77,7 +77,7 @@
         android:textColor="@color/gray_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="注：ZJUWLAN登陆功能不保证每次都能成功，如果要取消使用这一功能，请删除您的学号密码。\n启用这一功能，即表示您接受‘浙江大学ZJUWLAN无线网络测试收集计划’，这一计划将收集匿名的zjuwlan连接信息，用于分析浙江大学无线网络质量，用户连接情况等等，为学校无线网络建设提供部分支持数据。（从您的手机中将会提交当前的ZJUWLAN接入点数据，包括MAC地址、BSSID地址以及当前课程的名称与教室名称，任何数据都不会、且无法用来识别）"
+        android:text="注：ZJUWLAN登录功能不保证每次都能成功，如果要取消使用这一功能，请删除您的学号密码。\n启用这一功能，即表示您接受“浙江大学ZJUWLAN无线网络质量调查计划”，这一计划将收集匿名的ZJUWLAN连接信息，用于分析浙江大学无线网络质量、连接情况等，为学校无线网络建设提供部分支持数据。（从您的手机中将会提交当前的ZJUWLAN接入点数据，包括AP的MAC和BSSID以及当前课程的名称与教室名称，但任何数据都不会、且无法被用于识别至特定个人。）"
         android:id="@+id/textView3" />
 
 </LinearLayout>

@@ -4,6 +4,7 @@ package com.myqsc.mobile2.exam;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.exam.fragment.AllExamFragment;
 import com.myqsc.mobile2.exam.fragment.EveryDayExamFragment;
+import com.myqsc.mobile2.fragment.MySwipeExitActivity;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.umeng.analytics.MobclickAgent;
 
@@ -18,7 +19,7 @@ import android.widget.TextView;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-public class ExamActivity extends SwipeBackActivity {
+public class ExamActivity extends MySwipeExitActivity {
 	int check = 1;
 
     @Override
@@ -41,15 +42,6 @@ public class ExamActivity extends SwipeBackActivity {
     @Override
     protected void onStart() {
         super.onStart();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            scrollToFinishActivity();
-            return true;
-        }
-        return false;
     }
 
     TextView icon_right, text_right, icon_left, text_left;
