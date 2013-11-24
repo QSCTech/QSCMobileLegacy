@@ -22,12 +22,6 @@ public class CurriculumTaskProvider implements TaskProvider {
 
 
     public CurriculumTaskProvider(Context context) {
-
-        // TODO: Remove debug statement.
-        if (!context.getClass().equals(context.getApplicationContext().getClass())) {
-            throw new RuntimeException("You should use an application Context for consistency although it doesn't matter at present :(");
-        }
-
         this.context = context;
         kebiaoDataHelper = new KebiaoDataHelper(context);
     }
@@ -38,6 +32,7 @@ public class CurriculumTaskProvider implements TaskProvider {
         TimeUtils.setTime(time, Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
     }
 
+    @Override
     public SortedSet<Task> getTasks(Calendar date) {
 
         SortedSet<Task> tasks = Collections.synchronizedSortedSet(new TreeSet<Task>());
@@ -51,6 +46,7 @@ public class CurriculumTaskProvider implements TaskProvider {
 
             tasks.add(new Task(kebiaoClassData.name, kebiaoClassData.place, startTime, endTime));
         }
+
         return tasks;
     }
 }

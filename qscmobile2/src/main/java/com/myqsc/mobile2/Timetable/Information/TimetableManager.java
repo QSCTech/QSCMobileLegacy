@@ -9,11 +9,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-
-// TODO: Should be made an application-wide singleton. (Lazy initialization?) (Insert to the application?)
-// TODO: Synchronization
-// TODO: Calendar used should be set to non-lenient.
-// TODO: Application context should be passed to here.(?)
+// TODO: Synchronization confirmation.
 public class TimetableManager {
 
     private static TimetableManager instance = null;
@@ -30,18 +26,16 @@ public class TimetableManager {
         // TODO: Move this statement to package Curriculum thus registering there.
         // TODO: Maybe this should be loaded according to permanent data storage.
         taskProviders.add(new CurriculumTaskProvider(context));
+
+        // TODO: Remove debug statement.
+        //taskProviders.add(new DummyTaskProvider());
     }
 
     public static TimetableManager getInstance(Context context) {
 
-        // TODO: Remove debug statement.
-        if (!context.getClass().equals(context.getApplicationContext().getClass())) {
-            throw new RuntimeException("You should use an application Context for singleton.");
-        }
-
         synchronized (TimetableManager.class) {
             if (instance == null) {
-                instance = new TimetableManager(context);
+                instance = new TimetableManager(context.getApplicationContext());
             }
         }
 

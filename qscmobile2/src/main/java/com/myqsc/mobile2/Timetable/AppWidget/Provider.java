@@ -1,8 +1,10 @@
 package com.myqsc.mobile2.Timetable.AppWidget;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,10 @@ public class Provider extends AppWidgetProvider {
 
     private static final String ACTION_DATE_CHANGED = "com.myqsc.mobile2.Timetable.AppWidget.DATE_CHANGED";
 
+    private static final String ACTION_UPDATE_TODAY = "com.myqsc.mobile2.Timetable.AppWidget.UPDATE_TODAY";
+
+    private static final String ACTION_UPDATE_DATE = "com.myqsc.mobile2.Timetable.AppWidget.UPDATE_DATE";
+
     // Intent extras
 
     private static final String EXTRA_DATE_DELTA = "DATE_DELTA";
@@ -32,18 +38,33 @@ public class Provider extends AppWidgetProvider {
 
     private static final int DATE_NUMBER_MAXIMUM = 7;
 
+    private static final int DATE_INDEX_TODAY = 3;
+
+    private static final int DATE_INDEX_INVALID = -1;
+
     private static final int DATE_NUMBER_SHOWN = 3;
 
     private static final int TASK_NUMBER_SHOWN = 5;
+
+    // Delay time for update today
+
+    private static final int UPDATE_ALARM_DELAY_MILLISECOND = 1000;
 
     // Store date index for each AppWidget in SharedPreferences and access via DateIndexManager.
 
     private static class DateIndexManager {
 
-        private static String PREFERENCES_FILE_NAME = "com.myqsc.mobile2.Timetable.AppWidget";
+        private static final String PREFERENCES_FILE_NAME = "com.myqsc.mobile2.Timetable.AppWidget";
+
+        private static String getKey(int appWidgetId) {
+            return appWidgetId + ".DateIndex";
+        }
+
+        private static final String IDS_SHOWING_TODAY = "IdsShowingToday";
+
+        private static final String IDS_SEPARATOR = ",";
 
         SharedPreferences sharedPreferences;
-
 
         DateIndexManager(Context context) {
             this.sharedPreferences = getSharedPreferences(context);
@@ -53,20 +74,93 @@ public class Provider extends AppWidgetProvider {
             return context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         }
 
-        private static String getKey(int appWidgetId) {
-            return appWidgetId + ".DateIndex";
+        // Store IDs of AppWidgets that are showing today.
+        // AppWidgetManager.getAppWidgetIds() returns all the ids that have been added historically.
+
+        private static void addToIds(SharedPreferences sharedPreferences, int id) {
+            String idsPrevious = sharedPreferences.getString(IDS_SHOWING_TODAY, "");
+            // REMOVEME
+            if (idsPrevious.equals("0")) {
+                LogHelper.i("Remove 0~");
+                idsPrevious = "";
+            }
+
+            StringBuilder idsBuilder = new StringBuilder(idsPrevious);
+            if (idsPrevious.length() != 0) {
+                idsBuilder.append(IDS_SEPARATOR);
+            }
+            idsBuilder.append(Integer.toString(id));
+            LogHelper.i(idsBuilder.toString());
+            sharedPreferences.edit().putString(IDS_SHOWING_TODAY, idsBuilder.toString()).commit();
         }
 
-        // Return and set to default value (DATE_NUMBER_MAXIMUM / 2 as today) if the date index has not been set.
+        private static void removeFromIds(SharedPreferences sharedPreferences, int id) {
+            String idsPrevious =  sharedPreferences.getString(IDS_SHOWING_TODAY, "");
+            LogHelper.i(idsPrevious);
+            if (idsPrevious.length() == 0) {
+                return;
+            }
+            StringBuilder idsBuilder = new StringBuilder();
+            String idString = Integer.toString(id);
+            boolean first = true;
+            for (String idPrevious : idsPrevious.split(IDS_SEPARATOR)) {
+                if (!idPrevious.equals(idString)) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        idsBuilder.append(IDS_SEPARATOR);
+                    }
+                    idsBuilder.append(idPrevious);
+                }
+            }
+            LogHelper.i(idsBuilder.toString());
+            sharedPreferences.edit().putString(IDS_SHOWING_TODAY, idsBuilder.toString()).commit();
+        }
+
+        // Update appWidgetIdsShowingToday when date index is changed.
+        private static void onChanged(SharedPreferences sharedPreferences, int appWidgetId, int dateIndexPrevious, int dateIndex) {
+            LogHelper.i("dateIndexPrevious: " + dateIndexPrevious + "; dateIndex: " + dateIndex);
+            if (dateIndexPrevious == DATE_INDEX_TODAY) {
+                removeFromIds(sharedPreferences, appWidgetId);
+            } else if (dateIndex == DATE_INDEX_TODAY) {
+                addToIds(sharedPreferences, appWidgetId);
+            }
+        }
+
+        private static void onRemoved(SharedPreferences sharedPreferences, int appWidgetId) {
+            removeFromIds(sharedPreferences, appWidgetId);
+        }
+
+        public static int[] getIdsShowingToday(SharedPreferences sharedPreferences) {
+            String[] idStrings = sharedPreferences.getString(IDS_SHOWING_TODAY, "").split(IDS_SEPARATOR);
+            int[] ids;
+            if (idStrings[0].length() != 0) {
+                ids = new int[idStrings.length];
+                for (int i = 0; i != idStrings.length; ++i) {
+                    ids[i] = Integer.valueOf(idStrings[i]);
+                }
+            } else {
+                ids = new int[0];
+            }
+            return ids;
+        }
+
+        public static int[] getIdsShowingToday(Context context) {
+            return getIdsShowingToday(getSharedPreferences(context));
+        }
+
+        public int[] getIdsShowingToday() {
+            return getIdsShowingToday(sharedPreferences);
+        }
+
+        // Return and set to default value (DATE_INDEX_TODAY) if the date index has not been set.
         private static int get(SharedPreferences sharedPreferences, int appWidgetId) {
             String key = getKey(appWidgetId);
-            int dateIndex;
-            if (sharedPreferences.contains(key)) {
-                dateIndex = sharedPreferences.getInt(key, -1);
-            } else {
-                dateIndex = DATE_NUMBER_MAXIMUM / 2;
-                // apply() requires API Level 9.
+            int dateIndex = sharedPreferences.getInt(key, DATE_INDEX_INVALID);
+            if (dateIndex == DATE_INDEX_INVALID) {
+                dateIndex = DATE_INDEX_TODAY;
                 sharedPreferences.edit().putInt(key, dateIndex).commit();
+                onChanged(sharedPreferences, appWidgetId, DATE_INDEX_INVALID, dateIndex);
             }
             return dateIndex;
         }
@@ -80,7 +174,11 @@ public class Provider extends AppWidgetProvider {
         }
 
         public static void set(SharedPreferences sharedPreferences, int appWidgetId, int dateIndex) {
+            int dateIndexPrevious = sharedPreferences.getInt(getKey(appWidgetId), DATE_INDEX_INVALID);
             sharedPreferences.edit().putInt(getKey(appWidgetId), dateIndex).commit();
+            if (dateIndex != dateIndexPrevious) {
+                onChanged(sharedPreferences, appWidgetId, dateIndexPrevious, dateIndex);
+            }
         }
 
         public static void set(Context context, int appWidgetId, int dateIndex) {
@@ -93,6 +191,7 @@ public class Provider extends AppWidgetProvider {
 
         public static void remove(SharedPreferences sharedPreferences, int appWidgetId) {
             sharedPreferences.edit().remove(getKey(appWidgetId)).commit();
+            onRemoved(sharedPreferences, appWidgetId);
         }
 
         public static void remove(Context context, int appWidgetId) {
@@ -117,6 +216,7 @@ public class Provider extends AppWidgetProvider {
     }
 
     // Cached information
+    // TODO: Make this a class and differentiate update() and ensureData().
 
     private static class CachedInfoHolder {
         Calendar date;
@@ -125,16 +225,16 @@ public class Provider extends AppWidgetProvider {
 
     private static CachedInfoHolder[] cachedInfo = new CachedInfoHolder[DATE_NUMBER_MAXIMUM];
 
-    void updateCachedInfo(Context context, boolean forceUpdate) {
+    private void updateCachedInfo(Context context, boolean forceUpdate) {
 
-        if (forceUpdate || cachedInfo[0] == null || !TimeUtils.isToday(cachedInfo[DATE_NUMBER_MAXIMUM / 2].date)) {
+        if (forceUpdate || cachedInfo[0] == null || !TimeUtils.isToday(cachedInfo[DATE_INDEX_TODAY].date)) {
 
             // Cache the starting date.
             Calendar dateStart = TimeUtils.getDate();
-            dateStart.add(Calendar.DAY_OF_YEAR, - DATE_NUMBER_MAXIMUM / 2);
+            dateStart.add(Calendar.DAY_OF_YEAR, - DATE_INDEX_TODAY);
 
             // Cache TimetableManager.
-            TimetableManager timetableManager = TimetableManager.getInstance(context.getApplicationContext());
+            TimetableManager timetableManager = TimetableManager.getInstance(context);
 
             // Update CachedInfo
             for (int i = 0; i != DATE_NUMBER_MAXIMUM; ++i) {
@@ -154,7 +254,7 @@ public class Provider extends AppWidgetProvider {
         }
     }
 
-    private PendingIntent getDateChangedPendingIntent(Context context, int appWidgetId, int dateDelta) {
+    private PendingIntent makeDateChangedPendingIntent(Context context, int appWidgetId, int dateDelta) {
         Intent dateChangedIntent = new Intent(context, this.getClass());
         dateChangedIntent.setAction(ACTION_DATE_CHANGED);
         dateChangedIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -171,6 +271,11 @@ public class Provider extends AppWidgetProvider {
     }
 
     private void buildUpdate(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+
+        // Check if the cached info should be updated.
+        updateCachedInfo(context, false);
+
+        // Build AppWidgetView.
         RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable);
 
         // Remove sub views in case the host recycles the view, while this also removes the loading TextView.
@@ -190,16 +295,16 @@ public class Provider extends AppWidgetProvider {
         // causes exception, set Boolean with setEnabled does nothing; don't know how to disable it.
         // Dealing with this in onDateChanged.
         if (dateIndex != 0) {
-            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_left, context.getResources().getColor(R.color.white));
-            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_navigation_left, getDateChangedPendingIntent(context, appWidgetId, -1));
+            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_backward, context.getResources().getColor(R.color.white));
+            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_backward, makeDateChangedPendingIntent(context, appWidgetId, -1));
         } else {
-            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_left, context.getResources().getColor(R.color.white_fading));
+            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_backward, context.getResources().getColor(R.color.white_fading));
         }
         if (dateIndex != DATE_NUMBER_MAXIMUM - 1) {
-            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_right, context.getResources().getColor(R.color.white));
-            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_navigation_right, getDateChangedPendingIntent(context, appWidgetId, 1));
+            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_forward, context.getResources().getColor(R.color.white));
+            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_forward, makeDateChangedPendingIntent(context, appWidgetId, 1));
         } else {
-            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_navigation_right, context.getResources().getColor(R.color.white_fading));
+            appWidgetViews.setTextColor(R.id.appwidget_timetable_date_forward, context.getResources().getColor(R.color.white_fading));
         }
 
         // Add dates to view.
@@ -211,7 +316,7 @@ public class Provider extends AppWidgetProvider {
             if (dateShownIndexStart + i >= 0 && dateShownIndexStart + i <= DATE_NUMBER_MAXIMUM - 1) {
 
                 // Add content to the date view.
-                if (dateShownIndexStart + i == DATE_NUMBER_MAXIMUM / 2) {
+                if (dateShownIndexStart + i == DATE_INDEX_TODAY) {
                     subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.appwidget_timetable_today));
                 } else {
                     subViews.setTextViewText(R.id.appwidget_timetable_date, TimeUtils.getWeekdayString(cachedInfo[dateShownIndexStart + i].date));
@@ -220,7 +325,7 @@ public class Provider extends AppWidgetProvider {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white));
                 } else {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white_fading));
-                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, getDateChangedPendingIntent(context, appWidgetId, i - DATE_NUMBER_SHOWN / 2));
+                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, makeDateChangedPendingIntent(context, appWidgetId, i - DATE_NUMBER_SHOWN / 2));
                 }
             }
 
@@ -239,7 +344,6 @@ public class Provider extends AppWidgetProvider {
         } else {
 
             // Add the first divider.
-            // TODO: Check if this should be marked active.
             subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
             subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_normal);
             appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
@@ -250,8 +354,10 @@ public class Provider extends AppWidgetProvider {
 
             // Auto-scroll the list to show more tasks.
             Iterator<Task> iter2 = timetable.iterator();
-            while (timetable.size() > TASK_NUMBER_SHOWN && iter2.next().getEndTime().before(now)) {
+            int start = 0;
+            while (timetable.size() - start > TASK_NUMBER_SHOWN && iter2.next().getEndTime().before(now)) {
                 iter.next();
+                ++start;
             }
 
             for (int i = 0; i != TASK_NUMBER_SHOWN; ++i) {
@@ -269,10 +375,10 @@ public class Provider extends AppWidgetProvider {
                     subViews.setTextViewText(R.id.appwidget_timetable_task_time_end, TimeUtils.getHourMinuteString(task.getEndTime()));
                     // Set color for today's task view.
                     // Android Studio prompts incorrectly at present; We just pass color id to our private function and resolve it inside.
-                    if (dateIndex == DATE_NUMBER_MAXIMUM / 2) {
+                    if (dateIndex == DATE_INDEX_TODAY) {
                         if (task.getEndTime().before(now)) {
                             // Finished
-                            setTaskViewColor(subViews, context, R.color.grey);
+                            setTaskViewColor(subViews, context, R.color.grey_medium);
                         } else if (task.getStartTime().after(now)) {
                             // Scheduled
                             setTaskViewColor(subViews, context, R.color.grey_dark);
@@ -314,6 +420,90 @@ public class Provider extends AppWidgetProvider {
         LogHelper.i("dateIndex:" + dateIndex);
     }
 
+    // Returns null if no update is needed.
+    private Calendar getUpdateTime(Context context) {
+
+        // Cache now, set the initial value of updateTime to null.
+        Calendar now = TimeUtils.getNow(), updateTime = null;
+
+        // Cache the timetable.
+        updateCachedInfo(context, false);
+        SortedSet<Task> timetable = cachedInfo[DATE_INDEX_TODAY].timetable;
+
+        // Traverse the timetable if not empty.
+        if (!timetable.isEmpty()) {
+            Iterator<Task> iter = timetable.iterator();
+            Task task;
+            Calendar time;
+            while (iter.hasNext()) {
+                task = iter.next();
+                time = task.getStartTime();
+                if (time.after(now) && (updateTime == null || time.before(updateTime))) {
+                    updateTime = time;
+                }
+                time = task.getEndTime();
+                if (time.after(now) && (updateTime == null || time.before(updateTime))) {
+                    updateTime = time;
+                }
+            }
+        }
+
+        return updateTime;
+    }
+
+    // Set or cancel the update today alarm.
+    private void updateUpdateTodayAlarm(Context context) {
+
+        // Build the intent and some others.
+        Intent updateTodayIntent = new Intent(context, this.getClass());
+        updateTodayIntent.setAction(ACTION_UPDATE_TODAY);
+        PendingIntent updateTodayPendingIntent;
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        // Check if the alarm should be set.
+        int[] idsShowingToday = DateIndexManager.getIdsShowingToday(context);
+        if (idsShowingToday.length != 0) {
+            Calendar updateTime = getUpdateTime(context);
+            if (updateTime != null) {
+
+                // Set the alarm and return.
+                LogHelper.i(Integer.toString(idsShowingToday[0]));
+                LogHelper.i(updateTime.toString());
+                updateTodayIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsShowingToday);
+                updateTodayPendingIntent = PendingIntent.getBroadcast(context, 0, updateTodayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                    alarmManager.setExact();
+//                } else {
+                alarmManager.set(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateTodayPendingIntent);
+//                }
+                return;
+            }
+        }
+
+        // Cancel the alarm
+        LogHelper.i("Cancel update today alarm.");
+        updateTodayPendingIntent = PendingIntent.getBroadcast(context, 0, updateTodayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(updateTodayPendingIntent);
+    }
+
+    // Set the update date alarm.
+    private void setUpdateDateAlarm(Context context) {
+
+        LogHelper.i("Set update date alarm");
+
+        Intent updateDateIntent = new Intent(context, this.getClass());
+        updateDateIntent.setAction(ACTION_UPDATE_DATE);
+        PendingIntent updateDatePendingIntent = PendingIntent.getBroadcast(context, 0, updateDateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar updateTime = TimeUtils.getDate();
+        updateTime.add(Calendar.DAY_OF_YEAR, 1);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//        alarmManager.setExact();
+//    } else {
+        alarmManager.set(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateDatePendingIntent);
+//    }
+    }
+
     private void onDateChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateDelta) {
 
         LogHelper.i("appWidgetId: " + appWidgetId);
@@ -330,7 +520,42 @@ public class Provider extends AppWidgetProvider {
 
         dateIndexManager.set(appWidgetId, dateIndex + dateDelta);
 
+        // Update view.
         buildUpdate(context, appWidgetManager, appWidgetId);
+
+        // Update update today alarm.
+        updateUpdateTodayAlarm(context);
+    }
+
+    private void onUpdateToday(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+        // Update every AppWidget given.
+        for (int appWidgetId : appWidgetIds) {
+            buildUpdate(context, appWidgetManager, appWidgetId);
+        }
+
+        // Update update today alarm.
+        updateUpdateTodayAlarm(context);
+    }
+
+    private void onUpdateDate(Context context, AppWidgetManager appWidgetManager) {
+
+        LogHelper.i("");
+
+        // TODO: Update cached info for date change. (May be needed when the cached info is refactored)
+        //updateCachedInfo(context, false);
+
+        // Update every AppWidget.
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
+        for (int appWidgetId : appWidgetIds) {
+            buildUpdate(context, appWidgetManager, appWidgetId);
+        }
+
+        // Set update date alarm for the next update.
+        setUpdateDateAlarm(context);
+
+        // Update update today alarm.
+        updateUpdateTodayAlarm(context);
     }
 
     // TODO: Receive data update broadcast
@@ -341,6 +566,10 @@ public class Provider extends AppWidgetProvider {
 
         if (ACTION_DATE_CHANGED.equals(action)) {
             onDateChanged(context, AppWidgetManager.getInstance(context), intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), intent.getIntExtra(EXTRA_DATE_DELTA, 0));
+        } else if (ACTION_UPDATE_TODAY.equals(action)) {
+            onUpdateToday(context, AppWidgetManager.getInstance(context), intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS));
+        } else if (ACTION_UPDATE_DATE.equals(action)) {
+            onUpdateDate(context, AppWidgetManager.getInstance(context));
         } else {
             super.onReceive(context, intent);
         }
@@ -362,13 +591,14 @@ public class Provider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        // Check if the cached info should be updated
-        updateCachedInfo(context, false);
-
+        // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
             LogHelper.i("appWidgetId: " + appWidgetId);
             buildUpdate(context, appWidgetManager, appWidgetId);
         }
+
+        // Update update today alarm.
+        updateUpdateTodayAlarm(context);
     }
 
     @Override
@@ -380,6 +610,9 @@ public class Provider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             dateIndexManager.remove(appWidgetId);
         }
+
+        // Update update today alarm.
+        updateUpdateTodayAlarm(context);
 
         super.onDeleted(context, appWidgetIds);
     }

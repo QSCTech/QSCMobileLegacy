@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:background="@color/white_background">
 
-        <!-- TODO: Change placeholder background to 9-patch -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
@@ -20,9 +19,9 @@
 
             android:background="@drawable/appwidget_timetable_date_list_background">
 
-            <!-- TODO: Change placeholder to drawable -->
+            <!-- TODO: Change text to drawable -->
             <TextView
-                android:id="@+id/appwidget_timetable_date_navigation_left"
+                android:id="@+id/appwidget_timetable_date_backward"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
 
@@ -42,7 +41,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/appwidget_timetable_date_navigation_right"
+                android:id="@+id/appwidget_timetable_date_forward"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
 
