@@ -505,6 +505,18 @@ public class Provider extends AppWidgetProvider {
         }
     }
 
+    // Cancel the update date alarm.
+    private void cancelUpdateDateAlarm(Context context) {
+
+        LogHelper.i("Cancel update date alarm");
+
+        Intent updateDateIntent = new Intent(context, this.getClass());
+        updateDateIntent.setAction(ACTION_UPDATE_DATE);
+        PendingIntent updateDatePendingIntent = PendingIntent.getBroadcast(context, 0, updateDateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(updateDatePendingIntent);
+    }
+
     private void onDateChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateDelta) {
 
         LogHelper.i("appWidgetId: " + appWidgetId);
@@ -578,6 +590,9 @@ public class Provider extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
+
+        setUpdateDateAlarm(context);
+
         super.onEnabled(context);
     }
 
@@ -585,6 +600,8 @@ public class Provider extends AppWidgetProvider {
     public void onDisabled(Context context) {
 
         DateIndexManager.clear(context);
+
+        cancelUpdateDateAlarm(context);
 
         super.onDisabled(context);
     }
