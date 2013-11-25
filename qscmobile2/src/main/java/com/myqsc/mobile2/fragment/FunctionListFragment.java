@@ -309,7 +309,7 @@ public class FunctionListFragment extends MyFragment{
                         public void run() {
                             progressDialog = new ProgressDialog(view.getContext());
                             progressDialog.setMessage("正在同步平台文件");
-                            progressDialog.setTitle("请稍后……");
+                            progressDialog.setTitle("请稍候…");
                             progressDialog.setCancelable(false);
                             progressDialog.show();
                         }
@@ -338,7 +338,7 @@ public class FunctionListFragment extends MyFragment{
                         @Override
                         public void run() {
                             progressDialog = new ProgressDialog(view.getContext());
-                            progressDialog.setTitle("请稍后……");
+                            progressDialog.setTitle("请稍候…");
                             progressDialog.setMessage("正在下载插件");
                             progressDialog.setCancelable(false);
                             progressDialog.show();
