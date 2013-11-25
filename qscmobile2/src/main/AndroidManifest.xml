@@ -109,7 +109,7 @@
             android:label="@string/appwidget_timetable_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="com.myqsc.mobile2.Timetable.AppWidget.DATE_CHANGED"/>
+                <action android:name="com.myqsc.mobile2.Timetable.AppWidget.DATE_INDEX_CHANGED"/>
                 <action android:name="com.myqsc.mobile2.Timetable.AppWidget.UPDATE_TODAY"/>
                 <action android:name="com.myqsc.mobile2.Timetable.AppWidget.UPDATE_DATE"/>
             </intent-filter>

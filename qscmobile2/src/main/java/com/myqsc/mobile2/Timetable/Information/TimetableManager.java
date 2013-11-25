@@ -12,6 +12,8 @@ import java.util.TreeSet;
 // TODO: Synchronization confirmation.
 public class TimetableManager {
 
+    private static final Object instanceLock = new Object();
+
     private static TimetableManager instance = null;
 
     private Set<TaskProvider> taskProviders = Collections.synchronizedSet(new LinkedHashSet<TaskProvider>());
@@ -33,13 +35,14 @@ public class TimetableManager {
 
     public static TimetableManager getInstance(Context context) {
 
-        synchronized (TimetableManager.class) {
+        synchronized (instanceLock) {
+
             if (instance == null) {
                 instance = new TimetableManager(context.getApplicationContext());
             }
-        }
 
-        return instance;
+            return instance;
+        }
     }
 
     public SortedSet<Task> getTimetable(Calendar date) {
