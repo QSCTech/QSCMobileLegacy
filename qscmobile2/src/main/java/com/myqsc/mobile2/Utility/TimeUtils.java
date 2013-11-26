@@ -25,9 +25,9 @@ public class TimeUtils {
     // Date related functions
 
     public static Calendar getDate() {
-        Calendar today = getNow();
-        clearTime(today);
-        return today;
+        Calendar date = getNow();
+        clearTime(date);
+        return date;
     }
 
     public static void setDate(Calendar date, int month, int day) {
@@ -71,9 +71,9 @@ public class TimeUtils {
     // Time related functions
 
     public static Calendar getTime() {
-        Calendar currentTime = getNow();
-        clearTime(currentTime);
-        return currentTime;
+        Calendar time = getNow();
+        clearTime(time);
+        return time;
     }
 
     public static void setTime(Calendar time, int hour, int minute, int second, int millisecond) {

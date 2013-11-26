@@ -217,7 +217,7 @@ public class Provider extends AppWidgetProvider {
             this.context = context;
         }
 
-        // Will update cached data if any of the following three conditions is met:
+        // Will update cached information if any of the following three conditions is met:
         // 1. forceUpdate == true;
         // 2. cachedInfo is null;
         // 3. The date with index of today is not today.
@@ -562,14 +562,23 @@ public class Provider extends AppWidgetProvider {
 
         dateIndexManager.set(appWidgetId, dateIndex + dateDelta);
 
+        // Ensure that cached information is up to date.
+        CachedInfoManager.update(context, false);
+
         // Update view.
         buildUpdate(context, appWidgetManager, appWidgetId);
 
         // Update update today alarm because the date index has changed.
         updateUpdateTodayAlarm(context);
+
+        // Ensure that update date alarm is set.
+        setUpdateDateAlarm(context);
     }
 
     private void onUpdateToday(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+        // Ensure that cached information is up to date.
+        CachedInfoManager.update(context, false);
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
@@ -579,11 +588,14 @@ public class Provider extends AppWidgetProvider {
 
         // Update update today alarm.
         updateUpdateTodayAlarm(context);
+
+        // Ensure that update date alarm is set.
+        setUpdateDateAlarm(context);
     }
 
     private void onUpdateDate(Context context, AppWidgetManager appWidgetManager) {
 
-        // Update cached info.
+        // Update cached information.
         CachedInfoManager.update(context, false);
 
         // Update every AppWidget.
@@ -603,6 +615,10 @@ public class Provider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
 
+        // Update cached information.
+        CachedInfoManager.update(context, false);
+
+        // Set update date alarm.
         setUpdateDateAlarm(context);
 
         super.onEnabled(context);
@@ -611,8 +627,10 @@ public class Provider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
 
+        // Clear date index storage.
         DateIndexManager.clear(context);
 
+        // Cancel update date alarm.
         cancelUpdateDateAlarm(context);
 
         super.onDisabled(context);
@@ -620,6 +638,9 @@ public class Provider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+        // Ensure that cached information is up to date.
+        CachedInfoManager.update(context, false);
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
@@ -629,6 +650,9 @@ public class Provider extends AppWidgetProvider {
 
         // Update update today alarm because instances with new date indexes has been added.
         updateUpdateTodayAlarm(context);
+
+        // Ensure that update date alarm is set.
+        setUpdateDateAlarm(context);
     }
 
     @Override
