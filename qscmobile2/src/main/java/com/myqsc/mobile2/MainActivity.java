@@ -6,6 +6,7 @@ package com.myqsc.mobile2;
 // TODO: Change some of the class names to follow certain convention
 // TODO: Make unnecessarily package-access members private
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,12 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        try {
+            Runtime.getRuntime().exec("logcat -c");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);

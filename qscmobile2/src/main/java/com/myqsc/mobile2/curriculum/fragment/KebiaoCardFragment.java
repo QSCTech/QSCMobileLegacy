@@ -40,7 +40,6 @@ public class KebiaoCardFragment extends Fragment {
                     Calendar.getInstance(),
                     list
             );
-//            LogHelper.d("diff time got");
             if (map == null) {
                 Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                 intent.putExtra("card", DataUpdater.JW_KEBIAO);
@@ -55,6 +54,19 @@ public class KebiaoCardFragment extends Fragment {
             setTime(diffTime, kebiao);
         }
     };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.post(runnable);
+    }
+
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -77,15 +89,12 @@ public class KebiaoCardFragment extends Fragment {
         });
 
         helper = new KebiaoDataHelper(getActivity());
-
-        handler.post(runnable);
 		return view;
 	}
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        handler.removeCallbacks(runnable);
     }
 
     private void setTime(int diff, KebiaoClassData kebiaoClassData){
@@ -100,10 +109,5 @@ public class KebiaoCardFragment extends Fragment {
             noticeTextView.setText("距离上课还有");
             diffTextView.setText(Utility.processDiffSecond(-diff));
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }

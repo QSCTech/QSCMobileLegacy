@@ -72,13 +72,16 @@ public class XiaocheAdapter extends BaseAdapter {
 				((TextView)convertView.findViewById(R.id.listview_bus_big_time)).setText(structure.runTime);
 				AwesomeFontHelper.setFontFace((TextView) convertView.findViewById(R.id.listview_bus_big_icon_arrow), mContext);
 
-                String pos = "";
+                StringBuilder pos = new StringBuilder();
                 for (int i = 0; i != structure.campus.length; ++i) {
-                    pos += "<strong>" + structure.campus[i] + "</strong>";
-                    pos += "<br />" + structure.position[i] + "<br />";
+                    pos.append(String.format("<strong>%s</strong><br/>%s<br/>", structure.campus[i], structure.position[i]));
+                }
+
+                if (structure.hint != null && structure.hint.length() >= 1) {
+                    pos.append(String.format("<strong>%s</strong><br/>%s", "备注", structure.hint));
                 }
                 ((TextView)convertView.findViewById(R.id.listview_bus_big_pos))
-                        .setText(Html.fromHtml(pos));
+                        .setText(Html.fromHtml(pos.toString()));
 
 				views.set(position, convertView);
 

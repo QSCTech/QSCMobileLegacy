@@ -33,7 +33,7 @@ import javax.net.ssl.SSLHandshakeException;
 public class DataUpdater {
     private static final String HTTP_PROTOCOL = "http://m.myqsc.com/api/v2/";
 
-    public final static String COMMON_HASH = "share/hash";
+//    public final static String COMMON_HASH = "share/hash";
     public final static String COMMON_TEACHER = "share/teacher";
     public final static String COMMON_XIAOCHE = "share/xiaoche";
     public final static String COMMON_XIAOLI = "share/xiaoli";
@@ -41,17 +41,19 @@ public class DataUpdater {
 //    public final static String COMMON_SHIJIAN_DETAIL = "share/notice";
 
     public final static String JW_VALIDATE = "jw/validate";
-    public final static String JW_HASH = "jw/hash";
-    public final static String JW_INFO = "jw/stuinfo";
+//    public final static String JW_HASH = "jw/hash";
+//    public final static String JW_INFO = "jw/stuinfo";
     public final static String JW_KEBIAO = "jw/kebiao";
     public final static String JW_CHENGJI = "jw/chengji";
     public final static String JW_KAOSHI = "jw/kaoshi";
+
+    public final static String HOMEWORK = "404";
 
     public final static String COMMON_NOTICE = "notice/events/hot";
 
     public final static Map<String, String> name = new HashMap<String, String>();
     static{
-        name.put(COMMON_HASH, HTTP_PROTOCOL + COMMON_HASH);
+//        name.put(COMMON_HASH, HTTP_PROTOCOL + COMMON_HASH);
         name.put(COMMON_TEACHER, HTTP_PROTOCOL + COMMON_TEACHER);
         name.put(COMMON_XIAOCHE, HTTP_PROTOCOL + COMMON_XIAOCHE);
         name.put(COMMON_XIAOLI, HTTP_PROTOCOL + COMMON_XIAOLI);
@@ -59,8 +61,8 @@ public class DataUpdater {
 //        name.put(COMMON_SHIJIAN_DETAIL, HTTP_PROTOCOL + COMMON_SHIJIAN_DETAIL);
 
         name.put(JW_VALIDATE, HTTP_PROTOCOL + JW_VALIDATE);
-        name.put(JW_HASH, HTTP_PROTOCOL + JW_HASH);
-        name.put(JW_INFO, HTTP_PROTOCOL + JW_INFO);
+//        name.put(JW_HASH, HTTP_PROTOCOL + JW_HASH);
+//        name.put(JW_INFO, HTTP_PROTOCOL + JW_INFO);
         name.put(JW_KEBIAO, HTTP_PROTOCOL + JW_KEBIAO);
         name.put(JW_CHENGJI, HTTP_PROTOCOL + JW_CHENGJI);
         name.put(JW_KAOSHI, HTTP_PROTOCOL + JW_KAOSHI);
@@ -97,8 +99,12 @@ public class DataUpdater {
             URLConnection urlConnection = address.openConnection();
             urlConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
             urlConnection.setRequestProperty("X-Need-Escape", "0");
+            urlConnection.setRequestProperty("Accept-Encoding", "gzip");
             urlConnection.setConnectTimeout(15000); //15秒钟超时
             urlConnection.connect();
+
+            LogHelper.e(urlConnection.getContentEncoding());
+            LogHelper.e(urlConnection.getContentType());
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -128,6 +134,7 @@ public class DataUpdater {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
             httpGet.setHeader("X-Need-Escape", "0");
+            httpGet.setHeader("Accept-Encoding", "gzip");
             HttpResponse httpResponse = httpClient.execute(httpGet);
             return EntityUtils.toString(httpResponse.getEntity());
         } catch (ClientProtocolException e) {
