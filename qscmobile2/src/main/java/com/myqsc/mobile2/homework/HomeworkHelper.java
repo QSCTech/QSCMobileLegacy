@@ -180,7 +180,7 @@ public class HomeworkHelper {
             @Override
             public int compare(HomeworkStructure homeworkStructure, HomeworkStructure homeworkStructure2) {
                 try {
-                    return -format.parse(homeworkStructure.due_time).compareTo(
+                    return format.parse(homeworkStructure.due_time).compareTo(
                             format.parse(homeworkStructure2.due_time)
                     );
                 } catch (ParseException e) {
@@ -306,9 +306,9 @@ public class HomeworkHelper {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
                 ((EditText) addView.findViewById(R.id.homework_add_date))
-                        .setText(String.format("%04d年 %02d月 %02d日", i, i2, i3));
+                        .setText(String.format("%04d年 %02d月 %02d日", i, i2 + 1, i3));
                 add_year = i;
-                add_month = i2;
+                add_month = i2 + 1;
                 add_day = i3;
             }
         };
@@ -391,7 +391,6 @@ public class HomeworkHelper {
                     postParmas.add(new BasicNameValuePair("hash", kebiaoClassData.hash));
                     postParmas.add(new BasicNameValuePair("content", add_content.getText().toString()));
 
-                    add_month ++;
                     postParmas.add(new BasicNameValuePair("due_time", String.format("%04d-%02d-%02d", add_year, add_month, add_day)));
 
                     httpPost.setEntity(new UrlEncodedFormEntity(postParmas, "UTF-8"));
