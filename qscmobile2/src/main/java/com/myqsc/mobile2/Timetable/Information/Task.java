@@ -50,4 +50,15 @@ public class Task implements Comparable<Task> {
 
         return result;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Task)) {
+            return false;
+        }
+        return compareTo((Task) object) == 0;
+    }
 }

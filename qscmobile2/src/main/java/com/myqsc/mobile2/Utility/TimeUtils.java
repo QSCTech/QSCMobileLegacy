@@ -91,8 +91,9 @@ public class TimeUtils {
         setTime(time, hour, minute, 0, 0);
     }
 
+    // NOTE: Calendar.clear() on HOUR_OF_DAY, HOUR or AM_PM doesn't reset the hour of day value of this Calendar.
     public static void clearTime(Calendar date) {
-        date.clear(Calendar.HOUR_OF_DAY);
+        date.set(Calendar.HOUR_OF_DAY, 0);
         date.clear(Calendar.MINUTE);
         date.clear(Calendar.SECOND);
         date.clear(Calendar.MILLISECOND);
@@ -114,6 +115,10 @@ public class TimeUtils {
 
     public static String getHourMinuteString(Calendar time) {
         return getString(time, "HH:mm");
+    }
+
+    public static String getNormalString(Calendar time) {
+        return getString(time, "yyyy-M-d HH:mm:ss:SSSS");
     }
 
     /*

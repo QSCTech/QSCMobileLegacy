@@ -379,12 +379,14 @@ public class Provider extends AppWidgetProvider {
             Iterator<Task> iter = timetable.iterator();
             Calendar now = TimeUtils.getNow();
 
-            // Auto-scroll the list to show more tasks.
-            Iterator<Task> iter2 = timetable.iterator();
-            int start = 0;
-            while (timetable.size() - start > TASK_NUMBER_SHOWN && iter2.next().getEndTime().before(now)) {
-                iter.next();
-                ++start;
+            // Auto-scroll the list to show more tasks if today.
+            if (dateIndex == DATE_INDEX_TODAY) {
+                Iterator<Task> iter2 = timetable.iterator();
+                int start = 0;
+                while (timetable.size() - start > TASK_NUMBER_SHOWN && iter2.next().getEndTime().before(now)) {
+                    iter.next();
+                    ++start;
+                }
             }
 
             for (int i = 0; i != TASK_NUMBER_SHOWN; ++i) {
@@ -447,7 +449,7 @@ public class Provider extends AppWidgetProvider {
         LogHelper.i("dateIndex:" + dateIndex);
     }
 
-    // Handle actions.
+    // Manage alarms.
 
     // Returns null if no update is needed.
     private Calendar getUpdateTime(Context context) {
@@ -545,6 +547,8 @@ public class Provider extends AppWidgetProvider {
         alarmManager.cancel(updateDatePendingIntent);
     }
 
+    // Handle actions.
+
     private void onDateIndexChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateDelta) {
 
         LogHelper.i("appWidgetId: " + appWidgetId);
@@ -618,9 +622,6 @@ public class Provider extends AppWidgetProvider {
         // Update cached information.
         CachedInfoManager.update(context, false);
 
-        // Set update date alarm.
-        setUpdateDateAlarm(context);
-
         super.onEnabled(context);
     }
 
@@ -672,7 +673,8 @@ public class Provider extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
     }
 
-    // TODO: Handle TimetableManager update broadcast
+    // TODO: Handle TimetableManager update broadcast.
+    // TODO: Handel system date changed.
     @Override
     public void onReceive(Context context, Intent intent) {
 

@@ -20,19 +20,26 @@ public class DummyTaskProvider implements TaskProvider {
 
     @Override
     public SortedSet<Task> getTasks(Calendar date) {
+
         SortedSet<Task> tasks = Collections.synchronizedSortedSet(new TreeSet<Task>());
 
-        for (int i = 0; i != 7; ++i) {
+        if (TimeUtils.isToday(TimeUtils.getNow())) {
 
-            // No overlap now.
+            for (int i = 0; i != 4; ++i) {
 
-            Calendar startTime = (Calendar) base.clone();
-            startTime.add(Calendar.SECOND, 10 * (2 * i - 1));
-            Calendar endTime = (Calendar) base.clone();
-            endTime.add(Calendar.SECOND, 10 * 2 * i);
+                // No overlap now.
 
-            tasks.add(new Task("懒得取名字 " + i, "没有详细信息嘛~", startTime, endTime));
+                Calendar startTime = (Calendar) base.clone();
+    //            startTime.add(Calendar.SECOND, 10 * (2 * i - 1));
+                startTime.add(Calendar.SECOND, 10 * (15 - 2 * i - 1));
+                Calendar endTime = (Calendar) base.clone();
+    //            endTime.add(Calendar.SECOND, 10 * 2 * i);
+                endTime.add(Calendar.SECOND, 10 * (15 - 2 * i));
+
+                tasks.add(new Task("懒得取名字 " + i, "没有详细信息嘛~", startTime, endTime));
+            }
         }
+
         return tasks;
     }
 }
