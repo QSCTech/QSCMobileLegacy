@@ -180,7 +180,7 @@ public class HomeworkHelper {
             @Override
             public int compare(HomeworkStructure homeworkStructure, HomeworkStructure homeworkStructure2) {
                 try {
-                    return -format.parse(homeworkStructure.due_time).compareTo(
+                    return format.parse(homeworkStructure.due_time).compareTo(
                             format.parse(homeworkStructure2.due_time)
                     );
                 } catch (ParseException e) {
