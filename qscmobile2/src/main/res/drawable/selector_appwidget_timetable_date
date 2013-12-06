@@ -4,8 +4,8 @@
 
     <item
         android:state_pressed="true"
-        android:drawable="@color/white_fading"/>
+        android:drawable="@drawable/rectangle_white_fading"/>
 
     <item
-        android:drawable="@color/transparent"/>
+        android:drawable="@drawable/rectangle_transparent"/>
 </selector>

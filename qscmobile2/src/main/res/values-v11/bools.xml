@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <bool name="enable_legacy_appwidget">true</bool>
+
+    <bool name="enable_scrollable_appwidget">true</bool>
+</resources>

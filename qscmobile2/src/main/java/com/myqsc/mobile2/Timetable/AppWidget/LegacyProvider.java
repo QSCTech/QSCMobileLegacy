@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-public class Provider extends AppWidgetProvider {
+public abstract class LegacyProvider extends AppWidgetProvider {
 
     // Actions
 
@@ -37,19 +37,21 @@ public class Provider extends AppWidgetProvider {
 
     // Constants for displaying information
 
-    private static final int DATE_NUMBER_MAXIMUM = 7;
+    private static final int DATE_COUNT = 7;
 
     private static final int DATE_INDEX_TODAY = 3;
 
     private static final int DATE_INDEX_INVALID = -1;
 
-    private static final int DATE_NUMBER_SHOWN = 3;
-
-    private static final int TASK_NUMBER_SHOWN = 5;
-
     // Delay time for update today
 
     private static final int UPDATE_ALARM_DELAY_MILLISECOND = 1000;
+
+    // AppWidget display parameters, supplied by subclasses.
+
+    protected abstract int getDisplayedDateCount();
+
+    protected abstract int getDisplayedTaskCount();
 
     // Store date index for each AppWidget in SharedPreferences and access via DateIndexManager.
 
@@ -209,7 +211,7 @@ public class Provider extends AppWidgetProvider {
             SortedSet<Task> timetable;
         }
 
-        private static CachedInfoHolder[] cachedInfo = new CachedInfoHolder[DATE_NUMBER_MAXIMUM];
+        private static CachedInfoHolder[] cachedInfo = new CachedInfoHolder[DATE_COUNT];
 
         private Context context;
 
@@ -233,7 +235,7 @@ public class Provider extends AppWidgetProvider {
                 TimetableManager timetableManager = TimetableManager.getInstance(context);
 
                 // Update CachedInfo
-                for (int i = 0; i != DATE_NUMBER_MAXIMUM; ++i) {
+                for (int i = 0; i != DATE_COUNT; ++i) {
 
                     // Create the CachedInfoHolder for the first update.
                     if (cachedInfo[i] == null) {
@@ -281,6 +283,30 @@ public class Provider extends AppWidgetProvider {
 
     // Build and update AppWidget views.
 
+    // Get weekday strings for display in AppWidget.
+    private String getWeekdayString(Context context, Calendar date) {
+        switch (date.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.MONDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_monday);
+            case Calendar.TUESDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_tuesday);
+            case Calendar.WEDNESDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_wednesday);
+            case Calendar.THURSDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_thursday);
+            case Calendar.FRIDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_friday);
+            case Calendar.SATURDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_saturday);
+            case Calendar.SUNDAY:
+                return context.getResources().getString(R.string.appwidget_timetable_date_sunday);
+            default:
+                return null;
+        }
+    }
+
+    // NOTICE: Always use this.getClass() when building intents in case there are subclasses.
+
     private PendingIntent makeDateChangedPendingIntent(Context context, int appWidgetId, int dateDelta) {
         Intent dateChangedIntent = new Intent(context, this.getClass());
         dateChangedIntent.setAction(ACTION_DATE_INDEX_CHANGED);
@@ -299,11 +325,15 @@ public class Provider extends AppWidgetProvider {
 
     private void buildUpdate(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
+        // Get the display specification.
+        int displayedDateCount = getDisplayedDateCount();
+        int displayedTaskCount = getDisplayedTaskCount();
+
         // Get the CachedInfoManager.
         CachedInfoManager cachedInfoManager = new CachedInfoManager(context);
 
         // Build AppWidgetView.
-        RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable);
+        RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy);
 
         // Remove sub views in case the host recycles the view, while this also removes the loading TextView.
         appWidgetViews.removeAllViews(R.id.appwidget_timetable_date_list);
@@ -314,7 +344,7 @@ public class Provider extends AppWidgetProvider {
 
         // Cache the date indexes.
         int dateIndex = DateIndexManager.get(context, appWidgetId);
-        int dateShownIndexStart = dateIndex - DATE_NUMBER_SHOWN / 2;
+        int dateShownIndexStart = dateIndex - displayedDateCount / 2;
 
         // Set text color and PendingIntent for date navigation view.
         //
@@ -327,7 +357,7 @@ public class Provider extends AppWidgetProvider {
         } else {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_backward, context.getResources().getColor(R.color.white_fading));
         }
-        if (dateIndex != DATE_NUMBER_MAXIMUM - 1) {
+        if (dateIndex != DATE_COUNT - 1) {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_forward, context.getResources().getColor(R.color.white));
             appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_forward, makeDateChangedPendingIntent(context, appWidgetId, 1));
         } else {
@@ -335,24 +365,24 @@ public class Provider extends AppWidgetProvider {
         }
 
         // Add dates to view.
-        for (int i = 0; i != DATE_NUMBER_SHOWN; ++i) {
+        for (int i = 0; i != displayedDateCount; ++i) {
 
-            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_date);
+            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy_date);
 
             // Determine whether the date view should be empty or not.
-            if (dateShownIndexStart + i >= 0 && dateShownIndexStart + i <= DATE_NUMBER_MAXIMUM - 1) {
+            if (dateShownIndexStart + i >= 0 && dateShownIndexStart + i <= DATE_COUNT - 1) {
 
                 // Add content to the date view.
                 if (dateShownIndexStart + i == DATE_INDEX_TODAY) {
-                    subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.appwidget_timetable_today));
+                    subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.appwidget_timetable_date_today));
                 } else {
-                    subViews.setTextViewText(R.id.appwidget_timetable_date, TimeUtils.getWeekdayString(cachedInfoManager.getDate(dateShownIndexStart + i)));
+                    subViews.setTextViewText(R.id.appwidget_timetable_date, getWeekdayString(context, cachedInfoManager.getDate(dateShownIndexStart + i)));
                 }
-                if (i == DATE_NUMBER_SHOWN / 2) {
+                if (i == displayedDateCount / 2) {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white));
                 } else {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white_fading));
-                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, makeDateChangedPendingIntent(context, appWidgetId, i - DATE_NUMBER_SHOWN / 2));
+                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, makeDateChangedPendingIntent(context, appWidgetId, i - displayedDateCount / 2));
                 }
             }
 
@@ -365,7 +395,7 @@ public class Provider extends AppWidgetProvider {
         if (timetable.size() == 0) {
 
             // Add no-task view.
-            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_notask);
+            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy_notask);
             appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
         } else {
@@ -383,13 +413,13 @@ public class Provider extends AppWidgetProvider {
             if (dateIndex == DATE_INDEX_TODAY) {
                 Iterator<Task> iter2 = timetable.iterator();
                 int start = 0;
-                while (timetable.size() - start > TASK_NUMBER_SHOWN && iter2.next().getEndTime().before(now)) {
+                while (timetable.size() - start > displayedTaskCount && iter2.next().getEndTime().before(now)) {
                     iter.next();
                     ++start;
                 }
             }
 
-            for (int i = 0; i != TASK_NUMBER_SHOWN; ++i) {
+            for (int i = 0; i != displayedTaskCount; ++i) {
 
                 if (iter.hasNext()) {
 
@@ -559,7 +589,7 @@ public class Provider extends AppWidgetProvider {
         int dateIndex = dateIndexManager.get(appWidgetId);
 
         // Ignore invalid date changes.
-        if (dateIndex + dateDelta < 0 || dateIndex + dateDelta > DATE_NUMBER_MAXIMUM - 1) {
+        if (dateIndex + dateDelta < 0 || dateIndex + dateDelta > DATE_COUNT - 1) {
             LogHelper.i("Ignoring intent for AppWidget with Id " + appWidgetId);
             return;
         }
@@ -567,6 +597,7 @@ public class Provider extends AppWidgetProvider {
         dateIndexManager.set(appWidgetId, dateIndex + dateDelta);
 
         // Ensure that cached information is up to date.
+        // NOTE: Not using force update for efficiency.
         CachedInfoManager.update(context, false);
 
         // Update view.
@@ -582,7 +613,8 @@ public class Provider extends AppWidgetProvider {
     private void onUpdateToday(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         // Ensure that cached information is up to date.
-        CachedInfoManager.update(context, false);
+        // NOTE: Force the update for robustness.
+        CachedInfoManager.update(context, true);
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
@@ -600,7 +632,8 @@ public class Provider extends AppWidgetProvider {
     private void onUpdateDate(Context context, AppWidgetManager appWidgetManager) {
 
         // Update cached information.
-        CachedInfoManager.update(context, false);
+        // NOTE: Force the update for robustness.
+        CachedInfoManager.update(context, true);
 
         // Update every AppWidget.
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
@@ -661,7 +694,7 @@ public class Provider extends AppWidgetProvider {
 
         DateIndexManager dateIndexManager = new DateIndexManager(context);
 
-        // Remove date index for deleted AppWidgets
+        // Remove date indexes for deleted AppWidgets
         for (int appWidgetId : appWidgetIds) {
             LogHelper.i("appWidgetId: " + appWidgetId);
             dateIndexManager.remove(appWidgetId);
@@ -674,7 +707,7 @@ public class Provider extends AppWidgetProvider {
     }
 
     // TODO: Handle TimetableManager update broadcast.
-    // TODO: Handel system date changed.
+    // TODO: Handle system date changed.
     @Override
     public void onReceive(Context context, Intent intent) {
 

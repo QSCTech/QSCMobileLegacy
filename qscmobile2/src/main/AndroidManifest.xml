@@ -104,19 +104,50 @@
         <service
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService"
             />
+
         <receiver
-            android:name=".Timetable.AppWidget.Provider"
-            android:label="@string/appwidget_timetable_name">
+            android:name=".Timetable.AppWidget.Legacy3x3Provider"
+            android:label="@string/appwidget_timetable_legacy_3x3_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
             <intent-filter>
+
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="com.myqsc.mobile2.Timetable.AppWidget.DATE_INDEX_CHANGED"/>
-                <action android:name="com.myqsc.mobile2.Timetable.AppWidget.UPDATE_TODAY"/>
-                <action android:name="com.myqsc.mobile2.Timetable.AppWidget.UPDATE_DATE"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/timetable_appwidget_info"/>
+                android:resource="@xml/timetable_appwidget_legacy_3x3_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy3x4Provider"
+            android:label="@string/appwidget_timetable_legacy_3x4_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_3x4_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy4x4Provider"
+            android:label="@string/appwidget_timetable_legacy_4x4_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_4x4_info"/>
         </receiver>
     </application>
-
 </manifest>

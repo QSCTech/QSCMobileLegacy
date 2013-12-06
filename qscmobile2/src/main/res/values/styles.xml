@@ -19,5 +19,4 @@
         <item name="android:textSize">17sp</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
 </resources>

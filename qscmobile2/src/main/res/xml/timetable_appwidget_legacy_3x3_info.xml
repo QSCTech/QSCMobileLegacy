@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- TODO: Use Alarm instead of updatePeriodMillis to avoid waking up the device. Currently 30 min. -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialLayout="@layout/appwidget_timetable"
+    android:initialLayout="@layout/appwidget_timetable_legacy"
     android:minWidth="180dp"
     android:minHeight="180dp"
     android:previewImage="@drawable/appwidget_timetable_preview"
