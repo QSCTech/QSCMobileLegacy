@@ -1,5 +1,6 @@
 package com.myqsc.mobile2.Timetable.AppWidget;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,7 +8,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.widget.RemoteViews;
 
@@ -41,8 +41,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     private static final int DATE_INDEX_TODAY = 3;
 
-    private static final int DATE_INDEX_INVALID = -1;
-
     // Delay time for update today
 
     private static final int UPDATE_ALARM_DELAY_MILLISECOND = 1000;
@@ -53,155 +51,14 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     protected abstract int getDisplayedTaskCount();
 
-    // Store date index for each AppWidget in SharedPreferences and access via DateIndexManager.
+    // Date index for each AppWidget stored in DateIndexManager.
 
-    private static class DateIndexManager {
-
-        private static final String PREFERENCES_FILE_NAME = "com.myqsc.mobile2.Timetable.AppWidget";
-
-        private static String getKey(int appWidgetId) {
-            return appWidgetId + ".DateIndex";
-        }
-
-        private static final String IDS_SHOWING_TODAY = "IdsShowingToday";
-
-        private static final String IDS_SEPARATOR = ",";
-
-        SharedPreferences sharedPreferences;
-
-        DateIndexManager(Context context) {
-            this.sharedPreferences = getSharedPreferences(context);
-        }
-
-        private static SharedPreferences getSharedPreferences(Context context) {
-            return context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
-        }
-
-        // Store IDs of AppWidgets that are showing today.
-        // AppWidgetManager.getAppWidgetIds() returns all the ids that have been added historically.
-
-        private static void addToIds(SharedPreferences sharedPreferences, int id) {
-            String idsPrevious = sharedPreferences.getString(IDS_SHOWING_TODAY, "");
-            StringBuilder idsBuilder = new StringBuilder(idsPrevious);
-            if (idsPrevious.length() != 0) {
-                idsBuilder.append(IDS_SEPARATOR);
-            }
-            idsBuilder.append(Integer.toString(id));
-            LogHelper.i(idsBuilder.toString());
-            sharedPreferences.edit().putString(IDS_SHOWING_TODAY, idsBuilder.toString()).commit();
-        }
-
-        private static void removeFromIds(SharedPreferences sharedPreferences, int id) {
-            String idsPrevious =  sharedPreferences.getString(IDS_SHOWING_TODAY, "");
-            LogHelper.i(idsPrevious);
-            if (idsPrevious.length() == 0) {
-                return;
-            }
-            StringBuilder idsBuilder = new StringBuilder();
-            String idString = Integer.toString(id);
-            boolean first = true;
-            for (String idPrevious : idsPrevious.split(IDS_SEPARATOR)) {
-                if (!idPrevious.equals(idString)) {
-                    if (first) {
-                        first = false;
-                    } else {
-                        idsBuilder.append(IDS_SEPARATOR);
-                    }
-                    idsBuilder.append(idPrevious);
-                }
-            }
-            LogHelper.i(idsBuilder.toString());
-            sharedPreferences.edit().putString(IDS_SHOWING_TODAY, idsBuilder.toString()).commit();
-        }
-
-        public static synchronized int[] getIdsShowingToday(SharedPreferences sharedPreferences) {
-            String[] idStrings = sharedPreferences.getString(IDS_SHOWING_TODAY, "").split(IDS_SEPARATOR);
-            int[] ids;
-            if (idStrings[0].length() != 0) {
-                ids = new int[idStrings.length];
-                for (int i = 0; i != idStrings.length; ++i) {
-                    ids[i] = Integer.valueOf(idStrings[i]);
-                }
-            } else {
-                ids = new int[0];
-            }
-            return ids;
-        }
-
-        public static int[] getIdsShowingToday(Context context) {
-            return getIdsShowingToday(getSharedPreferences(context));
-        }
-
-        public int[] getIdsShowingToday() {
-            return getIdsShowingToday(sharedPreferences);
-        }
-
-        // Return and set to default value (DATE_INDEX_TODAY) if the date index has not been set.
-        private static synchronized int get(SharedPreferences sharedPreferences, int appWidgetId) {
-            String key = getKey(appWidgetId);
-            int dateIndex = sharedPreferences.getInt(key, DATE_INDEX_INVALID);
-            if (dateIndex == DATE_INDEX_INVALID) {
-                dateIndex = DATE_INDEX_TODAY;
-                sharedPreferences.edit().putInt(key, dateIndex).commit();
-                addToIds(sharedPreferences, appWidgetId);
-            }
-            return dateIndex;
-        }
-
-        public static int get(Context context, int appWidgetId) {
-            return get(getSharedPreferences(context), appWidgetId);
-        }
-
-        public int get(int appWidgetId) {
-            return get(sharedPreferences, appWidgetId);
-        }
-
-        public static synchronized void set(SharedPreferences sharedPreferences, int appWidgetId, int dateIndex) {
-            int dateIndexPrevious = sharedPreferences.getInt(getKey(appWidgetId), DATE_INDEX_INVALID);
-            sharedPreferences.edit().putInt(getKey(appWidgetId), dateIndex).commit();
-            if (dateIndex != dateIndexPrevious) {
-                if (dateIndexPrevious == DATE_INDEX_TODAY) {
-                    removeFromIds(sharedPreferences, appWidgetId);
-                } else if (dateIndex == DATE_INDEX_TODAY) {
-                    addToIds(sharedPreferences, appWidgetId);
-                }
-            }
-        }
-
-        public static void set(Context context, int appWidgetId, int dateIndex) {
-            set(getSharedPreferences(context), appWidgetId, dateIndex);
-        }
-
-        public void set(int appWidgetId, int dateIndex) {
-            set(sharedPreferences, appWidgetId, dateIndex);
-        }
-
-        public static synchronized void remove(SharedPreferences sharedPreferences, int appWidgetId) {
-            sharedPreferences.edit().remove(getKey(appWidgetId)).commit();
-            removeFromIds(sharedPreferences, appWidgetId);
-        }
-
-        public static void remove(Context context, int appWidgetId) {
-            remove(getSharedPreferences(context), appWidgetId);
-        }
-
-        public void remove(int appWidgetId) {
-            remove(sharedPreferences, appWidgetId);
-        }
-
-        public static synchronized void clear(SharedPreferences sharedPreferences) {
-            sharedPreferences.edit().clear().commit();
-        }
-
-        public static void clear(Context context) {
-            clear(getSharedPreferences(context));
-        }
-
-        public void clear() {
-            clear(sharedPreferences);
-        }
+    // TODO: Cache in DateIndexManager.getInstance();
+    private DateIndexManager getDateIndexManager(Context context) {
+        return DateIndexManager.getInstance(context, this.getClass(), DATE_INDEX_TODAY);
     }
 
+    // TODO: Remove CachedInfoManager; The cache has been done in TimetableManager.
     // Cache and access the information needed via CachedInfoManager.
 
     private static class CachedInfoManager {
@@ -323,6 +180,8 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         taskViews.setTextColor(R.id.appwidget_timetable_task_time_end, context.getResources().getColor(color));
     }
 
+    // NOTE: Color passed to setTaskViewColor() will be resolved there.
+    @SuppressLint("ResourceAsColor")
     private void buildUpdate(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
         // Get the display specification.
@@ -343,7 +202,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         RemoteViews subViews;
 
         // Cache the date indexes.
-        int dateIndex = DateIndexManager.get(context, appWidgetId);
+        int dateIndex = getDateIndexManager(context).get(appWidgetId);
         int dateShownIndexStart = dateIndex - displayedDateCount / 2;
 
         // Set text color and PendingIntent for date navigation view.
@@ -522,7 +381,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         // Check if the alarm should be set.
-        int[] idsShowingToday = DateIndexManager.getIdsShowingToday(context);
+        int[] idsShowingToday = getDateIndexManager(context).getIdsShowingToday();
         if (idsShowingToday.length != 0) {
             Calendar updateTime = getUpdateTime(context);
             if (updateTime != null) {
@@ -584,7 +443,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         LogHelper.i("appWidgetId: " + appWidgetId);
 
         // Get the DateIndexManager.
-        DateIndexManager dateIndexManager = new DateIndexManager(context);
+        DateIndexManager dateIndexManager = getDateIndexManager(context);
 
         int dateIndex = dateIndexManager.get(appWidgetId);
 
@@ -662,7 +521,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
 
         // Clear date index storage.
-        DateIndexManager.clear(context);
+        getDateIndexManager(context).clear();
 
         // Cancel update date alarm.
         cancelUpdateDateAlarm(context);
@@ -692,7 +551,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
 
-        DateIndexManager dateIndexManager = new DateIndexManager(context);
+        DateIndexManager dateIndexManager = getDateIndexManager(context);
 
         // Remove date indexes for deleted AppWidgets
         for (int appWidgetId : appWidgetIds) {

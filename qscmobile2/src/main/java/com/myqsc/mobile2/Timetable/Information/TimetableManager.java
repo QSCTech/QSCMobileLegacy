@@ -1,6 +1,9 @@
 package com.myqsc.mobile2.Timetable.Information;
 
 import android.content.Context;
+import android.support.v4.util.LruCache;
+
+import com.myqsc.mobile2.Utility.TimeUtils;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -10,13 +13,19 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 // TODO: Synchronization confirmation.
+// TODO: Invalidate the cache by cache.evictAll() when changes are made.
 public class TimetableManager {
+
+    private static final int CACHE_SIZE = 7;
 
     private static final Object instanceLock = new Object();
 
     private static TimetableManager instance = null;
 
     private Set<TaskProvider> taskProviders = Collections.synchronizedSet(new LinkedHashSet<TaskProvider>());
+
+    // NOTE: java.util.WeakHashMap holds weak references of keys, not values.
+    LruCache<Calendar, SortedSet<Task>> cache = new LruCache<Calendar, SortedSet<Task>>(CACHE_SIZE);
 
     private Context context;
 
@@ -47,10 +56,29 @@ public class TimetableManager {
 
     public SortedSet<Task> getTimetable(Calendar date) {
 
-        SortedSet<Task> timetable = Collections.synchronizedSortedSet(new TreeSet<Task>());
+        // REMOVEME: Debug statement.
+        Calendar dateCopy = (Calendar) date.clone();
+        TimeUtils.clearTime(dateCopy);
+        if (!date.equals(dateCopy)) {
+            throw new RuntimeException("Should use a date with time cleared here.");
+        }
 
-        for (TaskProvider taskProvider : taskProviders) {
-            timetable.addAll(taskProvider.getTasks(date));
+        SortedSet<Task> timetable;
+
+        synchronized (cache) {
+
+            timetable = cache.get(date);
+
+            if (timetable == null) {
+
+                timetable = Collections.synchronizedSortedSet(new TreeSet<Task>());
+
+                for (TaskProvider taskProvider : taskProviders) {
+                    timetable.addAll(taskProvider.getTasks(date));
+                }
+
+                cache.put(date, timetable);
+            }
         }
 
         return timetable;

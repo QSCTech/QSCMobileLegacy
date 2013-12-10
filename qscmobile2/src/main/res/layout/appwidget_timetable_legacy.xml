@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/white_background">
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:background="@drawable/selector_appwidget_timetable_date"
                 android:text="&lt;"
                 android:textColor="@color/white"
-                android:textSize="19sp"/>
+                android:textSize="20sp"/>
 
             <LinearLayout
                 android:id="@+id/appwidget_timetable_date_list"
@@ -48,7 +48,7 @@
                 android:background="@drawable/selector_appwidget_timetable_date"
                 android:text="&gt;"
                 android:textColor="@color/white"
-                android:textSize="19sp"/>
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
