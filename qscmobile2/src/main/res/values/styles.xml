@@ -12,6 +12,11 @@
         -->
     </style>
 
+    <style name="AppNoTranslucentTheme" parent="AppBaseTheme">
+        <item name="android:textSize">17sp</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowIsTranslucent">true</item>
