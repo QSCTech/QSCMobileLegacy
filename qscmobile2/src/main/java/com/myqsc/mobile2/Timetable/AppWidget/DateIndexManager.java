@@ -49,8 +49,7 @@ class DateIndexManager {
     }
 
     private DateIndexManager(Context context, Class<? extends AppWidgetProvider> appWidgetProviderClass, int dateIndexToday) {
-        keyPrefix = appWidgetProviderClass.getName();
-        keyPrefix = keyPrefix.substring(keyPrefix.lastIndexOf('.') + 1);
+        keyPrefix = appWidgetProviderClass.getSimpleName();
         idsShowingTodayKey = keyPrefix + IDS_SHOWING_TODAY;
         sharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         this.dateIndexToday = dateIndexToday;

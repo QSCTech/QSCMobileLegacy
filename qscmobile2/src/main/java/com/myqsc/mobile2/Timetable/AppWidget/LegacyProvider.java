@@ -15,7 +15,6 @@ import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.Timetable.Information.Task;
 import com.myqsc.mobile2.Timetable.Information.TimetableManager;
 import com.myqsc.mobile2.Utility.TimeUtils;
-import com.myqsc.mobile2.uti.LogHelper;
 
 import java.util.Calendar;
 import java.util.Iterator;
@@ -33,7 +32,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     // Intent extras
 
-    private static final String EXTRA_DATE_DELTA = "DATE_DELTA";
+    private static final String EXTRA_DATE_INDEX = "DATE_INDEX";
 
     // Constants for displaying information
 
@@ -94,13 +93,13 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     // NOTICE: Always use this.getClass() when building intents in case there are subclasses.
 
-    private PendingIntent makeDateChangedPendingIntent(Context context, int appWidgetId, int dateDelta) {
+    private PendingIntent makeDateChangedPendingIntent(Context context, int appWidgetId, int dateIndex) {
         Intent dateChangedIntent = new Intent(context, this.getClass());
         dateChangedIntent.setAction(ACTION_DATE_INDEX_CHANGED);
         dateChangedIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        dateChangedIntent.putExtra(EXTRA_DATE_DELTA, dateDelta);
+        dateChangedIntent.putExtra(EXTRA_DATE_INDEX, dateIndex);
         // Using requestCode to differentiate pendingIntents.
-        return PendingIntent.getBroadcast(context, appWidgetId << 16 + dateDelta, dateChangedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, appWidgetId << 16 + dateIndex, dateChangedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void setTaskViewColor(RemoteViews taskViews, Context context, int color) {
@@ -133,21 +132,21 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         int dateShownIndexStart = dateIndex - displayedDateCount / 2;
 
         // Set text color and PendingIntent for date navigation view.
-        //
-        // Canceling PendingIntent in case the view is reused causes exception, setBoolean with setClickable
-        // causes exception, set Boolean with setEnabled does nothing; don't know how to disable it.
-        // Dealing with this in onDateIndexChanged.
+        // Canceling PendingIntent in case the view is reused causes exception in host.
+        // Filtering in onDateIndexChanged().
         if (dateIndex != 0) {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_backward, context.getResources().getColor(R.color.white));
-            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_backward, makeDateChangedPendingIntent(context, appWidgetId, -1));
+            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_backward, makeDateChangedPendingIntent(context, appWidgetId, dateIndex - 1));
         } else {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_backward, context.getResources().getColor(R.color.white_fading));
+            //makeDateChangedPendingIntent(context, appWidgetId, 0).cancel();
         }
         if (dateIndex != DATE_COUNT - 1) {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_forward, context.getResources().getColor(R.color.white));
-            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_forward, makeDateChangedPendingIntent(context, appWidgetId, 1));
+            appWidgetViews.setOnClickPendingIntent(R.id.appwidget_timetable_date_forward, makeDateChangedPendingIntent(context, appWidgetId, dateIndex + 1));
         } else {
             appWidgetViews.setTextColor(R.id.appwidget_timetable_date_forward, context.getResources().getColor(R.color.white_fading));
+            //makeDateChangedPendingIntent(context, appWidgetId, DATE_COUNT - 1).cancel();
         }
 
         // Add dates to view.
@@ -168,7 +167,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white));
                 } else {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white_fading));
-                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, makeDateChangedPendingIntent(context, appWidgetId, i - displayedDateCount / 2));
+                    subViews.setOnClickPendingIntent(R.id.appwidget_timetable_date, makeDateChangedPendingIntent(context, appWidgetId, dateShownIndexStart + i));
                 }
             }
 
@@ -261,8 +260,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
         // Update AppWidget.
         appWidgetManager.updateAppWidget(appWidgetId, appWidgetViews);
-        LogHelper.i("appWidgetId: " + appWidgetId);
-        LogHelper.i("dateIndex:" + dateIndex);
     }
 
     // Manage alarms.
@@ -314,8 +311,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
             if (updateTime != null) {
 
                 // Set the alarm and return.
-                LogHelper.i("First AppWidget Id: " + idsShowingToday[0]);
-                LogHelper.i(updateTime.toString());
                 updateTodayIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsShowingToday);
                 updateTodayPendingIntent = PendingIntent.getBroadcast(context, 0, updateTodayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -328,7 +323,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         }
 
         // Cancel the alarm
-        LogHelper.i("Cancel update today alarm.");
         updateTodayPendingIntent = PendingIntent.getBroadcast(context, 0, updateTodayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(updateTodayPendingIntent);
     }
@@ -336,14 +330,14 @@ public abstract class LegacyProvider extends AppWidgetProvider {
     // Set the update date alarm.
     private void setUpdateDateAlarm(Context context) {
 
-        LogHelper.i("");
-
         Intent updateDateIntent = new Intent(context, this.getClass());
         updateDateIntent.setAction(ACTION_UPDATE_DATE);
+
         PendingIntent updateDatePendingIntent = PendingIntent.getBroadcast(context, 0, updateDateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar updateTime = TimeUtils.getDate();
         updateTime.add(Calendar.DAY_OF_YEAR, 1);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC, updateTime.getTimeInMillis() + UPDATE_ALARM_DELAY_MILLISECOND, updateDatePendingIntent);
         } else {
@@ -354,33 +348,29 @@ public abstract class LegacyProvider extends AppWidgetProvider {
     // Cancel the update date alarm.
     private void cancelUpdateDateAlarm(Context context) {
 
-        LogHelper.i("");
-
         Intent updateDateIntent = new Intent(context, this.getClass());
         updateDateIntent.setAction(ACTION_UPDATE_DATE);
+
         PendingIntent updateDatePendingIntent = PendingIntent.getBroadcast(context, 0, updateDateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(updateDatePendingIntent);
     }
 
     // Handle actions.
 
-    private void onDateIndexChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateDelta) {
+    private void onDateIndexChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, int dateIndex) {
 
-        LogHelper.i("appWidgetId: " + appWidgetId);
-
-        // Get the DateIndexManager.
+        // Handle date index change.
         DateIndexManager dateIndexManager = getDateIndexManager(context);
 
-        int dateIndex = dateIndexManager.get(appWidgetId);
-
-        // Ignore invalid date changes.
-        if (dateIndex + dateDelta < 0 || dateIndex + dateDelta > DATE_COUNT - 1) {
-            LogHelper.i("Ignoring intent for AppWidget with Id " + appWidgetId);
+        // Filter invalid intents cause by the reuse of view.
+        if (dateIndex == dateIndexManager.get(appWidgetId)) {
             return;
         }
 
-        dateIndexManager.set(appWidgetId, dateIndex + dateDelta);
+        // Change date index.
+        getDateIndexManager(context).set(appWidgetId, dateIndex);
 
         // Update view.
         buildUpdate(context, appWidgetManager, appWidgetId);
@@ -396,7 +386,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
-            LogHelper.i("appWidgetId: " + appWidgetId);
             buildUpdate(context, appWidgetManager, appWidgetId);
         }
 
@@ -412,7 +401,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         // Update every AppWidget.
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
         for (int appWidgetId : appWidgetIds) {
-            LogHelper.i("appWidgetId: " + appWidgetId);
             buildUpdate(context, appWidgetManager, appWidgetId);
         }
 
@@ -440,7 +428,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
-            LogHelper.i("appWidgetId: " + appWidgetId);
             buildUpdate(context, appWidgetManager, appWidgetId);
         }
 
@@ -458,7 +445,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
         // Remove date indexes for deleted AppWidgets
         for (int appWidgetId : appWidgetIds) {
-            LogHelper.i("appWidgetId: " + appWidgetId);
             dateIndexManager.remove(appWidgetId);
         }
 
@@ -476,7 +462,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         String action = intent.getAction();
 
         if (ACTION_DATE_INDEX_CHANGED.equals(action)) {
-            onDateIndexChanged(context, AppWidgetManager.getInstance(context), intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), intent.getIntExtra(EXTRA_DATE_DELTA, 0));
+            onDateIndexChanged(context, AppWidgetManager.getInstance(context), intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), intent.getIntExtra(EXTRA_DATE_INDEX, 0));
         } else if (ACTION_UPDATE_TODAY.equals(action)) {
             onUpdateToday(context, AppWidgetManager.getInstance(context), intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS));
         } else if (ACTION_UPDATE_DATE.equals(action)) {
