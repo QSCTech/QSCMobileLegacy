@@ -53,89 +53,19 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     // Date index for each AppWidget stored in DateIndexManager.
 
-    // TODO: Cache in DateIndexManager.getInstance();
     private DateIndexManager getDateIndexManager(Context context) {
         return DateIndexManager.getInstance(context, this.getClass(), DATE_INDEX_TODAY);
     }
 
-    // TODO: Remove CachedInfoManager; The cache has been done in TimetableManager.
-    // Cache and access the information needed via CachedInfoManager.
+    private Calendar getDate(int dateIndex) {
 
-    private static class CachedInfoManager {
+        Calendar date = TimeUtils.getDate();
 
-        private static class CachedInfoHolder {
-            Calendar date;
-            SortedSet<Task> timetable;
+        if (dateIndex != DATE_INDEX_TODAY) {
+            date.add(Calendar.DAY_OF_YEAR, dateIndex - DATE_INDEX_TODAY);
         }
 
-        private static CachedInfoHolder[] cachedInfo = new CachedInfoHolder[DATE_COUNT];
-
-        private Context context;
-
-        public CachedInfoManager(Context context) {
-            this.context = context;
-        }
-
-        // Will update cached information if any of the following three conditions is met:
-        // 1. forceUpdate == true;
-        // 2. cachedInfo is null;
-        // 3. The date with index of today is not today.
-        public static synchronized void update(Context context, boolean forceUpdate) {
-
-            if (forceUpdate || cachedInfo[0] == null || !TimeUtils.isToday(cachedInfo[DATE_INDEX_TODAY].date)) {
-
-                // Cache the starting date.
-                Calendar dateStart = TimeUtils.getDate();
-                dateStart.add(Calendar.DAY_OF_YEAR, - DATE_INDEX_TODAY);
-
-                // Cache TimetableManager.
-                TimetableManager timetableManager = TimetableManager.getInstance(context);
-
-                // Update CachedInfo
-                for (int i = 0; i != DATE_COUNT; ++i) {
-
-                    // Create the CachedInfoHolder for the first update.
-                    if (cachedInfo[i] == null) {
-                        cachedInfo[i] = new CachedInfoHolder();
-                    }
-
-                    // Update the date.
-                    cachedInfo[i].date = (Calendar) dateStart.clone();
-                    cachedInfo[i].date.add(Calendar.DAY_OF_YEAR, i);
-
-                    // Update the timetable.
-                    cachedInfo[i].timetable = timetableManager.getTimetable(cachedInfo[i].date);
-                }
-            }
-        }
-
-        public void update(boolean forceUpdate) {
-            update(context, forceUpdate);
-        }
-
-        private static void ensureData(Context context) {
-            if (cachedInfo[0] == null) {
-                update(context, true);
-            }
-        }
-
-        public static synchronized Calendar getDate(Context context, int appWidgetId) {
-            ensureData(context);
-            return cachedInfo[appWidgetId].date;
-        }
-
-        public Calendar getDate(int appWidgetId) {
-            return getDate(context, appWidgetId);
-        }
-
-        public static synchronized SortedSet<Task> getTimetable(Context context, int appWidgetId) {
-            ensureData(context);
-            return cachedInfo[appWidgetId].timetable;
-        }
-
-        public SortedSet<Task> getTimetable(int appWidgetId) {
-            return getTimetable(context, appWidgetId);
-        }
+        return date;
     }
 
     // Build and update AppWidget views.
@@ -188,9 +118,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         int displayedDateCount = getDisplayedDateCount();
         int displayedTaskCount = getDisplayedTaskCount();
 
-        // Get the CachedInfoManager.
-        CachedInfoManager cachedInfoManager = new CachedInfoManager(context);
-
         // Build AppWidgetView.
         RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy);
 
@@ -235,7 +162,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
                 if (dateShownIndexStart + i == DATE_INDEX_TODAY) {
                     subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.appwidget_timetable_date_today));
                 } else {
-                    subViews.setTextViewText(R.id.appwidget_timetable_date, getWeekdayString(context, cachedInfoManager.getDate(dateShownIndexStart + i)));
+                    subViews.setTextViewText(R.id.appwidget_timetable_date, getWeekdayString(context, getDate(dateShownIndexStart + i)));
                 }
                 if (i == displayedDateCount / 2) {
                     subViews.setTextColor(R.id.appwidget_timetable_date, context.getResources().getColor(R.color.white));
@@ -249,7 +176,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         }
 
         // Add tasks to view.
-        SortedSet<Task> timetable = cachedInfoManager.getTimetable(dateIndex);
+        SortedSet<Task> timetable = TimetableManager.getInstance(context).getTimetable(getDate(dateIndex));
 
         if (timetable.size() == 0) {
 
@@ -347,7 +274,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         Calendar now = TimeUtils.getNow(), updateTime = null;
 
         // Cache the timetable.
-        SortedSet<Task> timetable = CachedInfoManager.getTimetable(context, DATE_INDEX_TODAY);
+        SortedSet<Task> timetable = TimetableManager.getInstance(context).getTimetable(TimeUtils.getDate());
 
         // Traverse the timetable if not empty.
         if (!timetable.isEmpty()) {
@@ -455,10 +382,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
         dateIndexManager.set(appWidgetId, dateIndex + dateDelta);
 
-        // Ensure that cached information is up to date.
-        // NOTE: Not using force update for efficiency.
-        CachedInfoManager.update(context, false);
-
         // Update view.
         buildUpdate(context, appWidgetManager, appWidgetId);
 
@@ -470,10 +393,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
     }
 
     private void onUpdateToday(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
-        // Ensure that cached information is up to date.
-        // NOTE: Force the update for robustness.
-        CachedInfoManager.update(context, true);
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {
@@ -490,10 +409,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     private void onUpdateDate(Context context, AppWidgetManager appWidgetManager) {
 
-        // Update cached information.
-        // NOTE: Force the update for robustness.
-        CachedInfoManager.update(context, true);
-
         // Update every AppWidget.
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
         for (int appWidgetId : appWidgetIds) {
@@ -506,15 +421,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
         // Update update today alarm because the timetable for today has changed.
         updateUpdateTodayAlarm(context);
-    }
-
-    @Override
-    public void onEnabled(Context context) {
-
-        // Update cached information.
-        CachedInfoManager.update(context, false);
-
-        super.onEnabled(context);
     }
 
     @Override
@@ -531,9 +437,6 @@ public abstract class LegacyProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
-        // Ensure that cached information is up to date.
-        CachedInfoManager.update(context, false);
 
         // Update every AppWidget given.
         for (int appWidgetId : appWidgetIds) {

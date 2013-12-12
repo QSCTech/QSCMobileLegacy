@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.util.LruCache;
 
 import com.myqsc.mobile2.Utility.TimeUtils;
+import com.myqsc.mobile2.uti.LogHelper;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -79,6 +80,8 @@ public class TimetableManager {
 
                 cache.put(date, timetable);
             }
+
+            LogHelper.i(cache.toString());
         }
 
         return timetable;

@@ -4,10 +4,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.myqsc.mobile2.uti.LogHelper;
-
 import java.lang.ref.WeakReference;
-import java.util.Map;
 import java.util.WeakHashMap;
 
 class DateIndexManager {
@@ -52,7 +49,8 @@ class DateIndexManager {
     }
 
     private DateIndexManager(Context context, Class<? extends AppWidgetProvider> appWidgetProviderClass, int dateIndexToday) {
-        keyPrefix = appWidgetProviderClass.getName() + ".";
+        keyPrefix = appWidgetProviderClass.getName();
+        keyPrefix = keyPrefix.substring(keyPrefix.lastIndexOf('.') + 1);
         idsShowingTodayKey = keyPrefix + IDS_SHOWING_TODAY;
         sharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         this.dateIndexToday = dateIndexToday;
@@ -66,25 +64,30 @@ class DateIndexManager {
     // AppWidgetManager.getAppWidgetIds() returns all the ids that have been added historically.
 
     private void addToIds(int id) {
+
         String idsPrevious = sharedPreferences.getString(idsShowingTodayKey, "");
         StringBuilder idsBuilder = new StringBuilder(idsPrevious);
+
         if (idsPrevious.length() != 0) {
             idsBuilder.append(IDS_SEPARATOR);
         }
         idsBuilder.append(Integer.toString(id));
-        LogHelper.i(idsBuilder.toString());
+
         sharedPreferences.edit().putString(idsShowingTodayKey, idsBuilder.toString()).commit();
     }
 
     private void removeFromIds(int id) {
+
         String idsPrevious =  sharedPreferences.getString(idsShowingTodayKey, "");
-        LogHelper.i(idsPrevious);
+
         if (idsPrevious.length() == 0) {
             return;
         }
+
         StringBuilder idsBuilder = new StringBuilder();
         String idString = Integer.toString(id);
         boolean first = true;
+
         for (String idPrevious : idsPrevious.split(IDS_SEPARATOR)) {
             if (!idPrevious.equals(idString)) {
                 if (first) {
@@ -95,13 +98,15 @@ class DateIndexManager {
                 idsBuilder.append(idPrevious);
             }
         }
-        LogHelper.i(idsBuilder.toString());
+
         sharedPreferences.edit().putString(idsShowingTodayKey, idsBuilder.toString()).commit();
     }
 
     public synchronized int[] getIdsShowingToday() {
+
         String[] idStrings = sharedPreferences.getString(idsShowingTodayKey, "").split(IDS_SEPARATOR);
         int[] ids;
+
         if (idStrings[0].length() != 0) {
             ids = new int[idStrings.length];
             for (int i = 0; i != idStrings.length; ++i) {
@@ -110,24 +115,31 @@ class DateIndexManager {
         } else {
             ids = new int[0];
         }
+
         return ids;
     }
 
     // Return and set to default value (DATE_INDEX_TODAY) if the date index has not been set.
     public synchronized int get(int appWidgetId) {
+
         String key = getKey(appWidgetId);
         int dateIndex = sharedPreferences.getInt(key, DATE_INDEX_INVALID);
+
         if (dateIndex == DATE_INDEX_INVALID) {
             dateIndex = dateIndexToday;
             sharedPreferences.edit().putInt(key, dateIndex).commit();
             addToIds(appWidgetId);
         }
+
         return dateIndex;
     }
 
     public synchronized void set(int appWidgetId, int dateIndex) {
+
         int dateIndexPrevious = sharedPreferences.getInt(getKey(appWidgetId), DATE_INDEX_INVALID);
+
         sharedPreferences.edit().putInt(getKey(appWidgetId), dateIndex).commit();
+
         if (dateIndex != dateIndexPrevious) {
             if (dateIndexPrevious == dateIndexToday) {
                 removeFromIds(appWidgetId);
@@ -138,18 +150,24 @@ class DateIndexManager {
     }
 
     public synchronized void remove(int appWidgetId) {
+
         sharedPreferences.edit().remove(getKey(appWidgetId)).commit();
+
         removeFromIds(appWidgetId);
     }
 
     public synchronized void clear() {
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         for (String key : sharedPreferences.getAll().keySet()) {
             if (key.startsWith(keyPrefix)) {
                 editor.remove(key);
             }
         }
+
         editor.remove(idsShowingTodayKey);
+
         editor.commit();
     }
 }
