@@ -17,7 +17,7 @@ import java.util.TreeSet;
 // TODO: Invalidate the cache by cache.evictAll() when changes are made.
 public class TimetableManager {
 
-    private static final int CACHE_SIZE = 7;
+    private static final int CACHE_SIZE = 3;
 
     private static final Object instanceLock = new Object();
 
