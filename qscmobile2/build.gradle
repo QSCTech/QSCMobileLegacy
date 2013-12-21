@@ -17,7 +17,7 @@ dependencies {
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/umeng_sdk.jar')
     compile files('libs/gson-2.2.4.jar')
-    compile project('libs:library')
+    compile project('libs:swipebacklayout')
     compile project('libs:pulltorefresh')
 }
 
