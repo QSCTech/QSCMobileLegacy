@@ -16,6 +16,10 @@ android {
     compileSdkVersion 19
     buildToolsVersion '19'
 
+    lintOptions {
+        abortOnError false
+    }
+
     defaultConfig {
         minSdkVersion 4
         targetSdkVersion 4
