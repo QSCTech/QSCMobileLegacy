@@ -38,8 +38,7 @@
 
         <service
             android:name="com.umeng.common.net.DownloadingService"
-            android:exported="true"
-            android:process=":DownloadingService"></service>
+            android:process=":DownloadingService" />
 
         <activity
             android:theme="@style/AppNoTranslucentTheme"
@@ -104,6 +103,7 @@
         </receiver>
         <service
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService"
+            android:exported="false"
             />
 
         <receiver
