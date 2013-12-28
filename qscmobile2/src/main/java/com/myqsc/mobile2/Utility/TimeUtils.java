@@ -40,6 +40,12 @@ public class TimeUtils {
         setDate(date, month, day);
     }
 
+    public static void setDate(Calendar date, Calendar newDate) {
+        date.set(Calendar.ERA, newDate.get(Calendar.ERA));
+        date.set(Calendar.YEAR, newDate.get(Calendar.YEAR));
+        date.set(Calendar.DAY_OF_YEAR, newDate.get(Calendar.DAY_OF_YEAR));
+    }
+
     public static void clearDate(Calendar time) {
         time.clear(Calendar.ERA);
         time.clear(Calendar.YEAR);
@@ -91,7 +97,15 @@ public class TimeUtils {
         setTime(time, hour, minute, 0, 0);
     }
 
-    // NOTE: Calendar.clear() on HOUR_OF_DAY, HOUR or AM_PM doesn't reset the hour of day value of this Calendar.
+    public static void setTime(Calendar time, Calendar newTime) {
+        setTime(time, newTime.get(Calendar.HOUR_OF_DAY),
+                newTime.get(Calendar.MINUTE),
+                newTime.get(Calendar.SECOND),
+                newTime.get(Calendar.MILLISECOND));
+    }
+
+    // NOTE: Calendar.clear() on HOUR_OF_DAY, HOUR or AM_PM doesn't reset the hour of day value of
+    // this Calendar.
     public static void clearTime(Calendar date) {
         date.set(Calendar.HOUR_OF_DAY, 0);
         date.clear(Calendar.MINUTE);
@@ -106,7 +120,8 @@ public class TimeUtils {
         return dateFormat.format(time.getTime());
     }
 
-    //private static final String[] WEEKDAY_NAMES = new String[] {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+    //private static final String[] WEEKDAY_NAMES =
+    //        new String[] {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
     public static String getWeekdayString(Calendar date) {
         return getString(date, "EE");

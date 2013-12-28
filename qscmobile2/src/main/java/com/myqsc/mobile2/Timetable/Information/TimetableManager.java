@@ -23,21 +23,22 @@ public class TimetableManager {
 
     private static TimetableManager instance = null;
 
+    private Context context;
+
     private Set<TaskProvider> taskProviders = Collections.synchronizedSet(new LinkedHashSet<TaskProvider>());
 
     // NOTE: java.util.WeakHashMap holds weak references of keys, not values.
-    LruCache<Calendar, SortedSet<Task>> cache = new LruCache<Calendar, SortedSet<Task>>(CACHE_SIZE);
-
-    private Context context;
+    private final LruCache<Calendar, SortedSet<Task>> cache = new LruCache<Calendar, SortedSet<Task>>(CACHE_SIZE);
 
 
     private TimetableManager(Context context) {
 
         this.context = context;
 
-        // TODO: Move this statement to package Curriculum thus registering there.
+        // TODO: Move this statement to package Curriculum & Examination thus registering there.
         // TODO: Maybe this should be loaded according to permanent data storage.
         taskProviders.add(new CurriculumTaskProvider(context));
+        taskProviders.add(new ExaminationTaskProvider(context));
 
         // TODO: Remove debug statement.
         //taskProviders.add(new DummyTaskProvider());
