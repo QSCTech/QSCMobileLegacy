@@ -73,19 +73,19 @@ public abstract class LegacyProvider extends AppWidgetProvider {
     private String getWeekdayString(Context context, Calendar date) {
         switch (date.get(Calendar.DAY_OF_WEEK)) {
             case Calendar.MONDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_monday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_monday);
             case Calendar.TUESDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_tuesday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_tuesday);
             case Calendar.WEDNESDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_wednesday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_wednesday);
             case Calendar.THURSDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_thursday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_thursday);
             case Calendar.FRIDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_friday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_friday);
             case Calendar.SATURDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_saturday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_saturday);
             case Calendar.SUNDAY:
-                return context.getResources().getString(R.string.appwidget_timetable_date_sunday);
+                return context.getResources().getString(R.string.timetable_appwidget_date_sunday);
             default:
                 return null;
         }
@@ -118,7 +118,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         int displayedTaskCount = getDisplayedTaskCount();
 
         // Build AppWidgetView.
-        RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy);
+        RemoteViews appWidgetViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy);
 
         // Remove sub views in case the host recycles the view, while this also removes the loading TextView.
         appWidgetViews.removeAllViews(R.id.appwidget_timetable_date_list);
@@ -152,14 +152,14 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         // Add dates to view.
         for (int i = 0; i != displayedDateCount; ++i) {
 
-            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy_date);
+            subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_date);
 
             // Determine whether the date view should be empty or not.
             if (dateShownIndexStart + i >= 0 && dateShownIndexStart + i <= DATE_COUNT - 1) {
 
                 // Add content to the date view.
                 if (dateShownIndexStart + i == DATE_INDEX_TODAY) {
-                    subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.appwidget_timetable_date_today));
+                    subViews.setTextViewText(R.id.appwidget_timetable_date, context.getString(R.string.timetable_appwidget_date_today));
                 } else {
                     subViews.setTextViewText(R.id.appwidget_timetable_date, getWeekdayString(context, getDate(dateShownIndexStart + i)));
                 }
@@ -180,13 +180,13 @@ public abstract class LegacyProvider extends AppWidgetProvider {
         if (timetable.size() == 0) {
 
             // Add no-task view.
-            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_legacy_notask);
+            subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_notask);
             appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
         } else {
 
             // Add the first divider.
-            subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
+            subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_task_list_divider);
             subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_normal);
             appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
@@ -211,7 +211,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
                     Task task = iter.next();
 
                     // Add task view.
-                    subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task);
+                    subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_task);
                     // Add content for task view.
                     subViews.setTextViewText(R.id.appwidget_timetable_task_name, task.getName());
                     subViews.setTextViewText(R.id.appwidget_timetable_task_detail, task.getDetail());
@@ -238,7 +238,7 @@ public abstract class LegacyProvider extends AppWidgetProvider {
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
                     // Add divider.
-                    subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
+                    subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_task_list_divider);
                     subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_normal);
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
@@ -247,11 +247,11 @@ public abstract class LegacyProvider extends AppWidgetProvider {
                     // Add empty views for spacing in LinearLayout.
 
                     // Add default (empty) task view.
-                    subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task);
+                    subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_task);
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
 
                     // Add transparent divider.
-                    subViews = new RemoteViews(context.getPackageName(), R.layout.appwidget_timetable_task_list_divider);
+                    subViews = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget_legacy_task_list_divider);
                     subViews.setImageViewResource(R.id.appwidget_timetable_task_list_divider, R.drawable.appwidget_timetable_task_list_divider_transparent);
                     appWidgetViews.addView(R.id.appwidget_timetable_task_list, subViews);
                 }

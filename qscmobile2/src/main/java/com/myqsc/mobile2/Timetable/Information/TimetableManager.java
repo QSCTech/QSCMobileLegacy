@@ -50,6 +50,9 @@ public class TimetableManager {
 
             if (instance == null) {
                 instance = new TimetableManager(context.getApplicationContext());
+            } else if (instance.context != context.getApplicationContext()) {
+                // TODO: Remove debug statement.
+                throw new RuntimeException("Inconsistent context detected!");
             }
 
             return instance;

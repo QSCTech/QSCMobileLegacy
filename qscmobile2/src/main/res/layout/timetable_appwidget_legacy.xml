@@ -26,6 +26,7 @@
                 android:paddingRight="8dp"
                 android:gravity="center"
                 android:background="@drawable/selector_appwidget_timetable_date"
+                android:clickable="true"
                 android:text="&lt;"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
@@ -46,6 +47,7 @@
                 android:paddingRight="18dp"
                 android:gravity="center"
                 android:background="@drawable/selector_appwidget_timetable_date"
+                android:clickable="true"
                 android:text="&gt;"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
@@ -65,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="@string/appwidget_timetable_loading"
+                android:text="@string/timetable_appwidget_loading"
                 android:textColor="@color/grey_dark"
                 android:textSize="20sp"/>
         </LinearLayout>

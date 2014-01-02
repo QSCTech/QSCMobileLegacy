@@ -46,17 +46,17 @@
     <string name="icon_arrow_circle_o_down">&#xf01a;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
 
-    <string name="appwidget_timetable_loading">Loading…</string>
-    <string name="appwidget_timetable_legacy_3x3_name">QSC Timetable (3x3)</string>
-    <string name="appwidget_timetable_legacy_3x4_name">QSC Timetable (3x4)</string>
-    <string name="appwidget_timetable_legacy_4x4_name">QSC Timetable (4x4)</string>
-    <string name="appwidget_timetable_date_monday">Mon</string>
-    <string name="appwidget_timetable_date_tuesday">Tue</string>
-    <string name="appwidget_timetable_date_wednesday">Wed</string>
-    <string name="appwidget_timetable_date_thursday">Thu</string>
-    <string name="appwidget_timetable_date_friday">Fri</string>
-    <string name="appwidget_timetable_date_saturday">Sat</string>
-    <string name="appwidget_timetable_date_sunday">Sun</string>
-    <string name="appwidget_timetable_date_today">Now</string>
-    <string name="appwidget_timetable_task_none">No tasks</string>
+    <string name="timetable_appwidget_loading">Loading…</string>
+    <string name="timetable_appwidget_legacy_3x3_name">QSC Timetable (3x3)</string>
+    <string name="timetable_appwidget_legacy_3x4_name">QSC Timetable (3x4)</string>
+    <string name="timetable_appwidget_legacy_4x4_name">QSC Timetable (4x4)</string>
+    <string name="timetable_appwidget_date_monday">Mon</string>
+    <string name="timetable_appwidget_date_tuesday">Tue</string>
+    <string name="timetable_appwidget_date_wednesday">Wed</string>
+    <string name="timetable_appwidget_date_thursday">Thu</string>
+    <string name="timetable_appwidget_date_friday">Fri</string>
+    <string name="timetable_appwidget_date_saturday">Sat</string>
+    <string name="timetable_appwidget_date_sunday">Sun</string>
+    <string name="timetable_appwidget_date_today">Now</string>
+    <string name="timetable_appwidget_task_none">No tasks</string>
 </resources>
