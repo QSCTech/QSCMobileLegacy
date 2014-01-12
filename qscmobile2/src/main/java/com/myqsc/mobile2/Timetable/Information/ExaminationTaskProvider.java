@@ -56,7 +56,7 @@ public class ExaminationTaskProvider implements TaskProvider {
                 continue;
             }
 
-            tasks.add(new Task(examStructure.course_name, examStructure.position + examStructure.seat, startTime, endTime));
+            tasks.add(new Task(examStructure.course_name, examStructure.position + " " + examStructure.seat, startTime, endTime));
         }
 
         return tasks;
