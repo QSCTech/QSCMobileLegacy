@@ -47,6 +47,7 @@
     <string name="title_activity_curriculum">课表么么哒</string>
 
     <string name="timetable_appwidget_loading">正在努力加载…</string>
+    <string name="timetable_appwidget_legacy_3x2_name">求是潮课程表 (3x2)</string>
     <string name="timetable_appwidget_legacy_3x3_name">求是潮课程表 (3x3)</string>
     <string name="timetable_appwidget_legacy_3x4_name">求是潮课程表 (3x4)</string>
     <string name="timetable_appwidget_legacy_4x4_name">求是潮课程表 (4x4)</string>
