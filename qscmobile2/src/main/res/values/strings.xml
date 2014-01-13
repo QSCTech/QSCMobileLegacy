@@ -60,4 +60,8 @@
     <string name="timetable_appwidget_date_sunday">周日</string>
     <string name="timetable_appwidget_date_today">今天</string>
     <string name="timetable_appwidget_task_none">好的嘛，今天没有课~</string>
+
+    <string name="legacy_notify_title">提示</string>
+    <string name="legacy_notify_content">同学您好，\n\n　　您看到这条消息，是因为您的手机系统是 Android 4.0 以下版本。\n\n　　非常抱歉，我们即将停止对 Android 4.0 以下系统的手机站提供功能更新与维护，您使用的安卓版本将失去求是潮手机站的主流支持。\n\n　　但是，请不要担心，您可以继续使用手机站现有的各个功能，包括课表、考试、活动等在内的数据都将继续更新维护。\n\n　　我们不排除在未来对 Metro 版本以及这一版本停止数据更新支持的可能性。如果到了那个时候，我们将会尽力通过各种渠道告知每位同学。\n\n　　我们做出这一决定非常困难，但为了给更多用户提供更好的服务，我们不得不这么做，希望能够得到您的理解。\n\n　　感谢您对求是潮长期以来的支持。\n\n求是潮\n技术研发中心</string>
+    <string name="legacy_notify_ok">知道了</string>
 </resources>

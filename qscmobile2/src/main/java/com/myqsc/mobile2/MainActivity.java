@@ -20,12 +20,14 @@ import com.myqsc.mobile2.login.UserSwitchFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.Utility;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -57,9 +59,22 @@ public class MainActivity extends FragmentActivity {
         }
 
         MobclickAgent.setDebugMode(true);
-        UmengUpdateAgent.setUpdateOnlyWifi(false);
-        UmengUpdateAgent.update(this);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            UmengUpdateAgent.setUpdateOnlyWifi(false);
+            UmengUpdateAgent.update(this);
+        } else if (!getSharedPreferences(Utility.PREFERENCE, 0).contains("LegacyNotified")) {
+            final Context legacyNotificationContext = this.getApplicationContext();
+            (new AlertDialog.Builder(this)).setTitle(R.string.legacy_notify_title)
+                    .setMessage(R.string.legacy_notify_content)
+                    .setPositiveButton(R.string.legacy_notify_ok, new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            legacyNotificationContext.getSharedPreferences(Utility.PREFERENCE, 0)
+                                    .edit().putBoolean("LegacyNotified", true).commit();
+                        }})
+            .setCancelable(false)
+            .create().show();
+        }
 
         // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
