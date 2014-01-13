@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">求是潮手机站</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="login_text">你好:) 我是 MOBILE</string>
+    <string name="login_uid">输入学号</string>
+    <string name="login_pwd">输入教务网密码</string>
+    <string name="login_btn">登录</string>
+    <string name="copyright_text1">Copyright 2000-2013 浙江大学求是潮工作团队</string>
+    <string name="copyright_text2">All Rights Reversed</string>
+    <string name="icon_user">&#xf007;</string>
+    <string name="icon_circle_blank">&#xf10c;</string>
+    <string name="icon_ok_circle">&#xF05d;</string>
+    <string name="icon_ok_sign">&#xf058;</string>
+    <string name="icon_minus_sign">&#xF056;</string>
+    <string name="icon_plus">&#xF067;</string>
+    <string name="icon_chevron_right">&#xF054;</string>
+    <string name="icon_chevron_left">&#xF053;</string>
+    <string name="icon_lock">&#xf023;</string>
+    <string name="icon_copy">&#xF0C5;</string>
+    <string name="icon_file_alt">&#xF016;</string>
+    <string name="icon_exchange">&#xF0EC;</string>
+    <string name="icon_bar_chart">&#xF080;</string>
+    <string name="icon_info">&#xF129;</string>
+    <string name="icon_heart">&#xF004;</string>
+    <string name="icon_group">&#xF0C0;</string>
+    <string name="icon_calendar">&#xF073;</string>
+    <string name="icon_list_alt">&#xF022;</string>
+    <string name="icon_trophy">&#xF091;</string>
+    <string name="icon_edit">&#xF044;</string>
+    <string name="icon_star">&#xF005;</string>
+    <string name="icon_star_empty">&#xF006;</string>
+    <string name="icon_th">&#xF00A;</string>
+    <string name="icon_th_list">&#xF00B;</string>
+    <string name="icon_truck">&#xF0D1;</string>
+    <string name="icon_code">&#xF121;</string>
+    <string name="icon_signal">&#xF012;</string>
+    <string name="icon_tint">&#xF043;</string>
+    <string name="icon_fire">&#xF06D;</string>
+    <string name="icon_search">&#xF002;</string>
+    <string name="icon_share">&#xF045;</string>
+    <string name="icon_globe">&#xF0AC;</string>
+    <string name="fa_flag">&#xF024;</string>
+    <string name="icon_arrow_circle_o_down">&#xf01a;</string>
+    <string name="title_activity_curriculum">课表么么哒</string>
+
+    <string name="timetable_appwidget_loading">Loading…</string>
+    <string name="timetable_appwidget_legacy_3x2_name">QSC Timetable (3x2)</string>
+    <string name="timetable_appwidget_legacy_3x3_name">QSC Timetable (3x3)</string>
+    <string name="timetable_appwidget_legacy_3x4_name">QSC Timetable (3x4)</string>
+    <string name="timetable_appwidget_legacy_4x4_name">QSC Timetable (4x4)</string>
+    <string name="timetable_appwidget_date_monday">Mon</string>
+    <string name="timetable_appwidget_date_tuesday">Tue</string>
+    <string name="timetable_appwidget_date_wednesday">Wed</string>
+    <string name="timetable_appwidget_date_thursday">Thu</string>
+    <string name="timetable_appwidget_date_friday">Fri</string>
+    <string name="timetable_appwidget_date_saturday">Sat</string>
+    <string name="timetable_appwidget_date_sunday">Sun</string>
+    <string name="timetable_appwidget_date_today">Now</string>
+    <string name="timetable_appwidget_task_none">No tasks</string>
+</resources>

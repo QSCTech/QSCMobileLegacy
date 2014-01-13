@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+    <!-- Unable to be used in appwidget, but may be useful in the future. -->
+    <declare-styleable name="TaskStates">
+
+        <attr name="state_task_finished" format="boolean"/>
+
+        <attr name="state_task_active" format="boolean"/>
+
+        <attr name="state_task_scheduled" format="boolean"/>
+    </declare-styleable>
+</resources>

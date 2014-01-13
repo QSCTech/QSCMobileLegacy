@@ -12,18 +12,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.myqsc.mobile2.network.DataUpdater;
-import com.myqsc.mobile2.uti.LogHelper;
 import com.myqsc.mobile2.uti.Utility;
 
 @SuppressLint("NewApi")
 public class ExamDataHelper {
-	Context mContext = null;
+    Context mContext = null;
 
 
-
-	public ExamDataHelper(Context context) {
-		this.mContext = context;
-	}
+    public ExamDataHelper(Context context) {
+        this.mContext = context;
+    }
 
     List<ExamStructure> allExamList = null;
     char whichTerm = 0x0;
@@ -32,7 +30,7 @@ public class ExamDataHelper {
             return allExamList;
 
         whichTerm = term;
-		String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
+        String result = mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getString(DataUpdater.JW_KAOSHI, null);
         allExamList = new ArrayList<ExamStructure>();
 
@@ -60,7 +58,7 @@ public class ExamDataHelper {
             e.printStackTrace();
         }
         return allExamList;
-	}
+    }
 
     List<ExamStructure> todayExamList = null;
     int whichDay = 0;

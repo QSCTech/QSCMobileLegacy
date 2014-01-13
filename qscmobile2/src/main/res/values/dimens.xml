@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
@@ -5,4 +6,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="login_activity_vertical_margin">30dp</dimen>
 
+    <dimen name="appwidget_padding">8dp</dimen>
 </resources>

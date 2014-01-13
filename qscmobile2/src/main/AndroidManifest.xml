@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myqsc.mobile2"
-    android:versionCode="62"
-    android:versionName="1.62">
+    android:versionCode="66"
+    android:versionName="1.66">
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -38,10 +38,10 @@
 
         <service
             android:name="com.umeng.common.net.DownloadingService"
-            android:exported="true"
-            android:process=":DownloadingService"></service>
+            android:process=":DownloadingService" />
 
         <activity
+            android:theme="@style/AppNoTranslucentTheme"
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -53,24 +53,23 @@
         <activity
             android:name=".exam.ExamActivity"
             android:launchMode="singleTask" />
-        />
         <activity
             android:name=".xiaoche.XiaocheActivity"
-            android:launchMode="singleTask" />/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".AboutUsActivity"
-            android:launchMode="singleTask" />/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".curriculum.CurriculumActivity"
-            android:launchMode="singleTask" />/>
+            android:launchMode="singleTask" />
         <activity android:name="com.umeng.fb.ConversationActivity" />
         <activity android:name="com.umeng.fb.ContactActivity" />
         <activity
             android:name=".Grade.GradeActivity"
-            android:launchMode="singleTask" />/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANActivity"
             android:launchMode="singleTask"
@@ -103,7 +102,67 @@
         </receiver>
         <service
             android:name=".ExtraFunction.ZJUWLANLogin.ZJUWLANConnectService"
+            android:exported="false"
             />
-    </application>
 
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy3x3Provider"
+            android:label="@string/timetable_appwidget_legacy_3x3_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_3x3_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy3x2Provider"
+            android:label="@string/timetable_appwidget_legacy_3x2_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_3x2_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy3x4Provider"
+            android:label="@string/timetable_appwidget_legacy_3x4_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_3x4_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy4x4Provider"
+            android:label="@string/timetable_appwidget_legacy_4x4_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_4x4_info"/>
+        </receiver>
+    </application>
 </manifest>

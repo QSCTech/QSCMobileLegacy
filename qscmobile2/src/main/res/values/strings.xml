@@ -10,15 +10,15 @@
     <string name="login_btn">登录</string>
     <string name="copyright_text1">Copyright 2000-2013 浙江大学求是潮工作团队</string>
     <string name="copyright_text2">All Rights Reversed</string>
-	<string name="icon_user">&#xf007;</string>
-	<string name="icon_circle_blank">&#xf10c;</string>
-	<string name="icon_ok_circle">&#xF05d;</string>
-	<string name="icon_ok_sign">&#xf058;</string>
-	<string name="icon_minus_sign">&#xF056;</string>
-	<string name="icon_plus">&#xF067;</string>
-	<string name="icon_chevron_right">&#xF054;</string>
-	<string name="icon_chevron_left">&#xF053;</string>
-	<string name="icon_lock">&#xf023;</string>
+    <string name="icon_user">&#xf007;</string>
+    <string name="icon_circle_blank">&#xf10c;</string>
+    <string name="icon_ok_circle">&#xF05d;</string>
+    <string name="icon_ok_sign">&#xf058;</string>
+    <string name="icon_minus_sign">&#xF056;</string>
+    <string name="icon_plus">&#xF067;</string>
+    <string name="icon_chevron_right">&#xF054;</string>
+    <string name="icon_chevron_left">&#xF053;</string>
+    <string name="icon_lock">&#xf023;</string>
     <string name="icon_copy">&#xF0C5;</string>
     <string name="icon_file_alt">&#xF016;</string>
     <string name="icon_exchange">&#xF0EC;</string>
@@ -45,5 +45,19 @@
     <string name="fa_flag">&#xF024;</string>
     <string name="icon_arrow_circle_o_down">&#xf01a;</string>
     <string name="title_activity_curriculum">课表么么哒</string>
-    
+
+    <string name="timetable_appwidget_loading">正在努力加载…</string>
+    <string name="timetable_appwidget_legacy_3x2_name">求是潮课程表 (3x2)</string>
+    <string name="timetable_appwidget_legacy_3x3_name">求是潮课程表 (3x3)</string>
+    <string name="timetable_appwidget_legacy_3x4_name">求是潮课程表 (3x4)</string>
+    <string name="timetable_appwidget_legacy_4x4_name">求是潮课程表 (4x4)</string>
+    <string name="timetable_appwidget_date_monday">周一</string>
+    <string name="timetable_appwidget_date_tuesday">周二</string>
+    <string name="timetable_appwidget_date_wednesday">周三</string>
+    <string name="timetable_appwidget_date_thursday">周四</string>
+    <string name="timetable_appwidget_date_friday">周五</string>
+    <string name="timetable_appwidget_date_saturday">周六</string>
+    <string name="timetable_appwidget_date_sunday">周日</string>
+    <string name="timetable_appwidget_date_today">今天</string>
+    <string name="timetable_appwidget_task_none">好的嘛，今天没有课~</string>
 </resources>

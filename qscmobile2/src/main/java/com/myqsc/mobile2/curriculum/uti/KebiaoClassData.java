@@ -17,7 +17,7 @@ public class KebiaoClassData {
     public String name, teacher, place, term, hash;
     public int week = 0, year = 0, time = 0;
     //week 单双周，time 周几
-    int classes[] = null;
+    public int classes[] = null;
 
     public KebiaoClassData() {
     }

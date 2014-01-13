@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/homework_add_content"
         android:maxLines="5"
-        android:hint="作业内容"
+        android:hint="作业内容\n感谢您将作业分享给其他人~"
         android:layout_marginTop="16dp" />
 
     <EditText

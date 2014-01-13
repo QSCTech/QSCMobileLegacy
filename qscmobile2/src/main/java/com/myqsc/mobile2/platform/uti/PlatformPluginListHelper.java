@@ -35,8 +35,11 @@ public class PlatformPluginListHelper {
         final SharedPreferences preferences = activity.getSharedPreferences(Utility.PREFERENCE, 0);
         String listData = preferences.getString(PlatformUpdateHelper.PLUGIN_LIST_RAW, null);
         final Vector<PluginStructure> localPluginList = PlatformUpdateHelper.parsePluginList(listData);
-        callback.initList(localPluginList);
+        if (localPluginList != null)
+            callback.initList(localPluginList);
+            //若本地插件列表不为空则初始化本地插件列表
 
+        //从网上加载插件列表
         new Thread(new Runnable() {
             @Override
             public void run() {

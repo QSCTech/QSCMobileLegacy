@@ -100,7 +100,7 @@ public class KebiaoCardFragment extends Fragment {
     private void setTime(int diff, KebiaoClassData kebiaoClassData){
         nameTextView.setText(kebiaoClassData.name);
         teacherTextView.setText(kebiaoClassData.teacher);
-        timeTextView.setText(KebiaoUtility.precessClassTime(kebiaoClassData));
+        timeTextView.setText(KebiaoUtility.processClassTime(kebiaoClassData));
         placeTextView.setText(kebiaoClassData.place);
         if (diff > 0) {
             noticeTextView.setText("距离下课还有");

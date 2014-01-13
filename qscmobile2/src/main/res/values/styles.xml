@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
     <!--
@@ -12,11 +13,15 @@
         -->
     </style>
 
+    <style name="AppNoTranslucentTheme" parent="AppBaseTheme">
+        <item name="android:textSize">17sp</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:textSize">17sp</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
 </resources>
