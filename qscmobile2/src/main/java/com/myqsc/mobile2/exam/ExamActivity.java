@@ -60,8 +60,8 @@ public class ExamActivity extends MySwipeExitActivity {
 		manager = getSupportFragmentManager();
 		setTextColor(check);
 		
-		((LinearLayout)findViewById(R.id.exam_linear_left)).setOnClickListener(onClickListener);
-		((LinearLayout)findViewById(R.id.exam_linear_right)).setOnClickListener(onClickListener);
+		findViewById(R.id.exam_linear_left).setOnClickListener(onClickListener);
+		findViewById(R.id.exam_linear_right).setOnClickListener(onClickListener);
 	}
 	
 	View.OnClickListener onClickListener = new View.OnClickListener() {
