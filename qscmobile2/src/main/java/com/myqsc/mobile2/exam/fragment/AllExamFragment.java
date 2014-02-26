@@ -31,7 +31,7 @@ public class AllExamFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		Calendar calendar = Calendar.getInstance();
 		int year = calendar.get(Calendar.YEAR);
-		year_str = String.valueOf(year) + "-" + String.valueOf(year + 1);
+		year_str = String.valueOf(year - 1) + "-" + String.valueOf(year);
 	}
 
 	@Override
