@@ -41,6 +41,7 @@ public class AllExamFragment extends Fragment {
 
         Utility.initCheckBar(view, getActivity(), onClickListener);
 		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
+        allExamListView.setFocusable(false);
 		
 		examHelper = new ExamDataHelper(getActivity());
 
@@ -71,6 +72,7 @@ public class AllExamFragment extends Fragment {
         Utility.setCheckBarTitle(year_str + term_arr[term_int], view);
         ExamAdapter adapter = new ExamAdapter(list, getActivity());
         allExamListView.setAdapter(adapter);
+        Utility.setListViewHeightBasedOnChildren(allExamListView);
 	}
 	
 	View.OnClickListener onClickListener = new View.OnClickListener() {

@@ -34,16 +34,6 @@ public class ExamActivity extends MySwipeExitActivity {
         MobclickAgent.onResume(this);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
     TextView icon_right, text_right, icon_left, text_left;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +80,7 @@ public class ExamActivity extends MySwipeExitActivity {
                 fragment = new EveryDayExamFragment();
             transaction.replace(R.id.activity_exam_fragment, fragment, "exam_everyday");
             transaction.commitAllowingStateLoss();
-		} 
+		}
 		if (check == 1){
 			icon_left.setTextColor(getResources().getColor(R.color.black_text));
 			text_left.setTextColor(getResources().getColor(R.color.black_text));
