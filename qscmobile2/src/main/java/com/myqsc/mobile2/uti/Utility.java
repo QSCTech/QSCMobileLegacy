@@ -46,6 +46,7 @@ public class Utility {
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
+        totalHeight += 20;
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
