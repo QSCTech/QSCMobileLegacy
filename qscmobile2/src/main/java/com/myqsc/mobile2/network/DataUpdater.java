@@ -15,8 +15,11 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -31,7 +34,7 @@ import javax.net.ssl.SSLHandshakeException;
  * Created by richard on 13-9-2.
  */
 public class DataUpdater {
-    private static final String HTTP_PROTOCOL = "http://m.myqsc.com/api/v2/";
+    private static final String HTTP_PROTOCOL = "https://m.myqsc.com/api/v2/";
 
 //    public final static String COMMON_HASH = "share/hash";
     public final static String COMMON_TEACHER = "share/teacher";
@@ -93,24 +96,21 @@ public class DataUpdater {
     public static String get(String url) {
         StringBuilder result = new StringBuilder();
         try {
-            url = url.replaceFirst("http://m.myqsc.com", "https://m.myqsc.com");
             LogHelper.d("URL:" + url);
             URL address = new URL(url);
-            URLConnection urlConnection = address.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) address.openConnection();
             urlConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
             urlConnection.setRequestProperty("X-Need-Escape", "0");
             urlConnection.setRequestProperty("Accept-Encoding", "gzip");
             urlConnection.setConnectTimeout(15000); //15秒钟超时
+            urlConnection.setReadTimeout(10000); //10s 下载超时
             urlConnection.connect();
-
-            LogHelper.e(urlConnection.getContentEncoding());
-            LogHelper.e(urlConnection.getContentType());
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             urlConnection.getInputStream()));
 
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 result.append(line);
             }
@@ -118,7 +118,6 @@ public class DataUpdater {
         } catch (SSLException e){
             //ssl 证书失败
             e.printStackTrace();
-            return getWithHttp(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -127,21 +126,12 @@ public class DataUpdater {
         return result.toString();
     }
 
-    public static String getWithHttp(String url){
-        url = url.replaceFirst("https", "http");
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
-            httpGet.setHeader("X-Need-Escape", "0");
-            httpGet.setHeader("Accept-Encoding", "gzip");
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            return EntityUtils.toString(httpResponse.getEntity());
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    // Reads an InputStream and converts it to a String.
+    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+        Reader reader = null;
+        reader = new InputStreamReader(stream, "UTF-8");
+        char[] buffer = new char[len];
+        reader.read(buffer);
+        return new String(buffer);
     }
 }
