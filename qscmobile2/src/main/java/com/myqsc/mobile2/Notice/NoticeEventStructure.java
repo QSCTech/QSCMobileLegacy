@@ -51,6 +51,7 @@ public class NoticeEventStructure {
     }
 
     public String getHotTagString() {
+        if (hotTag.length() == 0) return null;
         try {
             String tag = "";
             for (int i = 0; i != hotTag.length(); ++i) {
