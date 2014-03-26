@@ -3,6 +3,7 @@ package com.myqsc.mobile2.exam.uti;
 import java.util.List;
 
 import com.myqsc.mobile2.R;
+import com.myqsc.mobile2.uti.LogHelper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -56,6 +57,8 @@ public class ExamAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 
 			convertView = mInflater.inflate(R.layout.simple_listview_exam, null);
+            if (convertView == null) throw new RuntimeException("Exam Convert View Inflate Field");
+
 			holder.name 	= (TextView) convertView.findViewById(R.id.exam_list_course_name);
 			holder.time 	= (TextView) convertView.findViewById(R.id.exam_list_time);
 			holder.pos 		= (TextView) convertView.findViewById(R.id.exam_list_position);
@@ -65,17 +68,25 @@ public class ExamAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if (structure.time.length() < 4){
-			holder.name.setText(structure.course_name);
-			holder.credit.setText("学分:" + structure.credit);
+
+        holder.name.setText(structure.course_name);
+        holder.credit.setText("学分：" + structure.credit);
+
+		if (structure.time.length() == 0) {
 			holder.time.setText("暂无考试时间");
-			holder.pos.setText("暂无考试位置");
 		} else {
-			holder.name.setText(structure.course_name);
 			holder.time.setText(structure.time);
-			holder.pos.setText(structure.position + " 座位号" + structure.seat	);
-			holder.credit.setText("学分:" + structure.credit);
 		}
+
+        if (structure.position.length() == 0 && structure.seat.length() == 0)
+            holder.pos.setText("暂无考试地点");
+        if (structure.position.length() != 0 && structure.seat.length() != 0)
+            holder.pos.setText(String.format("%s 座位号：%s", structure.position, structure.seat));
+        if (structure.position.length() == 0 && structure.seat.length() != 0)
+            holder.pos.setText(String.format("座位号：%s", structure.seat));
+        if (structure.position.length() != 0 && structure.seat.length() == 0)
+            holder.pos.setText(structure.position);
+
 		if ((position & 1) == 0)
 			convertView.setBackgroundColor(mContext.getResources().getColor(R.color.list_odd));
 		else
