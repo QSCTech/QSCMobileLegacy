@@ -20,10 +20,6 @@ android {
         abortOnError false
     }
 
-    defaultConfig {
-        minSdkVersion 4
-        targetSdkVersion 4
-    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
