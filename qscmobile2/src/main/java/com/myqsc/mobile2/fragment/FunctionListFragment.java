@@ -187,6 +187,8 @@ public class FunctionListFragment extends MyFragment{
     final PluginListInitCallback pluginListInitCallback = new PluginListInitCallback() {
         @Override
         public void initList(Vector<PluginStructure> pluginVector) {
+            if (getActivity() == null) return;
+
             final LinearLayout pluginLayout = (LinearLayout) view.findViewById(R.id.plugin_list_layout);
             final Context mContext = getActivity();
             final LayoutInflater mInflater = LayoutInflater.from(getActivity());
