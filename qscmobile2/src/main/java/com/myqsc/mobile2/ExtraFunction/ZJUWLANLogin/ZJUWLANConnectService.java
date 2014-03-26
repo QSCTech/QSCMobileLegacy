@@ -159,7 +159,7 @@ public class ZJUWLANConnectService extends IntentService {
                 }
             }
         } else {
-            doToast("求是潮手机站：ZJUWLAN " + res);
+            doToast("求是潮手机站：ZJUWLAN 未知错误");
         }
     }
 
