@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.myqsc.mobile2.uti.LogHelper;
 
@@ -31,10 +32,16 @@ public class JSInterface {
     }
 
     public void init() {
-        webView.addJavascriptInterface(this, "QSCAndroid");
+//        webView.addJavascriptInterface(this, "QSCAndroid");
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                LogHelper.d(url);
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+        });
     }
 
-    @JavascriptInterface
     public void sendRequest (final String result) {
         LogHelper.e(result);
 
