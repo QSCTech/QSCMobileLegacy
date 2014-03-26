@@ -102,60 +102,72 @@
             />
 
         <receiver
-            android:name=".Timetable.AppWidget.Legacy3x3Provider"
-            android:label="@string/timetable_appwidget_legacy_3x3_name"
-            android:enabled="@bool/enable_legacy_appwidget">
-
-            <intent-filter>
-
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/timetable_appwidget_legacy_3x3_info"/>
-        </receiver>
-
-        <receiver
             android:name=".Timetable.AppWidget.Legacy3x2Provider"
             android:label="@string/timetable_appwidget_legacy_3x2_name"
             android:enabled="@bool/enable_legacy_appwidget">
-
             <intent-filter>
-
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/timetable_appwidget_legacy_3x2_info"/>
         </receiver>
 
         <receiver
+            android:name=".Timetable.AppWidget.Legacy3x3Provider"
+            android:label="@string/timetable_appwidget_legacy_3x3_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_3x3_info"/>
+        </receiver>
+
+        <receiver
             android:name=".Timetable.AppWidget.Legacy3x4Provider"
             android:label="@string/timetable_appwidget_legacy_3x4_name"
             android:enabled="@bool/enable_legacy_appwidget">
-
             <intent-filter>
-
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/timetable_appwidget_legacy_3x4_info"/>
         </receiver>
 
         <receiver
+            android:name=".Timetable.AppWidget.Legacy4x2Provider"
+            android:label="@string/timetable_appwidget_legacy_4x2_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_4x2_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".Timetable.AppWidget.Legacy4x3Provider"
+            android:label="@string/timetable_appwidget_legacy_4x3_name"
+            android:enabled="@bool/enable_legacy_appwidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_appwidget_legacy_4x3_info"/>
+        </receiver>
+
+        <receiver
             android:name=".Timetable.AppWidget.Legacy4x4Provider"
             android:label="@string/timetable_appwidget_legacy_4x4_name"
             android:enabled="@bool/enable_legacy_appwidget">
-
             <intent-filter>
-
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/timetable_appwidget_legacy_4x4_info"/>

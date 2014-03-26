@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/timetable_appwidget_legacy"
+    android:minWidth="250dp"
+    android:minHeight="180dp"
+    android:previewImage="@drawable/timetable_appwidget_legacy_4x3_preview"
+    android:resizeMode="none"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen">
+</appwidget-provider>

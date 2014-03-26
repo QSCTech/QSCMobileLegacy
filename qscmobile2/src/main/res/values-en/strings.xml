@@ -50,6 +50,8 @@
     <string name="timetable_appwidget_legacy_3x2_name">QSC Timetable (3x2)</string>
     <string name="timetable_appwidget_legacy_3x3_name">QSC Timetable (3x3)</string>
     <string name="timetable_appwidget_legacy_3x4_name">QSC Timetable (3x4)</string>
+    <string name="timetable_appwidget_legacy_4x2_name">QSC Timetable (4x2)</string>
+    <string name="timetable_appwidget_legacy_4x3_name">QSC Timetable (4x3)</string>
     <string name="timetable_appwidget_legacy_4x4_name">QSC Timetable (4x4)</string>
     <string name="timetable_appwidget_date_monday">Mon</string>
     <string name="timetable_appwidget_date_tuesday">Tue</string>
