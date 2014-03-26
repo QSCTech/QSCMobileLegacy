@@ -61,16 +61,11 @@ public class MainActivity extends FragmentActivity {
         UmengUpdateAgent.update(this);
 
 
-        // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
 		viewPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
-        // TODO: Change 5 to 2?
         viewPager.setOffscreenPageLimit(5);
         viewPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
-        // TODO: Implement animation via ViewFlipper on Android 2.3?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        }
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         newUserReceiver = new NewUserReceiver();
 
