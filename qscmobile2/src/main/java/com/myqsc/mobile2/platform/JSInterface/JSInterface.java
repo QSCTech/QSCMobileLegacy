@@ -3,6 +3,7 @@ package com.myqsc.mobile2.platform.JSInterface;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,12 +33,15 @@ public class JSInterface {
     }
 
     public void init() {
-//        webView.addJavascriptInterface(this, "QSCAndroid");
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                LogHelper.d(url);
-                return super.shouldOverrideUrlLoading(view, url);
+                if (!url.contains("data:text/qscmobile-msg;")) return false;
+
+                final String dataString = url.substring("data:text/qscmobile-msg;base64,".length());
+                final String decodeString = new String(Base64.decode(dataString, Base64.DEFAULT));
+                sendRequest(decodeString);
+                return true;
             }
         });
     }
