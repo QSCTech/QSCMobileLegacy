@@ -101,7 +101,7 @@ public class MainActivity extends FragmentActivity {
         registerReceiver(newUserReceiver, intentFilter2);
 
         SharedPreferences preferences = getSharedPreferences(Utility.PREFERENCE, 0);
-        if (!preferences.getBoolean(BroadcastHelper.BROADCAST_GUIDE, true)) {
+        if (preferences.getBoolean(BroadcastHelper.BROADCAST_GUIDE, true)) {
             Intent intent = new Intent(this, UserGuideActivity.class);
             startActivity(intent);
         }
