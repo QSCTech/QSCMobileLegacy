@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.myqsc.mobile2.R;
+import com.myqsc.mobile2.fragment.MySwipeExitActivity;
 import com.myqsc.mobile2.uti.Utility;
 import com.umeng.analytics.MobclickAgent;
 
@@ -16,7 +17,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 /**
  * Created by richard on 13-9-28.
  */
-public class ZJUWLANActivity extends SwipeBackActivity {
+public class ZJUWLANActivity extends MySwipeExitActivity {
     public static String PREFERENCE_STUID = "ZJUWLAN_STUID";
     public static String PREFERENCE_PWD = "ZJUWLAN_PWD";
     public static String PREFERENCE_LAST = "PREFERENCE_LAST";
