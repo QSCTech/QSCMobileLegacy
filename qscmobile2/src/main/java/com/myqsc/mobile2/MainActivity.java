@@ -20,6 +20,7 @@ import com.myqsc.mobile2.login.UserSwitchFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.Utility;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -28,6 +29,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,7 +55,6 @@ public class MainActivity extends FragmentActivity {
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-
 
 		setContentView(R.layout.activity_main);
 		viewPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
@@ -99,6 +100,12 @@ public class MainActivity extends FragmentActivity {
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
 
+        SharedPreferences preferences = getSharedPreferences(Utility.PREFERENCE, 0);
+        if (!preferences.getBoolean(BroadcastHelper.BROADCAST_GUIDE, true)) {
+            Intent intent = new Intent(this, UserGuideActivity.class);
+            startActivity(intent);
+        }
+
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
         // TODO: Should the condition be one of these two?
         if (personalDataHelper.allUser() == null || personalDataHelper.allUser().size() == 0) {
@@ -122,7 +129,6 @@ public class MainActivity extends FragmentActivity {
         page = viewPager.getCurrentItem();
     }
 
-    // TODO: Place this class before function definition?
     private class NewUserReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
