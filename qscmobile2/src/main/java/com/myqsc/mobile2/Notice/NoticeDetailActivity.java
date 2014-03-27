@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.myqsc.mobile2.Notice.Fragment.NoticeImageHelper;
 import com.myqsc.mobile2.R;
+import com.myqsc.mobile2.fragment.MySwipeExitActivity;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.umeng.analytics.MobclickAgent;
 
@@ -17,7 +19,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 /**
  * Created by richard on 13-10-9.
  */
-public class NoticeDetailActivity extends SwipeBackActivity {
+public class NoticeDetailActivity extends MySwipeExitActivity {
     LinearLayout linearLayout = null;
 
     @Override
@@ -61,11 +63,8 @@ public class NoticeDetailActivity extends SwipeBackActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            scrollToFinishActivity();
-            return true;
-        }
-        return false;
+    protected void onDestroy() {
+        NoticeImageHelper.thread.interrupt();
+        super.onDestroy();
     }
 }
