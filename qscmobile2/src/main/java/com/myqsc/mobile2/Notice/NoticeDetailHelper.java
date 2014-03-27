@@ -79,7 +79,7 @@ public class NoticeDetailHelper {
                                     .setText(structure.getEventItem("name"));
                             ((TextView) noticeParentView.findViewById(R.id.notice_bar_starttime))
                                     .setText("从 " + structure.getEventItem("start_time") + "\n" +
-                                            "至 " + structure.getEventItem("end_time"));
+                                             "至 " + structure.getEventItem("end_time"));
                             ((TextView) noticeParentView.findViewById(R.id.notice_bar_place))
                                     .setText(structure.getEventItem("place"));
                             ((TextView) noticeParentView.findViewById(R.id.notice_bar_category))
