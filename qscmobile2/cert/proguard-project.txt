@@ -30,14 +30,6 @@
 -keep public class com.umeng.fb.ui.ThreadView {
 }
 
--keep public class com.myqsc.mobile2.platform.JSInterface.JSInterface {
-}
-
--keepclassmembers class com.myqsc.mobile2.platform.JSInterface.JSInterface {
-   public *;
-   <methods>;
-}
-
 -keep public class * extends com.umeng.**
 
 -keep class com.umeng.** { *; }

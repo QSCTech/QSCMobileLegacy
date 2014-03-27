@@ -37,6 +37,7 @@
             android:process=":DownloadingService" />
 
         <activity
+            android:screenOrientation="portrait"
             android:theme="@style/AppNoTranslucentTheme"
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -61,6 +62,7 @@
         <activity
             android:name=".curriculum.CurriculumActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".UserGuideActivity" />
         <activity android:name="com.umeng.fb.ConversationActivity" />
         <activity android:name="com.umeng.fb.ContactActivity" />
         <activity
