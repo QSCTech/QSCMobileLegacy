@@ -1,5 +1,9 @@
 package com.myqsc.mobile2.Notice;
 
+import android.net.Uri;
+
+import com.myqsc.mobile2.uti.LogHelper;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -73,5 +77,15 @@ public class NoticeEventStructure {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String getThumbnailPic() {
+        String pic = getCoverPic();
+        if (pic.contains("?"))
+            pic = pic + "&size=thumbnail";
+        else
+            pic = pic + "?size=thumbnail";
+        LogHelper.d("Getting Thumbnail Picture:" + pic);
+        return pic;
     }
 }

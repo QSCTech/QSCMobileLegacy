@@ -128,7 +128,7 @@ public class NoticeDetailHelper {
                             linearLayout.addView(noticeParentView);
                             linearLayout.postInvalidate();
 
-                            NoticeImageHelper.initPic(structure.getCoverPic(), (android.widget.ImageView) noticeParentView.findViewById(R.id.notice_bar_pic));
+                            NoticeImageHelper.initPic(structure.getThumbnailPic(), (android.widget.ImageView) noticeParentView.findViewById(R.id.notice_bar_pic));
 
                             if (shareItem != null) {
                                 shareItem.setOnClickListener(new View.OnClickListener() {
