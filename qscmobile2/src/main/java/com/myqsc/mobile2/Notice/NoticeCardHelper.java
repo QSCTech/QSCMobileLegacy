@@ -45,5 +45,11 @@ public class NoticeCardHelper {
         return list;
     }
 
+    public NoticeStructure getNth(int index) {
+        if (list == null || list.size() <= index)
+            return null;
+        return list.get(index);
+    }
+
 
 }
