@@ -61,7 +61,7 @@ public class FunctionListFragment extends MyFragment{
         for (int i = 0; i != functionVector.size(); ++i) {
             FunctionStructure structure = functionVector.get(i);
 
-            if (preferences.getBoolean(PLUGIN_ENABLE_PREFIX + structure.cardName, false))
+            if (preferences.getBoolean(PLUGIN_ENABLE_PREFIX + structure.cardName, true))
                 structure.iconRight = R.string.icon_ok_sign;
             //判断每个插件卡片是不是已经选中了的
 

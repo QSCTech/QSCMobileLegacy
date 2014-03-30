@@ -94,8 +94,9 @@ public class DataUpdater {
     }
 
     public static String get(String url) {
-        StringBuilder result = new StringBuilder();
+
         try {
+            StringBuilder result = new StringBuilder();
             LogHelper.d("URL:" + url);
             URL address = new URL(url);
             HttpURLConnection urlConnection = (HttpURLConnection) address.openConnection();
@@ -115,6 +116,8 @@ public class DataUpdater {
                 result.append(line);
             }
             reader.close();
+
+            return result.toString();
         } catch (SSLException e){
             //ssl 证书失败
             e.printStackTrace();
@@ -123,6 +126,6 @@ public class DataUpdater {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result.toString();
+        return null;
     }
 }
