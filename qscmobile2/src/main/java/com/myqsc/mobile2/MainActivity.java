@@ -6,10 +6,10 @@ package com.myqsc.mobile2;
 // TODO: Change some of the class names to follow certain convention
 // TODO: Make unnecessarily package-access members private
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myqsc.mobile2.Guide.UserGuideActivity;
 import com.myqsc.mobile2.Service.UpdateAllService;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
@@ -24,13 +24,11 @@ import com.myqsc.mobile2.uti.Utility;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;

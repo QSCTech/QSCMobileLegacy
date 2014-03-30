@@ -1,4 +1,4 @@
-package com.myqsc.mobile2;
+package com.myqsc.mobile2.Guide;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.Utility;

@@ -62,7 +62,7 @@
         <activity
             android:name=".curriculum.CurriculumActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".UserGuideActivity" />
+        <activity android:name=".Guide.UserGuideActivity" />
         <activity android:name="com.umeng.fb.ConversationActivity" />
         <activity android:name="com.umeng.fb.ContactActivity" />
         <activity
