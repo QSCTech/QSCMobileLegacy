@@ -46,6 +46,7 @@ public class Utility {
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
+        totalHeight += 20;
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
@@ -53,30 +54,35 @@ public class Utility {
     }
 
     public static SpannableStringBuilder processDiffSecond(int diff) {
-        final float relativeTextSize = 0.7f;
+        final float relativeTextSize = 0.6f;
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         if (diff >= 60 * 60 * 24){
-            builder.append(String.valueOf(diff / 60 / 60 / 24));
+            int day = diff / 60 / 60 / 24;
+            builder.append(String.valueOf(day));
             int start = builder.length();
-            builder.append("days ");
+            builder.append("day ");
             builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         diff %= 60 * 60 * 24;
         if (diff >= 60 * 60) {
-            builder.append(String.valueOf(diff / 60 / 60));
+            int hour = diff / 60 / 60;
+            builder.append(String.valueOf(hour));
             int start = builder.length();
-            builder.append("h ");
+            builder.append("hr ");
             builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         diff %= 60 * 60;
         if (diff >= 60) {
-            builder.append(String.valueOf(diff / 60));
+            int minute = diff / 60;
+            builder.append(String.valueOf(minute));
             int start = builder.length();
             builder.append("min ");
             builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
-        builder.append(String.valueOf(diff % 60));
+
+        int second = diff % 60;
+        builder.append(String.valueOf(second));
         int start = builder.length();
         builder.append("s ");
         builder.setSpan(new RelativeSizeSpan(relativeTextSize), start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

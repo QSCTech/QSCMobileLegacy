@@ -5,7 +5,8 @@
     android:minHeight="0dp"
     android:layout_gravity="center"
     android:gravity="center"
-    android:padding="10dp"
+    android:paddingLeft="@dimen/card_view_padding"
+    android:paddingRight="@dimen/card_view_padding"
     android:orientation="horizontal" >
     <FrameLayout
         android:orientation="vertical"

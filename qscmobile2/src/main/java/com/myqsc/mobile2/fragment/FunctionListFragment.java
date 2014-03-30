@@ -61,7 +61,7 @@ public class FunctionListFragment extends MyFragment{
         for (int i = 0; i != functionVector.size(); ++i) {
             FunctionStructure structure = functionVector.get(i);
 
-            if (preferences.getBoolean(PLUGIN_ENABLE_PREFIX + structure.cardName, false))
+            if (preferences.getBoolean(PLUGIN_ENABLE_PREFIX + structure.cardName, true))
                 structure.iconRight = R.string.icon_ok_sign;
             //判断每个插件卡片是不是已经选中了的
 
@@ -187,13 +187,11 @@ public class FunctionListFragment extends MyFragment{
     final PluginListInitCallback pluginListInitCallback = new PluginListInitCallback() {
         @Override
         public void initList(Vector<PluginStructure> pluginVector) {
+            if (getActivity() == null) return;
+
             final LinearLayout pluginLayout = (LinearLayout) view.findViewById(R.id.plugin_list_layout);
             final Context mContext = getActivity();
             final LayoutInflater mInflater = LayoutInflater.from(getActivity());
-
-            //activity after finish
-            if (mContext == null)
-                return ;
 
             if (pluginVector == null) {
                 pluginVector = PlatformUpdateHelper.parsePluginList(

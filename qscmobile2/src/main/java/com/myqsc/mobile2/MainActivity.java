@@ -6,10 +6,10 @@ package com.myqsc.mobile2;
 // TODO: Change some of the class names to follow certain convention
 // TODO: Make unnecessarily package-access members private
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myqsc.mobile2.Guide.UserGuideActivity;
 import com.myqsc.mobile2.Service.UpdateAllService;
 import com.myqsc.mobile2.fragment.CardFragment;
 import com.myqsc.mobile2.fragment.MyFragmentPagerAdapter;
@@ -20,15 +20,15 @@ import com.myqsc.mobile2.login.UserSwitchFragment;
 import com.myqsc.mobile2.login.uti.PersonalDataHelper;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.Utility;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -50,27 +50,15 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        try {
-            Runtime.getRuntime().exec("logcat -c");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         MobclickAgent.setDebugMode(true);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
 
-
-        // TODO: Remove FrameLayout?
 		setContentView(R.layout.activity_main);
 		viewPager = (ViewPager) findViewById(R.id.activity_main_viewpager);
-        // TODO: Change 5 to 2?
         viewPager.setOffscreenPageLimit(5);
         viewPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
-        // TODO: Implement animation via ViewFlipper on Android 2.3?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        }
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         newUserReceiver = new NewUserReceiver();
 
@@ -110,6 +98,12 @@ public class MainActivity extends FragmentActivity {
         IntentFilter intentFilter2 = new IntentFilter(BroadcastHelper.BROADCAST_NEW_USER);
         registerReceiver(newUserReceiver, intentFilter2);
 
+        SharedPreferences preferences = getSharedPreferences(Utility.PREFERENCE, 0);
+        if (preferences.getBoolean(BroadcastHelper.BROADCAST_GUIDE, true)) {
+            Intent intent = new Intent(this, UserGuideActivity.class);
+            startActivity(intent);
+        }
+
         PersonalDataHelper personalDataHelper = new PersonalDataHelper(this);
         // TODO: Should the condition be one of these two?
         if (personalDataHelper.allUser() == null || personalDataHelper.allUser().size() == 0) {
@@ -133,7 +127,6 @@ public class MainActivity extends FragmentActivity {
         page = viewPager.getCurrentItem();
     }
 
-    // TODO: Place this class before function definition?
     private class NewUserReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {

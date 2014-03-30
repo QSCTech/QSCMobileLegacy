@@ -7,4 +7,5 @@
     <dimen name="login_activity_vertical_margin">30dp</dimen>
 
     <dimen name="appwidget_padding">8dp</dimen>
+    <dimen name="card_view_padding">7dp</dimen>
 </resources>

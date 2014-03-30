@@ -12,7 +12,7 @@ public class MySwipeExitActivity extends SwipeBackActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             scrollToFinishActivity();
-            finish();
+            return true;
         }
         return false;
     }

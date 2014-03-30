@@ -38,31 +38,29 @@ public class NoticeCardFragment extends Fragment {
 
         NoticeCardHelper helper = new NoticeCardHelper(getActivity());
 
-        List<NoticeStructure> list = helper.getData();
+        final NoticeStructure structure1 = helper.getNth(0);
+        final NoticeStructure structure2 = helper.getNth(1);
+        final NoticeStructure structure3 = helper.getNth(2);
 
-        if (list != null && list.size() >= 3) {
-            try {
-                NoticeStructure structure[] = {
-                        list.get(0), list.get(1), list.get(2)
-                };
+        if (structure1 != null) {
+            ((TextView) view.findViewById(R.id.notice_card_name1))
+                    .setText(structure1.getEventItem("name"));
+            ((TextView) view.findViewById(R.id.notice_card_rating1))
+                    .setText(structure1.getEventItem("rating"));
+        }
 
-                ((TextView) view.findViewById(R.id.notice_card_name1))
-                        .setText(structure[0].getEventItem("name"));
-                ((TextView) view.findViewById(R.id.notice_card_name2))
-                        .setText(structure[1].getEventItem("name"));
-                ((TextView) view.findViewById(R.id.notice_card_name3))
-                        .setText(structure[2].getEventItem("name"));
+        if (structure2 != null) {
+            ((TextView) view.findViewById(R.id.notice_card_name2))
+                    .setText(structure2.getEventItem("name"));
+            ((TextView) view.findViewById(R.id.notice_card_rating2))
+                    .setText(structure2.getEventItem("rating"));
+        }
 
-                ((TextView) view.findViewById(R.id.notice_card_rating1))
-                        .setText(structure[0].getEventItem("rating"));
-                ((TextView) view.findViewById(R.id.notice_card_rating2))
-                        .setText(structure[1].getEventItem("rating"));
-                ((TextView) view.findViewById(R.id.notice_card_rating3))
-                        .setText(structure[2].getEventItem("rating"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        if (structure3 != null) {
+            ((TextView) view.findViewById(R.id.notice_card_name3))
+                    .setText(structure3.getEventItem("name"));
+            ((TextView) view.findViewById(R.id.notice_card_rating3))
+                    .setText(structure3.getEventItem("rating"));
         }
 
         return view;

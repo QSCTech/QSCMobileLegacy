@@ -36,12 +36,6 @@ public class CurriculumActivity extends SwipeBackActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        KebiaoEverydayFragment fragment = new KebiaoEverydayFragment();
-        transaction.add(R.id.curriculum_frame, fragment);
-        transaction.commitAllowingStateLoss();
     }
 
     @Override
@@ -57,6 +51,12 @@ public class CurriculumActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curriculum);
+
+        manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        KebiaoEverydayFragment fragment = new KebiaoEverydayFragment();
+        transaction.add(R.id.curriculum_frame, fragment);
+        transaction.commitAllowingStateLoss();
     }
 
 }

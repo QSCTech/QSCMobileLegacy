@@ -3,7 +3,7 @@
     android:id="@+id/card_fragment_kebiao_big"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
+    android:paddingLeft="@dimen/card_view_padding"
     android:orientation="vertical">
 
     <TextView

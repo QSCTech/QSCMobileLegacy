@@ -83,15 +83,15 @@ public class CardFragment extends Fragment implements DataObserver {
     }
 
     @Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         userIDStructure = new PersonalDataHelper(getActivity()).getCurrentUser();
-	}
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.fragment_card, null);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_card, null);
         final PullToRefreshScrollView pullToRefreshScrollView = (PullToRefreshScrollView) view
                 .findViewById(R.id.card_pull_refresh_scrollview);
 
@@ -103,22 +103,28 @@ public class CardFragment extends Fragment implements DataObserver {
                     @Override
                     public boolean handleMessage(Message message) {
                         LogHelper.d(message.getData().getString("key") + "更新完成");
-                        String result = (String) message.obj;
-                        if (result == null || message.getData().getString("key") == null || result.length() < 2)
+
+                        if (message.getData().getString("key") == null)
+                            return true;
+                        //不是来自更新完成
+
+                        --len[0];
+
+                        if (message.obj == null)
                             return true;
 
-                        if (result != null && getActivity() != null)
-                            getActivity().getSharedPreferences(Utility.PREFERENCE, 0)
-                                    .edit()
-                                    .putString(message.getData().getString("key"), (String) message.obj)
-                                    .commit();
+                        if (getActivity() == null)
+                            return true;
+
+                        getActivity().getSharedPreferences(Utility.PREFERENCE, 0)
+                                .edit()
+                                .putString(message.getData().getString("key"), (String) message.obj)
+                                .commit();
 
                         Intent intent = new Intent(BroadcastHelper.BROADCAST_CARD_REDRAW);
                         intent.putExtra("card", message.getData().getString("key"));
-                        if (getActivity() != null)
-                            getActivity().sendBroadcast(intent);
+                        getActivity().sendBroadcast(intent);
 
-                        --len[0];
                         if (len[0] == 0)
                             pullToRefreshScrollView.onRefreshComplete();
                         return false;
@@ -139,8 +145,8 @@ public class CardFragment extends Fragment implements DataObserver {
                 BroadcastHelper.BROADCAST_CARD_REDRAW);
         getActivity().registerReceiver(fragmentChangedReceiver, intentFilter);
 
-		return view;
-	}
+        return view;
+    }
 
     @Override
     public void onDestroyView() {
@@ -153,7 +159,7 @@ public class CardFragment extends Fragment implements DataObserver {
         public void onReceive(Context context, Intent intent) {
             String name = intent.getStringExtra("card");
             if (name == null)
-                return ;
+                return;
             int num = -1;
             LogHelper.e(name);
             for (int i = 0; i != functionVector.size(); ++i) {
@@ -166,7 +172,7 @@ public class CardFragment extends Fragment implements DataObserver {
 
             for (int i = 0; i != FragmentUtility.cardString.length; ++i) {
                 if (FragmentUtility.cardString[i].equals(name) ||
-                        FragmentUtility.cardDataString[i].equals(name) ) {
+                        FragmentUtility.cardDataString[i].equals(name)) {
                     //就是这个卡片啦！
                     if (FragmentUtility.cardDataString[i].equals(name))
                         name = FragmentUtility.cardString[i];
@@ -190,18 +196,18 @@ public class CardFragment extends Fragment implements DataObserver {
      */
     private void fragmentInflate() {
         final LayoutInflater inflater = LayoutInflater.from(getActivity());
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         final Fragment fragment[] = new Fragment[functionVector.size()];
         final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.fragment_card_layout);
 
-		for (int i = 0; i != functionVector.size(); ++i) {
+        for (int i = 0; i != functionVector.size(); ++i) {
             String name = functionVector.get(i).cardName;
 
-			fragment[i] = fragmentManager.findFragmentByTag(name);
-			if (fragment[i] != null)
+            fragment[i] = fragmentManager.findFragmentByTag(name);
+            if (fragment[i] != null)
                 transaction.remove(fragment[i]);
             fragment[i] = FragmentUtility.getCardFragmentByName(name, getActivity());
-		}
+        }
 
         linearLayout.removeAllViews();
 
@@ -211,15 +217,15 @@ public class CardFragment extends Fragment implements DataObserver {
         linearLayout.addView(tempLayout);
         transaction.add(FRAGMENT_MAGIC_NUM + 1010, new XiaoliCardFragment());
 
-        for(int i = 0; i != functionVector.size(); ++i) {
+        for (int i = 0; i != functionVector.size(); ++i) {
             LinearLayout layout = (LinearLayout) inflater.inflate(
                     R.layout.fragment_card_background, null);
             layout.findViewById(R.id.fragment_card).setId(i + FRAGMENT_MAGIC_NUM);
             linearLayout.addView(layout);
             transaction.replace(i + FRAGMENT_MAGIC_NUM, fragment[i], functionVector.get(i).cardName);
         }
-		transaction.commitAllowingStateLoss();
-	}
+        transaction.commitAllowingStateLoss();
+    }
 
     private void initCardList() {
         final int cardIDOffset = 0X123abc;

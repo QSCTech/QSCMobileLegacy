@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.myqsc.mobile2.Notice.Fragment.NoticeImageHelper;
 import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.uti.LogHelper;
 
@@ -51,7 +52,7 @@ public class NoticeDetailHelper {
                 try {
                     String url = "http://notice.myqsc.com/events/" + id;
 
-                    LogHelper.e(url);
+                    LogHelper.d(url);
                     HttpClient httpClient = new DefaultHttpClient();
                     HttpGet httpGet = new HttpGet(url);
 
@@ -72,24 +73,23 @@ public class NoticeDetailHelper {
                         @Override
                         public void run() {
                             final LayoutInflater mInflater = LayoutInflater.from(linearLayout.getContext());
-                            final RelativeLayout relativeLayout = (RelativeLayout) mInflater.inflate(R.layout.activity_notice_detail_inner, null);
+                            final View noticeParentView = mInflater.inflate(R.layout.activity_notice_detail_inner, null);
 
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_name))
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_name))
                                     .setText(structure.getEventItem("name"));
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_starttime))
-                                    .setText("从 " + structure.getEventItem("start_time"));
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_stoptime))
-                                    .setText("至 " + structure.getEventItem("end_time"));
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_place))
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_starttime))
+                                    .setText("从 " + structure.getEventItem("start_time") + "\n" +
+                                             "至 " + structure.getEventItem("end_time"));
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_place))
                                     .setText(structure.getEventItem("place"));
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_category))
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_category))
                                     .setText(structure.getCategoryItem("name"));
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_sponsor))
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_sponsor))
                                     .setText(structure.getSponsorItem("showname"));
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_rating))
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_rating))
                                     .setText(structure.getEventItem("rating"));
 
-                            relativeLayout.findViewById(R.id.notice_bar_pic)
+                            noticeParentView.findViewById(R.id.notice_bar_pic)
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -103,13 +103,13 @@ public class NoticeDetailHelper {
                                     });
 
                             if (highlight == null) {
-                                ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))
+                                ((TextView) noticeParentView.findViewById(R.id.notice_bar_content))
                                         .setText(structure.getEventItem("description"));
                             } else {
                                 int pos = 0;
                                 String content = structure.getEventItem("description");
                                 if (content == null)
-                                    return ;
+                                    return;
 
                                 Spannable spannable = new SpannableString(content);
                                 ForegroundColorSpan span = new ForegroundColorSpan(
@@ -117,15 +117,18 @@ public class NoticeDetailHelper {
                                 while ((pos = content.indexOf(highlight, pos)) != -1) {
                                     spannable.setSpan(span, pos, pos + highlight.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                                 }
-                                ((TextView) relativeLayout.findViewById(R.id.notice_bar_content))
+                                ((TextView) noticeParentView.findViewById(R.id.notice_bar_content))
                                         .setText(spannable);
                             }
 
-                            ((TextView) relativeLayout.findViewById(R.id.notice_bar_tag))
+                            ((TextView) noticeParentView.findViewById(R.id.notice_bar_tag))
                                     .setText(structure.getHotTagString());
 
                             linearLayout.removeAllViews();
-                            linearLayout.addView(relativeLayout);
+                            linearLayout.addView(noticeParentView);
+                            linearLayout.postInvalidate();
+
+                            NoticeImageHelper.initPic(structure.getThumbnailPic(), (android.widget.ImageView) noticeParentView.findViewById(R.id.notice_bar_pic));
 
                             if (shareItem != null) {
                                 shareItem.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +138,7 @@ public class NoticeDetailHelper {
                                         intent.setAction(Intent.ACTION_SEND);
                                         intent.setType("text/plain");
                                         intent.putExtra(Intent.EXTRA_TEXT,
-                                                "窝在求是潮 Notice 中发现了一个活动： " +
+                                                "我在求是潮 Notice 中发现了一个活动： " +
                                                         structure.getEventItem("name") +
                                                         " " +
                                                         "http://notice.myqsc.com/#!/event/" + id

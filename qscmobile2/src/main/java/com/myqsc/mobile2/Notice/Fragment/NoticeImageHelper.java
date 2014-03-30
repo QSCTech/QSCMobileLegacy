@@ -4,11 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
+import com.myqsc.mobile2.uti.LogHelper;
+
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -16,8 +20,10 @@ import java.net.URLConnection;
  * Created by richard on 13-10-18.
  */
 public class NoticeImageHelper {
+    public static Thread thread = null;
     public static void initPic(final String url, final ImageView imageView) {
-        final Thread thread = new Thread(new Runnable() {
+
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -32,13 +38,20 @@ public class NoticeImageHelper {
                     }
                     final Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayBuffer.toByteArray(), 0,
                             byteArrayBuffer.toByteArray().length);
+                    if (thread.isInterrupted()) {
+                        LogHelper.e("Thread Interrupted");
+                        return;
+                    }
+
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
                             imageView.setImageBitmap(bitmap);
                         }
                     });
-                } catch (Exception e) {
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.myqsc.mobile2.Grade.Fragment.GradeClassFragment;
 import com.myqsc.mobile2.Grade.Fragment.GradeTermFragment;
 import com.myqsc.mobile2.R;
+import com.myqsc.mobile2.fragment.MySwipeExitActivity;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -17,7 +18,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 /**
  * Created by richard on 13-9-25.
  */
-public class GradeActivity extends SwipeBackActivity {
+public class GradeActivity extends MySwipeExitActivity {
     int type = 0;
     FragmentManager manager = null;
 

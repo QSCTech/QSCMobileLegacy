@@ -3,30 +3,33 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.0'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 apply plugin: 'android'
 
 repositories {
+    maven { url "http://dl.bintray.com/populov/maven" }
     mavenCentral()
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:18.0.+'
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
+    compile 'com.android.support:support-v4:19.1.0'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/umeng_sdk.jar')
     compile files('libs/gson-2.2.4.jar')
+    compile files('libs/acra-4.5.0.jar')
     compile project('libs:swipebacklayout')
     compile project('libs:pulltorefresh')
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.1'
+    buildToolsVersion '19.0.3'
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 14
         targetSdkVersion 19
     }
 

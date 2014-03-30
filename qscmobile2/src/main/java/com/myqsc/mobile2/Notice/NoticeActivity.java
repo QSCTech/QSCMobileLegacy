@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.myqsc.mobile2.R;
+import com.myqsc.mobile2.fragment.MySwipeExitActivity;
 import com.myqsc.mobile2.uti.AwesomeFontHelper;
 import com.umeng.analytics.MobclickAgent;
 
@@ -26,7 +27,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 /**
  * Created by richard on 13-10-8.
  */
-public class NoticeActivity extends SwipeBackActivity {
+public class NoticeActivity extends MySwipeExitActivity {
     LinearLayout linearLayout = null;
     PullToRefreshScrollView scrollView = null;
     LayoutInflater mInflater = null;
@@ -254,14 +255,5 @@ public class NoticeActivity extends SwipeBackActivity {
     protected void onDestroy() {
         super.onDestroy();
         linearLayout.removeAllViews();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            scrollToFinishActivity();
-            return true;
-        }
-        return false;
     }
 }

@@ -100,7 +100,7 @@ public class ZJUWLANConnectService extends IntentService {
         LogHelper.e("login finished");
 
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost post = new HttpPost("http://net.zju.edu.cn/rad_online.php");
+        HttpPost post = new HttpPost("https://net.zju.edu.cn/rad_online.php");
         //使用NameValuePair来保存要传递的Post参数
         List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
         //添加要传递的参数
@@ -159,7 +159,7 @@ public class ZJUWLANConnectService extends IntentService {
                 }
             }
         } else {
-            doToast("求是潮手机站：ZJUWLAN " + res);
+            doToast("求是潮手机站：ZJUWLAN 未知错误");
         }
     }
 

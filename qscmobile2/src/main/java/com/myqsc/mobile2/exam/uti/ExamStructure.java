@@ -56,8 +56,8 @@ public class ExamStructure {
         stu_name    = jsonObject.getString("姓名").trim();
         term        = jsonObject.getString("学期").trim();
         time        = jsonObject.getString("考试时间").trim();
-        position    = jsonObject.getString("考试地点").trim();
-        seat        = jsonObject.getString("考试座位号").trim();
+        position    = jsonObject.getString("考试地点").trim().replaceAll("\u00A0", "");
+        seat        = jsonObject.getString("考试座位号").trim().replaceAll("\u00A0", "");
     }
     
     public JSONObject toJsonObject() throws JSONException{
