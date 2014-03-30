@@ -14,7 +14,7 @@
     <color name="gray">#DDDDDD</color>
     <color name="gray_back">#F7F7F7</color>
     <color name="gray_top">#AAAAAA</color>
-    <color name="gray_bottom">#555555</color>
+    <color name="gray_bottom">#999</color>
     <color name="notice_highlight">#C408B7</color>
 
     <color name="blue_light">#33B5E5</color>

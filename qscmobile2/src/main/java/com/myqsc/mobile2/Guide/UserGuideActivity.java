@@ -19,6 +19,8 @@ import com.myqsc.mobile2.R;
 import com.myqsc.mobile2.fragment.ZoomOutPageTransformer;
 import com.myqsc.mobile2.uti.BroadcastHelper;
 import com.myqsc.mobile2.uti.Utility;
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -43,11 +45,13 @@ public class UserGuideActivity extends Activity {
         mViewPager.setAdapter(myPagerAdapter);
         mViewPager.setBackgroundDrawable(getResources().getDrawable(R.drawable.vpage_back));
         mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+        CirclePageIndicator titleIndicator = (CirclePageIndicator)findViewById(R.id.titles);
+        titleIndicator.setViewPager(mViewPager);
+        titleIndicator.setSnap(true);
+        titleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -68,10 +72,10 @@ public class UserGuideActivity extends Activity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) { }
         });
+
+
 
         SharedPreferences preferences = getSharedPreferences(Utility.PREFERENCE, 0);
         preferences.edit().putBoolean(BroadcastHelper.BROADCAST_GUIDE, false).commit();
