@@ -6,6 +6,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:paddingLeft="@dimen/card_view_padding"
+    android:paddingRight="@dimen/card_view_padding"
     android:orientation="horizontal" >
     <FrameLayout
         android:orientation="vertical"
