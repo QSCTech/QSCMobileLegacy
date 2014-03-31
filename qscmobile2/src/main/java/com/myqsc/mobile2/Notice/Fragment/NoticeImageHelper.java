@@ -5,11 +5,11 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import com.myqsc.mobile2.uti.LogHelper;
+import com.myqsc.mobile2.uti.Utility;
 
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -55,7 +55,7 @@ public class NoticeImageHelper {
                             int width = imageView.getWidth();
                             int height = (int) (imageHeight * ((double) width / imageWidth));
 
-                            options.inSampleSize = calculateInSampleSize(options, width, height);
+                            options.inSampleSize = Utility.calculateInSampleSize(options, width, height);
                             options.inJustDecodeBounds = false;
                             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayBuffer.toByteArray(), 0,
                                     byteArrayBuffer.toByteArray().length, options);
@@ -75,26 +75,4 @@ public class NoticeImageHelper {
         thread.start();
     }
 
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
 }
