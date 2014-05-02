@@ -60,6 +60,11 @@ public class GradeClassFragment extends Fragment {
     };
 
     void initGradeList() {
+        if (termString.size() == 0) {
+            Utility.setCheckBarTitle("暂无学期", view);
+            return;
+        }
+
         GradeAdapter adapter = new GradeAdapter(getActivity(),
                 gradeHelper.getTermGrade(termString.get(num)));
         listView.setAdapter(adapter);
