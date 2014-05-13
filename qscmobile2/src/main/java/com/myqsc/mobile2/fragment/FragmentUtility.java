@@ -75,7 +75,7 @@ public class FragmentUtility {
             return new ChengjiCardFragment();
         if (name.compareTo("查校车") == 0)
             return new XiaocheCardFragment();
-        if (name.compareTo("近期热门活动") == 0)
+        if (name.compareTo("Notice") == 0)
             return new NoticeCardFragment();
         if (name.compareTo("记作业") == 0)
             return new HomeworkCardFragment();
