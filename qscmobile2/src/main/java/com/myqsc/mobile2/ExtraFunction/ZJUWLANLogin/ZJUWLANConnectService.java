@@ -75,7 +75,7 @@ public class ZJUWLANConnectService extends IntentService {
             String data = preferences.getString(ZJUWLANConnectReceiver.HISTORY, null);
             if (data != null) {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://m.myqsc.com/api/v2/wireless/add");
+                HttpPost httpPost = new HttpPost("https://m.myqsc.com/api/v2/wireless/add");
 
                 List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
                 postParameters.add(new BasicNameValuePair("data", data));
@@ -122,7 +122,7 @@ public class ZJUWLANConnectService extends IntentService {
 
         if ("ok".compareToIgnoreCase(res) != -1) {
 
-            post = new HttpPost("http://net.zju.edu.cn/cgi-bin/srun_portal");
+            post = new HttpPost("https://net.zju.edu.cn/cgi-bin/srun_portal");
             httpClient = new DefaultHttpClient();
 
             postParameters = new ArrayList<NameValuePair>();
