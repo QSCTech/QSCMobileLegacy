@@ -23,6 +23,7 @@ gen/
 /*/*/*/*/build
 /*/*/*/build
 /*/*/build
+build
 /*/*/production
 *.iws
 *.ipr
