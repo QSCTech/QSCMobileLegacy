@@ -26,7 +26,7 @@ import java.util.List;
 
 public class FragmentUtility {
     public static String cardString[] = new String[]{
-            "实时课表", "近期热门活动", "查考试", "查成绩", "查校车", "记作业"
+            "实时课表", "Notice", "查考试", "查成绩", "查校车", "记作业"
     };
     public static String cardDataString[] = new String[] {
             DataUpdater.JW_KEBIAO,
