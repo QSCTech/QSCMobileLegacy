@@ -1,5 +1,7 @@
 package com.myqsc.mobile2.curriculum.uti;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +34,7 @@ public class KebiaoUtility {
         /**
          * map 1：时间差， 2：课程节数，3：一节课对象
          */
-        final Map<Integer, Object> map = new HashMap<Integer, Object>();
+        @SuppressLint("UseSparseArrays") final Map<Integer, Object> map = new HashMap<Integer, Object>();
 
         List<Integer> course = new ArrayList<Integer>();
         for(KebiaoClassData data : list) {
@@ -104,7 +106,6 @@ public class KebiaoUtility {
         }catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-
 
         return string;
     }

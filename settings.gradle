@@ -1,2 +1,1 @@
-include ':qscmobile2', 'qscmobile2:libs:swipebacklayout'
-include ':qscmobile2:libs:pulltorefresh'
+include 'qscmobile2', 'qscmobile2:libs:pulltorefresh', 'qscmobile2:libs:swipebacklayout'

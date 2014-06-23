@@ -26,7 +26,7 @@ import java.util.List;
 
 public class FragmentUtility {
     public static String cardString[] = new String[]{
-            "实时课表", "近期热门活动", "查考试", "查成绩", "查校车", "记作业"
+            "实时课表", "Notice", "查考试", "查成绩", "查校车", "记作业"
     };
     public static String cardDataString[] = new String[] {
             DataUpdater.JW_KEBIAO,
@@ -75,7 +75,7 @@ public class FragmentUtility {
             return new ChengjiCardFragment();
         if (name.compareTo("查校车") == 0)
             return new XiaocheCardFragment();
-        if (name.compareTo("近期热门活动") == 0)
+        if (name.compareTo("Notice") == 0)
             return new NoticeCardFragment();
         if (name.compareTo("记作业") == 0)
             return new HomeworkCardFragment();

@@ -25,12 +25,16 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.DefaultedHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by richard on 13-9-29.
@@ -45,15 +49,15 @@ public class ZJUWLANConnectService extends IntentService {
         LogHelper.e("zjuwlan login server started");
         SharedPreferences preferences = getSharedPreferences(Utility.PREFERENCE, 0);
         String username = preferences.getString(ZJUWLANActivity.PREFERENCE_STUID, "");
-        String pwd      = preferences.getString(ZJUWLANActivity.PREFERENCE_PWD, "");
+        String pwd = preferences.getString(ZJUWLANActivity.PREFERENCE_PWD, "");
         LogHelper.e("zjuwlan login server started");
         LogHelper.e(username);
         LogHelper.e(pwd);
 
         if (username.length() < 1 || pwd.length() < 1)
-            return ;
+            return;
 
-        MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN START");
+        MobclickAgent.onEventBegin(ZJUWLANConnectService.this, "ZJUWLAN LOGIN");
 
         try {
             login(preferences, username, pwd);
@@ -67,29 +71,30 @@ public class ZJUWLANConnectService extends IntentService {
     /**
      * 将现有数据上传
      */
-    private void push () {
+    private void push() {
         try {
             SharedPreferences preferences = ZJUWLANConnectService.this
                     .getSharedPreferences(ZJUWLANConnectReceiver.PREFER, 0);
 
-            String data = preferences.getString(ZJUWLANConnectReceiver.HISTORY, null);
+            Set<String> data = preferences.getStringSet(ZJUWLANConnectReceiver.HISTORY, null);
             if (data != null) {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://m.myqsc.com/api/v2/wireless/add");
+                HttpPost httpPost = new HttpPost("https://m.myqsc.com/api/v2/wireless/add");
 
                 List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-                postParameters.add(new BasicNameValuePair("data", data));
+                JSONArray jsonArray = new JSONArray();
+                for (String str:data)
+                    jsonArray.put(new JSONObject(str));
+                postParameters.add(new BasicNameValuePair("data", jsonArray.toString()));
                 httpPost.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
 
-
                 HttpResponse httpResponse = httpClient.execute(httpPost);
-                LogHelper.e(data);
+                LogHelper.e(data.toString());
                 LogHelper.e(EntityUtils.toString(httpResponse.getEntity()));
 
                 preferences.edit()
-                        .putString(ZJUWLANConnectReceiver.HISTORY, null)
+                        .putStringSet(ZJUWLANConnectReceiver.HISTORY, null)
                         .commit();
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,10 +127,10 @@ public class ZJUWLANConnectService extends IntentService {
 
         if ("ok".compareToIgnoreCase(res) != -1) {
 
-            post = new HttpPost("http://net.zju.edu.cn/cgi-bin/srun_portal");
+            post = new HttpPost("https://net.zju.edu.cn/cgi-bin/srun_portal");
             httpClient = new DefaultHttpClient();
 
-            postParameters = new ArrayList<NameValuePair>();
+            postParameters = new ArrayList<>();
             postParameters.add(new BasicNameValuePair("action", "login"));
             postParameters.add(new BasicNameValuePair("username", username));
             postParameters.add(new BasicNameValuePair("password", pwd));
@@ -146,7 +151,7 @@ public class ZJUWLANConnectService extends IntentService {
                 preferences.edit()
                         .putLong(ZJUWLANActivity.PREFERENCE_LAST, System.currentTimeMillis())
                         .commit();
-                MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN SUCCESS");
+                MobclickAgent.onEventEnd(ZJUWLANConnectService.this, "ZJUWLAN LOGIN");
             } else {
                 if ("password_error".equalsIgnoreCase(res)) {
                     doToast("求是潮手机站：ZJUWLAN 密码错误");
@@ -154,7 +159,7 @@ public class ZJUWLANConnectService extends IntentService {
                     if ("username_error".equalsIgnoreCase(res)) {
                         doToast("求是潮手机站：ZJUWLAN 用户名错误");
                     } else {
-                        doToast( "求是潮手机站：ZJUWLAN " + res);
+                        doToast("求是潮手机站：ZJUWLAN " + res);
                     }
                 }
             }
@@ -164,6 +169,7 @@ public class ZJUWLANConnectService extends IntentService {
     }
 
     Handler handler = new Handler();
+
     private void doToast(final String string) {
         handler.post(new Runnable() {
             @Override
