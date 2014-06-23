@@ -19,8 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -28,7 +31,7 @@ import java.util.Map;
  */
 public class ZJUWLANConnectReceiver extends BroadcastReceiver {
     public static final String PREFER = "ZJUWLANConnectReceiver";
-    public static final String HISTORY = "history";
+    public static final String HISTORY = "history_array";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -52,13 +55,7 @@ public class ZJUWLANConnectReceiver extends BroadcastReceiver {
 
                 try {
                     SharedPreferences preferences = context.getSharedPreferences(PREFER, 0);
-                    JSONArray jsonArray = null;
-                    String history = preferences.getString(HISTORY, null);
-                    if (history == null) {
-                        jsonArray = new JSONArray();
-                    } else {
-                        jsonArray = new JSONArray(history);
-                    }
+                    Set<String> history = preferences.getStringSet(HISTORY, new HashSet<String>());
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("BSSID", wifiInfo.getBSSID());
@@ -76,10 +73,10 @@ public class ZJUWLANConnectReceiver extends BroadcastReceiver {
                         jsonObject.put("COURSE_NAME", kebiaoClassData.name);
                         jsonObject.put("COURSE_POSITION", kebiaoClassData.place);
                     }
-                    jsonArray.put(jsonObject);
+                    history.add(jsonObject.toString());
 
                     preferences.edit()
-                            .putString(HISTORY, jsonArray.toString())
+                            .putStringSet(HISTORY, history)
                             .commit();
                 } catch (Exception e) {
                     e.printStackTrace();
