@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,6 +40,8 @@ public class ZJUWLANConnectService extends IntentService {
     public ZJUWLANConnectService() {
         super("ZJUWLANConnectService");
     }
+
+    private long startTime;
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -54,6 +57,7 @@ public class ZJUWLANConnectService extends IntentService {
             return ;
 
         MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN START");
+        startTime = Calendar.getInstance().getTimeInMillis();
 
         try {
             login(preferences, username, pwd);
@@ -146,7 +150,9 @@ public class ZJUWLANConnectService extends IntentService {
                 preferences.edit()
                         .putLong(ZJUWLANActivity.PREFERENCE_LAST, System.currentTimeMillis())
                         .commit();
-                MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN SUCCESS");
+                HashMap<String, String> tmp = new HashMap<>();
+                tmp.put("cost", String.valueOf(Calendar.getInstance().getTimeInMillis() - startTime));
+                MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN SUCCESS", tmp);
             } else {
                 if ("password_error".equalsIgnoreCase(res)) {
                     doToast("求是潮手机站：ZJUWLAN 密码错误");
