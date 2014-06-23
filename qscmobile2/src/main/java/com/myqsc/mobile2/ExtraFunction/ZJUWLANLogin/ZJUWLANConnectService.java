@@ -41,8 +41,6 @@ public class ZJUWLANConnectService extends IntentService {
         super("ZJUWLANConnectService");
     }
 
-    private long startTime;
-
     @Override
     protected void onHandleIntent(Intent intent) {
         LogHelper.e("zjuwlan login server started");
@@ -56,8 +54,7 @@ public class ZJUWLANConnectService extends IntentService {
         if (username.length() < 1 || pwd.length() < 1)
             return ;
 
-        MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN START");
-        startTime = Calendar.getInstance().getTimeInMillis();
+        MobclickAgent.onEventBegin(ZJUWLANConnectService.this, "ZJUWLAN LOGIN");
 
         try {
             login(preferences, username, pwd);
@@ -150,9 +147,7 @@ public class ZJUWLANConnectService extends IntentService {
                 preferences.edit()
                         .putLong(ZJUWLANActivity.PREFERENCE_LAST, System.currentTimeMillis())
                         .commit();
-                HashMap<String, String> tmp = new HashMap<>();
-                tmp.put("cost", String.valueOf(Calendar.getInstance().getTimeInMillis() - startTime));
-                MobclickAgent.onEvent(ZJUWLANConnectService.this, "ZJUWLAN LOGIN SUCCESS", tmp);
+                MobclickAgent.onEventEnd(ZJUWLANConnectService.this, "ZJUWLAN LOGIN");
             } else {
                 if ("password_error".equalsIgnoreCase(res)) {
                     doToast("求是潮手机站：ZJUWLAN 密码错误");
