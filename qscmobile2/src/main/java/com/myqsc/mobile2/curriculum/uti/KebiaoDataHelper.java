@@ -60,7 +60,7 @@ public class KebiaoDataHelper {
     }
 
     public List<KebiaoClassData> getDay(final Calendar calendar) {
-        if (whichDay != calendar.get(Calendar.DAY_OF_YEAR) || todayKebiaolist == null){
+        if (whichDay != calendar.get(Calendar.DAY_OF_YEAR) || todayKebiaolist == null) {
             todayKebiaolist = getTodayKebiao(kebiaoList, calendar);
             whichDay = calendar.get(Calendar.DAY_OF_YEAR);
         }
@@ -69,6 +69,7 @@ public class KebiaoDataHelper {
 
     /**
      * 获取当前学期的课表
+     *
      * @param calendar
      * @return
      */
@@ -105,12 +106,14 @@ public class KebiaoDataHelper {
 
         int origin = calendar.get(Calendar.DAY_OF_YEAR);
         calendar = xiaoliHelper.doRemap(calendar);
-        if (calendar.get(Calendar.DAY_OF_YEAR) != origin){
+        if (calendar.get(Calendar.DAY_OF_YEAR) != origin) {
             //完成了映射，不需要判断假期了
-            Toast.makeText(MyBaseApplication.getAppContext(),
-                    "今天上 " + (calendar.get(Calendar.MONTH) + 1) + " 月 " +
-                            calendar.get(Calendar.DAY_OF_MONTH) + " 日的课",
-                    Toast.LENGTH_SHORT).show();
+            if (!MyBaseApplication.isStartWithBroadcast())
+                Toast.makeText(MyBaseApplication.getAppContext(),
+                        "今天上 " + (calendar.get(Calendar.MONTH) + 1) + " 月 " +
+                                calendar.get(Calendar.DAY_OF_MONTH) + " 日的课",
+                        Toast.LENGTH_SHORT
+                ).show();
         } else {
             if (xiaoliHelper.checkHoliday(calendar) != null) {
                 //判断是不是假期

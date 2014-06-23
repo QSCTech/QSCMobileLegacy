@@ -3,6 +3,8 @@ package com.myqsc.mobile2;
 import android.app.Application;
 import android.content.Context;
 
+import com.myqsc.mobile2.uti.LogHelper;
+
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
@@ -21,6 +23,18 @@ public class MyBaseApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         ACRA.init(this);
+    }
+
+    private static boolean startWithBroadcast = false;
+
+    /**
+     * 声明此次是从Broadcast启动（dirty hack）
+     */
+    public static void setStartWithBroadcast() {
+        startWithBroadcast = true;
+    }
+    public static boolean isStartWithBroadcast() {
+        return startWithBroadcast;
     }
 
     public static Context getAppContext(){

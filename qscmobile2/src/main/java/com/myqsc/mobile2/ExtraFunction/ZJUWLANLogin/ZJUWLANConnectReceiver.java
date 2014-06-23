@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.myqsc.mobile2.MyBaseApplication;
 import com.myqsc.mobile2.curriculum.uti.KebiaoClassData;
 import com.myqsc.mobile2.curriculum.uti.KebiaoDataHelper;
 import com.myqsc.mobile2.curriculum.uti.KebiaoUtility;
@@ -32,6 +33,7 @@ public class ZJUWLANConnectReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LogHelper.d("ZJUWLAN LOGIN STARTED");
+        MyBaseApplication.setStartWithBroadcast();
 
         ConnectivityManager manager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
