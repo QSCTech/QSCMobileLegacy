@@ -102,6 +102,7 @@ public class PluginStructure implements Serializable {
     }
 
     public boolean isSelected (Context mContext) {
+        if (mContext == null) return false;
         return mContext.getSharedPreferences(Utility.PREFERENCE, 0)
                 .getBoolean(PlatformUpdateHelper.PLUGIN_PREFIX_SELECT + id, false);
     }
