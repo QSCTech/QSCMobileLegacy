@@ -46,6 +46,7 @@ public class ZJUWLANConnectReceiver extends BroadcastReceiver {
 
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo == null) return;
             LogHelper.d(wifiInfo.getSSID());
 
             if (wifiInfo.getSSID().contains("ZJUWLAN")) {
