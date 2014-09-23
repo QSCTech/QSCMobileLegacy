@@ -29,15 +29,16 @@ public class AllExamFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(Calendar.YEAR);
-		year_str = String.valueOf(year - 1) + "-" + String.valueOf(year);
+
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_exam_all, null);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
 
         Utility.initCheckBar(view, getActivity(), onClickListener);
 		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
@@ -49,7 +50,10 @@ public class AllExamFragment extends Fragment {
 
         char term = xiaoliHelper.getTerm(Calendar.getInstance(), false);
         switch (term) {
-            case '春':case '夏':case '秋':case '冬':
+            case '春':case '夏':
+                year_str = String.valueOf(year - 1) + "-" + String.valueOf(year);
+            case '秋':case '冬':
+                year_str = String.valueOf(year) + "-" + String.valueOf(year + 1);
                 for (int i = 0; i != term_arr.length; ++i)
                     if (term == term_arr[i]) {
                         term_int = i;
