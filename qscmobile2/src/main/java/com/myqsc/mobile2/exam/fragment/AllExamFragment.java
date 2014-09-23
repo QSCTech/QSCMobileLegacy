@@ -40,20 +40,17 @@ public class AllExamFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
 
+
         Utility.initCheckBar(view, getActivity(), onClickListener);
 		allExamListView = (ListView) view.findViewById(R.id.activity_exam_term_list);
         allExamListView.setFocusable(false);
 		
 		examHelper = new ExamDataHelper(getActivity());
-
         XiaoliHelper xiaoliHelper = new XiaoliHelper(getActivity());
 
         char term = xiaoliHelper.getTerm(Calendar.getInstance(), false);
         switch (term) {
-            case '春':case '夏':
-                year_str = String.valueOf(year - 1) + "-" + String.valueOf(year);
-            case '秋':case '冬':
-                year_str = String.valueOf(year) + "-" + String.valueOf(year + 1);
+            case '春':case '夏':case '秋':case '冬':
                 for (int i = 0; i != term_arr.length; ++i)
                     if (term == term_arr[i]) {
                         term_int = i;
@@ -66,6 +63,15 @@ public class AllExamFragment extends Fragment {
                 term_int = 2;
                 break;
         }
+
+        switch (term) {
+            case '春':case '夏':case '暑':
+                year_str = String.valueOf(year - 1) + "-" + String.valueOf(year);
+                break;
+            default:
+                year_str = String.valueOf(year) + "-" + String.valueOf(year + 1);
+        }
+        Utility.initCheckBar(view, getActivity(), onClickListener);
 
 		updateExamData();
 		return view;
