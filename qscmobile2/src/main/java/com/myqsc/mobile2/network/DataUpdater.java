@@ -85,8 +85,12 @@ public class DataUpdater {
             return null;
 
         try {
-            return get(url + "?stuid=" + URLEncoder.encode(structure.uid, "UTF-8") + "&pwd=" +
-                    URLEncoder.encode(structure.pwd, "UTF-8"));
+            if (url.startsWith("https") && url.contains("jw/")) {
+                //only JW send username and password
+                url += "?stuid=" + URLEncoder.encode(structure.uid, "UTF-8") + "&pwd=" +
+                        URLEncoder.encode(structure.pwd, "UTF-8");
+            }
+            return get(url);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
