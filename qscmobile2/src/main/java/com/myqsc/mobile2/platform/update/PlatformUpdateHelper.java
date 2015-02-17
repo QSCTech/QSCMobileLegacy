@@ -34,7 +34,7 @@ import java.util.Vector;
  * Created by richard on 13-9-8.
  */
 public class PlatformUpdateHelper {
-    public final static String URLBASE = "http://qsctech.gitcafe.com/qsc-mobile-plugins/";
+    public final static String URLBASE = "http://site.zjuqsc.com/qsc-mobile-plugins/";
     public final static String PATH_ADD = "platform/";
 
     public final static String PLATFORM_PREFERENCE = "PLATFORM_PREFERENCE";
@@ -53,7 +53,7 @@ public class PlatformUpdateHelper {
     private static String getPlatformResourceList() {
         HttpClient httpClient = new DefaultHttpClient();
         try {
-            HttpGet httpGet = new HttpGet("http://qsctech.gitcafe.com/qsc-mobile-plugins/resources.json");
+            HttpGet httpGet = new HttpGet("http://site.zjuqsc.com/qsc-mobile-plugins/resources.json");
             HttpResponse httpResponse = httpClient.execute(httpGet);
             return EntityUtils.toString(httpResponse.getEntity());
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class PlatformUpdateHelper {
      * @return
      */
     public static String syncGetPluginList () {
-        final String URL = "http://qsctech.gitcafe.com/qsc-mobile-plugins/plugins.json";
+        final String URL = "http://site.zjuqsc.com/qsc-mobile-plugins/plugins.json";
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(URL);
