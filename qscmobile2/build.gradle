@@ -41,15 +41,15 @@ android {
     signingConfigs {
         debug{
             storeFile file("cert/keystore")
-            storePassword "password"
+            storePassword "iloveqsctech"
             keyAlias "qscdebug"
-            keyPassword "password"
+            keyPassword "iloveqsctech"
         }
         release{
             storeFile file("cert/keystore")
-            storePassword "password"
+            storePassword "iloveqsctech"
             keyAlias "release"
-            keyPassword "password"
+            keyPassword "iloveqsctech"
         }
     }
 

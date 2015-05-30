@@ -1,9 +1,5 @@
-# 求是潮手机站
-## 最新稳定分支(正式发布版本）
-master
+# QSC Mobile V2 editon
 
-## 最新开发分支
-develop
+see: https://play.google.com/store/apps/details?id=com.myqsc.mobile2
 
-## 功能开发分支
-以各个功能名称命名
+not maintained anymore
