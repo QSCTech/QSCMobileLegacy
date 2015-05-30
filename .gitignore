@@ -34,3 +34,4 @@ gen/
 local.properties
 *.iml
 build/
+qscmobile2/cert/keystore
