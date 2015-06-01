@@ -8,7 +8,7 @@ See: https://play.google.com/store/apps/details?id=com.myqsc.mobile2
 
 **Not maintained anymore**
 
-Copyright 2013, 2014 Richard He <richard9375@gmail.com>
+Copyright 2013, 2014 Richard He \<<richard9375@gmail.com>\>
 
-Copyright 2013, 2014 QSCTech <tech@zjuqsc.com>, QSC Website <qsc@zju.edu.cn>
+Copyright 2013, 2014 QSCTech \<<tech@zjuqsc.com>\>, QSC Website \<<qsc@zju.edu.cn>\>
 
